@@ -95,7 +95,7 @@
  .app {
   width: 100%;
   max-width: 900px;
-  height: calc(100dvh - 56px); /* ✅ antes: 100vh → ahora usa dvh para móviles */
+  height: calc(100dvh - 56px); /* ✅ usa dvh y deja margen para header */
   background: var(--card);
   border-radius: 14px;
   display: grid;
@@ -105,7 +105,6 @@
   position: relative;
   margin-top: 56px;
 }
-
 
     .panel {
       padding: 18px;
@@ -196,10 +195,11 @@
 
     .room-title { font-weight: 600; }
 
- .chat-body {
+/* ✅ La zona de mensajes ahora tiene un poco más de fondo y un padding inferior real */
+.chat-body {
   flex: 1;
-  padding: 14px;
-  padding-bottom: 70px; /* ✅ nuevo: deja espacio cómodo sobre el input */
+  padding: 16px;
+  padding-bottom: 100px; /* más espacio visual sobre el input */
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -227,28 +227,45 @@
       color: #021;
     }
 
-  .composer {
-  padding: 10px 12px;
-  border-top: 1px solid rgba(255,255,255,0.03);
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  background: var(--card);
-  flex-shrink: 0;
-  position: sticky; /* ✅ esto ayuda a mantenerlo visible si se redujera el alto */
+ /* ✅ El input y botón ahora flotan un poco más arriba visualmente */
+.composer {
+  position: sticky;
   bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 14px 16px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: rgba(11,18,32,0.95); /* un poco translúcido y elevado */
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+  z-index: 5;
 }
 
-    .composer input {
-      flex: 1;
-      padding: 14px;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.04);
-      background: transparent;
-      color: inherit;
-      font-size: 16px;
-    }
+.composer input {
+  flex: 1;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.02);
+  color: inherit;
+  font-size: 16px;
+}
 
+.composer button {
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: none;
+  background: var(--accent);
+  color: #021;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.composer button:hover { opacity: 0.9; }
     .meta-note { font-size: 12px; color: var(--muted); padding: 0 14px 10px; }
 
     /* panel móvil tipo slide */
@@ -461,6 +478,7 @@
   </script>
 </body>
 </html>
+
 
 
 
