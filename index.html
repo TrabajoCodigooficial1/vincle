@@ -345,18 +345,22 @@
   transition: opacity 0.3s ease;
 ">
   <aside class="panel" style="
-    width: 320px;
-    max-width: 85%;
-    height: 100%;
-    background: var(--card);
-    box-shadow: 4px 0 20px rgba(0,0,0,0.5);
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    padding: 18px;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-  ">
+  width: 320px;
+  max-width: 85%;
+  height: calc(100% - 70px);
+  margin-top: 70px;
+  background: var(--card);
+  box-shadow: 4px 0 20px rgba(0,0,0,0.5);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+">
+
     <div class="brand" style="display:flex;gap:10px;align-items:center;">
       <div class="logo" style="width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#7dd3fc);display:flex;align-items:center;justify-content:center;font-weight:700;color:#021;">V</div>
       <div>
@@ -565,6 +569,7 @@
 
 </body>
 </html>
+
 
 
 
