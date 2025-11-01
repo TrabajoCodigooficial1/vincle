@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <title>VINCLE — Chat anónimo</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>VINCLE — Conversación sin nombres</title>
   <style>
     :root {
       --bg: #0f1720;
@@ -11,6 +11,7 @@
       --accent: #60a5fa;
       --muted: #94a3b8;
       --bubble: #111827;
+      --glass: rgba(255,255,255,0.03);
       color-scheme: dark;
     }
 
@@ -20,29 +21,39 @@
       height: 100%;
       margin: 0;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
-      background: linear-gradient(180deg,#071028 0%,#081126 60%);
-      color: #e6eef8;
-      overflow: hidden;
+    }
+
+    body {
+      background: linear-gradient(180deg,#071028 0%, #081126 60%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
     }
 
     .app {
-      display: grid;
-      grid-template-columns: 300px 1fr;
-      height: 100%;
       width: 100%;
-      max-width: 1100px;
-      margin: auto;
+      max-width: 900px;
+      height: 90vh;
       background: var(--card);
+      border-radius: 14px;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+      position: relative;
     }
 
-    /* PANEL */
+    /* panel lateral */
     .panel {
-      background: var(--card);
-      border-right: 1px solid rgba(255,255,255,0.05);
       padding: 18px;
+      color: #e6eef8;
+      border-right: 1px solid rgba(255,255,255,0.03);
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
+      background: var(--card);
+      height: 100%;
     }
 
     .brand {
@@ -68,7 +79,7 @@
     .muted { color: var(--muted); font-size: 13px; }
 
     .room-box {
-      background: rgba(255,255,255,0.03);
+      background: var(--glass);
       padding: 12px;
       border-radius: 10px;
       display: flex;
@@ -80,10 +91,9 @@
       width: 100%;
       padding: 10px;
       border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.03);
       background: transparent;
       color: inherit;
-      font-size: 15px;
     }
 
     .btn {
@@ -91,8 +101,7 @@
       border-radius: 8px;
       border: none;
       background: var(--accent);
-      color: #021;
-      font-weight: 600;
+      color: #042;
       cursor: pointer;
     }
 
@@ -102,33 +111,30 @@
       color: var(--muted);
     }
 
-    /* CHAT */
-    .chat {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      background: var(--card);
-    }
+    .small { font-size: 13px; }
+    .meta { font-size: 12px; color: var(--muted); margin-top: 6px; }
 
+    /* chat */
+    .chat { display: flex; flex-direction: column; height: 100%; }
     .chat-header {
-      padding: 14px 16px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding: 16px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
       display: flex;
       justify-content: space-between;
       align-items: center;
       background: var(--card);
-      position: sticky;
-      top: 0;
-      z-index: 2;
     }
+
+    .room-title { font-weight: 600; }
 
     .chat-body {
       flex: 1;
-      overflow-y: auto;
-      padding: 12px 14px;
+      padding: 14px;
+      overflow: auto;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
     }
 
     .bubble {
@@ -137,98 +143,92 @@
       border-radius: 12px;
       background: var(--bubble);
       color: #e6eef8;
-      font-size: 15px;
-      line-height: 1.4;
+      line-height: 1.3;
       word-break: break-word;
+      font-size: 15px;
     }
 
     .bubble.left { align-self: flex-start; border-bottom-left-radius: 4px; }
     .bubble.right {
       align-self: flex-end;
       border-bottom-right-radius: 4px;
-      background: linear-gradient(135deg,var(--accent),#7dd3fc);
+      background: linear-gradient(135deg, var(--accent), #7dd3fc);
       color: #021;
     }
 
     .composer {
-      padding: 10px;
-      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 12px;
+      border-top: 1px solid rgba(255,255,255,0.03);
       display: flex;
       gap: 8px;
       align-items: center;
       background: var(--card);
-      position: sticky;
-      bottom: 0;
     }
 
     .composer input {
       flex: 1;
       padding: 14px;
       border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.04);
       background: transparent;
       color: inherit;
       font-size: 16px;
     }
 
-    /* BOTÓN MENÚ */
+    .meta-note { font-size: 12px; color: var(--muted); padding: 0 14px 10px; }
+
+    /* botón menú */
     #menuToggle {
       display: none;
       position: absolute;
-      top: 10px;
-      left: 10px;
+      top: 12px;
+      left: 12px;
       background: var(--accent);
       color: #021;
       border: none;
       border-radius: 8px;
-      padding: 8px 12px;
+      padding: 8px 10px;
       font-size: 18px;
-      z-index: 50;
+      font-weight: 600;
+      z-index: 10;
     }
 
-    /* PANEL MÓVIL */
+    /* panel móvil tipo slide */
     .mobile-panel {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
       display: none;
+      justify-content: flex-start;
+      z-index: 20;
+      transition: opacity 0.25s ease;
     }
 
-    @media (max-width: 900px) {
-      body { overflow: hidden; }
-      .app { grid-template-columns: 1fr; height: 100%; }
+    .mobile-panel.show { display: flex; }
+
+    .mobile-panel .panel {
+      width: 90%;
+      max-width: 360px;
+      height: 100%;
+      border-right: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 4px 0 20px rgba(0,0,0,0.5);
+      transform: translateX(-100%);
+      animation: slideIn 0.25s forwards;
+      overflow-y: auto;
+    }
+
+    @keyframes slideIn {
+      to { transform: translateX(0); }
+    }
+
+    @media (max-width:800px) {
+      .app { grid-template-columns: 1fr; height: 96vh; }
       .panel { display: none; }
       #menuToggle { display: block; }
-      .chat-header { padding-top: 48px; }
-
-      .mobile-panel {
-        display: flex;
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: rgba(0,0,0,0.7);
-        justify-content: center;
-        align-items: center;
-        z-index: 100;
-        opacity: 0; pointer-events: none;
-        transition: opacity 0.25s ease;
-      }
-
-      .mobile-panel.show {
-        opacity: 1; pointer-events: auto;
-      }
-
-      .mobile-panel .panel {
-        display: flex;
-        background: var(--card);
-        width: 90%;
-        max-width: 380px;
-        height: 85%;
-        border-radius: 14px;
-        overflow-y: auto;
-        padding-bottom: 24px;
-      }
-
-      .composer {
-        padding-bottom: env(safe-area-inset-bottom, 12px);
-      }
+      .chat-header { padding-top: 44px; }
     }
   </style>
 </head>
@@ -242,51 +242,57 @@
           <div class="logo">V</div>
           <div>
             <h1>VINCLE</h1>
-            <div class="muted small">Habla sin nombre</div>
+            <div class="muted small">Habla sin nombre. Escucha sin juicio.</div>
           </div>
         </div>
+
         <div class="room-box">
-          <label class="small muted">Sala (ID o vacío)</label>
-          <input id="roomInputMobile" class="room-input" />
-          <div style="display:flex;gap:8px;margin-top:8px">
-            <button id="createBtnMobile" class="btn">Crear</button>
-            <button id="copyBtnMobile" class="btn ghost">Copiar</button>
+          <label class="small muted">ID de sala (URL)</label>
+          <input id="roomInput" class="room-input" placeholder="ID o vacío para aleatorio" />
+          <div style="display:flex;gap:8px;margin-top:6px">
+            <button id="createBtn" class="btn">Crear</button>
+            <button id="copyBtn" class="btn ghost">Copiar</button>
+          </div>
+          <div class="meta">Comparte el enlace con quien quieras. Nadie necesita registrarse.</div>
+        </div>
+
+        <div style="margin-top:10px">
+          <div class="small muted">Tu identidad efímera</div>
+          <div style="display:flex;gap:8px;align-items:center;margin-top:6px">
+            <span id="myEmoji">🔷</span>
+            <span id="myColor" class="color-pill" style="width:14px;height:14px;border-radius:50%;"></span>
+            <span id="anonLabel">Anónimo</span>
           </div>
         </div>
-        <button class="btn ghost" id="closePanel" style="margin-top:auto;">Cerrar</button>
+
+        <div style="margin-top:auto">
+          <div class="small muted">Opciones</div>
+          <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+            <button id="clearLocal" class="btn ghost">Limpiar</button>
+            <button id="newRoomShort" class="btn ghost">Aleatoria</button>
+          </div>
+          <div class="meta small" style="margin-top:10px">Prototipo: Firebase test.</div>
+        </div>
+
+        <button class="btn ghost" style="margin-top:12px;width:100%" id="closePanel">Cerrar</button>
       </aside>
     </div>
-
-    <aside class="panel">
-      <div class="brand">
-        <div class="logo">V</div>
-        <div>
-          <h1>VINCLE</h1>
-          <div class="muted small">Habla sin nombre</div>
-        </div>
-      </div>
-      <div class="room-box">
-        <label class="small muted">Sala (ID o vacío)</label>
-        <input id="roomInputDesktop" class="room-input" />
-        <div style="display:flex;gap:8px;margin-top:8px">
-          <button id="createBtnDesktop" class="btn">Crear</button>
-          <button id="copyBtnDesktop" class="btn ghost">Copiar</button>
-        </div>
-      </div>
-    </aside>
 
     <main class="chat">
       <div class="chat-header">
         <div>
-          <div id="roomTitle">Sala —</div>
+          <div class="room-title" id="roomTitle">Sala — (cargando...)</div>
           <div class="muted small" id="roomIdText">ID: —</div>
         </div>
+        <div class="muted small">Expira: <span id="expiryLabel">24h</span></div>
       </div>
 
       <div class="chat-body" id="messages"></div>
 
+      <div class="meta-note muted small">Los mensajes se borran tras 24 h (modo demo).</div>
+
       <div class="composer">
-        <input id="textInput" placeholder="Escribe..." />
+        <input id="textInput" placeholder="Escribe algo..." autocomplete="off" />
         <button id="sendBtn" class="btn">Enviar</button>
       </div>
     </main>
@@ -295,70 +301,97 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
   <script>
-    const config = {
-      databaseURL: "https://vincle-e76dd-default-rtdb.firebaseio.com"
+    const firebaseConfig = {
+      apiKey: "AIzaSyXMvncuf1Jhux5dVzDJ_VQe3cw3tIntt",
+      authDomain: "vincle-e76dd.firebaseapp.com",
+      databaseURL: "https://vincle-e76dd-default-rtdb.firebaseio.com",
+      projectId: "vincle-e76dd",
+      storageBucket: "vincle-e76dd.firebasestorage.app",
+      messagingSenderId: "11807936515",
+      appId: "1:11807936515:web:ff67d9da38e956ff62cee6"
     };
-    firebase.initializeApp(config);
+    firebase.initializeApp(firebaseConfig);
+
+    const MESSAGE_EXPIRY_HOURS = 24;
+    const ROOM_PARAM = new URLSearchParams(location.search).get('room');
+    const DEFAULT_ROOM = ROOM_PARAM || localStorage.getItem('vincle_room') || null;
 
     const q = id => document.getElementById(id);
-    const messagesEl = q('messages');
-    const input = q('textInput');
-    const sendBtn = q('sendBtn');
-    const menuToggle = q('menuToggle');
-    const mobilePanel = q('mobilePanel');
-    const closePanel = q('closePanel');
-    const roomTitle = q('roomTitle');
-    const roomIdText = q('roomIdText');
+    const roomInput = q('roomInput'), createBtn = q('createBtn'), copyBtn = q('copyBtn');
+    const messagesEl = q('messages'), textInput = q('textInput'), sendBtn = q('sendBtn');
+    const roomTitle = q('roomTitle'), roomIdText = q('roomIdText');
+    const myColorEl = q('myColor'), myEmojiEl = q('myEmoji');
+    const newRoomShort = q('newRoomShort'), clearLocal = q('clearLocal');
+    const expiryLabel = q('expiryLabel'); expiryLabel.textContent = MESSAGE_EXPIRY_HOURS + "h";
 
-    function randomRoom(len=6){return Math.random().toString(36).substr(2,len)}
-    let ROOM = new URLSearchParams(location.search).get('room') || 'demo';
-    updateRoomDisplay();
+    const COLORS = ['#f97316','#fb7185','#60a5fa','#34d399','#f59e0b','#a78bfa','#ef4444'];
+    const EMOJIS = ['🔷','🔶','🔺','🔵','🟣','🟢','🌿','✨','⚡','🌙','☀️','🔥'];
+    const pick = a => a[Math.floor(Math.random()*a.length)];
+    const sessionColor = sessionStorage.getItem('vincle_color') || pick(COLORS);
+    const sessionEmoji = sessionStorage.getItem('vincle_emoji') || pick(EMOJIS);
+    sessionStorage.setItem('vincle_color', sessionColor);
+    sessionStorage.setItem('vincle_emoji', sessionEmoji);
+    myColorEl.style.background = sessionColor;
+    myEmojiEl.textContent = sessionEmoji;
 
-    function updateRoomDisplay(){
-      roomTitle.textContent = "Sala — " + ROOM;
-      roomIdText.textContent = "ID: " + ROOM;
+    let ROOM = DEFAULT_ROOM || null;
+    const randomId = l => Array.from({length:l},()=>Math.random().toString(36)[2]).join('');
+
+    function setRoom(r) {
+      ROOM = r;
+      roomTitle.textContent = `Sala — ${r || '(sin id)'}`;
+      roomIdText.textContent = `ID: ${r || '—'}`;
+      roomInput.value = r || '';
+      if (r) {
+        const url = location.origin + location.pathname + '?room=' + encodeURIComponent(r);
+        history.replaceState(null, '', '?room=' + encodeURIComponent(r));
+        localStorage.setItem('vincle_room', r);
+      }
     }
 
-    const db = firebase.database().ref('rooms/'+ROOM+'/messages');
-    db.limitToLast(100).on('child_added', snap=>{
-      const m = snap.val();
-      const div=document.createElement('div');
-      div.className='bubble left';
-      div.textContent=m.text;
-      messagesEl.appendChild(div);
-      messagesEl.scrollTop=messagesEl.scrollHeight;
-    });
+    function dbRef() { return firebase.database().ref('rooms/' + ROOM + '/messages'); }
 
-    sendBtn.onclick=()=>{
-      if(!input.value.trim())return;
-      db.push({text:input.value});
-      input.value='';
+    function sendMessage(t) {
+      if (!t.trim()) return;
+      const now = Date.now();
+      dbRef().push({text: t.trim(), color: sessionColor, emoji: sessionEmoji, ts: now, expiry: now + MESSAGE_EXPIRY_HOURS*3600000});
     }
 
-    // crear sala
-    function createRoom(inputId){
-      const inputEl = q(inputId);
-      const id = inputEl.value.trim() || randomRoom();
-      location.href = '?room=' + id;
+    function createBubble(m, mine) {
+      const d = document.createElement('div');
+      d.className = 'bubble ' + (mine ? 'right' : 'left');
+      const meta = `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span class="color-pill" style="background:${m.color||'#666'};width:10px;height:10px;border-radius:50%"></span>
+        <span>${m.emoji||'🔷'}</span></div>`;
+      d.innerHTML = meta + `<div>${m.text}</div><div class="muted small" style="font-size:11px;margin-top:6px">${new Date(m.ts||Date.now()).toLocaleString()}</div>`;
+      return d;
     }
 
-    q('createBtnDesktop').onclick = ()=>createRoom('roomInputDesktop');
-    q('createBtnMobile').onclick = ()=>createRoom('roomInputMobile');
-
-    // copiar link
-    async function copyLink(){
-      const url = location.origin + location.pathname + '?room=' + ROOM;
-      await navigator.clipboard.writeText(url);
-      alert("🔗 Enlace copiado:\n" + url);
+    function listen() {
+      messagesEl.innerHTML = '';
+      dbRef().limitToLast(200).on('child_added', s => {
+        const m = s.val(); if (!m) return;
+        if (m.expiry && Date.now() > m.expiry) return;
+        const mine = (m.color === sessionColor && m.emoji === sessionEmoji);
+        messagesEl.appendChild(createBubble(m, mine));
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      });
     }
 
-    q('copyBtnDesktop').onclick = copyLink;
-    q('copyBtnMobile').onclick = copyLink;
+    createBtn.onclick = () => { let id = (roomInput.value || '').trim() || randomId(7); setRoom(id); listen(); q('mobilePanel').classList.remove('show'); };
+    copyBtn.onclick = () => ROOM && navigator.clipboard.writeText(location.origin + location.pathname + '?room=' + ROOM);
+    newRoomShort.onclick = () => { setRoom(randomId(7)); listen(); q('mobilePanel').classList.remove('show'); };
+    clearLocal.onclick = () => messagesEl.innerHTML = '';
+    sendBtn.onclick = () => { sendMessage(textInput.value); textInput.value = ''; };
+    textInput.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendBtn.click(); }});
+
+    if (ROOM) { setRoom(ROOM); listen(); }
 
     // menú móvil
-    menuToggle.onclick=()=> mobilePanel.classList.add('show');
-    closePanel.onclick=()=> mobilePanel.classList.remove('show');
-    mobilePanel.onclick=e=>{if(e.target===mobilePanel)mobilePanel.classList.remove('show');};
+    const panel = q('mobilePanel');
+    q('menuToggle').onclick = () => panel.classList.add('show');
+    q('closePanel').onclick = () => panel.classList.remove('show');
+    panel.addEventListener('click', e => { if (e.target === panel) panel.classList.remove('show'); });
   </script>
 </body>
 </html>
