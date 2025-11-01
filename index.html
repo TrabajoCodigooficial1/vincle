@@ -301,7 +301,7 @@
   </style>
 </head>
 <body>
-<!-- 🔹 Header fijo -->
+
 <header id="mainHeader" style="
   position: fixed;
   top: 0;
@@ -314,7 +314,7 @@
   justify-content: space-between;
   padding: 0 16px;
   box-shadow: 0 2px 12px rgba(0,0,0,0.4);
-  z-index: 100;
+  z-index: 200;
 ">
   <div class="brand" style="display:flex;align-items:center;gap:8px;">
     <div class="logo" style="width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,var(--accent),#7dd3fc);display:flex;align-items:center;justify-content:center;font-weight:700;color:#021;">V</div>
@@ -332,74 +332,76 @@
   ">☰</button>
 </header>
 
-<!-- 🔹 App principal -->
-<div class="app" style="margin-top:56px;">
-  <!-- 🔹 Panel móvil como overlay -->
-  <div class="mobile-panel" id="mobilePanel" style="
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
+<!-- 🔹 overlay universal -->
+<div class="mobile-panel" id="mobilePanel" style="
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  justify-content: flex-start;
+  align-items: stretch;
+  z-index: 150;
+  backdrop-filter: blur(3px);
+  transition: opacity 0.3s ease;
+">
+  <aside class="panel" style="
+    width: 320px;
+    max-width: 85%;
     height: 100%;
-    background: rgba(0,0,0,0.7);
-    display: none;
-    justify-content: flex-start;
-    z-index: 99;
-    backdrop-filter: blur(2px);
-    transition: opacity 0.3s ease;
+    background: var(--card);
+    box-shadow: 4px 0 20px rgba(0,0,0,0.5);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
   ">
-    <aside class="panel" style="
-      width: 85%;
-      max-width: 360px;
-      height: 100%;
-      background: var(--card);
-      box-shadow: 4px 0 20px rgba(0,0,0,0.5);
-      transform: translateX(-100%);
-      transition: transform 0.3s ease;
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto;
-    ">
-      <div class="brand" style="display:flex;gap:10px;align-items:center;">
-        <div class="logo" style="width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#7dd3fc);display:flex;align-items:center;justify-content:center;font-weight:700;color:#021;box-shadow:0 6px 18px rgba(6,12,30,0.6);">V</div>
-        <div>
-          <h1 style="margin:0;font-size:18px;">VINCLE</h1>
-          <div class="muted small">Habla sin nombre. Escucha sin juicio.</div>
-        </div>
+    <div class="brand" style="display:flex;gap:10px;align-items:center;">
+      <div class="logo" style="width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#7dd3fc);display:flex;align-items:center;justify-content:center;font-weight:700;color:#021;">V</div>
+      <div>
+        <h1 style="margin:0;font-size:18px;">VINCLE</h1>
+        <div class="muted small">Habla sin nombre. Escucha sin juicio.</div>
       </div>
+    </div>
 
-      <div class="room-box" style="background:var(--glass);padding:12px;border-radius:10px;display:flex;flex-direction:column;gap:8px;margin-top:12px;">
-        <label class="small muted">ID de sala (URL)</label>
-        <input id="roomInput" class="room-input" placeholder="ID o vacío para aleatorio" />
-        <div style="display:flex;gap:8px;margin-top:6px">
-          <button id="createBtn" class="btn">Crear</button>
-          <button id="copyBtn" class="btn ghost">Copiar</button>
-        </div>
-        <div class="meta">Comparte el enlace con quien quieras. Nadie necesita registrarse.</div>
+    <div class="room-box" style="background:var(--glass);padding:12px;border-radius:10px;display:flex;flex-direction:column;gap:8px;margin-top:12px;">
+      <label class="small muted">ID de sala (URL)</label>
+      <input id="roomInput" class="room-input" placeholder="ID o vacío para aleatorio" />
+      <div style="display:flex;gap:8px;margin-top:6px">
+        <button id="createBtn" class="btn">Crear</button>
+        <button id="copyBtn" class="btn ghost">Copiar</button>
       </div>
+      <div class="meta">Comparte el enlace con quien quieras. Nadie necesita registrarse.</div>
+    </div>
 
-      <div style="margin-top:10px">
-        <div class="small muted">Tu identidad efímera</div>
-        <div style="display:flex;gap:8px;align-items:center;margin-top:6px">
-          <span id="myEmoji">🔷</span>
-          <span id="myColor" class="color-pill" style="width:14px;height:14px;border-radius:50%;"></span>
-          <span id="anonLabel">Anónimo</span>
-        </div>
+    <div style="margin-top:10px">
+      <div class="small muted">Tu identidad efímera</div>
+      <div style="display:flex;gap:8px;align-items:center;margin-top:6px">
+        <span id="myEmoji">🔷</span>
+        <span id="myColor" class="color-pill" style="width:14px;height:14px;border-radius:50%;"></span>
+        <span id="anonLabel">Anónimo</span>
       </div>
+    </div>
 
-      <div style="margin-top:auto">
-        <div class="small muted">Opciones</div>
-        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
-          <button id="clearLocal" class="btn ghost">Limpiar</button>
-          <button id="newRoomShort" class="btn ghost">Aleatoria</button>
-        </div>
-        <div class="meta small" style="margin-top:10px">Prototipo: Firebase test.</div>
+    <div style="margin-top:auto">
+      <div class="small muted">Opciones</div>
+      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+        <button id="clearLocal" class="btn ghost">Limpiar</button>
+        <button id="newRoomShort" class="btn ghost">Aleatoria</button>
       </div>
+      <div class="meta small" style="margin-top:10px">Prototipo: Firebase test.</div>
+    </div>
 
-      <button class="btn ghost" style="margin-top:12px;width:100%" id="closePanel">Cerrar</button>
-    </aside>
-  </div>
+    <button class="btn ghost" style="margin-top:12px;width:100%" id="closePanel">Cerrar</button>
+  </aside>
+</div>
+
+
+
+
+
+  
 
 <br>
     <br>
@@ -541,30 +543,36 @@
       else header.classList.remove('scrolled');
     });
   </script>
+
   <script>
   const mobilePanel = document.getElementById('mobilePanel');
   const panelAside = mobilePanel.querySelector('aside');
 
-  document.getElementById('menuToggle').onclick = () => {
+  const openPanel = () => {
     mobilePanel.style.display = 'flex';
-    setTimeout(() => panelAside.style.transform = 'translateX(0)', 10);
+    requestAnimationFrame(() => {
+      mobilePanel.style.opacity = '1';
+      panelAside.style.transform = 'translateX(0)';
+    });
   };
 
-  document.getElementById('closePanel').onclick = () => {
+  const closePanel = () => {
     panelAside.style.transform = 'translateX(-100%)';
-    setTimeout(() => mobilePanel.style.display = 'none', 250);
+    mobilePanel.style.opacity = '0';
+    setTimeout(() => { mobilePanel.style.display = 'none'; }, 300);
   };
 
+  document.getElementById('menuToggle').onclick = openPanel;
+  document.getElementById('closePanel').onclick = closePanel;
   mobilePanel.addEventListener('click', e => {
-    if (e.target === mobilePanel) {
-      panelAside.style.transform = 'translateX(-100%)';
-      setTimeout(() => mobilePanel.style.display = 'none', 250);
-    }
+    if (e.target === mobilePanel) closePanel();
   });
 </script>
 
+
 </body>
 </html>
+
 
 
 
