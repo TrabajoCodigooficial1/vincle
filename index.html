@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="es">
 <head>
@@ -45,6 +44,60 @@
       position: relative;
     }
 
+    /* HEADER FIJO */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      background: rgba(10, 16, 30, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      z-index: 40;
+      color: #e6eef8;
+    }
+
+    header .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    header .logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), #7dd3fc);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #021;
+    }
+
+    header h1 {
+      font-size: 18px;
+      margin: 0;
+    }
+
+    /* botón menú mejorado */
+    #menuToggle {
+      background: transparent;
+      border: none;
+      color: var(--accent);
+      font-size: 28px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      display: none;
+    }
+
+    #menuToggle.active { transform: rotate(90deg); }
+
     /* panel lateral */
     .panel {
       padding: 18px;
@@ -55,25 +108,6 @@
       gap: 12px;
       background: var(--card);
       height: 100%;
-    }
-
-    .brand {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .logo {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--accent), #7dd3fc);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: #021;
-      box-shadow: 0 6px 18px rgba(6,12,30,0.6);
     }
 
     h1 { font-size: 18px; margin: 0; }
@@ -92,33 +126,40 @@
       width: 100%;
       padding: 10px;
       border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.03);
-      background: transparent;
+      border: 1px solid rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.02);
       color: inherit;
     }
 
     .btn {
-      padding: 10px;
+      padding: 10px 14px;
       border-radius: 8px;
       border: none;
       background: var(--accent);
       color: #042;
       cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
     }
+
+    .btn:hover { opacity: 0.9; }
 
     .btn.ghost {
       background: transparent;
-      border: 1px solid rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
       color: var(--muted);
     }
 
-    .small { font-size: 13px; }
-    .meta { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    /* CHAT */
+    .chat {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding-top: 56px; /* espacio para el header fijo */
+    }
 
-    /* chat */
-    .chat { display: flex; flex-direction: column; height: 100%; }
     .chat-header {
-      padding: 16px 14px;
+      padding: 14px;
       border-bottom: 1px solid rgba(255,255,255,0.03);
       display: flex;
       justify-content: space-between;
@@ -130,36 +171,38 @@
 
     .chat-body {
       flex: 1;
-      padding: 14px;
-      overflow: auto;
+      padding: 16px;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+      gap: 10px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      scroll-behavior: smooth;
     }
 
     .bubble {
       max-width: 80%;
-      padding: 10px 12px;
-      border-radius: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
       background: var(--bubble);
       color: #e6eef8;
-      line-height: 1.3;
+      line-height: 1.4;
       word-break: break-word;
       font-size: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     }
 
-    .bubble.left { align-self: flex-start; border-bottom-left-radius: 4px; }
+    .bubble.left { align-self: flex-start; border-bottom-left-radius: 6px; }
     .bubble.right {
       align-self: flex-end;
-      border-bottom-right-radius: 4px;
+      border-bottom-right-radius: 6px;
       background: linear-gradient(135deg, var(--accent), #7dd3fc);
       color: #021;
     }
 
     .composer {
-      padding: 12px;
-      border-top: 1px solid rgba(255,255,255,0.03);
+      padding: 10px;
+      border-top: 1px solid rgba(255,255,255,0.05);
       display: flex;
       gap: 8px;
       align-items: center;
@@ -168,75 +211,67 @@
 
     .composer input {
       flex: 1;
-      padding: 14px;
+      padding: 13px 14px;
       border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.04);
-      background: transparent;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
       color: inherit;
       font-size: 16px;
     }
 
-    .meta-note { font-size: 12px; color: var(--muted); padding: 0 14px 10px; }
-
-    /* botón menú */
-    #menuToggle {
-      display: none;
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      background: var(--accent);
-      color: #021;
-      border: none;
-      border-radius: 8px;
-      padding: 8px 10px;
-      font-size: 18px;
-      font-weight: 600;
-      z-index: 10;
-    }
-
-    /* panel móvil tipo slide */
+    /* panel móvil */
     .mobile-panel {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.65);
       display: none;
       justify-content: flex-start;
-      z-index: 20;
+      align-items: stretch;
+      z-index: 30;
       transition: opacity 0.25s ease;
     }
 
-    .mobile-panel.show { display: flex; }
+    .mobile-panel.show { display: flex; animation: fadeIn 0.25s ease forwards; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
     .mobile-panel .panel {
-      width: 90%;
+      width: 85%;
       max-width: 360px;
       height: 100%;
-      border-right: 1px solid rgba(255,255,255,0.05);
+      border-right: 1px solid rgba(255,255,255,0.08);
+      background: var(--card);
       box-shadow: 4px 0 20px rgba(0,0,0,0.5);
       transform: translateX(-100%);
-      animation: slideIn 0.25s forwards;
+      animation: slideIn 0.3s ease forwards;
       overflow-y: auto;
     }
 
-    @keyframes slideIn {
-      to { transform: translateX(0); }
-    }
+    @keyframes slideIn { to { transform: translateX(0); } }
 
     @media (max-width:800px) {
       .app { grid-template-columns: 1fr; height: 96vh; }
       .panel { display: none; }
       #menuToggle { display: block; }
-      .chat-header { padding-top: 44px; }
+      .chat-body { padding: 12px; gap: 8px; }
+      .bubble { font-size: 14px; padding: 10px 12px; }
+      .composer input { font-size: 15px; }
+      .btn { padding: 9px 12px; font-size: 15px; }
     }
   </style>
 </head>
 <body>
-  <div class="app">
+  <header>
+    <div class="brand">
+      <div class="logo">V</div>
+      <h1>VINCLE</h1>
+    </div>
     <button id="menuToggle">☰</button>
+  </header>
 
+  <div class="app">
     <div class="mobile-panel" id="mobilePanel">
       <aside class="panel">
         <div class="brand">
@@ -290,8 +325,6 @@
 
       <div class="chat-body" id="messages"></div>
 
-      <div class="meta-note muted small">Los mensajes se borran tras 24 h (modo demo).</div>
-
       <div class="composer">
         <input id="textInput" placeholder="Escribe algo..." autocomplete="off" />
         <button id="sendBtn" class="btn">Enviar</button>
@@ -299,100 +332,30 @@
     </main>
   </div>
 
+  <!-- Scripts originales -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyXMvncuf1Jhux5dVzDJ_VQe3cw3tIntt",
-      authDomain: "vincle-e76dd.firebaseapp.com",
-      databaseURL: "https://vincle-e76dd-default-rtdb.firebaseio.com",
-      projectId: "vincle-e76dd",
-      storageBucket: "vincle-e76dd.firebasestorage.app",
-      messagingSenderId: "11807936515",
-      appId: "1:11807936515:web:ff67d9da38e956ff62cee6"
-    };
-    firebase.initializeApp(firebaseConfig);
-
-    const MESSAGE_EXPIRY_HOURS = 24;
-    const ROOM_PARAM = new URLSearchParams(location.search).get('room');
-    const DEFAULT_ROOM = ROOM_PARAM || localStorage.getItem('vincle_room') || null;
-
-    const q = id => document.getElementById(id);
-    const roomInput = q('roomInput'), createBtn = q('createBtn'), copyBtn = q('copyBtn');
-    const messagesEl = q('messages'), textInput = q('textInput'), sendBtn = q('sendBtn');
-    const roomTitle = q('roomTitle'), roomIdText = q('roomIdText');
-    const myColorEl = q('myColor'), myEmojiEl = q('myEmoji');
-    const newRoomShort = q('newRoomShort'), clearLocal = q('clearLocal');
-    const expiryLabel = q('expiryLabel'); expiryLabel.textContent = MESSAGE_EXPIRY_HOURS + "h";
-
-    const COLORS = ['#f97316','#fb7185','#60a5fa','#34d399','#f59e0b','#a78bfa','#ef4444'];
-    const EMOJIS = ['🔷','🔶','🔺','🔵','🟣','🟢','🌿','✨','⚡','🌙','☀️','🔥'];
-    const pick = a => a[Math.floor(Math.random()*a.length)];
-    const sessionColor = sessionStorage.getItem('vincle_color') || pick(COLORS);
-    const sessionEmoji = sessionStorage.getItem('vincle_emoji') || pick(EMOJIS);
-    sessionStorage.setItem('vincle_color', sessionColor);
-    sessionStorage.setItem('vincle_emoji', sessionEmoji);
-    myColorEl.style.background = sessionColor;
-    myEmojiEl.textContent = sessionEmoji;
-
-    let ROOM = DEFAULT_ROOM || null;
-    const randomId = l => Array.from({length:l},()=>Math.random().toString(36)[2]).join('');
-
-    function setRoom(r) {
-      ROOM = r;
-      roomTitle.textContent = `Sala — ${r || '(sin id)'}`;
-      roomIdText.textContent = `ID: ${r || '—'}`;
-      roomInput.value = r || '';
-      if (r) {
-        const url = location.origin + location.pathname + '?room=' + encodeURIComponent(r);
-        history.replaceState(null, '', '?room=' + encodeURIComponent(r));
-        localStorage.setItem('vincle_room', r);
-      }
-    }
-
-    function dbRef() { return firebase.database().ref('rooms/' + ROOM + '/messages'); }
-
-    function sendMessage(t) {
-      if (!t.trim()) return;
-      const now = Date.now();
-      dbRef().push({text: t.trim(), color: sessionColor, emoji: sessionEmoji, ts: now, expiry: now + MESSAGE_EXPIRY_HOURS*3600000});
-    }
-
-    function createBubble(m, mine) {
-      const d = document.createElement('div');
-      d.className = 'bubble ' + (mine ? 'right' : 'left');
-      const meta = `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-        <span class="color-pill" style="background:${m.color||'#666'};width:10px;height:10px;border-radius:50%"></span>
-        <span>${m.emoji||'🔷'}</span></div>`;
-      d.innerHTML = meta + `<div>${m.text}</div><div class="muted small" style="font-size:11px;margin-top:6px">${new Date(m.ts||Date.now()).toLocaleString()}</div>`;
-      return d;
-    }
-
-    function listen() {
-      messagesEl.innerHTML = '';
-      dbRef().limitToLast(200).on('child_added', s => {
-        const m = s.val(); if (!m) return;
-        if (m.expiry && Date.now() > m.expiry) return;
-        const mine = (m.color === sessionColor && m.emoji === sessionEmoji);
-        messagesEl.appendChild(createBubble(m, mine));
-        messagesEl.scrollTop = messagesEl.scrollHeight;
-      });
-    }
-
-    createBtn.onclick = () => { let id = (roomInput.value || '').trim() || randomId(7); setRoom(id); listen(); q('mobilePanel').classList.remove('show'); };
-    copyBtn.onclick = () => ROOM && navigator.clipboard.writeText(location.origin + location.pathname + '?room=' + ROOM);
-    newRoomShort.onclick = () => { setRoom(randomId(7)); listen(); q('mobilePanel').classList.remove('show'); };
-    clearLocal.onclick = () => messagesEl.innerHTML = '';
-    sendBtn.onclick = () => { sendMessage(textInput.value); textInput.value = ''; };
-    textInput.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendBtn.click(); }});
-
-    if (ROOM) { setRoom(ROOM); listen(); }
-
-    // menú móvil
-    const panel = q('mobilePanel');
-    q('menuToggle').onclick = () => panel.classList.add('show');
-    q('closePanel').onclick = () => panel.classList.remove('show');
-    panel.addEventListener('click', e => { if (e.target === panel) panel.classList.remove('show'); });
+    const firebaseConfig = { apiKey:"AIzaSyXMvncuf1Jhux5dVzDJ_VQe3cw3tIntt",authDomain:"vincle-e76dd.firebaseapp.com",databaseURL:"https://vincle-e76dd-default-rtdb.firebaseio.com",projectId:"vincle-e76dd",storageBucket:"vincle-e76dd.firebasestorage.app",messagingSenderId:"11807936515",appId:"1:11807936515:web:ff67d9da38e956ff62cee6"}; firebase.initializeApp(firebaseConfig);
+    const MESSAGE_EXPIRY_HOURS=24; const ROOM_PARAM=new URLSearchParams(location.search).get('room'); const DEFAULT_ROOM=ROOM_PARAM||localStorage.getItem('vincle_room')||null;
+    const q=id=>document.getElementById(id); const roomInput=q('roomInput'),createBtn=q('createBtn'),copyBtn=q('copyBtn'); const messagesEl=q('messages'),textInput=q('textInput'),sendBtn=q('sendBtn'); const roomTitle=q('roomTitle'),roomIdText=q('roomIdText'); const myColorEl=q('myColor'),myEmojiEl=q('myEmoji'); const newRoomShort=q('newRoomShort'),clearLocal=q('clearLocal'); const expiryLabel=q('expiryLabel'); expiryLabel.textContent=MESSAGE_EXPIRY_HOURS+"h";
+    const COLORS=['#f97316','#fb7185','#60a5fa','#34d399','#f59e0b','#a78bfa','#ef4444']; const EMOJIS=['🔷','🔶','🔺','🔵','🟣','🟢','🌿','✨','⚡','🌙','☀️','🔥']; const pick=a=>a[Math.floor(Math.random()*a.length)]; const sessionColor=sessionStorage.getItem('vincle_color')||pick(COLORS); const sessionEmoji=sessionStorage.getItem('vincle_emoji')||pick(EMOJIS); sessionStorage.setItem('vincle_color',sessionColor); sessionStorage.setItem('vincle_emoji',sessionEmoji); myColorEl.style.background=sessionColor; myEmojiEl.textContent=sessionEmoji;
+    let ROOM=DEFAULT_ROOM||null; const randomId=l=>Array.from({length:l},()=>Math.random().toString(36)[2]).join('');
+    function setRoom(r){ROOM=r;roomTitle.textContent=`Sala — ${r||'(sin id)'}`;roomIdText.textContent=`ID: ${r||'—'}`;roomInput.value=r||'';if(r){const url=location.origin+location.pathname+'?room='+encodeURIComponent(r);history.replaceState(null,'','?room='+encodeURIComponent(r));localStorage.setItem('vincle_room',r);}}
+    function dbRef(){return firebase.database().ref('rooms/'+ROOM+'/messages');}
+    function sendMessage(t){if(!t.trim())return;const now=Date.now();dbRef().push({text:t.trim(),color:sessionColor,emoji:sessionEmoji,ts:now,expiry:now+MESSAGE_EXPIRY_HOURS*3600000});}
+    function createBubble(m,mine){const d=document.createElement('div');d.className='bubble '+(mine?'right':'left');const meta=`<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span class="color-pill" style="background:${m.color||'#666'};width:10px;height:10px;border-radius:50%"></span><span>${m.emoji||'🔷'}</span></div>`;d.innerHTML=meta+`<div>${m.text}</div><div class="muted small" style="font-size:11px;margin-top:6px">${new Date(m.ts||Date.now()).toLocaleString()}</div>`;return d;}
+    function listen(){messagesEl.innerHTML='';dbRef().limitToLast(200).on('child_added',s=>{const m=s.val();if(!m)return;if(m.expiry&&Date.now()>m.expiry)return;const mine=(m.color===sessionColor&&m.emoji===sessionEmoji);messagesEl.appendChild(createBubble(m,mine));messagesEl.scrollTop=messagesEl.scrollHeight;});}
+    createBtn.onclick=()=>{let id=(roomInput.value||'').trim()||randomId(7);setRoom(id);listen();q('mobilePanel').classList.remove('show');q('menuToggle').classList.remove('active');};
+    copyBtn.onclick=()=>ROOM&&navigator.clipboard.writeText(location.origin+location.pathname+'?room='+ROOM);
+    newRoomShort.onclick=()=>{setRoom(randomId(7));listen();q('mobilePanel').classList.remove('show');q('menuToggle').classList.remove('active');};
+    clearLocal.onclick=()=>messagesEl.innerHTML=''; sendBtn.onclick=()=>{sendMessage(textInput.value);textInput.value='';};
+    textInput.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendBtn.click();}});
+    if(ROOM){setRoom(ROOM);listen();}
+    const panel=q('mobilePanel');const toggle=q('menuToggle');
+    toggle.onclick=()=>{panel.classList.add('show');toggle.classList.add('active');};
+    q('closePanel').onclick=()=>{panel.classList.remove('show');toggle.classList.remove('active');};
+    panel.addEventListener('click',e=>{if(e.target===panel){panel.classList.remove('show');toggle.classList.remove('active');}});
   </script>
 </body>
 </html>
