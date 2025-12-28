@@ -858,285 +858,278 @@
     messagingSenderId: "11807936515",
     appId: "1:11807936515:web:ff67d9da38e956ff62cee6"
   };
+  
+  // Inicializar Firebase
   firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
 
-  // Configuración mejorada
+  // Constantes
   const MESSAGE_EXPIRY_HOURS = 24;
-  const ROOM_PARAM = new URLSearchParams(location.search).get('room');
-  const DEFAULT_ROOM = ROOM_PARAM || localStorage.getItem('vincle_room') || generateRoomId();
+  
+  // Obtener parámetros de URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const ROOM_PARAM = urlParams.get('room');
+  const DEFAULT_ROOM = ROOM_PARAM || localStorage.getItem('vincle_room') || generateRandomId(7);
 
   // Elementos DOM
-  const elements = {
-    roomInput: document.getElementById('roomInput'),
-    createBtn: document.getElementById('createBtn'),
-    copyBtn: document.getElementById('copyBtn'),
-    messages: document.getElementById('messages'),
-    textInput: document.getElementById('textInput'),
-    sendBtn: document.getElementById('sendBtn'),
-    roomTitle: document.getElementById('roomTitle'),
-    roomIdText: document.getElementById('roomIdText'),
-    myColor: document.getElementById('myColor'),
-    myEmoji: document.getElementById('myEmoji'),
-    expiryLabel: document.getElementById('expiryLabel'),
-    expiryTimer: document.getElementById('expiryTimer'),
-    onlineCount: document.getElementById('onlineCount'),
-    liveUsers: document.getElementById('liveUsers'),
-    clearChatBtn: document.getElementById('clearChatBtn'),
-    randomRoomBtn: document.getElementById('randomRoomBtn'),
-    newRoomBtn: document.getElementById('newRoomBtn'),
-    copyRoomIdBtn: document.getElementById('copyRoomIdBtn'),
-    roomInfoBtn: document.getElementById('roomInfoBtn'),
-    shareRoomBtn: document.getElementById('shareRoomBtn')
-  };
+  const q = id => document.getElementById(id);
+  const roomInput = q('roomInput');
+  const createBtn = q('createBtn');
+  const copyBtn = q('copyBtn');
+  const messagesEl = q('messages');
+  const textInput = q('textInput');
+  const sendBtn = q('sendBtn');
+  const roomTitle = q('roomTitle');
+  const roomIdText = q('roomIdText');
+  const myColorEl = q('myColor');
+  const myEmojiEl = q('myEmoji');
+  const clearChatBtn = q('clearChatBtn');
+  const randomRoomBtn = q('randomRoomBtn');
+  const expiryLabel = q('expiryLabel');
+  const expiryTimer = q('expiryTimer');
 
-  // Mejores colores y emojis
-  const COLORS = [
-    '#60a5fa', '#34d399', '#f59e0b', '#a78bfa', 
-    '#f97316', '#10b981', '#8b5cf6', '#06b6d4'
-  ];
+  // Configuración de identidad (mismo que antes)
+  const COLORS = ['#f97316','#fb7185','#60a5fa','#34d399','#f59e0b','#a78bfa','#ef4444'];
+  const EMOJIS = ['🔷','🔶','🔺','🔵','🟣','🟢','🌿','✨','⚡','🌙','☀️','🔥'];
   
-  const EMOJIS = [
-    '🔷', '🔶', '🎭', '👤', '🕵️', '🎪', '✨', '🌟',
-    '🌙', '☀️', '🔥', '💧', '🌿', '🍂', '🎯', '🎨'
-  ];
-
-  // Generar IDs de sala más legibles
-  function generateRoomId() {
-    const adjectives = ['quiet', 'deep', 'vast', 'calm', 'bold', 'swift', 'clear', 'wild'];
-    const nouns = ['river', 'forest', 'moon', 'star', 'cloud', 'wave', 'stone', 'bird'];
-    const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
-    const noun = nouns[Math.floor(Math.random() * nouns.length)];
-    const num = Math.floor(Math.random() * 999);
-    return `${adj}-${noun}-${num}`;
-  }
-
-  // Identidad del usuario
-  const userIdentity = {
-    color: sessionStorage.getItem('vincle_color') || COLORS[Math.floor(Math.random() * COLORS.length)],
-    emoji: sessionStorage.getItem('vincle_emoji') || EMOJIS[Math.floor(Math.random() * EMOJIS.length)],
-    id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5)
-  };
-
-  sessionStorage.setItem('vincle_color', userIdentity.color);
-  sessionStorage.setItem('vincle_emoji', userIdentity.emoji);
-
+  const pickRandom = array => array[Math.floor(Math.random() * array.length)];
+  
+  const sessionColor = sessionStorage.getItem('vincle_color') || pickRandom(COLORS);
+  const sessionEmoji = sessionStorage.getItem('vincle_emoji') || pickRandom(EMOJIS);
+  
+  // Guardar en sessionStorage
+  sessionStorage.setItem('vincle_color', sessionColor);
+  sessionStorage.setItem('vincle_emoji', sessionEmoji);
+  
   // Actualizar UI de identidad
-  elements.myColor.style.background = userIdentity.color;
-  elements.myEmoji.textContent = userIdentity.emoji;
+  myColorEl.style.background = sessionColor;
+  myEmojiEl.textContent = sessionEmoji;
 
   // Estado de la sala
   let currentRoom = DEFAULT_ROOM;
-  let usersInRoom = 1;
-  let messageCount = 0;
 
-  // Inicializar sala
-  function initRoom(roomId = currentRoom) {
-    currentRoom = roomId;
-    updateRoomUI();
-    listenToMessages();
-    updateUserPresence(true);
+  // Generar ID aleatorio
+  function generateRandomId(length) {
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
   }
 
-  // Actualizar UI de la sala
-  function updateRoomUI() {
-    elements.roomTitle.textContent = currentRoom;
-    elements.roomIdText.textContent = currentRoom;
-    elements.roomInput.value = currentRoom;
+  // Establecer sala
+  function setRoom(roomId) {
+    currentRoom = roomId;
+    
+    // Actualizar UI
+    roomTitle.textContent = `Sala — ${roomId}`;
+    roomIdText.textContent = roomId;
+    roomInput.value = roomId;
     
     // Actualizar URL
     const url = new URL(window.location);
-    url.searchParams.set('room', currentRoom);
+    url.searchParams.set('room', roomId);
     window.history.replaceState({}, '', url);
     
     // Guardar en localStorage
-    localStorage.setItem('vincle_room', currentRoom);
-  }
-
-  // Referencia a la base de datos
-  function getRoomRef() {
-    return firebase.database().ref(`rooms/${currentRoom}`);
-  }
-
-  function getMessagesRef() {
-    return getRoomRef().child('messages');
-  }
-
-  // Presencia de usuarios
-  function updateUserPresence(isOnline = true) {
-    const presenceRef = getRoomRef().child('presence').child(userIdentity.id);
+    localStorage.setItem('vincle_room', roomId);
     
-    if (isOnline) {
-      presenceRef.set({
-        emoji: userIdentity.emoji,
-        color: userIdentity.color,
-        lastSeen: Date.now()
-      });
-      
-      // Limpiar después de desconexión
-      presenceRef.onDisconnect().remove();
-      
-      // Escuchar otros usuarios
-      getRoomRef().child('presence').on('value', (snapshot) => {
-        const users = snapshot.val();
-        const userCount = users ? Object.keys(users).length : 1;
-        usersInRoom = userCount;
-        elements.onlineCount.textContent = `${userCount} en línea`;
-        elements.liveUsers.textContent = userCount;
-      });
-    } else {
-      presenceRef.remove();
-    }
+    // Actualizar contadores
+    expiryLabel.textContent = MESSAGE_EXPIRY_HOURS + "h";
+    expiryTimer.textContent = MESSAGE_EXPIRY_HOURS + "h";
+    
+    // Escuchar mensajes
+    listenToMessages();
   }
 
-  // Enviar mensaje
+  // Obtener referencia a la base de datos (USANDO LA ESTRUCTURA ORIGINAL)
+  function getMessagesRef() {
+    return database.ref('rooms/' + currentRoom + '/messages');
+  }
+
+  // Enviar mensaje (USANDO LA ESTRUCTURA ORIGINAL)
   function sendMessage(text) {
     if (!text.trim()) return;
     
-    const message = {
+    const now = Date.now();
+    const messageData = {
       text: text.trim(),
-      color: userIdentity.color,
-      emoji: userIdentity.emoji,
-      timestamp: Date.now(),
-      userId: userIdentity.id,
-      expiresAt: Date.now() + (MESSAGE_EXPIRY_HOURS * 3600000)
+      color: sessionColor,
+      emoji: sessionEmoji,
+      ts: now,
+      expiry: now + (MESSAGE_EXPIRY_HOURS * 3600000)
     };
     
-    getMessagesRef().push(message);
-    messageCount++;
-    
-    // Auto-scroll
-    setTimeout(() => {
-      elements.messages.scrollTop = elements.messages.scrollHeight;
-    }, 100);
+    getMessagesRef().push(messageData);
+    textInput.value = '';
+    textInput.style.height = 'auto';
   }
 
-  // Escuchar mensajes
-  function listenToMessages() {
-    elements.messages.innerHTML = '';
+  // Crear burbuja de mensaje (USANDO LA ESTRUCTURA ORIGINAL)
+  function createMessageBubble(message, isMine) {
+    const bubble = document.createElement('div');
+    bubble.className = `message-bubble ${isMine ? 'mine' : 'other'}`;
     
-    getMessagesRef()
-      .orderByChild('timestamp')
-      .limitToLast(100)
-      .on('child_added', (snapshot) => {
-        const message = snapshot.val();
-        
-        // Verificar expiración
-        if (message.expiresAt && Date.now() > message.expiresAt) {
-          snapshot.ref.remove();
-          return;
-        }
-        
-        addMessageToUI(message);
-      });
-  }
-
-  // Añadir mensaje al UI
-  function addMessageToUI(message) {
-    const isMine = message.userId === userIdentity.id;
-    const messageEl = document.createElement('div');
+    // Formatear fecha
+    const messageDate = new Date(message.ts || Date.now());
+    const timeString = formatTime(messageDate);
     
-    messageEl.className = `message-bubble ${isMine ? 'mine' : 'other'}`;
-    messageEl.innerHTML = `
+    bubble.innerHTML = `
       <div class="message-sender">
         <span class="sender-emoji">${message.emoji || '👤'}</span>
         <span class="sender-name">${isMine ? 'Tú' : 'Anónimo'}</span>
       </div>
       <div class="message-text">${escapeHtml(message.text)}</div>
-      <div class="message-time">${formatTime(message.timestamp)}</div>
+      <div class="message-time">${timeString}</div>
     `;
     
-    if (isMine) {
-      messageEl.style.setProperty('--accent-color', message.color);
-    } else {
-      messageEl.style.borderLeft = `3px solid ${message.color}`;
-    }
-    
-    elements.messages.appendChild(messageEl);
-    
-    // Auto-scroll si está cerca del final
-    const isNearBottom = elements.messages.scrollHeight - elements.messages.scrollTop - elements.messages.clientHeight < 100;
-    if (isNearBottom) {
-      messageEl.scrollIntoView({ behavior: 'smooth' });
-    }
+    return bubble;
   }
 
-  // Utilidades
+  // Escuchar mensajes (USANDO LA ESTRUCTURA ORIGINAL)
+  function listenToMessages() {
+    // Limpiar mensajes existentes
+    messagesEl.innerHTML = '';
+    
+    // Añadir mensaje de bienvenida
+    const welcomeBubble = document.createElement('div');
+    welcomeBubble.className = 'message-bubble other';
+    welcomeBubble.innerHTML = `
+      <div class="message-sender">
+        <span class="sender-emoji">👋</span>
+        <span class="sender-name">Sistema</span>
+      </div>
+      <div class="message-text">
+        Bienvenido a la sala <strong>${currentRoom}</strong>. Tu identidad es anónima. 
+        Los mensajes se borran automáticamente después de ${MESSAGE_EXPIRY_HOURS} horas.
+      </div>
+      <div class="message-time">Ahora</div>
+    `;
+    messagesEl.appendChild(welcomeBubble);
+    
+    // Escuchar nuevos mensajes
+    getMessagesRef()
+      .limitToLast(100)
+      .on('child_added', (snapshot) => {
+        const message = snapshot.val();
+        if (!message) return;
+        
+        // Verificar si el mensaje ha expirado
+        if (message.expiry && Date.now() > message.expiry) {
+          return;
+        }
+        
+        const isMine = (message.color === sessionColor && message.emoji === sessionEmoji);
+        const messageBubble = createMessageBubble(message, isMine);
+        messagesEl.appendChild(messageBubble);
+        
+        // Auto-scroll
+        setTimeout(() => {
+          messagesEl.scrollTop = messagesEl.scrollHeight;
+        }, 100);
+      });
+  }
+
+  // Funciones utilitarias
   function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
   }
 
-  function formatTime(timestamp) {
-    const date = new Date(timestamp);
+  function formatTime(date) {
     const now = new Date();
     const diff = now - date;
     
     if (diff < 60000) return 'Ahora';
     if (diff < 3600000) return `${Math.floor(diff / 60000)} min`;
-    if (diff < 86400000) return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    
+    if (diff < 86400000) {
+      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
     return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
   }
 
   // Event Listeners
-  elements.createBtn.addEventListener('click', () => {
-    const roomId = elements.roomInput.value.trim() || generateRoomId();
-    initRoom(roomId);
+  createBtn.addEventListener('click', () => {
+    const roomId = (roomInput.value || '').trim() || generateRandomId(7);
+    setRoom(roomId);
   });
 
-  elements.copyBtn.addEventListener('click', () => {
-    const url = `${window.location.origin}${window.location.pathname}?room=${encodeURIComponent(currentRoom)}`;
+  copyBtn.addEventListener('click', () => {
+    if (!currentRoom) return;
+    const url = window.location.origin + window.location.pathname + '?room=' + encodeURIComponent(currentRoom);
     navigator.clipboard.writeText(url).then(() => {
       alert('¡Enlace copiado al portapapeles!');
     });
   });
 
-  elements.copyRoomIdBtn.addEventListener('click', () => {
+  copyRoomIdBtn.addEventListener('click', () => {
+    if (!currentRoom) return;
     navigator.clipboard.writeText(currentRoom).then(() => {
-      const original = elements.copyRoomIdBtn.innerHTML;
-      elements.copyRoomIdBtn.innerHTML = '✅';
+      const original = copyRoomIdBtn.innerHTML;
+      copyRoomIdBtn.innerHTML = '✅';
       setTimeout(() => {
-        elements.copyRoomIdBtn.innerHTML = original;
+        copyRoomIdBtn.innerHTML = original;
       }, 2000);
     });
   });
 
-  elements.sendBtn.addEventListener('click', () => {
-    sendMessage(elements.textInput.value);
-    elements.textInput.value = '';
-    elements.textInput.style.height = 'auto';
+  sendBtn.addEventListener('click', () => {
+    sendMessage(textInput.value);
   });
 
-  elements.textInput.addEventListener('keydown', (e) => {
+  textInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      elements.sendBtn.click();
+      sendMessage(textInput.value);
     }
   });
 
   // Auto-expand textarea
-  elements.textInput.addEventListener('input', function() {
+  textInput.addEventListener('input', function() {
     this.style.height = 'auto';
     this.style.height = (this.scrollHeight) + 'px';
   });
 
-  elements.clearChatBtn.addEventListener('click', () => {
-    if (confirm('¿Limpiar todos los mensajes locales? Esto no borra los mensajes del servidor.')) {
-      elements.messages.innerHTML = '';
+  clearChatBtn.addEventListener('click', () => {
+    if (confirm('¿Limpiar todos los mensajes locales?')) {
+      // Esto solo limpia la vista local, no los mensajes en Firebase
+      messagesEl.innerHTML = '';
+      
+      // Añadir mensaje de sistema
+      const systemBubble = document.createElement('div');
+      systemBubble.className = 'message-bubble other';
+      systemBubble.innerHTML = `
+        <div class="message-sender">
+          <span class="sender-emoji">🧹</span>
+          <span class="sender-name">Sistema</span>
+        </div>
+        <div class="message-text">
+          Chat local limpiado. Los mensajes en el servidor permanecen.
+        </div>
+        <div class="message-time">Ahora</div>
+      `;
+      messagesEl.appendChild(systemBubble);
     }
   });
 
-  elements.randomRoomBtn.addEventListener('click', () => {
-    initRoom(generateRoomId());
+  randomRoomBtn.addEventListener('click', () => {
+    const newRoomId = generateRandomId(7);
+    setRoom(newRoomId);
   });
 
-  elements.newRoomBtn.addEventListener('click', () => {
-    initRoom(generateRoomId());
+  newRoomBtn.addEventListener('click', () => {
+    const newRoomId = generateRandomId(7);
+    setRoom(newRoomId);
   });
 
-  elements.shareRoomBtn.addEventListener('click', () => {
-    const url = `${window.location.origin}${window.location.pathname}?room=${encodeURIComponent(currentRoom)}`;
+  roomInfoBtn.addEventListener('click', () => {
+    alert(`Sala actual: ${currentRoom}\n\nComparte este enlace:\n${window.location.href}`);
+  });
+
+  shareRoomBtn.addEventListener('click', () => {
+    const url = window.location.href;
     
     if (navigator.share) {
       navigator.share({
@@ -1151,26 +1144,22 @@
     }
   });
 
-  // Actualizar contador de expiración
-  function updateExpiryTimer() {
-    elements.expiryLabel.textContent = `${MESSAGE_EXPIRY_HOURS}h`;
-    elements.expiryTimer.textContent = `${MESSAGE_EXPIRY_HOURS}h`;
-  }
-
   // Inicializar
   document.addEventListener('DOMContentLoaded', () => {
-    initRoom();
-    updateExpiryTimer();
+    // Establecer sala inicial
+    setRoom(currentRoom);
     
     // Foco automático en el input
     setTimeout(() => {
-      elements.textInput.focus();
+      textInput.focus();
     }, 500);
   });
 
-  // Limpiar al salir
-  window.addEventListener('beforeunload', () => {
-    updateUserPresence(false);
+  // Manejar tecla Escape para limpiar foco
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      textInput.blur();
+    }
   });
 </script>
 
