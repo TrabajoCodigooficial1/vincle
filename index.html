@@ -3,129 +3,90 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>VINCLE — Conversación sin nombres</title>
+  <title>VINCLE — Conversación anónima</title>
   <style>
     :root {
       --bg: #0f1720;
       --card: #0b1220;
       --accent: #60a5fa;
+      --accent-hover: #3b82f6;
       --muted: #94a3b8;
       --bubble: #111827;
+      --bubble-other: #1e293b;
       --glass: rgba(255,255,255,0.03);
+      --border: rgba(255,255,255,0.05);
       color-scheme: dark;
     }
 
-    * { box-sizing: border-box; }
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
 
     html, body {
       height: 100%;
       margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
-      overflow: hidden; /* ✅ evita scroll infinito en toda la página */
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      overflow: hidden;
     }
 
     body {
-      background: linear-gradient(180deg,#071028 0%, #081126 60%);
+      background: linear-gradient(135deg, #071028 0%, #0a1426 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 18px;
+      padding: 0;
+      position: relative;
     }
 
-    /* === HEADER FIJO === */
+    /* Fondo con patrón sutil */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle at 20% 80%, rgba(96, 165, 250, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.03) 0%, transparent 50%);
+      z-index: -1;
+    }
+
+    /* === HEADER === */
     header {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      height: 56px;
-      background: rgba(10, 16, 30, 0.85);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      height: 60px;
+      background: rgba(11, 18, 32, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 16px;
-      z-index: 50;
+      padding: 0 24px;
+      z-index: 1000;
       color: #e6eef8;
-      transition: opacity 0.3s ease, background 0.3s ease;
+      transition: all 0.3s ease;
     }
 
-    header.scrolled {
-      opacity: 0.9;
-      background: rgba(10,16,30,0.92);
+    header:hover {
+      background: rgba(11, 18, 32, 0.98);
     }
 
-    header .brand {
+    .header-brand {
       display: flex;
       align-items: center;
-      gap: 10px;
-    }
-
-    header .logo {
-      width: 34px;
-      height: 34px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, var(--accent), #7dd3fc);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: #021;
-    }
-
-    header h1 {
-      font-size: 18px;
-      margin: 0;
-    }
-
-    #menuToggle {
-      background: transparent;
-      border: none;
-      color: var(--accent);
-      font-size: 26px;
-      cursor: pointer;
-      display: none;
-      transition: transform 0.2s;
-    }
-
-    #menuToggle.active { transform: rotate(90deg); }
-
-    /* === APP === */
- .app {
-  width: 100%;
-  max-width: 900px;
-  height: calc(100dvh - 56px); /* ✅ usa dvh y deja margen para header */
-  background: var(--card);
-  border-radius: 14px;
-  display: grid;
-  grid-template-columns: 320px 1fr;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(2,6,23,0.6);
-  position: relative;
-  margin-top: 56px;
-}
-
-    .panel {
-      padding: 18px;
-      color: #e6eef8;
-      border-right: 1px solid rgba(255,255,255,0.03);
-      display: flex;
-      flex-direction: column;
       gap: 12px;
-      background: var(--card);
-      height: 100%;
-    }
-
-    .brand {
-      display: flex;
-      gap: 10px;
-      align-items: center;
+      text-decoration: none;
     }
 
     .logo {
-      width: 44px;
-      height: 44px;
+      width: 36px;
+      height: 36px;
       border-radius: 10px;
       background: linear-gradient(135deg, var(--accent), #7dd3fc);
       display: flex;
@@ -133,535 +94,1083 @@
       justify-content: center;
       font-weight: 700;
       color: #021;
-      box-shadow: 0 6px 18px rgba(6,12,30,0.6);
+      box-shadow: 0 4px 15px rgba(96, 165, 250, 0.3);
+      transition: transform 0.3s ease;
     }
 
-    h1 { font-size: 18px; margin: 0; }
-    .muted { color: var(--muted); font-size: 13px; }
+    .logo:hover {
+      transform: scale(1.05);
+    }
 
-    .room-box {
-      background: var(--glass);
-      padding: 12px;
-      border-radius: 10px;
+    .header-title {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .header-subtitle {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .header-btn:hover {
+      background: rgba(255,255,255,0.06);
+      color: #e6eef8;
+      border-color: rgba(255,255,255,0.1);
+    }
+
+    .header-btn.accent {
+      background: var(--accent);
+      color: #021;
+      border: none;
+    }
+
+    .header-btn.accent:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
+    }
+
+    /* === APP CONTAINER === */
+    .app-container {
+      width: 100%;
+      max-width: 1200px;
+      height: calc(100dvh - 60px);
+      margin-top: 60px;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 24px;
+      position: relative;
+    }
+
+    /* === PANEL LATERAL === */
+    .side-panel {
+      background: rgba(11, 18, 32, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 24px;
+      height: 100%;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
     }
 
-    input.room-input {
+    .side-panel:hover {
+      border-color: rgba(255,255,255,0.08);
+    }
+
+    .panel-section {
+      margin-bottom: 24px;
+    }
+
+    .panel-section:last-of-type {
+      margin-bottom: 0;
+      margin-top: auto;
+    }
+
+    .section-title {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 12px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .room-controls {
+      background: var(--glass);
+      border-radius: 12px;
+      padding: 18px;
+      border: 1px solid var(--border);
+    }
+
+    .input-group {
+      margin-bottom: 16px;
+    }
+
+    .input-label {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .styled-input {
       width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.03);
-      background: transparent;
-      color: inherit;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+      color: #e6eef8;
+      font-size: 15px;
+      transition: all 0.2s ease;
     }
 
-    .btn {
-      padding: 10px;
-      border-radius: 8px;
+    .styled-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: rgba(255,255,255,0.03);
+      box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+    }
+
+    .styled-input::placeholder {
+      color: rgba(148, 163, 184, 0.4);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .btn-primary {
+      flex: 1;
+      padding: 12px;
+      border-radius: 10px;
       border: none;
       background: var(--accent);
-      color: #042;
+      color: #021;
+      font-weight: 600;
       cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 14px;
     }
 
-    .btn.ghost {
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
+    }
+
+    .btn-secondary {
+      padding: 12px 20px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
       background: transparent;
-      border: 1px solid rgba(255,255,255,0.06);
       color: var(--muted);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 14px;
     }
 
-    .small { font-size: 13px; }
-    .meta { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.03);
+      color: #e6eef8;
+      border-color: rgba(255,255,255,0.1);
+    }
 
-    /* chat */
-    .chat {
+    .identity-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      background: var(--glass);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .emoji-large {
+      font-size: 24px;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.03);
+      border-radius: 10px;
+    }
+
+    .color-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.1);
+    }
+
+    .identity-info {
+      flex: 1;
+    }
+
+    .identity-name {
+      font-weight: 600;
+      font-size: 16px;
+      color: #e6eef8;
+    }
+
+    .identity-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* === CHAT CONTAINER === */
+    .chat-container {
+      background: rgba(11, 18, 32, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      border: 1px solid var(--border);
       display: flex;
       flex-direction: column;
       height: 100%;
-      overflow: hidden; /* ✅ evita que toda la app scrollee */
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     }
 
     .chat-header {
-      padding: 16px 14px;
-      border-bottom: 1px solid rgba(255,255,255,0.03);
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: var(--card);
       flex-shrink: 0;
     }
 
-    .room-title { font-weight: 600; }
-
-/* ✅ La zona de mensajes ahora tiene un poco más de fondo y un padding inferior real */
-.chat-body {
-  flex: 1;
-  padding: 16px;
-  padding-bottom: 100px; /* más espacio visual sobre el input */
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
-  scroll-behavior: smooth;
-}
-    .bubble {
-      max-width: 80%;
-      padding: 10px 12px;
-      border-radius: 12px;
-      background: var(--bubble);
-      color: #e6eef8;
-      line-height: 1.3;
-      word-break: break-word;
-      font-size: 15px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    .room-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
-    .bubble.left { align-self: flex-start; border-bottom-left-radius: 4px; }
-    .bubble.right {
+    .room-name {
+      font-weight: 600;
+      font-size: 18px;
+      color: #e6eef8;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .room-id {
+      font-size: 13px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .copy-icon {
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity 0.2s ease;
+    }
+
+    .copy-icon:hover {
+      opacity: 1;
+    }
+
+    .room-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .expiry-info {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .online-count {
+      font-size: 12px;
+      color: #10b981;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* === MESSAGES AREA === */
+    .messages-area {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      background: linear-gradient(180deg, 
+        rgba(255,255,255,0.01) 0%,
+        transparent 30%,
+        transparent 100%);
+      scroll-behavior: smooth;
+    }
+
+    .message-bubble {
+      max-width: 75%;
+      padding: 16px 20px;
+      border-radius: 18px;
+      position: relative;
+      line-height: 1.5;
+      word-break: break-word;
+      animation: messageAppear 0.3s ease-out;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    @keyframes messageAppear {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .message-bubble.other {
+      align-self: flex-start;
+      background: var(--bubble-other);
+      border-bottom-left-radius: 6px;
+    }
+
+    .message-bubble.mine {
       align-self: flex-end;
-      border-bottom-right-radius: 4px;
       background: linear-gradient(135deg, var(--accent), #7dd3fc);
       color: #021;
+      border-bottom-right-radius: 6px;
     }
 
- /* ✅ El input y botón ahora flotan un poco más arriba visualmente */
-.composer {
-  padding: 14px 14px 20px; /* ⬅️ antes era 12px; ahora dejamos más espacio abajo */
-  border-top: 1px solid rgba(255,255,255,0.03);
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  background: var(--card);
-  flex-shrink: 0;
-  position: sticky;
-  bottom: 0;
-  z-index: 5; /* asegura que quede visible sobre cualquier contenido */
-}
+    .message-sender {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
 
-.composer input {
-  flex: 1;
-  padding: 14px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.02);
-  color: inherit;
-  font-size: 16px;
-}
+    .sender-emoji {
+      font-size: 16px;
+    }
 
-.composer button {
-  padding: 12px 16px;
-  border-radius: 10px;
-  border: none;
-  background: var(--accent);
-  color: #021;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
+    .sender-name {
+      font-weight: 600;
+      font-size: 14px;
+    }
 
-    .meta-note { font-size: 12px; color: var(--muted); padding: 0 14px 10px; }
+    .message-text {
+      font-size: 15px;
+      line-height: 1.5;
+    }
 
-    /* panel móvil tipo slide */
+    .message-time {
+      font-size: 11px;
+      opacity: 0.7;
+      margin-top: 8px;
+      text-align: right;
+    }
+
+    /* === MESSAGE COMPOSER === */
+    .message-composer {
+      padding: 20px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-shrink: 0;
+      background: rgba(11, 18, 32, 0.9);
+    }
+
+    .composer-input {
+      flex: 1;
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+      color: #e6eef8;
+      font-size: 15px;
+      resize: none;
+      min-height: 48px;
+      max-height: 120px;
+      line-height: 1.5;
+      transition: all 0.2s ease;
+    }
+
+    .composer-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: rgba(255,255,255,0.03);
+      box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+    }
+
+    .send-button {
+      padding: 14px 24px;
+      border-radius: 12px;
+      border: none;
+      background: var(--accent);
+      color: #021;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 100px;
+      justify-content: center;
+    }
+
+    .send-button:hover:not(:disabled) {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
+    }
+
+    .send-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* === STATS BAR === */
+    .stats-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 24px;
+      border-top: 1px solid var(--border);
+      background: rgba(11, 18, 32, 0.9);
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* === MOBILE PANEL (oculto en desktop) === */
     .mobile-panel {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
       display: none;
-      justify-content: flex-start;
-      z-index: 20;
-      transition: opacity 0.25s ease;
     }
 
-    .mobile-panel.show { display: flex; }
-
-    .mobile-panel .panel {
-      width: 90%;
-      max-width: 360px;
-      height: 100%;
-      border-right: 1px solid rgba(255,255,255,0.05);
-      box-shadow: 4px 0 20px rgba(0,0,0,0.5);
-      transform: translateX(-100%);
-      animation: slideIn 0.25s forwards;
-      overflow-y: auto;
+    /* === RESPONSIVE === */
+    @media (max-width: 1024px) {
+      .app-container {
+        grid-template-columns: 1fr;
+        padding: 16px;
+        gap: 16px;
+      }
+      
+      .side-panel {
+        display: none;
+      }
+      
+      .header-btn span {
+        display: none;
+      }
+      
+      .mobile-panel {
+        display: block;
+      }
     }
 
-    @keyframes slideIn { to { transform: translateX(0); } }
+    @media (max-width: 768px) {
+      .app-container {
+        height: calc(100dvh - 60px);
+        padding: 0;
+        border-radius: 0;
+      }
+      
+      .chat-container {
+        border-radius: 0;
+        border: none;
+      }
+      
+      .message-bubble {
+        max-width: 85%;
+      }
+      
+      .messages-area {
+        padding: 16px;
+      }
+      
+      .message-composer {
+        padding: 16px;
+      }
+    }
 
-    @media (max-width:800px) {
-      .app { grid-template-columns: 1fr; height: calc(100vh - 56px); }
-      .panel { display: none; }
-      #menuToggle { display: block; }
+    /* === UTILITY CLASSES === */
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .badge {
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 500;
+      background: rgba(96, 165, 250, 0.1);
+      color: var(--accent);
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 16px 0;
+    }
+
+    /* === SCROLLBAR STYLING === */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.02);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* === TYPING INDICATOR === */
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 12px 20px;
+      background: var(--bubble-other);
+      border-radius: 18px;
+      align-self: flex-start;
+      width: fit-content;
+      margin-left: 12px;
+    }
+
+    .typing-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--muted);
+      animation: typing 1.4s infinite ease-in-out;
+    }
+
+    .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+    .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+    @keyframes typing {
+      0%, 80%, 100% { transform: scale(0.6); opacity: 0.6; }
+      40% { transform: scale(1); opacity: 1; }
     }
   </style>
 </head>
 <body>
 
-<header id="mainHeader" style="
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 56px;
-  background: var(--card);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.4);
-  z-index: 200;
-">
-  <div class="brand" style="display:flex;align-items:center;gap:8px;">
-<!-- SVG logo: anonimato estilizado (reemplaza tu <div class="logo">) -->
-<div class="logo" style="width:44px;height:44px;">
-  <svg viewBox="0 0 48 48" width="100%" height="100%" aria-labelledby="logoTitle logoDesc" role="img" xmlns="http://www.w3.org/2000/svg">
-    <title id="logoTitle">VINCLE — Anónimo</title>
-    <desc id="logoDesc">Símbolo circular con silueta estilizada representando anonimato.</desc>
-
-    <!-- background circle with gradient using CSS var -->
-    <defs>
-      <linearGradient id="gAccent" x1="0" x2="1" y1="0" y2="1">
-        <stop offset="0" stop-color="var(--accent, #60a5fa)" stop-opacity="1"/>
-        <stop offset="1" stop-color="#7dd3fc" stop-opacity="1"/>
-      </linearGradient>
-
-      <!-- subtle inner shadow -->
-      <filter id="fShadow" x="-50%" y="-50%" width="200%" height="200%">
-        <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.35"/>
-      </filter>
-    </defs>
-
-    <!-- outer circle -->
-    <circle cx="24" cy="24" r="22" fill="url(#gAccent)" filter="url(#fShadow)"/>
-
-    <!-- ring to suggest "mask" / hidden face -->
-    <circle cx="24" cy="24" r="14.2" fill="rgba(0,0,0,0.08)"/>
-
-    <!-- stylized anonymous silhouette (minimal) -->
-    <!-- head -->
-    <ellipse cx="24" cy="18.5" rx="4.6" ry="4.6" fill="#021" fill-opacity="0.95"/>
-    <!-- shoulders / cloak -->
-    <path d="M12.2  thirtythree
-    " fill="none"/>
-
-    <!-- simplified cloak path (smooth, geometric) -->
-    <path d="
-      M 12 32
-      C 12 27 18 24 24 24
-      C 30 24 36 27 36 32
-      L 36 34
-      C 36 36 32 38 24 38
-      C 16 38 12 36 12 34
-      Z
-    " fill="#021" fill-opacity="0.92"/>
-
-    <!-- subtle highlight on top-left -->
-    <path d="M16 12 C18 10 22 9 24 9 C26 9 30 10 32 12" stroke="rgba(255,255,255,0.06)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-
-  </svg>
-</div>
-
-    
-    <h1 style="font-size:18px;margin:0;color:#e6eef8;">VINCLE</h1>
+<header>
+  <a href="#" class="header-brand">
+    <div class="logo">
+      <svg viewBox="0 0 48 48" width="24" height="24" fill="#021">
+        <circle cx="24" cy="24" r="8" />
+        <path d="M24 12C24 12 30 18 30 24C30 30 24 36 24 36" fill="none" stroke="#021" stroke-width="2"/>
+        <path d="M24 12C24 12 18 18 18 24C18 30 24 36 24 36" fill="none" stroke="#021" stroke-width="2"/>
+      </svg>
+    </div>
+    <div>
+      <div class="header-title">VINCLE</div>
+      <div class="header-subtitle">Chat anónimo • Sin registro</div>
+    </div>
+  </a>
+  
+  <div class="header-actions">
+    <button id="roomInfoBtn" class="header-btn">
+      <span>💬</span>
+      <span>Sala activa</span>
+    </button>
+    <button id="newRoomBtn" class="header-btn accent">
+      <span>✨</span>
+      <span>Nueva sala</span>
+    </button>
   </div>
-  <button id="menuToggle" style="
-    background: var(--accent);
-    color: #021;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 20px;
-    font-weight: 600;
-    cursor: pointer;
-  ">☰</button>
 </header>
 
-<!-- 🔹 overlay universal -->
-<div class="mobile-panel" id="mobilePanel" style="
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  display: none;
-  justify-content: flex-start;
-  align-items: stretch;
-  z-index: 150;
-  backdrop-filter: blur(3px);
-  transition: opacity 0.3s ease;
-">
-  <aside class="panel" style="
-  width: 320px;
-  max-width: 85%;
-  height: calc(100% - 70px);
-  margin-top: 70px;
-  background: var(--card);
-  box-shadow: 4px 0 20px rgba(0,0,0,0.5);
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
-  padding: 18px;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  border-top-left-radius: 14px;
-  border-top-right-radius: 14px;
-">
-
-    <div class="brand" style="display:flex;gap:10px;align-items:center;">
-<!-- SVG logo: anonimato estilizado (reemplaza tu <div class="logo">) -->
-<div class="logo" style="width:44px;height:44px;">
-  <svg viewBox="0 0 48 48" width="100%" height="100%" aria-labelledby="logoTitle logoDesc" role="img" xmlns="http://www.w3.org/2000/svg">
-    <title id="logoTitle">VINCLE — Anónimo</title>
-    <desc id="logoDesc">Símbolo circular con silueta estilizada representando anonimato.</desc>
-
-    <!-- background circle with gradient using CSS var -->
-    <defs>
-      <linearGradient id="gAccent" x1="0" x2="1" y1="0" y2="1">
-        <stop offset="0" stop-color="var(--accent, #60a5fa)" stop-opacity="1"/>
-        <stop offset="1" stop-color="#7dd3fc" stop-opacity="1"/>
-      </linearGradient>
-
-      <!-- subtle inner shadow -->
-      <filter id="fShadow" x="-50%" y="-50%" width="200%" height="200%">
-        <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.35"/>
-      </filter>
-    </defs>
-
-    <!-- outer circle -->
-    <circle cx="24" cy="24" r="22" fill="url(#gAccent)" filter="url(#fShadow)"/>
-
-    <!-- ring to suggest "mask" / hidden face -->
-    <circle cx="24" cy="24" r="14.2" fill="rgba(0,0,0,0.08)"/>
-
-    <!-- stylized anonymous silhouette (minimal) -->
-    <!-- head -->
-    <ellipse cx="24" cy="18.5" rx="4.6" ry="4.6" fill="#021" fill-opacity="0.95"/>
-    <!-- shoulders / cloak -->
-    <path d="M12.2  thirtythree
-    " fill="none"/>
-
-    <!-- simplified cloak path (smooth, geometric) -->
-    <path d="
-      M 12 32
-      C 12 27 18 24 24 24
-      C 30 24 36 27 36 32
-      L 36 34
-      C 36 36 32 38 24 38
-      C 16 38 12 36 12 34
-      Z
-    " fill="#021" fill-opacity="0.92"/>
-
-    <!-- subtle highlight on top-left -->
-    <path d="M16 12 C18 10 22 9 24 9 C26 9 30 10 32 12" stroke="rgba(255,255,255,0.06)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-
-  </svg>
-</div>
-
-      
-      
-      <div>
-        <h1 style="margin:0;font-size:18px;">VINCLE</h1>
-        <div class="muted small">Escribe sin registro, con total anonimato</div>
-      </div>
-    </div>
-
-    <div class="room-box" style="background:var(--glass);padding:12px;border-radius:10px;display:flex;flex-direction:column;gap:8px;margin-top:12px;">
-      <label class="small muted">ID de sala (URL)</label>
-      <input id="roomInput" class="room-input" placeholder="ID o vacío para aleatorio" />
-      <div style="display:flex;gap:8px;margin-top:6px">
-        <button id="createBtn" class="btn">Crear</button>
-        <button id="copyBtn" class="btn ghost">Copiar</button>
-      </div>
-      <div class="meta">Comparte el enlace con quien quieras. Nadie necesita registrarse.</div>
-    </div>
-
-    <div style="margin-top:10px">
-      <div class="small muted">Tu identidad efímera</div>
-      <div style="display:flex;gap:8px;align-items:center;margin-top:6px">
-        <span id="myEmoji">🔷</span>
-        <span id="myColor" class="color-pill" style="width:14px;height:14px;border-radius:50%;"></span>
-        <span id="anonLabel">Anónimo</span>
-      </div>
-    </div>
-
-    <div style="margin-top:auto">
-      <div class="small muted">Opciones</div>
-      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
-        <button id="clearLocal" class="btn ghost">Limpiar</button>
-        <button id="newRoomShort" class="btn ghost">Aleatoria</button>
-      </div>
-      <div class="meta small" style="margin-top:10px">Prototipo: Firebase test.</div>
-    </div>
-
-    <button class="btn ghost" style="margin-top:12px;width:100%" id="closePanel">Cerrar</button>
-  </aside>
-</div>
-
-
-
-
-
-  
-
-<br>
-    <br>
-<main class="chat" style="padding-top: 9px; margin-top: 4px; background: var(--card); border-top: 1px solid rgba(255,255,255,0.04);">
-      <br>
-      <div class="chat-header">
-        <div>
-          <div class="room-title" id="roomTitle">Sala — (cargando...)</div>
-          <div class="muted small" id="roomIdText">ID: —</div>
+<div class="app-container">
+  <!-- Panel lateral para desktop -->
+  <aside class="side-panel">
+    <div class="panel-section">
+      <h3 class="section-title">Tu identidad</h3>
+      <div class="identity-badge">
+        <div class="emoji-large" id="myEmoji">🔷</div>
+        <div class="color-dot" id="myColor"></div>
+        <div class="identity-info">
+          <div class="identity-name" id="anonLabel">Anónimo</div>
+          <div class="identity-sub">Color y emoji únicos</div>
         </div>
-        <div class="muted small">Expira: <span id="expiryLabel">24h</span></div>
       </div>
+    </div>
 
-      <div class="chat-body" id="messages"></div>
+    <div class="panel-section">
+      <h3 class="section-title">Gestionar sala</h3>
+      <div class="room-controls">
+        <div class="input-group">
+          <label class="input-label">ID de sala</label>
+          <input type="text" 
+                 id="roomInput" 
+                 class="styled-input" 
+                 placeholder="Introduce ID o genera uno" 
+                 spellcheck="false" />
+        </div>
+        <div class="button-group">
+          <button id="createBtn" class="btn-primary">Unirse/Crear</button>
+          <button id="copyBtn" class="btn-secondary">Copiar enlace</button>
+        </div>
+        <div style="font-size: 12px; color: var(--muted); margin-top: 12px; line-height: 1.4;">
+          Comparte el enlace con quien quieras. Los mensajes se borran automáticamente después de 24 horas.
+        </div>
+      </div>
+    </div>
 
-<div class="composer" style="
-  margin-bottom: 50px;       /* 👈 deja aire antes del borde inferior */
-  padding: 16px 16px 20px;
-  border-top: 1px solid rgba(255,255,255,0.04);
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  background: var(--card);
-  position: sticky;
-  bottom: 0;
-  z-index: 10;
-">
-  <input id="textInput" placeholder="Empieza a chatear..." autocomplete="off"
-         style="flex:1; padding:14px; border-radius:10px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.03); color:inherit; font-size:16px;">
-  <button id="sendBtn" class="btn"
-          style="padding:12px 18px; border-radius:10px; background:var(--accent); color:#021; font-weight:600; border:none; cursor:pointer;">
-    Enviar
-  </button>
+    <div class="divider"></div>
+
+    <div class="panel-section">
+      <h3 class="section-title">Acciones rápidas</h3>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <button id="clearChatBtn" class="btn-secondary">
+          <span>🗑️</span> Limpiar chat local
+        </button>
+        <button id="randomRoomBtn" class="btn-secondary">
+          <span>🎲</span> Sala aleatoria
+        </button>
+        <button id="shareRoomBtn" class="btn-secondary">
+          <span>📤</span> Compartir sala
+        </button>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span>🕒</span>
+          <span>Expira en <span id="expiryLabel">24h</span></span>
+        </div>
+        <div class="stat-item">
+          <span>👤</span>
+          <span id="onlineCount">1 en línea</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Área principal del chat -->
+  <main class="chat-container">
+    <div class="chat-header">
+      <div class="room-info">
+        <div class="room-name">
+          <span>Sala:</span>
+          <span id="roomTitle">Cargando...</span>
+          <span class="badge" id="roomPrivacy">Público</span>
+        </div>
+        <div class="room-id">
+          <span>ID: <span id="roomIdText">-</span></span>
+          <span class="copy-icon" id="copyRoomIdBtn" title="Copiar ID">📋</span>
+        </div>
+      </div>
+      
+      <div class="room-meta">
+        <div class="expiry-info">
+          Mensajes expiran en <span id="expiryTimer">24h</span>
+        </div>
+        <div class="online-count">
+          <span class="status-dot"></span>
+          <span id="liveUsers">1</span> en línea
+        </div>
+      </div>
+    </div>
+
+    <div class="messages-area" id="messages">
+      <!-- Mensajes se cargan aquí -->
+      <div class="message-bubble other">
+        <div class="message-sender">
+          <span class="sender-emoji">👋</span>
+          <span class="sender-name">Sistema</span>
+        </div>
+        <div class="message-text">
+          Bienvenido a VINCLE. Tu identidad es anónima. Los mensajes se borran automáticamente después de 24 horas.
+        </div>
+        <div class="message-time">Ahora</div>
+      </div>
+    </div>
+
+    <div class="message-composer">
+      <textarea 
+        id="textInput" 
+        class="composer-input" 
+        placeholder="Escribe tu mensaje aquí (Enter para enviar, Shift+Enter para nueva línea)..." 
+        rows="1"
+        spellcheck="true"></textarea>
+      <button id="sendBtn" class="send-button">
+        <span>Enviar</span>
+        <span>↗</span>
+      </button>
+    </div>
+  </main>
 </div>
 
+<!-- Mobile panel (oculto en desktop) -->
+<div class="mobile-panel" id="mobilePanel">
+  <!-- Contenido móvil aquí -->
+</div>
 
-    </main>
-  </div>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyXMvncuf1Jhux5dVzDJ_VQe3cw3tIntt",
-      authDomain: "vincle-e76dd.firebaseapp.com",
-      databaseURL: "https://vincle-e76dd-default-rtdb.firebaseio.com",
-      projectId: "vincle-e76dd",
-      storageBucket: "vincle-e76dd.firebasestorage.app",
-      messagingSenderId: "11807936515",
-      appId: "1:11807936515:web:ff67d9da38e956ff62cee6"
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyXMvncuf1Jhux5dVzDJ_VQe3cw3tIntt",
+    authDomain: "vincle-e76dd.firebaseapp.com",
+    databaseURL: "https://vincle-e76dd-default-rtdb.firebaseio.com",
+    projectId: "vincle-e76dd",
+    storageBucket: "vincle-e76dd.firebasestorage.app",
+    messagingSenderId: "11807936515",
+    appId: "1:11807936515:web:ff67d9da38e956ff62cee6"
+  };
+  firebase.initializeApp(firebaseConfig);
+
+  // Configuración mejorada
+  const MESSAGE_EXPIRY_HOURS = 24;
+  const ROOM_PARAM = new URLSearchParams(location.search).get('room');
+  const DEFAULT_ROOM = ROOM_PARAM || localStorage.getItem('vincle_room') || generateRoomId();
+
+  // Elementos DOM
+  const elements = {
+    roomInput: document.getElementById('roomInput'),
+    createBtn: document.getElementById('createBtn'),
+    copyBtn: document.getElementById('copyBtn'),
+    messages: document.getElementById('messages'),
+    textInput: document.getElementById('textInput'),
+    sendBtn: document.getElementById('sendBtn'),
+    roomTitle: document.getElementById('roomTitle'),
+    roomIdText: document.getElementById('roomIdText'),
+    myColor: document.getElementById('myColor'),
+    myEmoji: document.getElementById('myEmoji'),
+    expiryLabel: document.getElementById('expiryLabel'),
+    expiryTimer: document.getElementById('expiryTimer'),
+    onlineCount: document.getElementById('onlineCount'),
+    liveUsers: document.getElementById('liveUsers'),
+    clearChatBtn: document.getElementById('clearChatBtn'),
+    randomRoomBtn: document.getElementById('randomRoomBtn'),
+    newRoomBtn: document.getElementById('newRoomBtn'),
+    copyRoomIdBtn: document.getElementById('copyRoomIdBtn'),
+    roomInfoBtn: document.getElementById('roomInfoBtn'),
+    shareRoomBtn: document.getElementById('shareRoomBtn')
+  };
+
+  // Mejores colores y emojis
+  const COLORS = [
+    '#60a5fa', '#34d399', '#f59e0b', '#a78bfa', 
+    '#f97316', '#10b981', '#8b5cf6', '#06b6d4'
+  ];
+  
+  const EMOJIS = [
+    '🔷', '🔶', '🎭', '👤', '🕵️', '🎪', '✨', '🌟',
+    '🌙', '☀️', '🔥', '💧', '🌿', '🍂', '🎯', '🎨'
+  ];
+
+  // Generar IDs de sala más legibles
+  function generateRoomId() {
+    const adjectives = ['quiet', 'deep', 'vast', 'calm', 'bold', 'swift', 'clear', 'wild'];
+    const nouns = ['river', 'forest', 'moon', 'star', 'cloud', 'wave', 'stone', 'bird'];
+    const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+    const noun = nouns[Math.floor(Math.random() * nouns.length)];
+    const num = Math.floor(Math.random() * 999);
+    return `${adj}-${noun}-${num}`;
+  }
+
+  // Identidad del usuario
+  const userIdentity = {
+    color: sessionStorage.getItem('vincle_color') || COLORS[Math.floor(Math.random() * COLORS.length)],
+    emoji: sessionStorage.getItem('vincle_emoji') || EMOJIS[Math.floor(Math.random() * EMOJIS.length)],
+    id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5)
+  };
+
+  sessionStorage.setItem('vincle_color', userIdentity.color);
+  sessionStorage.setItem('vincle_emoji', userIdentity.emoji);
+
+  // Actualizar UI de identidad
+  elements.myColor.style.background = userIdentity.color;
+  elements.myEmoji.textContent = userIdentity.emoji;
+
+  // Estado de la sala
+  let currentRoom = DEFAULT_ROOM;
+  let usersInRoom = 1;
+  let messageCount = 0;
+
+  // Inicializar sala
+  function initRoom(roomId = currentRoom) {
+    currentRoom = roomId;
+    updateRoomUI();
+    listenToMessages();
+    updateUserPresence(true);
+  }
+
+  // Actualizar UI de la sala
+  function updateRoomUI() {
+    elements.roomTitle.textContent = currentRoom;
+    elements.roomIdText.textContent = currentRoom;
+    elements.roomInput.value = currentRoom;
+    
+    // Actualizar URL
+    const url = new URL(window.location);
+    url.searchParams.set('room', currentRoom);
+    window.history.replaceState({}, '', url);
+    
+    // Guardar en localStorage
+    localStorage.setItem('vincle_room', currentRoom);
+  }
+
+  // Referencia a la base de datos
+  function getRoomRef() {
+    return firebase.database().ref(`rooms/${currentRoom}`);
+  }
+
+  function getMessagesRef() {
+    return getRoomRef().child('messages');
+  }
+
+  // Presencia de usuarios
+  function updateUserPresence(isOnline = true) {
+    const presenceRef = getRoomRef().child('presence').child(userIdentity.id);
+    
+    if (isOnline) {
+      presenceRef.set({
+        emoji: userIdentity.emoji,
+        color: userIdentity.color,
+        lastSeen: Date.now()
+      });
+      
+      // Limpiar después de desconexión
+      presenceRef.onDisconnect().remove();
+      
+      // Escuchar otros usuarios
+      getRoomRef().child('presence').on('value', (snapshot) => {
+        const users = snapshot.val();
+        const userCount = users ? Object.keys(users).length : 1;
+        usersInRoom = userCount;
+        elements.onlineCount.textContent = `${userCount} en línea`;
+        elements.liveUsers.textContent = userCount;
+      });
+    } else {
+      presenceRef.remove();
+    }
+  }
+
+  // Enviar mensaje
+  function sendMessage(text) {
+    if (!text.trim()) return;
+    
+    const message = {
+      text: text.trim(),
+      color: userIdentity.color,
+      emoji: userIdentity.emoji,
+      timestamp: Date.now(),
+      userId: userIdentity.id,
+      expiresAt: Date.now() + (MESSAGE_EXPIRY_HOURS * 3600000)
     };
-    firebase.initializeApp(firebaseConfig);
+    
+    getMessagesRef().push(message);
+    messageCount++;
+    
+    // Auto-scroll
+    setTimeout(() => {
+      elements.messages.scrollTop = elements.messages.scrollHeight;
+    }, 100);
+  }
 
-    const MESSAGE_EXPIRY_HOURS = 24;
-    const ROOM_PARAM = new URLSearchParams(location.search).get('room');
-    const DEFAULT_ROOM = ROOM_PARAM || localStorage.getItem('vincle_room') || null;
+  // Escuchar mensajes
+  function listenToMessages() {
+    elements.messages.innerHTML = '';
+    
+    getMessagesRef()
+      .orderByChild('timestamp')
+      .limitToLast(100)
+      .on('child_added', (snapshot) => {
+        const message = snapshot.val();
+        
+        // Verificar expiración
+        if (message.expiresAt && Date.now() > message.expiresAt) {
+          snapshot.ref.remove();
+          return;
+        }
+        
+        addMessageToUI(message);
+      });
+  }
 
-    const q = id => document.getElementById(id);
-    const roomInput = q('roomInput'), createBtn = q('createBtn'), copyBtn = q('copyBtn');
-    const messagesEl = q('messages'), textInput = q('textInput'), sendBtn = q('sendBtn');
-    const roomTitle = q('roomTitle'), roomIdText = q('roomIdText');
-    const myColorEl = q('myColor'), myEmojiEl = q('myEmoji');
-    const newRoomShort = q('newRoomShort'), clearLocal = q('clearLocal');
-    const expiryLabel = q('expiryLabel'); expiryLabel.textContent = MESSAGE_EXPIRY_HOURS + "h";
-
-    const COLORS = ['#f97316','#fb7185','#60a5fa','#34d399','#f59e0b','#a78bfa','#ef4444'];
-    const EMOJIS = ['🔷','🔶','🔺','🔵','🟣','🟢','🌿','✨','⚡','🌙','☀️','🔥'];
-    const pick = a => a[Math.floor(Math.random()*a.length)];
-    const sessionColor = sessionStorage.getItem('vincle_color') || pick(COLORS);
-    const sessionEmoji = sessionStorage.getItem('vincle_emoji') || pick(EMOJIS);
-    sessionStorage.setItem('vincle_color', sessionColor);
-    sessionStorage.setItem('vincle_emoji', sessionEmoji);
-    myColorEl.style.background = sessionColor;
-    myEmojiEl.textContent = sessionEmoji;
-
-    let ROOM = DEFAULT_ROOM || null;
-    const randomId = l => Array.from({length:l},()=>Math.random().toString(36)[2]).join('');
-
-    function setRoom(r) {
-      ROOM = r;
-      roomTitle.textContent = `Sala — ${r || '(sin id)'}`;
-      roomIdText.textContent = `ID: ${r || '—'}`;
-      roomInput.value = r || '';
-      if (r) {
-        const url = location.origin + location.pathname + '?room=' + encodeURIComponent(r);
-        history.replaceState(null, '', '?room=' + encodeURIComponent(r));
-        localStorage.setItem('vincle_room', r);
-      }
+  // Añadir mensaje al UI
+  function addMessageToUI(message) {
+    const isMine = message.userId === userIdentity.id;
+    const messageEl = document.createElement('div');
+    
+    messageEl.className = `message-bubble ${isMine ? 'mine' : 'other'}`;
+    messageEl.innerHTML = `
+      <div class="message-sender">
+        <span class="sender-emoji">${message.emoji || '👤'}</span>
+        <span class="sender-name">${isMine ? 'Tú' : 'Anónimo'}</span>
+      </div>
+      <div class="message-text">${escapeHtml(message.text)}</div>
+      <div class="message-time">${formatTime(message.timestamp)}</div>
+    `;
+    
+    if (isMine) {
+      messageEl.style.setProperty('--accent-color', message.color);
+    } else {
+      messageEl.style.borderLeft = `3px solid ${message.color}`;
     }
-
-    function dbRef() { return firebase.database().ref('rooms/' + ROOM + '/messages'); }
-
-    function sendMessage(t) {
-      if (!t.trim()) return;
-      const now = Date.now();
-      dbRef().push({text: t.trim(), color: sessionColor, emoji: sessionEmoji, ts: now, expiry: now + MESSAGE_EXPIRY_HOURS*3600000});
+    
+    elements.messages.appendChild(messageEl);
+    
+    // Auto-scroll si está cerca del final
+    const isNearBottom = elements.messages.scrollHeight - elements.messages.scrollTop - elements.messages.clientHeight < 100;
+    if (isNearBottom) {
+      messageEl.scrollIntoView({ behavior: 'smooth' });
     }
+  }
 
-    function createBubble(m, mine) {
-      const d = document.createElement('div');
-      d.className = 'bubble ' + (mine ? 'right' : 'left');
-      const meta = `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-        <span class="color-pill" style="background:${m.color||'#666'};width:10px;height:10px;border-radius:50%"></span>
-        <span>${m.emoji||'🔷'}</span></div>`;
-      d.innerHTML = meta + `<div>${m.text}</div><div class="muted small" style="font-size:11px;margin-top:6px">${new Date(m.ts||Date.now()).toLocaleString()}</div>`;
-      return d;
+  // Utilidades
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function formatTime(timestamp) {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diff = now - date;
+    
+    if (diff < 60000) return 'Ahora';
+    if (diff < 3600000) return `${Math.floor(diff / 60000)} min`;
+    if (diff < 86400000) return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    
+    return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
+  }
+
+  // Event Listeners
+  elements.createBtn.addEventListener('click', () => {
+    const roomId = elements.roomInput.value.trim() || generateRoomId();
+    initRoom(roomId);
+  });
+
+  elements.copyBtn.addEventListener('click', () => {
+    const url = `${window.location.origin}${window.location.pathname}?room=${encodeURIComponent(currentRoom)}`;
+    navigator.clipboard.writeText(url).then(() => {
+      alert('¡Enlace copiado al portapapeles!');
+    });
+  });
+
+  elements.copyRoomIdBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(currentRoom).then(() => {
+      const original = elements.copyRoomIdBtn.innerHTML;
+      elements.copyRoomIdBtn.innerHTML = '✅';
+      setTimeout(() => {
+        elements.copyRoomIdBtn.innerHTML = original;
+      }, 2000);
+    });
+  });
+
+  elements.sendBtn.addEventListener('click', () => {
+    sendMessage(elements.textInput.value);
+    elements.textInput.value = '';
+    elements.textInput.style.height = 'auto';
+  });
+
+  elements.textInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      elements.sendBtn.click();
     }
+  });
 
-    function listen() {
-      messagesEl.innerHTML = '';
-      dbRef().limitToLast(200).on('child_added', s => {
-        const m = s.val(); if (!m) return;
-        if (m.expiry && Date.now() > m.expiry) return;
-        const mine = (m.color === sessionColor && m.emoji === sessionEmoji);
-        messagesEl.appendChild(createBubble(m, mine));
-        messagesEl.scrollTop = messagesEl.scrollHeight;
+  // Auto-expand textarea
+  elements.textInput.addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = (this.scrollHeight) + 'px';
+  });
+
+  elements.clearChatBtn.addEventListener('click', () => {
+    if (confirm('¿Limpiar todos los mensajes locales? Esto no borra los mensajes del servidor.')) {
+      elements.messages.innerHTML = '';
+    }
+  });
+
+  elements.randomRoomBtn.addEventListener('click', () => {
+    initRoom(generateRoomId());
+  });
+
+  elements.newRoomBtn.addEventListener('click', () => {
+    initRoom(generateRoomId());
+  });
+
+  elements.shareRoomBtn.addEventListener('click', () => {
+    const url = `${window.location.origin}${window.location.pathname}?room=${encodeURIComponent(currentRoom)}`;
+    
+    if (navigator.share) {
+      navigator.share({
+        title: 'Únete a mi sala en VINCLE',
+        text: 'Chatea conmigo de forma anónima',
+        url: url
+      });
+    } else {
+      navigator.clipboard.writeText(url).then(() => {
+        alert('Enlace copiado. Compártelo con quien quieras.');
       });
     }
+  });
 
-    createBtn.onclick = () => { let id = (roomInput.value || '').trim() || randomId(7); setRoom(id); listen(); q('mobilePanel').classList.remove('show'); };
-    copyBtn.onclick = () => ROOM && navigator.clipboard.writeText(location.origin + location.pathname + '?room=' + ROOM);
-    newRoomShort.onclick = () => { setRoom(randomId(7)); listen(); q('mobilePanel').classList.remove('show'); };
-    clearLocal.onclick = () => messagesEl.innerHTML = '';
-    sendBtn.onclick = () => { sendMessage(textInput.value); textInput.value = ''; };
-    textInput.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendBtn.click(); }});
+  // Actualizar contador de expiración
+  function updateExpiryTimer() {
+    elements.expiryLabel.textContent = `${MESSAGE_EXPIRY_HOURS}h`;
+    elements.expiryTimer.textContent = `${MESSAGE_EXPIRY_HOURS}h`;
+  }
 
-    if (ROOM) { setRoom(ROOM); listen(); }
+  // Inicializar
+  document.addEventListener('DOMContentLoaded', () => {
+    initRoom();
+    updateExpiryTimer();
+    
+    // Foco automático en el input
+    setTimeout(() => {
+      elements.textInput.focus();
+    }, 500);
+  });
 
- // efecto header
-    const header = document.getElementById('mainHeader');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 10) header.classList.add('scrolled');
-      else header.classList.remove('scrolled');
-    });
-  </script>
-
-  <script>
-  const mobilePanel = document.getElementById('mobilePanel');
-  const panelAside = mobilePanel.querySelector('aside');
-
-  const openPanel = () => {
-    mobilePanel.style.display = 'flex';
-    requestAnimationFrame(() => {
-      mobilePanel.style.opacity = '1';
-      panelAside.style.transform = 'translateX(0)';
-    });
-  };
-
-  const closePanel = () => {
-    panelAside.style.transform = 'translateX(-100%)';
-    mobilePanel.style.opacity = '0';
-    setTimeout(() => { mobilePanel.style.display = 'none'; }, 300);
-  };
-
-  document.getElementById('menuToggle').onclick = openPanel;
-  document.getElementById('closePanel').onclick = closePanel;
-  mobilePanel.addEventListener('click', e => {
-    if (e.target === mobilePanel) closePanel();
+  // Limpiar al salir
+  window.addEventListener('beforeunload', () => {
+    updateUserPresence(false);
   });
 </script>
 
