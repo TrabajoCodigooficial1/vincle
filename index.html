@@ -1,727 +1,136 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>VINCLE — Conversación anónima</title>
-  <style>
-    :root {
-      --bg: #0f1720;
-      --card: #0b1220;
-      --accent: #60a5fa;
-      --accent-hover: #3b82f6;
-      --muted: #94a3b8;
-      --bubble: #111827;
-      --bubble-other: #1e293b;
-      --glass: rgba(255,255,255,0.03);
-      --border: rgba(255,255,255,0.05);
-      color-scheme: dark;
-    }
-
-    * { 
-      box-sizing: border-box; 
-      margin: 0; 
-      padding: 0; 
-    }
-
-    html, body {
-      height: 100%;
-      margin: 0;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-      overflow: hidden;
-    }
-
-    body {
-      background: linear-gradient(135deg, #071028 0%, #0a1426 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0;
-      position: relative;
-    }
-
-    /* Fondo con patrón sutil */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: 
-        radial-gradient(circle at 20% 80%, rgba(96, 165, 250, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.03) 0%, transparent 50%);
-      z-index: -1;
-    }
-
-    /* === HEADER === */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 60px;
-      background: rgba(11, 18, 32, 0.95);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 24px;
-      z-index: 1000;
-      color: #e6eef8;
-      transition: all 0.3s ease;
-    }
-
-    header:hover {
-      background: rgba(11, 18, 32, 0.98);
-    }
-
-    .header-brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-    }
-
-    .logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--accent), #7dd3fc);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: #021;
-      box-shadow: 0 4px 15px rgba(96, 165, 250, 0.3);
-      transition: transform 0.3s ease;
-    }
-
-    .logo:hover {
-      transform: scale(1.05);
-    }
-
-    .header-title {
-      font-size: 18px;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-    }
-
-    .header-subtitle {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .header-btn {
-      padding: 8px 16px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.03);
-      color: var(--muted);
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 500;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .header-btn:hover {
-      background: rgba(255,255,255,0.06);
-      color: #e6eef8;
-      border-color: rgba(255,255,255,0.1);
-    }
-
-    .header-btn.accent {
-      background: var(--accent);
-      color: #021;
-      border: none;
-    }
-
-    .header-btn.accent:hover {
-      background: var(--accent-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
-    }
-
-    /* === APP CONTAINER === */
-    .app-container {
-      width: 100%;
-      max-width: 1200px;
-      height: calc(100dvh - 60px);
-      margin-top: 60px;
-      padding: 24px;
-      display: grid;
-      grid-template-columns: 320px 1fr;
-      gap: 24px;
-      position: relative;
-    }
-
-    /* === PANEL LATERAL === */
-    .side-panel {
-      background: rgba(11, 18, 32, 0.8);
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      padding: 24px;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-      transition: all 0.3s ease;
-    }
-
-    .side-panel:hover {
-      border-color: rgba(255,255,255,0.08);
-    }
-
-    .panel-section {
-      margin-bottom: 24px;
-    }
-
-    .panel-section:last-of-type {
-      margin-bottom: 0;
-      margin-top: auto;
-    }
-
-    .section-title {
-      font-size: 14px;
-      color: var(--muted);
-      margin-bottom: 12px;
-      font-weight: 500;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-    }
-
-    .room-controls {
-      background: var(--glass);
-      border-radius: 12px;
-      padding: 18px;
-      border: 1px solid var(--border);
-    }
-
-    .input-group {
-      margin-bottom: 16px;
-    }
-
-    .input-label {
-      display: block;
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-
-    .styled-input {
-      width: 100%;
-      padding: 12px 16px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.02);
-      color: #e6eef8;
-      font-size: 15px;
-      transition: all 0.2s ease;
-    }
-
-    .styled-input:focus {
-      outline: none;
-      border-color: var(--accent);
-      background: rgba(255,255,255,0.03);
-      box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
-    }
-
-    .styled-input::placeholder {
-      color: rgba(148, 163, 184, 0.4);
-    }
-
-    .button-group {
-      display: flex;
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .btn-primary {
-      flex: 1;
-      padding: 12px;
-      border-radius: 10px;
-      border: none;
-      background: var(--accent);
-      color: #021;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-size: 14px;
-    }
-
-    .btn-primary:hover {
-      background: var(--accent-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
-    }
-
-    .btn-secondary {
-      padding: 12px 20px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--muted);
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-size: 14px;
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255,255,255,0.03);
-      color: #e6eef8;
-      border-color: rgba(255,255,255,0.1);
-    }
-
-    .identity-badge {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px;
-      background: var(--glass);
-      border-radius: 12px;
-      border: 1px solid var(--border);
-    }
-
-    .emoji-large {
-      font-size: 24px;
-      width: 44px;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255,255,255,0.03);
-      border-radius: 10px;
-    }
-
-    .color-dot {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      border: 2px solid rgba(255,255,255,0.1);
-    }
-
-    .identity-info {
-      flex: 1;
-    }
-
-    .identity-name {
-      font-weight: 600;
-      font-size: 16px;
-      color: #e6eef8;
-    }
-
-    .identity-sub {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-
-    /* === CHAT CONTAINER === */
-    .chat-container {
-      background: rgba(11, 18, 32, 0.8);
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      overflow: hidden;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    }
-
-    .chat-header {
-      padding: 20px 24px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-shrink: 0;
-    }
-
-    .room-info {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .room-name {
-      font-weight: 600;
-      font-size: 18px;
-      color: #e6eef8;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .room-id {
-      font-size: 13px;
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .copy-icon {
-      cursor: pointer;
-      opacity: 0.6;
-      transition: opacity 0.2s ease;
-    }
-
-    .copy-icon:hover {
-      opacity: 1;
-    }
-
-    .room-meta {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 4px;
-    }
-
-    .expiry-info {
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .online-count {
-      font-size: 12px;
-      color: #10b981;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    /* === MESSAGES AREA === */
-    .messages-area {
-      flex: 1;
-      padding: 24px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      background: linear-gradient(180deg, 
-        rgba(255,255,255,0.01) 0%,
-        transparent 30%,
-        transparent 100%);
-      scroll-behavior: smooth;
-    }
-
-    .message-bubble {
-      max-width: 75%;
-      padding: 16px 20px;
-      border-radius: 18px;
-      position: relative;
-      line-height: 1.5;
-      word-break: break-word;
-      animation: messageAppear 0.3s ease-out;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    @keyframes messageAppear {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .message-bubble.other {
-      align-self: flex-start;
-      background: var(--bubble-other);
-      border-bottom-left-radius: 6px;
-    }
-
-    .message-bubble.mine {
-      align-self: flex-end;
-      background: linear-gradient(135deg, var(--accent), #7dd3fc);
-      color: #021;
-      border-bottom-right-radius: 6px;
-    }
-
-    .message-sender {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-
-    .sender-emoji {
-      font-size: 16px;
-    }
-
-    .sender-name {
-      font-weight: 600;
-      font-size: 14px;
-    }
-
-    .message-text {
-      font-size: 15px;
-      line-height: 1.5;
-    }
-
-    .message-time {
-      font-size: 11px;
-      opacity: 0.7;
-      margin-top: 8px;
-      text-align: right;
-    }
-
-    /* === MESSAGE COMPOSER === */
-    .message-composer {
-      padding: 20px 24px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-shrink: 0;
-      background: rgba(11, 18, 32, 0.9);
-    }
-
-    .composer-input {
-      flex: 1;
-      padding: 14px 18px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.02);
-      color: #e6eef8;
-      font-size: 15px;
-      resize: none;
-      min-height: 48px;
-      max-height: 120px;
-      line-height: 1.5;
-      transition: all 0.2s ease;
-    }
-
-    .composer-input:focus {
-      outline: none;
-      border-color: var(--accent);
-      background: rgba(255,255,255,0.03);
-      box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
-    }
-
-    .send-button {
-      padding: 14px 24px;
-      border-radius: 12px;
-      border: none;
-      background: var(--accent);
-      color: #021;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      min-width: 100px;
-      justify-content: center;
-    }
-
-    .send-button:hover:not(:disabled) {
-      background: var(--accent-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
-    }
-
-    .send-button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    /* === STATS BAR === */
-    .stats-bar {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 12px 24px;
-      border-top: 1px solid var(--border);
-      background: rgba(11, 18, 32, 0.9);
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .stat-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    /* === MOBILE PANEL (oculto en desktop) === */
-    .mobile-panel {
-      display: none;
-    }
-
-    /* === RESPONSIVE === */
-    @media (max-width: 1024px) {
-      .app-container {
-        grid-template-columns: 1fr;
-        padding: 16px;
-        gap: 16px;
-      }
-      
-      .side-panel {
-        display: none;
-      }
-      
-      .header-btn span {
-        display: none;
-      }
-      
-      .mobile-panel {
-        display: block;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .app-container {
-        height: calc(100dvh - 60px);
-        padding: 0;
-        border-radius: 0;
-      }
-      
-      .chat-container {
-        border-radius: 0;
-        border: none;
-      }
-      
-      .message-bubble {
-        max-width: 85%;
-      }
-      
-      .messages-area {
-        padding: 16px;
-      }
-      
-      .message-composer {
-        padding: 16px;
-      }
-    }
-
-    /* === UTILITY CLASSES === */
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #10b981;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-
-    .badge {
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-size: 11px;
-      font-weight: 500;
-      background: rgba(96, 165, 250, 0.1);
-      color: var(--accent);
-    }
-
-    .divider {
-      height: 1px;
-      background: var(--border);
-      margin: 16px 0;
-    }
-
-    /* === SCROLLBAR STYLING === */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: rgba(255,255,255,0.02);
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.1);
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(255,255,255,0.2);
-    }
-
-    /* === TYPING INDICATOR === */
-    .typing-indicator {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      padding: 12px 20px;
-      background: var(--bubble-other);
-      border-radius: 18px;
-      align-self: flex-start;
-      width: fit-content;
-      margin-left: 12px;
-    }
-
-    .typing-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--muted);
-      animation: typing 1.4s infinite ease-in-out;
-    }
-
-    .typing-dot:nth-child(1) { animation-delay: -0.32s; }
-    .typing-dot:nth-child(2) { animation-delay: -0.16s; }
-
-    @keyframes typing {
-      0%, 80%, 100% { transform: scale(0.6); opacity: 0.6; }
-      40% { transform: scale(1); opacity: 1; }
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VINCLE — Chat anónimo</title>
+<style>
+:root {
+  --bg: #0f1720;
+  --card: #0b1220;
+  --accent: #60a5fa;
+  --accent-hover: #3b82f6;
+  --muted: #94a3b8;
+  --bubble: #111827;
+  --bubble-other: #1e293b;
+  --glass: rgba(255,255,255,0.03);
+  --border: rgba(255,255,255,0.05);
+  color-scheme: dark;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);overflow:hidden;display:flex;flex-direction:column;}
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background-image:radial-gradient(circle at 20% 80%, rgba(96,165,250,0.05) 0%,transparent 50%),radial-gradient(circle at 80% 20%, rgba(59,130,246,0.03) 0%,transparent 50%);z-index:-1;}
+
+header{height:56px;background:rgba(11,18,32,0.95);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:space-between;padding:0 16px;position:fixed;top:0;left:0;right:0;z-index:1000;color:#e6eef8;}
+.header-brand{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#7dd3fc);display:flex;align-items:center;justify-content:center;font-weight:700;color:#021;box-shadow:0 4px 15px rgba(96,165,250,0.3);}
+.header-title{font-size:16px;font-weight:600;}
+.header-subtitle{font-size:12px;color:var(--muted);margin-top:2px;}
+.header-actions{display:flex;align-items:center;gap:8px;}
+.header-btn{padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,0.03);color:var(--muted);cursor:pointer;font-size:14px;display:flex;align-items:center;gap:4px;transition:all 0.2s;}
+.header-btn:hover{background:rgba(255,255,255,0.06);color:#e6eef8;}
+.header-btn.accent{background:var(--accent);border:none;color:#021;}
+.header-btn.accent:hover{background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 4px 12px rgba(96,165,250,0.3);}
+
+/* Contenedor principal */
+.app-container{display:flex;flex:1;margin-top:56px;height:calc(100dvh - 56px);overflow:hidden;}
+.side-panel{width:280px;background:var(--card);backdrop-filter:blur(10px);border-radius:16px;border:1px solid var(--border);padding:16px;display:flex;flex-direction:column;gap:16px;overflow-y:auto;transition:transform 0.3s ease;box-shadow:0 8px 32px rgba(0,0,0,0.2);}
+.panel-section{display:flex;flex-direction:column;gap:8px;}
+.section-title{font-size:12px;color:var(--muted);text-transform:uppercase;font-weight:500;}
+.identity-badge{display:flex;align-items:center;gap:12px;padding:12px;background:var(--glass);border-radius:12px;border:1px solid var(--border);}
+.emoji-large{font-size:24px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.03);border-radius:10px;}
+.color-dot{width:20px;height:20px;border-radius:50%;border:2px solid rgba(255,255,255,0.1);}
+.identity-info{flex:1;}
+.identity-name{font-weight:600;font-size:14px;color:#e6eef8;}
+.identity-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.styled-input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,0.02);color:#e6eef8;font-size:14px;transition:all 0.2s;}
+.styled-input:focus{outline:none;border-color:var(--accent);background:rgba(255,255,255,0.03);box-shadow:0 0 0 3px rgba(96,165,250,0.1);}
+.button-group{display:flex;gap:8px;}
+.btn-primary{flex:1;padding:10px;border:none;border-radius:10px;background:var(--accent);color:#021;font-weight:600;cursor:pointer;font-size:14px;}
+.btn-primary:hover{background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 4px 12px rgba(96,165,250,0.3);}
+.btn-secondary{padding:10px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-size:14px;}
+.btn-secondary:hover{background:rgba(255,255,255,0.03);color:#e6eef8;border-color:rgba(255,255,255,0.1);}
+.divider{height:1px;background:var(--border);margin:16px 0;}
+.stats-bar{display:flex;align-items:center;gap:16px;padding:8px 0;font-size:12px;color:var(--muted);}
+.stat-item{display:flex;align-items:center;gap:4px;}
+
+/* Chat principal */
+.chat-container{flex:1;background:var(--card);backdrop-filter:blur(10px);border-radius:16px;border:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.2);}
+.chat-header{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.room-info{display:flex;flex-direction:column;gap:2px;}
+.room-name{font-weight:600;font-size:14px;display:flex;align-items:center;gap:6px;color:#e6eef8;}
+.room-id{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px;}
+.copy-icon{cursor:pointer;opacity:0.6;transition:opacity 0.2s;}
+.copy-icon:hover{opacity:1;}
+.room-meta{display:flex;flex-direction:column;align-items:flex-end;gap:2px;}
+.expiry-info{font-size:11px;color:var(--muted);}
+.online-count{font-size:11px;color:#10b981;display:flex;align-items:center;gap:4px;}
+
+/* Mensajes */
+.messages-area{flex:1;padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01) 0%, transparent 100%);scroll-behavior:smooth;}
+.message-bubble{max-width:75%;padding:12px 16px;border-radius:18px;position:relative;line-height:1.5;word-break:break-word;animation:messageAppear 0.3s ease-out;box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+@keyframes messageAppear{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.message-bubble.other{align-self:flex-start;background:var(--bubble-other);border-bottom-left-radius:6px;}
+.message-bubble.mine{align-self:flex-end;background:linear-gradient(135deg,var(--accent),#7dd3fc);color:#021;border-bottom-right-radius:6px;}
+.message-sender{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
+.sender-emoji{font-size:14px;}
+.sender-name{font-weight:600;font-size:12px;}
+.message-text{font-size:14px;line-height:1.4;}
+.message-time{font-size:10px;opacity:0.7;margin-top:4px;text-align:right;}
+
+/* Composer */
+.message-composer{padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:center;background:rgba(11,18,32,0.9);flex-shrink:0;}
+.composer-input{flex:1;padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,0.02);color:#e6eef8;font-size:14px;resize:none;min-height:40px;max-height:100px;line-height:1.4;}
+.composer-input:focus{outline:none;border-color:var(--accent);background:rgba(255,255,255,0.03);box-shadow:0 0 0 3px rgba(96,165,250,0.1);}
+.send-button{padding:10px 16px;border-radius:12px;border:none;background:var(--accent);color:#021;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;min-width:80px;justify-content:center;}
+.send-button:hover:not(:disabled){background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 4px 12px rgba(96,165,250,0.3);}
+.send-button:disabled{opacity:0.5;cursor:not-allowed;}
+
+/* Indicador de escritura */
+.typing-indicator{display:flex;align-items:center;gap:4px;padding:8px 12px;background:var(--bubble-other);border-radius:18px;align-self:flex-start;width:fit-content;margin-left:12px;}
+.typing-dot{width:5px;height:5px;border-radius:50%;background:var(--muted);animation:typing 1.4s infinite ease-in-out;}
+.typing-dot:nth-child(1){animation-delay:-0.32s;}
+.typing-dot:nth-child(2){animation-delay:-0.16s;}
+.typing-dot:nth-child(3){animation-delay:0;}
+@keyframes typing{0%,80%,100%{transform:scale(0.6);opacity:0.6;}40%{transform:scale(1);opacity:1;}}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:rgba(255,255,255,0.02);border-radius:3px;}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,0.2);}
+
+/* Mobile responsive */
+@media(max-width:768px){
+  .app-container{flex-direction:column;}
+  .side-panel{position:fixed;top:56px;bottom:0;left:0;width:260px;transform:translateX(-100%);z-index:999;transition:transform 0.3s;}
+  .side-panel.active{transform:translateX(0);}
+  .chat-container{border-radius:0;border:none;height:100%;flex:1;}
+  .message-bubble{max-width:85%;}
+  .messages-area{padding:12px;}
+  .message-composer{padding:10px;}
+}
+</style>
 </head>
 <body>
 
 <header>
   <a href="#" class="header-brand">
-    <div class="logo">
-      <svg viewBox="0 0 48 48" width="24" height="24" fill="#021">
-        <circle cx="24" cy="24" r="8" />
-        <path d="M24 12C24 12 30 18 30 24C30 30 24 36 24 36" fill="none" stroke="#021" stroke-width="2"/>
-        <path d="M24 12C24 12 18 18 18 24C18 30 24 36 24 36" fill="none" stroke="#021" stroke-width="2"/>
-      </svg>
-    </div>
+    <div class="logo">V</div>
     <div>
       <div class="header-title">VINCLE</div>
       <div class="header-subtitle">Chat anónimo • Sin registro</div>
     </div>
   </a>
-  
   <div class="header-actions">
-    <button id="roomInfoBtn" class="header-btn">
-      <span>💬</span>
-      <span>Sala activa</span>
-    </button>
-    <button id="newRoomBtn" class="header-btn accent">
-      <span>✨</span>
-      <span>Nueva sala</span>
-    </button>
+    <button id="menuBtn" class="header-btn">☰</button>
+    <button id="newRoomBtn" class="header-btn accent">✨</button>
   </div>
 </header>
 
 <div class="app-container">
-  <!-- Panel lateral para desktop -->
-  <aside class="side-panel">
+  <!-- Panel lateral -->
+  <aside class="side-panel" id="sidePanel">
     <div class="panel-section">
       <h3 class="section-title">Tu identidad</h3>
       <div class="identity-badge">
@@ -736,22 +145,13 @@
 
     <div class="panel-section">
       <h3 class="section-title">Gestionar sala</h3>
-      <div class="room-controls">
-        <div class="input-group">
-          <label class="input-label">ID de sala</label>
-          <input type="text" 
-                 id="roomInput" 
-                 class="styled-input" 
-                 placeholder="Introduce ID o genera uno" 
-                 spellcheck="false" />
-        </div>
-        <div class="button-group">
-          <button id="createBtn" class="btn-primary">Unirse/Crear</button>
-          <button id="copyBtn" class="btn-secondary">Copiar enlace</button>
-        </div>
-        <div style="font-size: 12px; color: var(--muted); margin-top: 12px; line-height: 1.4;">
-          Comparte el enlace con quien quieras. Los mensajes se borran automáticamente después de 24 horas.
-        </div>
+      <input type="text" id="roomInput" class="styled-input" placeholder="ID de sala" />
+      <div class="button-group">
+        <button id="createBtn" class="btn-primary">Unirse/Crear</button>
+        <button id="copyBtn" class="btn-secondary">Copiar enlace</button>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:8px;">
+        Comparte el enlace. Mensajes se borran después de 24h.
       </div>
     </div>
 
@@ -759,408 +159,193 @@
 
     <div class="panel-section">
       <h3 class="section-title">Acciones rápidas</h3>
-      <div style="display: flex; flex-direction: column; gap: 8px;">
-        <button id="clearChatBtn" class="btn-secondary">
-          <span>🗑️</span> Limpiar chat local
-        </button>
-        <button id="randomRoomBtn" class="btn-secondary">
-          <span>🎲</span> Sala aleatoria
-        </button>
-        <button id="shareRoomBtn" class="btn-secondary">
-          <span>📤</span> Compartir sala
-        </button>
-      </div>
+      <button id="clearChatBtn" class="btn-secondary">🗑️ Limpiar chat local</button>
+      <button id="randomRoomBtn" class="btn-secondary">🎲 Sala aleatoria</button>
+      <button id="shareRoomBtn" class="btn-secondary">📤 Compartir sala</button>
     </div>
 
-    <div class="panel-section">
-      <div class="stats-bar">
-        <div class="stat-item">
-          <span>🕒</span>
-          <span>Expira en <span id="expiryLabel">24h</span></span>
-        </div>
-        <div class="stat-item">
-          <span>👤</span>
-          <span id="onlineCount">1 en línea</span>
-        </div>
-      </div>
+    <div class="divider"></div>
+
+    <div class="stats-bar">
+      <div class="stat-item">🕒 <span id="expiryLabel">24h</span></div>
+      <div class="stat-item">👤 <span id="onlineCount">1</span> en línea</div>
     </div>
   </aside>
 
-  <!-- Área principal del chat -->
+  <!-- Chat principal -->
   <main class="chat-container">
     <div class="chat-header">
       <div class="room-info">
-        <div class="room-name">
-          <span>Sala:</span>
-          <span id="roomTitle">Cargando...</span>
-          <span class="badge" id="roomPrivacy">Público</span>
-        </div>
-        <div class="room-id">
-          <span>ID: <span id="roomIdText">-</span></span>
-          <span class="copy-icon" id="copyRoomIdBtn" title="Copiar ID">📋</span>
-        </div>
+        <div class="room-name">Sala: <span id="roomTitle">Cargando...</span></div>
+        <div class="room-id">ID: <span id="roomIdText">-</span> <span class="copy-icon" id="copyRoomIdBtn" title="Copiar ID">📋</span></div>
       </div>
-      
       <div class="room-meta">
-        <div class="expiry-info">
-          Mensajes expiran en <span id="expiryTimer">24h</span>
-        </div>
-        <div class="online-count">
-          <span class="status-dot"></span>
-          <span id="liveUsers">1</span> en línea
-        </div>
+        <div class="expiry-info">Expira en <span id="expiryTimer">24h</span></div>
+        <div class="online-count"><span class="status-dot"></span> <span id="liveUsers">1</span></div>
       </div>
     </div>
 
     <div class="messages-area" id="messages">
-      <!-- Mensajes se cargan aquí -->
       <div class="message-bubble other">
-        <div class="message-sender">
-          <span class="sender-emoji">👋</span>
-          <span class="sender-name">Sistema</span>
-        </div>
-        <div class="message-text">
-          Bienvenido a VINCLE. Tu identidad es anónima. Los mensajes se borran automáticamente después de 24 horas.
-        </div>
+        <div class="message-sender"><span class="sender-emoji">👋</span><span class="sender-name">Sistema</span></div>
+        <div class="message-text">Bienvenido a VINCLE. Tu identidad es anónima.</div>
         <div class="message-time">Ahora</div>
       </div>
     </div>
 
     <div class="message-composer">
-      <textarea 
-        id="textInput" 
-        class="composer-input" 
-        placeholder="Escribe tu mensaje aquí (Enter para enviar, Shift+Enter para nueva línea)..." 
-        rows="1"
-        spellcheck="true"></textarea>
-      <button id="sendBtn" class="send-button">
-        <span>Enviar</span>
-        <span>↗</span>
-      </button>
+      <textarea id="textInput" class="composer-input" placeholder="Escribe un mensaje..." rows="1"></textarea>
+      <button id="sendBtn" class="send-button">↗</button>
     </div>
   </main>
-</div>
-
-<!-- Mobile panel (oculto en desktop) -->
-<div class="mobile-panel" id="mobilePanel">
-  <!-- Contenido móvil aquí -->
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 <script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyXMvncuf1Jhux5dVzDJ_VQe3cw3tIntt",
-    authDomain: "vincle-e76dd.firebaseapp.com",
-    databaseURL: "https://vincle-e76dd-default-rtdb.firebaseio.com",
-    projectId: "vincle-e76dd",
-    storageBucket: "vincle-e76dd.firebasestorage.app",
-    messagingSenderId: "11807936515",
-    appId: "1:11807936515:web:ff67d9da38e956ff62cee6"
-  };
-  
-  // Inicializar Firebase
-  firebase.initializeApp(firebaseConfig);
-  const database = firebase.database();
+// --- Firebase config ---
+const firebaseConfig = {
+  apiKey: "AIzaSyXMvncuf1Jhux5dVzDJ_VQe3cw3tIntt",
+  authDomain: "vincle-e76dd.firebaseapp.com",
+  databaseURL: "https://vincle-e76dd-default-rtdb.firebaseio.com",
+  projectId: "vincle-e76dd",
+  storageBucket: "vincle-e76dd.firebasestorage.app",
+  messagingSenderId: "11807936515",
+  appId: "1:11807936515:web:ff67d9da38e956ff62cee6"
+};
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
 
-  // Constantes
-  const MESSAGE_EXPIRY_HOURS = 24;
-  
-  // Obtener parámetros de URL
-  const urlParams = new URLSearchParams(window.location.search);
-  const ROOM_PARAM = urlParams.get('room');
-  const DEFAULT_ROOM = ROOM_PARAM || localStorage.getItem('vincle_room') || generateRandomId(7);
+// --- Elementos DOM ---
+const q=id=>document.getElementById(id);
+const roomInput=q('roomInput'),createBtn=q('createBtn'),copyBtn=q('copyBtn');
+const messagesEl=q('messages'),textInput=q('textInput'),sendBtn=q('sendBtn');
+const roomTitle=q('roomTitle'),roomIdText=q('roomIdText'),myColorEl=q('myColor'),myEmojiEl=q('myEmoji');
+const clearChatBtn=q('clearChatBtn'),randomRoomBtn=q('randomRoomBtn');
+const expiryLabel=q('expiryLabel'),expiryTimer=q('expiryTimer');
+const sidePanel=q('sidePanel'),menuBtn=q('menuBtn');
 
-  // Elementos DOM
-  const q = id => document.getElementById(id);
-  const roomInput = q('roomInput');
-  const createBtn = q('createBtn');
-  const copyBtn = q('copyBtn');
-  const messagesEl = q('messages');
-  const textInput = q('textInput');
-  const sendBtn = q('sendBtn');
-  const roomTitle = q('roomTitle');
-  const roomIdText = q('roomIdText');
-  const myColorEl = q('myColor');
-  const myEmojiEl = q('myEmoji');
-  const clearChatBtn = q('clearChatBtn');
-  const randomRoomBtn = q('randomRoomBtn');
-  const expiryLabel = q('expiryLabel');
-  const expiryTimer = q('expiryTimer');
+// --- Identidad ---
+const COLORS=['#f97316','#fb7185','#60a5fa','#34d399','#f59e0b','#a78bfa','#ef4444'];
+const EMOJIS=['🔷','🔶','🔺','🔵','🟣','🟢','🌿','✨','⚡','🌙','☀️','🔥]()
+const pickRandom = arr => arr[Math.floor(Math.random()*arr.length)];
 
-  // Configuración de identidad (mismo que antes)
-  const COLORS = ['#f97316','#fb7185','#60a5fa','#34d399','#f59e0b','#a78bfa','#ef4444'];
-  const EMOJIS = ['🔷','🔶','🔺','🔵','🟣','🟢','🌿','✨','⚡','🌙','☀️','🔥'];
-  
-  const pickRandom = array => array[Math.floor(Math.random() * array.length)];
-  
-  const sessionColor = sessionStorage.getItem('vincle_color') || pickRandom(COLORS);
-  const sessionEmoji = sessionStorage.getItem('vincle_emoji') || pickRandom(EMOJIS);
-  
-  // Guardar en sessionStorage
-  sessionStorage.setItem('vincle_color', sessionColor);
-  sessionStorage.setItem('vincle_emoji', sessionEmoji);
-  
-  // Actualizar UI de identidad
-  myColorEl.style.background = sessionColor;
-  myEmojiEl.textContent = sessionEmoji;
+const sessionColor = sessionStorage.getItem('vincle_color') || pickRandom(COLORS);
+const sessionEmoji = sessionStorage.getItem('vincle_emoji') || pickRandom(EMOJIS);
 
-  // Estado de la sala
-  let currentRoom = DEFAULT_ROOM;
+sessionStorage.setItem('vincle_color', sessionColor);
+sessionStorage.setItem('vincle_emoji', sessionEmoji);
 
-  // Generar ID aleatorio
-  function generateRandomId(length) {
-    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    for (let i = 0; i < length; i++) {
-      result += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return result;
-  }
+myColorEl.style.background = sessionColor;
+myEmojiEl.textContent = sessionEmoji;
 
-  // Establecer sala
-  function setRoom(roomId) {
-    currentRoom = roomId;
-    
-    // Actualizar UI
-    roomTitle.textContent = `Sala — ${roomId}`;
-    roomIdText.textContent = roomId;
-    roomInput.value = roomId;
-    
-    // Actualizar URL
-    const url = new URL(window.location);
-    url.searchParams.set('room', roomId);
-    window.history.replaceState({}, '', url);
-    
-    // Guardar en localStorage
-    localStorage.setItem('vincle_room', roomId);
-    
-    // Actualizar contadores
-    expiryLabel.textContent = MESSAGE_EXPIRY_HOURS + "h";
-    expiryTimer.textContent = MESSAGE_EXPIRY_HOURS + "h";
-    
-    // Escuchar mensajes
-    listenToMessages();
-  }
+// --- Sala ---
+const MESSAGE_EXPIRY_HOURS = 24;
+const urlParams = new URLSearchParams(window.location.search);
+let currentRoom = urlParams.get('room') || localStorage.getItem('vincle_room') || generateRandomId(7);
 
-  // Obtener referencia a la base de datos (USANDO LA ESTRUCTURA ORIGINAL)
-  function getMessagesRef() {
-    return database.ref('rooms/' + currentRoom + '/messages');
-  }
+function generateRandomId(length=7){
+  const chars='abcdefghijklmnopqrstuvwxyz0123456789';
+  let res='';
+  for(let i=0;i<length;i++) res+=chars.charAt(Math.floor(Math.random()*chars.length));
+  return res;
+}
 
-  // Enviar mensaje (USANDO LA ESTRUCTURA ORIGINAL)
-  function sendMessage(text) {
-    if (!text.trim()) return;
-    
-    const now = Date.now();
-    const messageData = {
-      text: text.trim(),
-      color: sessionColor,
-      emoji: sessionEmoji,
-      ts: now,
-      expiry: now + (MESSAGE_EXPIRY_HOURS * 3600000)
-    };
-    
-    getMessagesRef().push(messageData);
-    textInput.value = '';
-    textInput.style.height = 'auto';
-  }
+function setRoom(roomId){
+  currentRoom=roomId;
+  roomTitle.textContent = roomId;
+  roomIdText.textContent = roomId;
+  roomInput.value = roomId;
+  localStorage.setItem('vincle_room', roomId);
+  const url=new URL(window.location);
+  url.searchParams.set('room',roomId);
+  window.history.replaceState({},'',url);
+  expiryLabel.textContent=MESSAGE_EXPIRY_HOURS+'h';
+  expiryTimer.textContent=MESSAGE_EXPIRY_HOURS+'h';
+  listenToMessages();
+}
 
-  // Crear burbuja de mensaje (USANDO LA ESTRUCTURA ORIGINAL)
-  function createMessageBubble(message, isMine) {
-    const bubble = document.createElement('div');
-    bubble.className = `message-bubble ${isMine ? 'mine' : 'other'}`;
-    
-    // Formatear fecha
-    const messageDate = new Date(message.ts || Date.now());
-    const timeString = formatTime(messageDate);
-    
-    bubble.innerHTML = `
-      <div class="message-sender">
-        <span class="sender-emoji">${message.emoji || '👤'}</span>
-        <span class="sender-name">${isMine ? 'Tú' : 'Anónimo'}</span>
-      </div>
-      <div class="message-text">${escapeHtml(message.text)}</div>
-      <div class="message-time">${timeString}</div>
-    `;
-    
-    return bubble;
-  }
+// --- Firebase ---
+function getMessagesRef(){return database.ref('rooms/'+currentRoom+'/messages');}
 
-  // Escuchar mensajes (USANDO LA ESTRUCTURA ORIGINAL)
-  function listenToMessages() {
-    // Limpiar mensajes existentes
-    messagesEl.innerHTML = '';
-    
-    // Añadir mensaje de bienvenida
-    const welcomeBubble = document.createElement('div');
-    welcomeBubble.className = 'message-bubble other';
-    welcomeBubble.innerHTML = `
-      <div class="message-sender">
-        <span class="sender-emoji">👋</span>
-        <span class="sender-name">Sistema</span>
-      </div>
-      <div class="message-text">
-        Bienvenido a la sala <strong>${currentRoom}</strong>. Tu identidad es anónima. 
-        Los mensajes se borran automáticamente después de ${MESSAGE_EXPIRY_HOURS} horas.
-      </div>
-      <div class="message-time">Ahora</div>
-    `;
-    messagesEl.appendChild(welcomeBubble);
-    
-    // Escuchar nuevos mensajes
-    getMessagesRef()
-      .limitToLast(100)
-      .on('child_added', (snapshot) => {
-        const message = snapshot.val();
-        if (!message) return;
-        
-        // Verificar si el mensaje ha expirado
-        if (message.expiry && Date.now() > message.expiry) {
-          return;
-        }
-        
-        const isMine = (message.color === sessionColor && message.emoji === sessionEmoji);
-        const messageBubble = createMessageBubble(message, isMine);
-        messagesEl.appendChild(messageBubble);
-        
-        // Auto-scroll
-        setTimeout(() => {
-          messagesEl.scrollTop = messagesEl.scrollHeight;
-        }, 100);
-      });
-  }
+function sendMessage(text){
+  if(!text.trim()) return;
+  const now = Date.now();
+  const messageData = {text:text.trim(),color:sessionColor,emoji:sessionEmoji,ts:now,expiry:now+MESSAGE_EXPIRY_HOURS*3600000};
+  getMessagesRef().push(messageData);
+  textInput.value=''; textInput.style.height='auto';
+}
 
-  // Funciones utilitarias
-  function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-  }
+function createMessageBubble(message,isMine){
+  const bubble=document.createElement('div');
+  bubble.className=`message-bubble ${isMine?'mine':'other'}`;
+  const timeStr=formatTime(new Date(message.ts||Date.now()));
+  bubble.innerHTML=`
+    <div class="message-sender">
+      <span class="sender-emoji">${message.emoji||'👤'}</span>
+      <span class="sender-name">${isMine?'Tú':'Anónimo'}</span>
+    </div>
+    <div class="message-text">${escapeHtml(message.text)}</div>
+    <div class="message-time">${timeStr}</div>
+  `;
+  return bubble;
+}
 
-  function formatTime(date) {
-    const now = new Date();
-    const diff = now - date;
-    
-    if (diff < 60000) return 'Ahora';
-    if (diff < 3600000) return `${Math.floor(diff / 60000)} min`;
-    if (diff < 86400000) {
-      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    }
-    return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
-  }
+function listenToMessages(){
+  messagesEl.innerHTML='';
+  // Mensaje bienvenida
+  const welcomeBubble=document.createElement('div');
+  welcomeBubble.className='message-bubble other';
+  welcomeBubble.innerHTML=`
+    <div class="message-sender"><span class="sender-emoji">👋</span><span class="sender-name">Sistema</span></div>
+    <div class="message-text">Bienvenido a la sala <strong>${currentRoom}</strong>. Tu identidad es anónima. Los mensajes se borran automáticamente después de ${MESSAGE_EXPIRY_HOURS} horas.</div>
+    <div class="message-time">Ahora</div>
+  `;
+  messagesEl.appendChild(welcomeBubble);
 
-  // Event Listeners
-  createBtn.addEventListener('click', () => {
-    const roomId = (roomInput.value || '').trim() || generateRandomId(7);
-    setRoom(roomId);
+  getMessagesRef().limitToLast(100).on('child_added',snapshot=>{
+    const msg=snapshot.val(); if(!msg) return;
+    if(msg.expiry && Date.now()>msg.expiry) return;
+    const isMine=(msg.color===sessionColor && msg.emoji===sessionEmoji);
+    const bubble=createMessageBubble(msg,isMine);
+    messagesEl.appendChild(bubble);
+    setTimeout(()=>messagesEl.scrollTop=messagesEl.scrollHeight,100);
   });
+}
 
-  copyBtn.addEventListener('click', () => {
-    if (!currentRoom) return;
-    const url = window.location.origin + window.location.pathname + '?room=' + encodeURIComponent(currentRoom);
-    navigator.clipboard.writeText(url).then(() => {
-      alert('¡Enlace copiado al portapapeles!');
-    });
-  });
+// --- Utilidades ---
+function escapeHtml(text){const div=document.createElement('div');div.textContent=text;return div.innerHTML;}
+function formatTime(date){
+  const diff=new Date()-date;
+  if(diff<60000) return 'Ahora';
+  if(diff<3600000) return `${Math.floor(diff/60000)} min`;
+  if(diff<86400000) return date.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  return date.toLocaleDateString([], {month:'short',day:'numeric'});
+}
 
-  copyRoomIdBtn.addEventListener('click', () => {
-    if (!currentRoom) return;
-    navigator.clipboard.writeText(currentRoom).then(() => {
-      const original = copyRoomIdBtn.innerHTML;
-      copyRoomIdBtn.innerHTML = '✅';
-      setTimeout(() => {
-        copyRoomIdBtn.innerHTML = original;
-      }, 2000);
-    });
-  });
+// --- Eventos ---
+createBtn.addEventListener('click',()=>{const r=(roomInput.value||'').trim()||generateRandomId(7); setRoom(r);});
+copyBtn.addEventListener('click',()=>{navigator.clipboard.writeText(window.location.origin+window.location.pathname+'?room='+encodeURIComponent(currentRoom)).then(()=>alert('¡Enlace copiado al portapapeles!'));});
+q('copyRoomIdBtn').addEventListener('click',()=>{navigator.clipboard.writeText(currentRoom).then(()=>{const orig=q('copyRoomIdBtn').innerHTML;q('copyRoomIdBtn').innerHTML='✅';setTimeout(()=>q('copyRoomIdBtn').innerHTML=orig,2000);});});
 
-  sendBtn.addEventListener('click', () => {
-    sendMessage(textInput.value);
-  });
+sendBtn.addEventListener('click',()=>sendMessage(textInput.value));
+textInput.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage(textInput.value);}});
+textInput.addEventListener('input',function(){this.style.height='auto';this.style.height=this.scrollHeight+'px';});
 
-  textInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage(textInput.value);
-    }
-  });
+clearChatBtn.addEventListener('click',()=>{if(confirm('¿Limpiar chat local?')){messagesEl.innerHTML='';listenToMessages();}});
+randomRoomBtn.addEventListener('click',()=>setRoom(generateRandomId(7)));
+newRoomBtn.addEventListener('click',()=>setRoom(generateRandomId(7)));
 
-  // Auto-expand textarea
-  textInput.addEventListener('input', function() {
-    this.style.height = 'auto';
-    this.style.height = (this.scrollHeight) + 'px';
-  });
+menuBtn.addEventListener('click',()=>sidePanel.classList.toggle('active'));
 
-  clearChatBtn.addEventListener('click', () => {
-    if (confirm('¿Limpiar todos los mensajes locales?')) {
-      // Esto solo limpia la vista local, no los mensajes en Firebase
-      messagesEl.innerHTML = '';
-      
-      // Añadir mensaje de sistema
-      const systemBubble = document.createElement('div');
-      systemBubble.className = 'message-bubble other';
-      systemBubble.innerHTML = `
-        <div class="message-sender">
-          <span class="sender-emoji">🧹</span>
-          <span class="sender-name">Sistema</span>
-        </div>
-        <div class="message-text">
-          Chat local limpiado. Los mensajes en el servidor permanecen.
-        </div>
-        <div class="message-time">Ahora</div>
-      `;
-      messagesEl.appendChild(systemBubble);
-    }
-  });
+q('shareRoomBtn').addEventListener('click',()=>{
+  const url=window.location.href;
+  if(navigator.share){navigator.share({title:'Únete a mi sala en VINCLE',text:'Chatea de forma anónima',url});}
+  else{navigator.clipboard.writeText(url).then(()=>alert('Enlace copiado. Compártelo con quien quieras.'));}
+});
 
-  randomRoomBtn.addEventListener('click', () => {
-    const newRoomId = generateRandomId(7);
-    setRoom(newRoomId);
-  });
-
-  newRoomBtn.addEventListener('click', () => {
-    const newRoomId = generateRandomId(7);
-    setRoom(newRoomId);
-  });
-
-  roomInfoBtn.addEventListener('click', () => {
-    alert(`Sala actual: ${currentRoom}\n\nComparte este enlace:\n${window.location.href}`);
-  });
-
-  shareRoomBtn.addEventListener('click', () => {
-    const url = window.location.href;
-    
-    if (navigator.share) {
-      navigator.share({
-        title: 'Únete a mi sala en VINCLE',
-        text: 'Chatea conmigo de forma anónima',
-        url: url
-      });
-    } else {
-      navigator.clipboard.writeText(url).then(() => {
-        alert('Enlace copiado. Compártelo con quien quieras.');
-      });
-    }
-  });
-
-  // Inicializar
-  document.addEventListener('DOMContentLoaded', () => {
-    // Establecer sala inicial
-    setRoom(currentRoom);
-    
-    // Foco automático en el input
-    setTimeout(() => {
-      textInput.focus();
-    }, 500);
-  });
-
-  // Manejar tecla Escape para limpiar foco
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      textInput.blur();
-    }
-  });
+document.addEventListener('DOMContentLoaded',()=>{setRoom(currentRoom);setTimeout(()=>textInput.focus(),500);});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){textInput.blur();sidePanel.classList.remove('active');}});
 </script>
 
 </body>
