@@ -69,7 +69,7 @@ header{
 .chat-container{flex:1;display:flex;flex-direction:column;height:100%;background:var(--panel-bg);}
 .chat-header{padding:16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
 .room-name{font-weight:600;font-size:16px;color:var(--text);}
-.messages-area{flex:1;padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;background:linear-gradient(180deg,rgba(255,255,255,0.01)0%,transparent 30%,transparent 100%);}
+.messages-area{flex:1;padding:11px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;background:linear-gradient(180deg,rgba(255,255,255,0.01)0%,transparent 30%,transparent 100%);}
 .message-bubble{max-width:75%;padding:12px 16px;border-radius:18px;position:relative;line-height:1.4;word-break:break-word;animation:messageAppear 0.3s;}
 .message-bubble.mine{align-self:flex-end;background:var(--bubble-mine);color:#021;border-bottom-right-radius:6px;}
 .message-bubble.other{align-self:flex-start;background:var(--bubble);border-bottom-left-radius:6px;color:#e6eef8;}
@@ -275,6 +275,7 @@ document.addEventListener('DOMContentLoaded',()=>{ setRoom(currentRoom); setTime
 </script>
 </body>
 </html>
+
 
 
 
