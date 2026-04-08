@@ -9,95 +9,135 @@
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #0f0f0f;
-  color: white;
+  background: #f2f2f7;
+  color: #111;
 }
 
 header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 15px;
-  text-align: center;
-  font-size: 22px;
-  font-weight: bold;
-  background: #1a1a1a;
+  font-weight: 600;
+  font-size: 18px;
+  background: white;
+  border-bottom: 1px solid #ddd;
 }
 
-.container {
-  max-width: 600px;
-  margin: auto;
-  padding: 15px;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+  padding: 12px;
 }
 
 .card {
-  background: #1a1a1a;
-  padding: 15px;
-  border-radius: 14px;
-  margin-bottom: 15px;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 10px;
+  font-size: 13px;
+}
+
+.tag {
+  font-size: 10px;
+  background: #eee;
+  padding: 3px 6px;
+  border-radius: 10px;
+  margin: 2px;
+  display: inline-block;
+}
+
+button {
+  border: none;
+  background: #007aff;
+  color: white;
+  padding: 8px;
+  border-radius: 10px;
+  width: 100%;
+  margin-top: 6px;
+}
+
+.fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #007aff;
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: white;
+  padding: 20px;
+  display: none;
+  overflow-y: auto;
 }
 
 input, textarea {
   width: 100%;
   margin-bottom: 10px;
   padding: 10px;
-  border-radius: 8px;
-  border: none;
-  background: #2a2a2a;
-  color: white;
-}
-
-button {
-  width: 100%;
-  padding: 12px;
-  border: none;
   border-radius: 10px;
-  background: #ff4d6d;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
+  border: 1px solid #ddd;
 }
 
-button:hover {
-  opacity: 0.9;
-}
-
-img {
-  width: 100%;
-  border-radius: 10px;
-  margin-top: 10px;
-}
-
-.tag {
-  background: #333;
-  padding: 5px 10px;
-  border-radius: 20px;
-  margin: 3px;
-  display: inline-block;
-  font-size: 12px;
-}
-
-.small {
-  font-size: 12px;
-  opacity: 0.7;
+.filters {
+  padding: 10px;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
 }
 </style>
 </head>
 
 <body>
 
-<header>💖 vincle.chat</header>
+<header>
+  vincle.chat 💖
+</header>
 
-<div class="container">
-
-<div class="card">
-  <input id="creator" placeholder="Tu nombre (quién sube el perfil)">
-  <input id="name" placeholder="Nombre de tu amigo/a">
-  <input id="photo" placeholder="URL foto">
-  <textarea id="desc" placeholder="¿Por qué es increíble?"></textarea>
-  <input id="tags" placeholder="Tags (coma)">
-  <button onclick="addProfile()">Subir amigo 😏</button>
+<div class="filters">
+  <input id="filterLocation" placeholder="Ubicación">
+  <input id="filterAge" placeholder="Edad max">
+  <input id="filterHeight" placeholder="Altura min">
 </div>
 
-<div id="profiles"></div>
+<div class="grid" id="profiles"></div>
 
+<div class="fab" onclick="openForm()">+</div>
+
+<div class="modal" id="formModal">
+  <h2>Sube a tu amigo 😏</h2>
+  <input id="creator" placeholder="Tu nombre">
+  <input id="name" placeholder="Nombre">
+  <input id="age" placeholder="Edad">
+  <input id="height" placeholder="Altura (cm)">
+  <input id="location" placeholder="Ubicación">
+  <input id="phone" placeholder="Teléfono contacto">
+  <input id="photo" placeholder="URL foto">
+  <textarea id="desc" placeholder="¿Por qué es increíble?"></textarea>
+  <input id="tags" placeholder="Tags">
+  <button onclick="addProfile()">Publicar</button>
+  <button onclick="closeForm()">Cerrar</button>
 </div>
 
 <script type="module">
@@ -116,54 +156,44 @@ const firebaseConfig = {
   apiKey: "TU_CONFIG_AQUI",
   authDomain: "TU_CONFIG_AQUI",
   projectId: "TU_CONFIG_AQUI",
-  storageBucket: "TU_CONFIG_AQUI",
-  messagingSenderId: "TU_CONFIG_AQUI",
-  appId: "TU_CONFIG_AQUI"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 🧠 ID único local (sin login)
-let userId = localStorage.getItem("vincle_user");
+// ID local
+let userId = localStorage.getItem("vincle_user") || Math.random();
+localStorage.setItem("vincle_user", userId);
 
-if (!userId) {
-  userId = Math.random().toString(36).substring(2);
-  localStorage.setItem("vincle_user", userId);
-}
-
-// 🚀 Crear perfil
-window.addProfile = async () => {
-  const creator = document.getElementById("creator").value;
-  const name = document.getElementById("name").value;
-  const photo = document.getElementById("photo").value;
-  const desc = document.getElementById("desc").value;
-  const tags = document.getElementById("tags").value.split(",");
-
-  if (!name || !creator) {
-    alert("Faltan datos");
-    return;
-  }
-
-  await addDoc(collection(db, "profiles"), {
-    creator,
-    name,
-    photo,
-    desc,
-    tags,
-    likes: 0,
-    createdAt: Date.now()
-  });
+window.openForm = () => {
+  document.getElementById("formModal").style.display = "block";
 };
 
-// ❤️ Like con anti-spam básico
-window.likeProfile = async (id, likedBy) => {
-  likedBy = likedBy || [];
+window.closeForm = () => {
+  document.getElementById("formModal").style.display = "none";
+};
 
-  if (likedBy.includes(userId)) {
-    alert("Ya has dado like 😉");
-    return;
-  }
+window.addProfile = async () => {
+  await addDoc(collection(db, "profiles"), {
+    creator: creator.value,
+    name: name.value,
+    age: parseInt(age.value),
+    height: parseInt(height.value),
+    location: location.value,
+    phone: phone.value,
+    photo: photo.value,
+    desc: desc.value,
+    tags: tags.value.split(","),
+    likes: 0,
+    likedBy: [],
+    createdAt: Date.now()
+  });
+
+  closeForm();
+};
+
+window.likeProfile = async (id, likedBy) => {
+  if (likedBy.includes(userId)) return alert("Ya has dado like");
 
   await updateDoc(doc(db, "profiles", id), {
     likes: increment(1),
@@ -171,35 +201,53 @@ window.likeProfile = async (id, likedBy) => {
   });
 };
 
-// 🔄 Render en tiempo real
-onSnapshot(collection(db, "profiles"), (snapshot) => {
-  const container = document.getElementById("profiles");
-  container.innerHTML = "";
+function applyFilters(data) {
+  const loc = filterLocation.value.toLowerCase();
+  const ageMax = parseInt(filterAge.value);
+  const heightMin = parseInt(filterHeight.value);
 
-  snapshot.docs
-    .sort((a,b) => b.data().createdAt - a.data().createdAt)
-    .forEach(docSnap => {
-      const p = docSnap.data();
-      const id = docSnap.id;
+  return data.filter(p => {
+    return (!loc || p.location?.toLowerCase().includes(loc)) &&
+           (!ageMax || p.age <= ageMax) &&
+           (!heightMin || p.height >= heightMin);
+  });
+}
 
-      const el = document.createElement("div");
-      el.className = "card";
+onSnapshot(collection(db, "profiles"), (snap) => {
+  let data = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  data = applyFilters(data);
 
-      el.innerHTML = `
-        <h3>${p.name}</h3>
-        <div class="small">Subido por ${p.creator}</div>
-        ${p.photo ? `<img src="${p.photo}">` : ""}
-        <p>${p.desc}</p>
-        <div>${(p.tags || []).map(t => `<span class="tag">${t}</span>`).join("")}</div>
-        <p>❤️ ${p.likes || 0}</p>
-        <button onclick='likeProfile("${id}", ${JSON.stringify(p.likedBy || [])})'>
+  profiles.innerHTML = "";
+
+  data.forEach(p => {
+    const el = document.createElement("div");
+    el.className = "card";
+
+    el.innerHTML = `
+      <img src="${p.photo || ''}">
+      <div class="card-content">
+        <b>${p.name}</b> (${p.age})
+        <div>${p.location}</div>
+        <div>${p.height} cm</div>
+        <div>${p.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
+        <div>❤️ ${p.likes}</div>
+        <button onclick='likeProfile("${p.id}", ${JSON.stringify(p.likedBy)})'>
           Me interesa
         </button>
-      `;
+        <button onclick='alert("Contacto: ${p.phone}")'>
+          Contactar
+        </button>
+      </div>
+    `;
 
-      container.appendChild(el);
-    });
+    profiles.appendChild(el);
+  });
 });
+
+// filtros en vivo
+filterLocation.oninput = filterAge.oninput = filterHeight.oninput = () => {
+  location.reload(); // simple MVP refresh
+};
 </script>
 
 </body>
