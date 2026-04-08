@@ -486,15 +486,7 @@ function init() {
   bindFilters();
   startRealtimeListener();
 
-  // Aviso de Firebase útil solo una vez por sesión
-  if (!hasSeenFirebaseWarning && firebaseConfig.apiKey.includes("AIzaSy")) {
-    sessionStorage.setItem("vincle_firebase_warning", "1");
-    setTimeout(() => {
-      if (confirm("⚠️ Tu proyecto Firebase parece no estar configurado.\n¿Quieres abrir la consola de Firebase para obtener tus credenciales?")) {
-        window.open("https://console.firebase.google.com/", "_blank");
-      }
-    }, 500);
-  }
+
 }
 
 document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", init) : init();
