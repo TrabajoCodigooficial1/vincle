@@ -1,3 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>vincle.chat</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
+  background: #f2f2f7;
+  padding-bottom: 80px;
+}
+
+header {
+  padding: 18px 15px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.5rem;
+  background: white;
+  border-bottom: 1px solid #e5e5ea;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  color: #007aff;
+  letter-spacing: -0.3px;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+  padding: 12px 15px;
+  overflow-x: auto;
+  background: #f2f2f7;
+  scrollbar-width: thin;
+}
+
+.filters input {
+  padding: 10px 14px;
+  border-radius: 30px;
+  border: 1px solid #ddd;
+  background: white;
+  font-size: 14px;
+  min-width: 110px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.filters input:focus {
+  border-color: #007aff;
+  box-shadow: 0 0 0 2px rgba(0,122,255,0.2);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 16px;
+  padding: 12px 15px;
+}
+
+.card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  transition: transform 0.1s ease;
+}
+
+.card:active {
+  transform: scale(0.98);
+}
+
+.card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  background: #f0f0f0;
+  display: block;
+}
+
+.card-content {
+  padding: 12px;
+  font-size: 13px;
+}
+
+.card-content b {
+  font-size: 16px;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.card-content > div {
+  margin: 6px 0;
+  color: #3a3a3c;
+}
+
+.like-count {
+  font-weight: 600;
+  color: #ff3b30;
+}
+
+button {
+  border: none;
+  border-radius: 40px;
+  padding: 10px;
+  width: 100%;
+  margin-top: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.like {
+  background: #007aff;
+  color: white;
+}
+
+.like:hover {
+  background: #005fc1;
+}
+
+.whatsapp {
+  background: #25D366;
+  color: white;
+}
+
+.whatsapp:hover {
+  background: #1da15b;
+}
+
+.fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #007aff;
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: 0.2s;
+  z-index: 20;
+  border: none;
+}
+
+.fab:hover {
+  background: #005fc1;
+  transform: scale(1.03);
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: white;
+  padding: 24px 20px 40px;
+  display: none;
+  overflow-y: auto;
+  z-index: 30;
+  flex-direction: column;
+}
+
+.modal h2 {
+  margin-top: 0;
+  text-align: center;
+  color: #007aff;
+}
+
+.modal input, .modal textarea {
+  width: 100%;
+  margin-bottom: 14px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid #ddd;
+  font-family: inherit;
+  font-size: 15px;
+}
+
+.modal textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.modal button {
+  background: #007aff;
+  color: white;
+  margin-top: 8px;
+  font-size: 16px;
+}
+
+.modal button:last-of-type {
+  background: #8e8e93;
+}
+
+.close-icon {
+  text-align: right;
+  font-size: 28px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  color: #666;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 50px 20px;
+  color: #8e8e93;
+  font-size: 16px;
+}
+
+@media (max-width: 500px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+  }
+  .card img {
+    height: 150px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>💖 vincle.chat</header>
+
+<div class="container">
+
+<div class="filters">
+  <input id="fLocation" placeholder="📍 Ubicación" autocomplete="off">
+  <input id="fAge" placeholder="📅 Edad max" type="number" autocomplete="off">
+  <input id="fHeight" placeholder="📏 Altura min (cm)" type="number" autocomplete="off">
+</div>
+
+<div id="profiles" class="grid"></div>
+
+</div>
+
+<button class="fab" onclick="openForm()">+</button>
+
+<div id="modal" class="modal">
+  <div class="close-icon" onclick="closeForm()">&times;</div>
+  <h2>✨ Sube a tu amigo ✨</h2>
+
+  <input id="creator" placeholder="Tu nombre *" autocomplete="off">
+  <input id="name" placeholder="Nombre *" autocomplete="off">
+  <input id="age" placeholder="Edad" type="number" autocomplete="off">
+  <input id="height" placeholder="Altura (cm)" type="number" autocomplete="off">
+  <input id="location" placeholder="Ubicación (ej: Madrid)" autocomplete="off">
+  <input id="phone" placeholder="WhatsApp (ej: 34600000000)" autocomplete="off">
+  <input id="photo" placeholder="URL foto (https://...)" autocomplete="off">
+  <textarea id="desc" placeholder="Descripción breve..."></textarea>
+  <input id="tags" placeholder="Tags separados por coma (ej: deporte,viajes)" autocomplete="off">
+
+  <button onclick="addProfile()">📢 Publicar</button>
+  <button onclick="closeForm()">Cancelar</button>
+</div>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import {
@@ -228,3 +499,5 @@ function init() {
 
 document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", init) : init();
 </script>
+</body>
+</html>
