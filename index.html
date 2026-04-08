@@ -10,23 +10,37 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   background: #f2f2f7;
-  color: #111;
 }
 
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 15px;
+  text-align: center;
   font-weight: 600;
-  font-size: 18px;
   background: white;
   border-bottom: 1px solid #ddd;
 }
 
+.container {
+  max-width: 900px;
+  margin: auto;
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  overflow-x: auto;
+}
+
+.filters input {
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 12px;
   padding: 12px;
 }
@@ -35,7 +49,6 @@ header {
   background: white;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
 .card img {
@@ -49,23 +62,22 @@ header {
   font-size: 13px;
 }
 
-.tag {
-  font-size: 10px;
-  background: #eee;
-  padding: 3px 6px;
-  border-radius: 10px;
-  margin: 2px;
-  display: inline-block;
-}
-
 button {
   border: none;
+  border-radius: 10px;
+  padding: 8px;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.like {
   background: #007aff;
   color: white;
-  padding: 8px;
-  border-radius: 10px;
-  width: 100%;
-  margin-top: 6px;
+}
+
+.whatsapp {
+  background: #25D366;
+  color: white;
 }
 
 .fab {
@@ -92,50 +104,47 @@ button {
   overflow-y: auto;
 }
 
-input, textarea {
+.modal input, .modal textarea {
   width: 100%;
   margin-bottom: 10px;
   padding: 10px;
   border-radius: 10px;
   border: 1px solid #ddd;
 }
-
-.filters {
-  padding: 10px;
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-}
 </style>
 </head>
 
 <body>
 
-<header>
-  vincle.chat 💖
-</header>
+<header>💖 vincle.chat</header>
+
+<div class="container">
 
 <div class="filters">
-  <input id="filterLocation" placeholder="Ubicación">
-  <input id="filterAge" placeholder="Edad max">
-  <input id="filterHeight" placeholder="Altura min">
+  <input id="fLocation" placeholder="Ubicación">
+  <input id="fAge" placeholder="Edad max">
+  <input id="fHeight" placeholder="Altura min">
 </div>
 
-<div class="grid" id="profiles"></div>
+<div id="profiles" class="grid"></div>
+
+</div>
 
 <div class="fab" onclick="openForm()">+</div>
 
-<div class="modal" id="formModal">
+<div id="modal" class="modal">
   <h2>Sube a tu amigo 😏</h2>
+
   <input id="creator" placeholder="Tu nombre">
   <input id="name" placeholder="Nombre">
   <input id="age" placeholder="Edad">
-  <input id="height" placeholder="Altura (cm)">
+  <input id="height" placeholder="Altura cm">
   <input id="location" placeholder="Ubicación">
-  <input id="phone" placeholder="Teléfono contacto">
+  <input id="phone" placeholder="Teléfono (ej: 34600000000)">
   <input id="photo" placeholder="URL foto">
-  <textarea id="desc" placeholder="¿Por qué es increíble?"></textarea>
+  <textarea id="desc" placeholder="Descripción"></textarea>
   <input id="tags" placeholder="Tags">
+
   <button onclick="addProfile()">Publicar</button>
   <button onclick="closeForm()">Cerrar</button>
 </div>
@@ -165,16 +174,13 @@ const db = getFirestore(app);
 let userId = localStorage.getItem("vincle_user") || Math.random();
 localStorage.setItem("vincle_user", userId);
 
-window.openForm = () => {
-  document.getElementById("formModal").style.display = "block";
-};
+// UI
+window.openForm = () => modal.style.display = "block";
+window.closeForm = () => modal.style.display = "none";
 
-window.closeForm = () => {
-  document.getElementById("formModal").style.display = "none";
-};
-
+// añadir perfil
 window.addProfile = async () => {
-  await addDoc(collection(db, "profiles"), {
+  const data = {
     creator: creator.value,
     name: name.value,
     age: parseInt(age.value),
@@ -187,13 +193,21 @@ window.addProfile = async () => {
     likes: 0,
     likedBy: [],
     createdAt: Date.now()
-  });
+  };
+
+  if (!data.name || !data.creator) {
+    alert("Faltan datos");
+    return;
+  }
+
+  await addDoc(collection(db, "profiles"), data);
 
   closeForm();
 };
 
+// like
 window.likeProfile = async (id, likedBy) => {
-  if (likedBy.includes(userId)) return alert("Ya has dado like");
+  if (likedBy.includes(userId)) return alert("Ya diste like");
 
   await updateDoc(doc(db, "profiles", id), {
     likes: increment(1),
@@ -201,18 +215,16 @@ window.likeProfile = async (id, likedBy) => {
   });
 };
 
+// filtros
 function applyFilters(data) {
-  const loc = filterLocation.value.toLowerCase();
-  const ageMax = parseInt(filterAge.value);
-  const heightMin = parseInt(filterHeight.value);
-
   return data.filter(p => {
-    return (!loc || p.location?.toLowerCase().includes(loc)) &&
-           (!ageMax || p.age <= ageMax) &&
-           (!heightMin || p.height >= heightMin);
+    return (!fLocation.value || p.location?.toLowerCase().includes(fLocation.value.toLowerCase()))
+      && (!fAge.value || p.age <= parseInt(fAge.value))
+      && (!fHeight.value || p.height >= parseInt(fHeight.value));
   });
 }
 
+// render
 onSnapshot(collection(db, "profiles"), (snap) => {
   let data = snap.docs.map(d => ({ id: d.id, ...d.data() }));
   data = applyFilters(data);
@@ -223,20 +235,27 @@ onSnapshot(collection(db, "profiles"), (snap) => {
     const el = document.createElement("div");
     el.className = "card";
 
+    const whatsappLink = p.phone 
+      ? `https://wa.me/${p.phone}?text=Hola!%20He%20visto%20tu%20perfil%20en%20vincle.chat`
+      : null;
+
     el.innerHTML = `
       <img src="${p.photo || ''}">
       <div class="card-content">
-        <b>${p.name}</b> (${p.age})
-        <div>${p.location}</div>
-        <div>${p.height} cm</div>
-        <div>${p.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
+        <b>${p.name}</b> (${p.age || ""})
+        <div>${p.location || ""}</div>
+        <div>${p.height || ""} cm</div>
         <div>❤️ ${p.likes}</div>
-        <button onclick='likeProfile("${p.id}", ${JSON.stringify(p.likedBy)})'>
+
+        <button class="like" onclick='likeProfile("${p.id}", ${JSON.stringify(p.likedBy)})'>
           Me interesa
         </button>
-        <button onclick='alert("Contacto: ${p.phone}")'>
-          Contactar
-        </button>
+
+        ${whatsappLink ? `
+          <a href="${whatsappLink}" target="_blank">
+            <button class="whatsapp">WhatsApp</button>
+          </a>
+        ` : ""}
       </div>
     `;
 
@@ -244,10 +263,12 @@ onSnapshot(collection(db, "profiles"), (snap) => {
   });
 });
 
-// filtros en vivo
-filterLocation.oninput = filterAge.oninput = filterHeight.oninput = () => {
-  location.reload(); // simple MVP refresh
-};
+// filtros live
+[fLocation, fAge, fHeight].forEach(input => {
+  input.oninput = () => {
+    onSnapshot(collection(db, "profiles"), () => {});
+  };
+});
 </script>
 
 </body>
