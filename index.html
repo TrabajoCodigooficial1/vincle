@@ -46,7 +46,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 100;
-  padding: 16px 20px;
+  padding: 20px 20px;
 }
 
 .header-main {
@@ -58,7 +58,7 @@ header {
 }
 
 .header-main .logo {
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 800;
   background: linear-gradient(135deg, #007aff, #5856d6);
   -webkit-background-clip: text;
@@ -68,37 +68,54 @@ header {
 }
 
 .header-main .emoji {
-  font-size: 1.8rem;
+  font-size: 2rem;
 }
 
 .header-subtitle {
   text-align: center;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: #8e8e93;
-  margin-top: 6px;
+  margin-top: 8px;
   font-weight: 500;
+  letter-spacing: 0.3px;
 }
 
-/* Stats bar */
+/* Stats bar premium */
 .stats-bar {
   display: flex;
   justify-content: center;
-  gap: 24px;
-  padding: 12px 20px;
+  gap: 32px;
+  padding: 16px 20px;
   background: white;
-  margin: 12px 16px;
-  border-radius: 60px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  margin: 16px 20px;
+  border-radius: 80px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  backdrop-filter: blur(10px);
 }
 
 .stat-item {
   text-align: center;
+  position: relative;
+}
+
+.stat-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: -16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 30px;
+  background: #e5e5ea;
 }
 
 .stat-value {
   font-weight: 800;
-  font-size: 1.3rem;
-  color: #007aff;
+  font-size: 1.5rem;
+  background: linear-gradient(135deg, #007aff, #5856d6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .stat-label {
@@ -106,53 +123,21 @@ header {
   color: #8e8e93;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  font-weight: 600;
+  margin-top: 4px;
 }
 
 .container {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
-}
-
-/* Filtros mejorados */
-.filters {
-  display: flex;
-  gap: 12px;
-  padding: 16px 20px;
-  overflow-x: auto;
-  scrollbar-width: thin;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.filter-input {
-  position: relative;
-}
-
-.filters input {
-  padding: 12px 18px;
-  border-radius: 44px;
-  border: 1px solid rgba(0,0,0,0.08);
-  background: white;
-  font-size: 14px;
-  font-weight: 500;
-  min-width: 130px;
-  outline: none;
-  transition: all 0.2s ease;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-}
-
-.filters input:focus {
-  border-color: #007aff;
-  box-shadow: 0 0 0 4px rgba(0,122,255,0.15);
-  transform: translateY(-1px);
 }
 
 /* Grid cards premium */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-  padding: 16px 20px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 20px 24px;
 }
 
 .card {
@@ -166,8 +151,8 @@ header {
 }
 
 .card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px -12px rgba(0,0,0,0.25);
 }
 
 .card-image-wrapper {
@@ -178,61 +163,72 @@ header {
 
 .card img {
   width: 100%;
-  height: 240px;
+  height: 260px;
   object-fit: cover;
-  transition: transform 0.4s ease;
+  transition: transform 0.5s ease;
 }
 
 .card:hover img {
-  transform: scale(1.05);
+  transform: scale(1.08);
 }
 
 .like-badge {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(8px);
-  padding: 6px 12px;
+  top: 16px;
+  right: 16px;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(10px);
+  padding: 6px 14px;
   border-radius: 40px;
   color: white;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   z-index: 2;
+  letter-spacing: -0.2px;
+}
+
+.like-badge::before {
+  content: '❤️';
+  font-size: 14px;
 }
 
 .card-content {
-  padding: 18px;
+  padding: 20px;
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   flex-wrap: wrap;
+  gap: 8px;
 }
 
 .card-header h3 {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: 700;
   color: #1c1c1e;
+  letter-spacing: -0.3px;
 }
 
 .age-tag {
-  color: #8e8e93;
-  font-size: 0.85rem;
-  font-weight: 500;
+  background: #f2f2f7;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #007aff;
 }
 
 .info-row {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin: 10px 0;
+  gap: 16px;
+  margin: 12px 0;
   font-size: 0.85rem;
   color: #5c5c5e;
   flex-wrap: wrap;
@@ -241,16 +237,28 @@ header {
 .info-row span {
   display: flex;
   align-items: center;
+  gap: 6px;
+}
+
+.creator-badge {
+  background: #f2f2f7;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  color: #8e8e93;
+  display: inline-flex;
+  align-items: center;
   gap: 4px;
+  margin-bottom: 10px;
 }
 
 .desc-text {
   font-size: 0.85rem;
   color: #6c6c6e;
-  line-height: 1.4;
-  margin: 10px 0;
+  line-height: 1.5;
+  margin: 12px 0;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -258,23 +266,33 @@ header {
 .tags-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin: 12px 0;
+  gap: 8px;
+  margin: 14px 0;
 }
 
 .tag {
-  background: #f2f2f7;
-  padding: 4px 12px;
-  border-radius: 20px;
+  background: linear-gradient(135deg, #f2f2f7, #e5e5ea);
+  padding: 5px 14px;
+  border-radius: 24px;
   font-size: 0.7rem;
-  font-weight: 500;
+  font-weight: 600;
   color: #007aff;
+  letter-spacing: -0.2px;
+}
+
+.date-info {
+  font-size: 0.65rem;
+  color: #aaa;
+  margin: 8px 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .buttons-group {
   display: flex;
-  gap: 10px;
-  margin-top: 14px;
+  gap: 12px;
+  margin-top: 16px;
 }
 
 .btn {
@@ -285,31 +303,41 @@ header {
   font-weight: 600;
   font-size: 0.85rem;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
+  font-family: inherit;
 }
 
 .btn-like {
   background: linear-gradient(135deg, #ff3b30, #ff6b58);
   color: white;
+  box-shadow: 0 2px 8px rgba(255,59,48,0.2);
 }
 
 .btn-like:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(255,59,48,0.3);
+  box-shadow: 0 6px 16px rgba(255,59,48,0.35);
 }
 
 .btn-wa {
   background: #25d366;
   color: white;
+  box-shadow: 0 2px 8px rgba(37,211,102,0.2);
 }
 
 .btn-wa:hover {
   background: #1da15b;
   transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(37,211,102,0.3);
+}
+
+.btn-wa:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }
 
 /* FAB mejorado */
@@ -319,31 +347,32 @@ header {
   right: 28px;
   background: linear-gradient(135deg, #007aff, #5856d6);
   color: white;
-  width: 64px;
-  height: 64px;
+  width: 68px;
+  height: 68px;
   border-radius: 50%;
-  font-size: 32px;
+  font-size: 34px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  box-shadow: 0 8px 24px rgba(0,122,255,0.4);
+  box-shadow: 0 8px 28px rgba(0,122,255,0.4);
   transition: all 0.3s ease;
   z-index: 99;
   border: none;
+  font-weight: 300;
 }
 
 .fab:hover {
   transform: scale(1.08) rotate(90deg);
-  box-shadow: 0 12px 28px rgba(0,122,255,0.5);
+  box-shadow: 0 12px 32px rgba(0,122,255,0.5);
 }
 
 /* Modal premium */
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(12px);
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(16px);
   display: none;
   justify-content: center;
   align-items: center;
@@ -354,58 +383,67 @@ header {
 .modal-content {
   background: white;
   border-radius: 48px;
-  max-width: 500px;
+  max-width: 520px;
   width: 100%;
   max-height: 85vh;
   overflow-y: auto;
-  padding: 28px;
-  animation: modalSlideIn 0.3s ease;
+  padding: 32px;
+  animation: modalSlideIn 0.35s ease;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
 }
 
 @keyframes modalSlideIn {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(40px) scale(0.96);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
 .modal-content h2 {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   font-size: 1.8rem;
   background: linear-gradient(135deg, #007aff, #5856d6);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  font-weight: 700;
 }
 
 .modal-content input,
 .modal-content textarea {
   width: 100%;
   margin-bottom: 14px;
-  padding: 14px 16px;
-  border-radius: 24px;
+  padding: 14px 18px;
+  border-radius: 28px;
   border: 1.5px solid #e5e5ea;
   font-family: inherit;
   font-size: 15px;
   transition: all 0.2s;
+  background: #f9f9fb;
 }
 
 .modal-content input:focus,
 .modal-content textarea:focus {
   border-color: #007aff;
   outline: none;
-  box-shadow: 0 0 0 3px rgba(0,122,255,0.1);
+  background: white;
+  box-shadow: 0 0 0 4px rgba(0,122,255,0.1);
+}
+
+.modal-content textarea {
+  min-height: 100px;
+  resize: vertical;
 }
 
 .modal-buttons {
   display: flex;
   gap: 12px;
-  margin-top: 16px;
+  margin-top: 20px;
 }
 
 .modal-buttons button {
@@ -415,11 +453,19 @@ header {
   font-weight: 600;
   border: none;
   cursor: pointer;
+  font-family: inherit;
+  font-size: 15px;
+  transition: all 0.2s;
 }
 
 .btn-primary {
-  background: #007aff;
+  background: linear-gradient(135deg, #007aff, #5856d6);
   color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,122,255,0.3);
 }
 
 .btn-secondary {
@@ -427,20 +473,8 @@ header {
   color: #1c1c1e;
 }
 
-.close-modal {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 32px;
-  cursor: pointer;
-  background: rgba(0,0,0,0.5);
-  color: white;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.btn-secondary:hover {
+  background: #d1d1d6;
 }
 
 /* Toast notification */
@@ -450,15 +484,17 @@ header {
   left: 50%;
   transform: translateX(-50%);
   background: rgba(0,0,0,0.85);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
   color: white;
-  padding: 12px 24px;
+  padding: 14px 28px;
   border-radius: 60px;
   font-size: 14px;
   font-weight: 500;
   z-index: 150;
-  animation: toastFade 2.5s ease forwards;
+  animation: toastFade 2.8s ease forwards;
   pointer-events: none;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
 }
 
 @keyframes toastFade {
@@ -472,7 +508,8 @@ header {
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
-  border-radius: 20px;
+  border-radius: 28px;
+  height: 400px;
 }
 
 @keyframes shimmer {
@@ -482,29 +519,60 @@ header {
 
 .empty-state {
   text-align: center;
-  padding: 80px 20px;
+  padding: 100px 20px;
   color: #8e8e93;
 }
 
 .empty-state-icon {
-  font-size: 64px;
-  margin-bottom: 16px;
+  font-size: 72px;
+  margin-bottom: 20px;
+  opacity: 0.6;
 }
 
-@media (max-width: 640px) {
+.empty-state h3 {
+  font-size: 1.3rem;
+  margin-bottom: 8px;
+  color: #1c1c1e;
+}
+
+@media (max-width: 768px) {
   .grid {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 20px;
+    padding: 16px;
   }
   .stats-bar {
-    margin: 8px 12px;
+    margin: 12px 16px;
+    gap: 20px;
+  }
+  .stat-item:not(:last-child)::after {
+    right: -10px;
   }
   .fab {
     bottom: 20px;
     right: 20px;
-    width: 56px;
-    height: 56px;
-    font-size: 28px;
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
+  }
+  .modal-content {
+    padding: 24px;
+    margin: 16px;
+  }
+  .toast {
+    white-space: normal;
+    text-align: center;
+    max-width: 85%;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-header h3 {
+    font-size: 1.1rem;
+  }
+  .buttons-group {
+    flex-direction: column;
   }
 }
 </style>
@@ -517,11 +585,11 @@ header {
     <span class="logo">vincle.chat</span>
   </div>
   <div class="header-subtitle">
-    ✨ Presenta a tu amig@ ✨
+    Conecta · Comparte · Enamora
   </div>
 </header>
 
-<div class="stats-bar" id="statsBar">
+<div class="stats-bar">
   <div class="stat-item">
     <div class="stat-value" id="statTotal">0</div>
     <div class="stat-label">Personas</div>
@@ -532,22 +600,24 @@ header {
   </div>
 </div>
 
-
+<div class="container">
+  <div id="profiles" class="grid"></div>
+</div>
 
 <button class="fab" id="fabBtn">+</button>
 
 <div id="modal" class="modal">
   <div class="modal-content">
     <h2>✨ Presenta a tu amig@ ✨</h2>
-    <input id="creator" placeholder="Tu nombre *">
-    <input id="name" placeholder="Nombre de tu amig@ *">
-    <input id="age" placeholder="Edad" type="number">
-    <input id="height" placeholder="Altura (cm)" type="number">
-    <input id="location" placeholder="Ubicación">
-    <input id="phone" placeholder="WhatsApp (ej: 34600000000)">
-    <input id="photo" placeholder="URL de foto (opcional)">
+    <input id="creator" placeholder="Tu nombre *" autocomplete="off">
+    <input id="name" placeholder="Nombre de tu amig@ *" autocomplete="off">
+    <input id="age" placeholder="Edad" type="number" autocomplete="off">
+    <input id="height" placeholder="Altura (cm)" type="number" autocomplete="off">
+    <input id="location" placeholder="Ubicación" autocomplete="off">
+    <input id="phone" placeholder="WhatsApp (ej: 34600000000)" autocomplete="off">
+    <input id="photo" placeholder="URL de foto (opcional)" autocomplete="off">
     <textarea id="desc" placeholder="Describe a tu amig@, hobbies, personalidad..."></textarea>
-    <input id="tags" placeholder="Tags: deporte,música,viajes">
+    <input id="tags" placeholder="Tags: deporte,música,viajes" autocomplete="off">
     <div class="modal-buttons">
       <button class="btn-primary" id="publishBtn">📢 Publicar</button>
       <button class="btn-secondary" id="closeModalBtn">Cancelar</button>
@@ -558,10 +628,10 @@ header {
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import {
-  getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, increment, query, orderBy, getDocs
+  getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, increment, query, orderBy
 } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-// ========== FIREBASE CONFIG (USANDO TUS DATOS) ==========
+// ========== FIREBASE CONFIG ==========
 const firebaseConfig = {
   apiKey: "AIzaSyDGrspy5R6usV6KMEIsxNb_7P5GuibbX4I",
   authDomain: "vinclechat-564d1.firebaseapp.com",
@@ -571,7 +641,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// User ID
+// User ID para control de likes
 let userId = localStorage.getItem("vincle_user");
 if (!userId) {
   userId = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36);
@@ -581,9 +651,6 @@ if (!userId) {
 // DOM elements
 const profilesDiv = document.getElementById("profiles");
 const modal = document.getElementById("modal");
-const fLocation = document.getElementById("fLocation");
-const fAge = document.getElementById("fAge");
-const fHeight = document.getElementById("fHeight");
 const statTotal = document.getElementById("statTotal");
 const statLikes = document.getElementById("statLikes");
 
@@ -607,9 +674,9 @@ function showToast(message, isError = false) {
   const toast = document.createElement('div');
   toast.className = 'toast';
   toast.textContent = message;
-  toast.style.background = isError ? 'rgba(255,59,48,0.9)' : 'rgba(0,0,0,0.85)';
+  toast.style.background = isError ? 'rgba(255,59,48,0.95)' : 'rgba(0,0,0,0.85)';
   document.body.appendChild(toast);
-  setTimeout(() => toast.remove(), 2500);
+  setTimeout(() => toast.remove(), 2800);
 }
 
 // Modal controls
@@ -658,7 +725,7 @@ async function addProfile() {
 // Like profile
 async function likeProfile(id, currentLikedBy) {
   if (currentLikedBy.includes(userId)) {
-    showToast("💛 Ya apoyaste a esta persona", false);
+    showToast("💛 Ya apoyaste a esta persona");
     return;
   }
   try {
@@ -672,20 +739,6 @@ async function likeProfile(id, currentLikedBy) {
   }
 }
 
-// Filters
-function applyFilters(profilesArray) {
-  const loc = fLocation.value.trim().toLowerCase();
-  const ageMax = fAge.value ? parseInt(fAge.value) : null;
-  const heightMin = fHeight.value ? parseInt(fHeight.value) : null;
-
-  return profilesArray.filter(p => {
-    if (loc && (!p.location || !p.location.toLowerCase().includes(loc))) return false;
-    if (ageMax && p.age && p.age > ageMax) return false;
-    if (heightMin && p.height && p.height < heightMin) return false;
-    return true;
-  });
-}
-
 // Update stats
 function updateStats(profiles) {
   statTotal.textContent = profiles.length;
@@ -693,19 +746,36 @@ function updateStats(profiles) {
   statLikes.textContent = totalLikes;
 }
 
-// Render profiles
+function formatDate(timestamp) {
+  if (!timestamp) return '';
+  const date = new Date(timestamp);
+  const now = new Date();
+  const diff = now - date;
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  if (days === 0) return 'Hoy';
+  if (days === 1) return 'Ayer';
+  if (days < 7) return `Hace ${days} días`;
+  return date.toLocaleDateString();
+}
+
+// Escape HTML
+function escapeHtml(str) {
+  if (!str) return "";
+  return str.replace(/[&<>]/g, m => m==='&'?'&amp;':m==='<'?'&lt;':'&gt;');
+}
+
+// Render profiles (sin filtros)
 function renderProfiles() {
   if (!profilesDiv) return;
-  const filtered = applyFilters(allProfiles);
-  updateStats(filtered);
+  updateStats(allProfiles);
 
-  if (filtered.length === 0) {
-    profilesDiv.innerHTML = `<div class="empty-state"><div class="empty-state-icon">💫</div><div>No hay perfiles que coincidan<br>¡Sé el primero en publicar!</div></div>`;
+  if (allProfiles.length === 0) {
+    profilesDiv.innerHTML = `<div class="empty-state"><div class="empty-state-icon">💫</div><h3>No hay perfiles aún</h3><div>¡Sé el primero en publicar!</div></div>`;
     return;
   }
 
   profilesDiv.innerHTML = "";
-  for (const p of filtered) {
+  for (const p of allProfiles) {
     const card = document.createElement("div");
     card.className = "card";
 
@@ -716,14 +786,17 @@ function renderProfiles() {
     const whatsappLink = p.phone ? `https://wa.me/${p.phone.replace(/[^0-9+]/g, '')}?text=Hola!%20Vi%20el%20perfil%20de%20${encodeURIComponent(p.name)}%20en%20vincle.chat%20y%20me%20gustaría%20conocerte%20😊` : null;
 
     const tagsHtml = p.tags?.length ? 
-      `<div class="tags-container">${p.tags.slice(0,4).map(tag => `<span class="tag">#${tag}</span>`).join('')}</div>` : "";
+      `<div class="tags-container">${p.tags.slice(0,4).map(tag => `<span class="tag">#${escapeHtml(tag)}</span>`).join('')}</div>` : "";
 
     card.innerHTML = `
       <div class="card-image-wrapper">
-        <img src="${imgUrl}" alt="${p.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400'">
-        <div class="like-badge">❤️ ${p.likes || 0}</div>
+        <img src="${imgUrl}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400'">
+        <div class="like-badge">${p.likes || 0}</div>
       </div>
       <div class="card-content">
+        <div class="creator-badge">
+          👤 Publicado por: ${escapeHtml(p.creator)}
+        </div>
         <div class="card-header">
           <h3>${escapeHtml(p.name)}</h3>
           <span class="age-tag">${ageText}</span>
@@ -734,9 +807,12 @@ function renderProfiles() {
         </div>
         ${p.desc ? `<div class="desc-text">📝 ${escapeHtml(p.desc)}</div>` : ""}
         ${tagsHtml}
+        <div class="date-info">
+          🕒 ${p.createdAt ? formatDate(p.createdAt) : 'Reciente'}
+        </div>
         <div class="buttons-group">
           <button class="btn btn-like like-btn" data-id="${p.id}" data-likedby='${JSON.stringify(p.likedBy || [])}'>❤️ Me interesa</button>
-          ${whatsappLink ? `<a href="${whatsappLink}" target="_blank" rel="noopener noreferrer" style="flex:1"><button class="btn btn-wa">💬 WhatsApp</button></a>` : '<button class="btn btn-wa" disabled style="opacity:0.5">📱 Sin WhatsApp</button>'}
+          ${whatsappLink ? `<a href="${whatsappLink}" target="_blank" rel="noopener noreferrer" style="flex:1"><button class="btn btn-wa">💬 WhatsApp</button></a>` : '<button class="btn btn-wa" disabled>📱 Sin WhatsApp</button>'}
         </div>
       </div>
     `;
@@ -753,11 +829,6 @@ function renderProfiles() {
   }
 }
 
-function escapeHtml(str) {
-  if (!str) return "";
-  return str.replace(/[&<>]/g, m => m==='&'?'&amp;':m==='<'?'&lt;':'&gt;');
-}
-
 // Real-time listener
 function startRealtimeListener() {
   if (unsubscribeSnapshot) unsubscribeSnapshot();
@@ -765,8 +836,9 @@ function startRealtimeListener() {
   
   // Show skeleton loading
   profilesDiv.innerHTML = `
-    <div class="skeleton" style="height:350px; border-radius:28px;"></div>
-    <div class="skeleton" style="height:350px; border-radius:28px;"></div>
+    <div class="skeleton"></div>
+    <div class="skeleton"></div>
+    <div class="skeleton"></div>
   `;
   
   unsubscribeSnapshot = onSnapshot(q, (snapshot) => {
@@ -774,22 +846,13 @@ function startRealtimeListener() {
     renderProfiles();
   }, (error) => {
     console.error("Firestore error:", error);
-    profilesDiv.innerHTML = `<div class="empty-state"><div class="empty-state-icon">⚠️</div><div>Error de conexión<br>Verifica las reglas de Firestore</div></div>`;
+    profilesDiv.innerHTML = `<div class="empty-state"><div class="empty-state-icon">⚠️</div><h3>Error de conexión</h3><div>Verifica las reglas de Firestore</div></div>`;
     showToast("Error al conectar con la base de datos", true);
   });
 }
 
-// Bind filters
-function bindFilters() {
-  const update = () => renderProfiles();
-  fLocation.addEventListener("input", update);
-  fAge.addEventListener("input", update);
-  fHeight.addEventListener("input", update);
-}
-
 // Init
 function init() {
-  bindFilters();
   startRealtimeListener();
   
   document.getElementById("fabBtn").onclick = openModal;
