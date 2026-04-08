@@ -6,68 +6,119 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
   background: #f2f2f7;
+  padding-bottom: 80px;
 }
 
 header {
-  padding: 15px;
+  padding: 18px 15px;
   text-align: center;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 1.5rem;
   background: white;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #e5e5ea;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  color: #007aff;
+  letter-spacing: -0.3px;
 }
 
 .container {
   max-width: 900px;
-  margin: auto;
+  margin: 0 auto;
 }
 
 .filters {
   display: flex;
-  gap: 8px;
-  padding: 10px;
+  gap: 10px;
+  padding: 12px 15px;
   overflow-x: auto;
+  background: #f2f2f7;
+  scrollbar-width: thin;
 }
 
 .filters input {
-  padding: 8px;
-  border-radius: 10px;
+  padding: 10px 14px;
+  border-radius: 30px;
   border: 1px solid #ddd;
+  background: white;
+  font-size: 14px;
+  min-width: 110px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.filters input:focus {
+  border-color: #007aff;
+  box-shadow: 0 0 0 2px rgba(0,122,255,0.2);
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 12px;
-  padding: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 16px;
+  padding: 12px 15px;
 }
 
 .card {
   background: white;
-  border-radius: 16px;
+  border-radius: 20px;
   overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  transition: transform 0.1s ease;
+}
+
+.card:active {
+  transform: scale(0.98);
 }
 
 .card img {
   width: 100%;
-  height: 160px;
+  height: 180px;
   object-fit: cover;
+  background: #f0f0f0;
+  display: block;
 }
 
 .card-content {
-  padding: 10px;
+  padding: 12px;
   font-size: 13px;
+}
+
+.card-content b {
+  font-size: 16px;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.card-content > div {
+  margin: 6px 0;
+  color: #3a3a3c;
+}
+
+.like-count {
+  font-weight: 600;
+  color: #ff3b30;
 }
 
 button {
   border: none;
-  border-radius: 10px;
-  padding: 8px;
+  border-radius: 40px;
+  padding: 10px;
   width: 100%;
-  margin-top: 5px;
+  margin-top: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
 .like {
@@ -75,9 +126,17 @@ button {
   color: white;
 }
 
+.like:hover {
+  background: #005fc1;
+}
+
 .whatsapp {
   background: #25D366;
   color: white;
+}
+
+.whatsapp:hover {
+  background: #1da15b;
 }
 
 .fab {
@@ -89,27 +148,88 @@ button {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  font-size: 30px;
+  font-size: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: 0.2s;
+  z-index: 20;
+  border: none;
+}
+
+.fab:hover {
+  background: #005fc1;
+  transform: scale(1.03);
 }
 
 .modal {
   position: fixed;
   inset: 0;
   background: white;
-  padding: 20px;
+  padding: 24px 20px 40px;
   display: none;
   overflow-y: auto;
+  z-index: 30;
+  flex-direction: column;
+}
+
+.modal h2 {
+  margin-top: 0;
+  text-align: center;
+  color: #007aff;
 }
 
 .modal input, .modal textarea {
   width: 100%;
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 10px;
+  margin-bottom: 14px;
+  padding: 12px;
+  border-radius: 14px;
   border: 1px solid #ddd;
+  font-family: inherit;
+  font-size: 15px;
+}
+
+.modal textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.modal button {
+  background: #007aff;
+  color: white;
+  margin-top: 8px;
+  font-size: 16px;
+}
+
+.modal button:last-of-type {
+  background: #8e8e93;
+}
+
+.close-icon {
+  text-align: right;
+  font-size: 28px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  color: #666;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 50px 20px;
+  color: #8e8e93;
+  font-size: 16px;
+}
+
+@media (max-width: 500px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+  }
+  .card img {
+    height: 150px;
+  }
 }
 </style>
 </head>
@@ -121,32 +241,33 @@ button {
 <div class="container">
 
 <div class="filters">
-  <input id="fLocation" placeholder="Ubicación">
-  <input id="fAge" placeholder="Edad max">
-  <input id="fHeight" placeholder="Altura min">
+  <input id="fLocation" placeholder="📍 Ubicación" autocomplete="off">
+  <input id="fAge" placeholder="📅 Edad max" type="number" autocomplete="off">
+  <input id="fHeight" placeholder="📏 Altura min (cm)" type="number" autocomplete="off">
 </div>
 
 <div id="profiles" class="grid"></div>
 
 </div>
 
-<div class="fab" onclick="openForm()">+</div>
+<button class="fab" onclick="openForm()">+</button>
 
 <div id="modal" class="modal">
-  <h2>Sube a tu amigo 😏</h2>
+  <div class="close-icon" onclick="closeForm()">&times;</div>
+  <h2>✨ Sube a tu amigo ✨</h2>
 
-  <input id="creator" placeholder="Tu nombre">
-  <input id="name" placeholder="Nombre">
-  <input id="age" placeholder="Edad">
-  <input id="height" placeholder="Altura cm">
-  <input id="location" placeholder="Ubicación">
-  <input id="phone" placeholder="Teléfono (ej: 34600000000)">
-  <input id="photo" placeholder="URL foto">
-  <textarea id="desc" placeholder="Descripción"></textarea>
-  <input id="tags" placeholder="Tags">
+  <input id="creator" placeholder="Tu nombre *" autocomplete="off">
+  <input id="name" placeholder="Nombre *" autocomplete="off">
+  <input id="age" placeholder="Edad" type="number" autocomplete="off">
+  <input id="height" placeholder="Altura (cm)" type="number" autocomplete="off">
+  <input id="location" placeholder="Ubicación (ej: Madrid)" autocomplete="off">
+  <input id="phone" placeholder="WhatsApp (ej: 34600000000)" autocomplete="off">
+  <input id="photo" placeholder="URL foto (https://...)" autocomplete="off">
+  <textarea id="desc" placeholder="Descripción breve..."></textarea>
+  <input id="tags" placeholder="Tags separados por coma (ej: deporte,viajes)" autocomplete="off">
 
-  <button onclick="addProfile()">Publicar</button>
-  <button onclick="closeForm()">Cerrar</button>
+  <button onclick="addProfile()">📢 Publicar</button>
+  <button onclick="closeForm()">Cancelar</button>
 </div>
 
 <script type="module">
@@ -158,117 +279,288 @@ import {
   onSnapshot,
   doc,
   updateDoc,
-  increment
+  increment,
+  query,
+  orderBy
 } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
+// ========== 🔥 CONFIGURACIÓN DE FIREBASE (REEMPLAZA CON TUS DATOS) ==========
 const firebaseConfig = {
-  apiKey: "TU_CONFIG_AQUI",
-  authDomain: "TU_CONFIG_AQUI",
-  projectId: "TU_CONFIG_AQUI",
+  apiKey: "AIzaSyDummyReplaceWithYourActualKey",      // <--- CAMBIA ESTO
+  authDomain: "tu-proyecto.firebaseapp.com",           // <--- CAMBIA ESTO
+  projectId: "tu-proyecto-id"                          // <--- CAMBIA ESTO
 };
+// ===========================================================================
 
+// Inicializar Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// ID local
-let userId = localStorage.getItem("vincle_user") || Math.random();
-localStorage.setItem("vincle_user", userId);
+// ID de usuario local para control de likes
+let userId = localStorage.getItem("vincle_user");
+if (!userId) {
+  userId = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36);
+  localStorage.setItem("vincle_user", userId);
+}
 
-// UI
-window.openForm = () => modal.style.display = "block";
-window.closeForm = () => modal.style.display = "none";
+// Elementos del DOM
+const profilesDiv = document.getElementById("profiles");
+const modal = document.getElementById("modal");
+const fLocation = document.getElementById("fLocation");
+const fAge = document.getElementById("fAge");
+const fHeight = document.getElementById("fHeight");
 
-// añadir perfil
+// Campos del formulario
+const creatorInput = document.getElementById("creator");
+const nameInput = document.getElementById("name");
+const ageInput = document.getElementById("age");
+const heightInput = document.getElementById("height");
+const locationInput = document.getElementById("location");
+const phoneInput = document.getElementById("phone");
+const photoInput = document.getElementById("photo");
+const descInput = document.getElementById("desc");
+const tagsInput = document.getElementById("tags");
+
+// Variables reactivas para datos y filtros
+let allProfiles = [];     // almacena todos los perfiles crudos
+let unsubscribeSnapshot = null;
+
+// Funciones UI
+window.openForm = () => {
+  modal.style.display = "flex";
+};
+window.closeForm = () => {
+  modal.style.display = "none";
+  // limpiar campos opcional
+};
+
+// Añadir perfil a Firestore
 window.addProfile = async () => {
+  const creator = creatorInput.value.trim();
+  const name = nameInput.value.trim();
+  const age = parseInt(ageInput.value);
+  const height = parseInt(heightInput.value);
+  const location = locationInput.value.trim();
+  const phone = phoneInput.value.trim();
+  const photo = photoInput.value.trim();
+  const desc = descInput.value.trim();
+  const tagsRaw = tagsInput.value.trim();
+
+  if (!creator || !name) {
+    alert("❌ Por favor, completa al menos 'Tu nombre' y 'Nombre'");
+    return;
+  }
+
+  // Validación simple teléfono (no obligatorio pero ayuda)
+  let phoneNumber = phone;
+  if (phoneNumber && !phoneNumber.startsWith("+") && !phoneNumber.startsWith("34") && phoneNumber.length > 0) {
+    if (/^\d+$/.test(phoneNumber)) phoneNumber = "34" + phoneNumber;
+  }
+
   const data = {
-    creator: creator.value,
-    name: name.value,
-    age: parseInt(age.value),
-    height: parseInt(height.value),
-    location: location.value,
-    phone: phone.value,
-    photo: photo.value,
-    desc: desc.value,
-    tags: tags.value.split(","),
+    creator: creator,
+    name: name,
+    age: isNaN(age) ? null : age,
+    height: isNaN(height) ? null : height,
+    location: location || null,
+    phone: phoneNumber || null,
+    photo: photo || "https://placehold.co/400x300?text=Sin+foto",
+    desc: desc || null,
+    tags: tagsRaw ? tagsRaw.split(",").map(t => t.trim()).filter(t => t) : [],
     likes: 0,
     likedBy: [],
     createdAt: Date.now()
   };
 
-  if (!data.name || !data.creator) {
-    alert("Faltan datos");
+  try {
+    await addDoc(collection(db, "profiles"), data);
+    closeForm();
+    // Limpiar campos
+    creatorInput.value = "";
+    nameInput.value = "";
+    ageInput.value = "";
+    heightInput.value = "";
+    locationInput.value = "";
+    phoneInput.value = "";
+    photoInput.value = "";
+    descInput.value = "";
+    tagsInput.value = "";
+  } catch (error) {
+    console.error("Error al publicar:", error);
+    alert("Error al guardar: " + error.message);
+  }
+};
+
+// Like a perfil
+window.likeProfile = async (id, currentLikedBy) => {
+  if (!currentLikedBy) currentLikedBy = [];
+  if (currentLikedBy.includes(userId)) {
+    alert("💛 Ya apoyaste a esta persona");
     return;
   }
-
-  await addDoc(collection(db, "profiles"), data);
-
-  closeForm();
+  try {
+    const newLikedBy = [...currentLikedBy, userId];
+    await updateDoc(doc(db, "profiles", id), {
+      likes: increment(1),
+      likedBy: newLikedBy
+    });
+  } catch (err) {
+    console.error("Error al dar like:", err);
+    alert("No se pudo enviar el like");
+  }
 };
 
-// like
-window.likeProfile = async (id, likedBy) => {
-  if (likedBy.includes(userId)) return alert("Ya diste like");
+// Filtros (devuelve array filtrado)
+function applyFilters(profilesArray) {
+  const locFilter = fLocation.value.trim().toLowerCase();
+  const ageMax = fAge.value ? parseInt(fAge.value) : null;
+  const heightMin = fHeight.value ? parseInt(fHeight.value) : null;
 
-  await updateDoc(doc(db, "profiles", id), {
-    likes: increment(1),
-    likedBy: [...likedBy, userId]
-  });
-};
-
-// filtros
-function applyFilters(data) {
-  return data.filter(p => {
-    return (!fLocation.value || p.location?.toLowerCase().includes(fLocation.value.toLowerCase()))
-      && (!fAge.value || p.age <= parseInt(fAge.value))
-      && (!fHeight.value || p.height >= parseInt(fHeight.value));
+  return profilesArray.filter(p => {
+    if (locFilter && (!p.location || !p.location.toLowerCase().includes(locFilter))) return false;
+    if (ageMax !== null && (p.age && p.age > ageMax)) return false;
+    if (heightMin !== null && (p.height && p.height < heightMin)) return false;
+    return true;
   });
 }
 
-// render
-onSnapshot(collection(db, "profiles"), (snap) => {
-  let data = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-  data = applyFilters(data);
+// Renderizado
+function renderProfiles() {
+  if (!profilesDiv) return;
+  const filtered = applyFilters(allProfiles);
 
-  profiles.innerHTML = "";
+  if (filtered.length === 0) {
+    profilesDiv.innerHTML = `<div class="empty-state">🙈 No hay perfiles que coincidan<br>¡Sé el primero en publicar!</div>`;
+    return;
+  }
 
-  data.forEach(p => {
-    const el = document.createElement("div");
-    el.className = "card";
+  profilesDiv.innerHTML = "";
+  for (const p of filtered) {
+    const card = document.createElement("div");
+    card.className = "card";
 
-    const whatsappLink = p.phone 
-      ? `https://wa.me/${p.phone}?text=Hola!%20He%20visto%20tu%20perfil%20en%20vincle.chat`
+    const imgUrl = p.photo && p.photo.startsWith("http") ? p.photo : "https://placehold.co/400x300?text=Perfil";
+    const ageText = p.age ? `${p.age} años` : "? años";
+    const heightText = p.height ? `${p.height} cm` : "";
+    const locationText = p.location || "🌍 Sin ubicación";
+    const likesCount = p.likes || 0;
+    const likedByArray = p.likedBy || [];
+    const phoneNumber = p.phone;
+    const whatsappLink = phoneNumber 
+      ? `https://wa.me/${phoneNumber.replace(/[^0-9+]/g, '')}?text=Hola!%20Vi%20tu%20perfil%20en%20vincle.chat%20y%20me%20interesa%20conocerte%20😊`
       : null;
 
-    el.innerHTML = `
-      <img src="${p.photo || ''}">
+    // Descripción corta
+    const descHtml = p.desc ? `<div style="font-size:12px; color:#666; margin-top:4px;">📝 ${p.desc.substring(0, 70)}${p.desc.length > 70 ? '…' : ''}</div>` : "";
+    
+    // Tags
+    const tagsHtml = p.tags && p.tags.length ? 
+      `<div style="display:flex; flex-wrap:wrap; gap:4px; margin:8px 0 4px;">
+        ${p.tags.slice(0,3).map(tag => `<span style="background:#e9e9ef; padding:2px 8px; border-radius:20px; font-size:11px;">#${tag}</span>`).join('')}
+       </div>` : "";
+
+    card.innerHTML = `
+      <img src="${imgUrl}" alt="${p.name}" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=Error+carga'">
       <div class="card-content">
-        <b>${p.name}</b> (${p.age || ""})
-        <div>${p.location || ""}</div>
-        <div>${p.height || ""} cm</div>
-        <div>❤️ ${p.likes}</div>
-
-        <button class="like" onclick='likeProfile("${p.id}", ${JSON.stringify(p.likedBy)})'>
-          Me interesa
+        <div><b>${escapeHtml(p.name)}</b> <span style="color:#666;">(${ageText})</span></div>
+        <div>📍 ${escapeHtml(locationText)}</div>
+        ${heightText ? `<div>📏 ${heightText}</div>` : ""}
+        <div class="like-count">❤️ ${likesCount}</div>
+        ${descHtml}
+        ${tagsHtml}
+        <button class="like" data-id="${p.id}" data-likedby='${JSON.stringify(likedByArray)}'>
+          💌 Me interesa
         </button>
-
         ${whatsappLink ? `
-          <a href="${whatsappLink}" target="_blank">
-            <button class="whatsapp">WhatsApp</button>
+          <a href="${whatsappLink}" target="_blank" rel="noopener noreferrer">
+            <button class="whatsapp">💬 WhatsApp</button>
           </a>
         ` : ""}
       </div>
     `;
 
-    profiles.appendChild(el);
-  });
-});
+    // Asignar evento al botón de like después de insertar (evita problemas con onclick en string)
+    const likeBtn = card.querySelector('.like');
+    if (likeBtn) {
+      likeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const id = likeBtn.getAttribute('data-id');
+        let likedByArr = [];
+        try {
+          const raw = likeBtn.getAttribute('data-likedby');
+          likedByArr = JSON.parse(raw);
+        } catch(e) { likedByArr = []; }
+        window.likeProfile(id, likedByArr);
+      });
+    }
 
-// filtros live
-[fLocation, fAge, fHeight].forEach(input => {
-  input.oninput = () => {
-    onSnapshot(collection(db, "profiles"), () => {});
-  };
-});
+    profilesDiv.appendChild(card);
+  }
+}
+
+// pequeño helper para evitar XSS
+function escapeHtml(str) {
+  if (!str) return "";
+  return str.replace(/[&<>]/g, function(m) {
+    if (m === '&') return '&amp;';
+    if (m === '<') return '&lt;';
+    if (m === '>') return '&gt;';
+    return m;
+  });
+}
+
+// Escucha en tiempo real con orden
+function startRealtimeListener() {
+  if (unsubscribeSnapshot) unsubscribeSnapshot();
+  const q = query(collection(db, "profiles"), orderBy("createdAt", "desc"));
+  unsubscribeSnapshot = onSnapshot(q, (snapshot) => {
+    const newList = [];
+    snapshot.forEach(docSnap => {
+      newList.push({ id: docSnap.id, ...docSnap.data() });
+    });
+    allProfiles = newList;
+    renderProfiles();
+  }, (error) => {
+    console.error("Error en snapshot:", error);
+    profilesDiv.innerHTML = `<div class="empty-state">⚠️ Error de conexión con Firebase.<br>Revisa tu configuración de Firestore.</div>`;
+  });
+}
+
+// Reiniciar render cuando cambien filtros
+function bindFilters() {
+  const update = () => renderProfiles();
+  fLocation.addEventListener("input", update);
+  fAge.addEventListener("input", update);
+  fHeight.addEventListener("input", update);
+}
+
+// Inicializar app
+function init() {
+  bindFilters();
+  startRealtimeListener();
+}
+
+// Ejecutar cuando el DOM esté listo
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", init);
+} else {
+  init();
+}
+
+// Exponer funciones globales necesarias para onclick en HTML (aunque usamos event listeners internos, openForm/closeForm/addProfile están window)
+window.closeForm = closeForm;
+window.openForm = openForm;
+window.addProfile = addProfile;
+window.likeProfile = likeProfile;
+
+// Aviso si falta config
+if (firebaseConfig.apiKey === "AIzaSyDummyReplaceWithYourActualKey") {
+  setTimeout(() => {
+    if (confirm("⚠️ Configuración de Firebase pendiente. ¿Quieres ver cómo obtener tus credenciales?")) {
+      window.open("https://console.firebase.google.com/", "_blank");
+    }
+  }, 500);
+}
 </script>
 
 </body>
