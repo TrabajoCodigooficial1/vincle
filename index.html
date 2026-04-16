@@ -610,7 +610,7 @@ async function addProfile() {
   if (!creator || !name) { showToast("❌ Necesitamos tu nombre y el de tu amig@", true); return; }
   let phone = phoneInput.value.trim();
   if (phone && !phone.startsWith("+") && /^\d+$/.test(phone)) phone = "34" + phone;
-  const defaultPhoto = "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500";
+  const defaultPhoto = "https://i.redd.it/l0ergarfzst61.pngw=500";
   const data = {
     creator, name,
     age: ageInput.value ? parseInt(ageInput.value) : null,
