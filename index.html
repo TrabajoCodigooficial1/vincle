@@ -2,7 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+  <meta name="theme-color" content="#1e3b4a">
   <title>Vincle.chat · Reflexiones que conectan</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -16,7 +17,12 @@
     }
   </script>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
     
     body {
       font-family: 'Inter', sans-serif;
@@ -24,6 +30,7 @@
       color: #0a1c2f;
       line-height: 1.5;
       transition: background 0.3s, color 0.3s;
+      overflow-x: hidden;
     }
     
     body.dark-mode {
@@ -34,149 +41,202 @@
     body.dark-mode .post-card,
     body.dark-mode .create-card,
     body.dark-mode .sidebar-card,
-    body.dark-mode .header,
-    body.dark-mode .modal-container {
+    body.dark-mode .header {
       background: #1e293b;
-      color: #e5e7eb;
     }
     
     body.dark-mode .fake-input,
     body.dark-mode .post-category,
-    body.dark-mode .topic-chip {
+    body.dark-mode .topic-chip,
+    body.dark-mode .comment {
       background: #334155;
       color: #cbd5e1;
     }
     
-    body.dark-mode .action-btn:hover {
-      background: #334155;
+    body.dark-mode .comment { background: #0f172a; }
+    
+    .app-container {
+      max-width: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
     
-    .app-container { max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; min-height: 100vh; }
-    
+    /* Header responsive */
     .header {
       background: rgba(255,255,255,0.98);
       border-bottom: 1px solid #eef2f8;
-      padding: 1rem 2rem;
+      padding: 0.8rem 1rem;
       position: sticky;
       top: 0;
-      z-index: 20;
+      z-index: 30;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
       backdrop-filter: blur(10px);
     }
     
-    body.dark-mode .header {
-      background: rgba(30,41,59,0.98);
-      border-bottom-color: #334155;
-    }
+    .logo { font-size: 1.6rem; font-weight: 800; background: linear-gradient(135deg, #183c4f, #2c6e8f); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .logo span { font-size: 0.7rem; color: #5c6f87; }
     
-    .logo { font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, #183c4f, #2c6e8f); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .logo span { font-weight: 500; font-size: 0.85rem; color: #5c6f87; }
+    .header-actions { display: flex; align-items: center; gap: 0.8rem; }
+    .dark-mode-btn { background: #f0f4fa; border: none; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-size: 1rem; transition: 0.2s; }
+    .user-profile { display: flex; align-items: center; gap: 0.8rem; background: #f0f4fa; padding: 0.3rem 1rem 0.3rem 0.5rem; border-radius: 40px; cursor: pointer; }
+    .user-avatar { width: 34px; height: 34px; background: #1e3b4a; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.9rem; }
+    .user-name { font-weight: 600; font-size: 0.85rem; }
     
-    .header-actions { display: flex; align-items: center; gap: 15px; }
-    
-    .dark-mode-btn {
-      background: #f0f4fa;
-      border: none;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 1.2rem;
-      transition: 0.2s;
-    }
-    
-    .user-profile {
+    /* Layout principal - móvil primero */
+    .main-feed {
+      flex: 1;
+      padding: 1rem;
       display: flex;
-      align-items: center;
-      gap: 15px;
-      background: #f0f4fa;
-      padding: 6px 20px;
-      border-radius: 60px;
+      flex-direction: column;
+      gap: 1rem;
     }
     
-    body.dark-mode .user-profile,
-    body.dark-mode .dark-mode-btn {
-      background: #334155;
+    /* Desktop layout */
+    @media (min-width: 768px) {
+      .main-feed {
+        padding: 2rem;
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 2rem;
+      }
+      .mobile-menu-toggle { display: none; }
+      .sidebar { display: block !important; position: static; transform: none !important; width: auto !important; }
     }
     
-    .user-avatar { width: 40px; height: 40px; background: #1e3b4a; border-radius: 100%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; }
+    /* Móvil: sidebar oculto y drawer */
+    @media (max-width: 767px) {
+      .sidebar {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 85%;
+        max-width: 320px;
+        height: 100vh;
+        background: white;
+        z-index: 1000;
+        padding: 1rem;
+        overflow-y: auto;
+        transition: right 0.3s ease;
+        box-shadow: -5px 0 25px rgba(0,0,0,0.1);
+      }
+      body.dark-mode .sidebar { background: #1e293b; }
+      .sidebar.open { right: 0; }
+      .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 999;
+        display: none;
+      }
+      .sidebar-overlay.open { display: block; }
+      .mobile-menu-toggle {
+        background: #f0f4fa;
+        border: none;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
+      body.dark-mode .mobile-menu-toggle { background: #334155; color: white; }
+    }
     
-    .main-feed { flex: 1; padding: 2rem 2rem; display: grid; grid-template-columns: 1fr 340px; gap: 2.5rem; }
+    .posts-section { display: flex; flex-direction: column; gap: 1.5rem; width: 100%; }
     
-    @media (max-width: 880px) { .main-feed { grid-template-columns: 1fr; padding: 1.2rem; } .sidebar { display: none; } }
-    
-    .posts-section { display: flex; flex-direction: column; gap: 2.5rem; }
-    
+    /* Tarjetas responsivas - nunca se salen de pantalla */
     .post-card {
       background: white;
-      border-radius: 32px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.04), 0 0 0 1px #eef3fc;
+      border-radius: 28px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04), 0 0 0 1px #eef3fc;
       overflow: hidden;
-      transition: transform 0.2s, box-shadow 0.2s;
+      width: 100%;
+      max-width: 100%;
+      transition: transform 0.2s;
     }
     
-    .post-card:hover { transform: translateY(-3px); box-shadow: 0 20px 30px rgba(0,0,0,0.08); }
+    .post-header { padding: 1rem 1.2rem 0.5rem 1.2rem; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .avatar { width: 44px; height: 44px; background: #dce5f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem; flex-shrink: 0; }
+    .post-user-name { font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .post-category { background: #eef3fc; padding: 3px 12px; border-radius: 30px; font-size: 0.65rem; font-weight: 600; }
+    .post-time { font-size: 0.65rem; color: #7c8ba0; margin-top: 3px; }
+    .post-content { padding: 0.3rem 1.2rem 1rem 1.2rem; word-wrap: break-word; overflow-wrap: break-word; }
+    .post-title { font-size: 1.3rem; font-weight: 700; margin: 0.5rem 0; line-height: 1.35; word-break: break-word; }
+    .post-text { font-size: 0.95rem; margin: 0.6rem 0; white-space: pre-wrap; line-height: 1.6; word-break: break-word; }
+    .post-media { margin: 0.8rem 0; border-radius: 20px; text-align: center; background: #f2f6fb; overflow: hidden; }
+    .post-media img { max-width: 100%; max-height: 350px; width: auto; object-fit: contain; border-radius: 20px; cursor: pointer; }
     
-    .post-header { padding: 1.5rem 1.8rem 0.8rem 1.8rem; display: flex; align-items: center; gap: 14px; }
-    .avatar { width: 52px; height: 52px; background: #dce5f0; border-radius: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.3rem; flex-shrink: 0; }
-    .post-user-name { font-weight: 700; font-size: 1rem; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .post-category { background: #eef3fc; padding: 4px 14px; border-radius: 30px; font-size: 0.7rem; font-weight: 600; color: #22668d; }
-    .post-time { font-size: 0.7rem; color: #7c8ba0; margin-top: 4px; }
-    .post-content { padding: 0.5rem 1.8rem 1rem 1.8rem; }
-    .post-title { font-size: 1.6rem; font-weight: 700; margin: 0.6rem 0 0.8rem 0; letter-spacing: -0.3px; line-height: 1.35; }
-    .post-text { font-size: 1rem; margin: 0.8rem 0; white-space: pre-wrap; line-height: 1.7; }
-    .post-media { margin: 1rem 0; border-radius: 24px; text-align: center; background: #f2f6fb; overflow: hidden; }
-    .post-media img { max-width: 100%; max-height: 450px; object-fit: contain; border-radius: 24px; cursor: pointer; }
+    .post-actions { padding: 0.6rem 1.2rem 0.8rem 1.2rem; border-top: 1px solid #eff3fa; display: flex; gap: 0.8rem; flex-wrap: wrap; }
+    .action-btn { background: none; border: none; display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 500; color: #546e86; cursor: pointer; padding: 6px 12px; border-radius: 40px; transition: 0.2s; }
+    .action-btn:active { transform: scale(0.96); }
     
-    .post-actions { padding: 0.8rem 1.8rem 1rem 1.8rem; border-top: 1px solid #eff3fa; display: flex; gap: 2rem; }
-    .action-btn { background: none; border: none; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 500; color: #546e86; cursor: pointer; padding: 8px 16px; border-radius: 40px; transition: 0.2s; }
-    .action-btn:hover { background: #f0f4fa; color: #1a4c6e; transform: scale(1.02); }
-    .action-btn.active { color: #d43f34; }
+    /* Comentarios responsivos */
+    .comments-section { padding: 0 1.2rem 1.2rem 1.2rem; border-top: 1px solid #eff3fa; background: #fafbfd; }
+    .comment { display: flex; gap: 10px; margin-top: 0.8rem; padding: 0.6rem; border-radius: 16px; background: white; word-break: break-word; }
+    .comment-avatar { width: 28px; height: 28px; background: #dce5f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: bold; flex-shrink: 0; }
+    .comment-text { flex: 1; min-width: 0; }
+    .comment-author { font-weight: 600; font-size: 0.75rem; }
+    .comment-body { font-size: 0.8rem; margin-top: 3px; word-break: break-word; }
+    .add-comment { display: flex; gap: 8px; margin-top: 1rem; flex-wrap: wrap; }
+    .add-comment input { flex: 1; min-width: 150px; padding: 10px 14px; border-radius: 40px; border: 1px solid #e2e9f2; font-size: 0.85rem; }
+    .send-comment { background: #1e4c66; color: white; border: none; padding: 8px 18px; border-radius: 40px; cursor: pointer; font-size: 0.85rem; }
     
-    /* Comentarios */
-    .comments-section { padding: 0 1.8rem 1.5rem 1.8rem; border-top: 1px solid #eff3fa; background: #fafbfd; }
-    body.dark-mode .comments-section { background: #1a2538; }
-    .comment { display: flex; gap: 12px; margin-top: 1rem; padding: 0.8rem; border-radius: 20px; background: white; }
-    body.dark-mode .comment { background: #0f172a; }
-    .comment-avatar { width: 32px; height: 32px; background: #dce5f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; }
-    .comment-text { flex: 1; }
-    .comment-author { font-weight: 600; font-size: 0.8rem; }
-    .comment-body { font-size: 0.85rem; margin-top: 4px; }
-    .comment-time { font-size: 0.65rem; color: #7c8ba0; margin-top: 4px; }
-    .add-comment { display: flex; gap: 10px; margin-top: 1rem; }
-    .add-comment input { flex: 1; padding: 10px 15px; border-radius: 40px; border: 1px solid #e2e9f2; background: white; }
-    .send-comment { background: #1e4c66; color: white; border: none; padding: 8px 20px; border-radius: 40px; cursor: pointer; }
+    /* Tarjeta de creación */
+    .create-card { background: white; border-radius: 28px; padding: 0.9rem 1.2rem; cursor: pointer; transition: 0.2s; }
+    .create-header { display: flex; align-items: center; gap: 12px; }
+    .mini-avatar { width: 42px; height: 42px; background: #1e3b4a; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1rem; flex-shrink: 0; }
+    .fake-input { flex: 1; background: #f3f6fc; border-radius: 40px; padding: 10px 16px; font-size: 0.85rem; color: #5f7f9a; white-space: nowrap; overflow-x: auto; }
     
-    .create-card { background: white; border-radius: 36px; padding: 1.2rem 1.5rem; cursor: pointer; transition: 0.2s; }
-    .create-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
-    .create-header { display: flex; align-items: center; gap: 14px; }
-    .mini-avatar { width: 50px; height: 50px; background: #1e3b4a; border-radius: 100%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.2rem; }
-    .fake-input { flex: 1; background: #f3f6fc; border-radius: 60px; padding: 14px 22px; color: #5f7f9a; }
+    /* Sidebar cards */
+    .sidebar-card { background: white; border-radius: 24px; padding: 1rem; margin-bottom: 1rem; }
+    .sidebar-title { font-weight: 700; margin-bottom: 0.8rem; border-left: 3px solid #2c6e8f; padding-left: 10px; font-size: 0.9rem; display: flex; align-items: center; gap: 6px; }
+    .topic-chip { display: inline-block; background: #eef2fa; border-radius: 30px; padding: 4px 12px; margin: 4px 4px 0 0; font-size: 0.7rem; cursor: pointer; }
+    .reflection-day { background: linear-gradient(135deg, #1e3b4a, #2c6e8f); color: white; padding: 1rem; border-radius: 20px; margin-top: 0.8rem; font-size: 0.85rem; }
+    .saved-post-item { padding: 0.6rem 0; border-bottom: 1px solid #eef3fc; cursor: pointer; font-size: 0.8rem; word-break: break-word; }
     
-    /* Sidebar único */
-    .sidebar-card { background: white; border-radius: 32px; padding: 1.6rem; margin-bottom: 1.8rem; transition: 0.2s; }
-    .sidebar-title { font-weight: 700; margin-bottom: 1.2rem; border-left: 4px solid #2c6e8f; padding-left: 14px; display: flex; align-items: center; gap: 8px; }
-    .topic-chip { display: inline-block; background: #eef2fa; border-radius: 40px; padding: 6px 18px; margin: 6px 6px 0 0; font-size: 0.75rem; cursor: pointer; transition: 0.2s; }
-    .topic-chip:hover { background: #2c6e8f; color: white; }
-    .reflection-day { background: linear-gradient(135deg, #1e3b4a, #2c6e8f); color: white; padding: 1.2rem; border-radius: 24px; margin-top: 1rem; }
-    .saved-post-item { padding: 0.8rem 0; border-bottom: 1px solid #eef3fc; cursor: pointer; }
+    /* Paginación responsiva */
+    .pagination-container { display: flex; justify-content: center; gap: 8px; margin-top: 1rem; flex-wrap: wrap; }
+    .page-btn { background: white; border: 1px solid #e2e9f2; padding: 6px 14px; border-radius: 40px; cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
+    .page-btn:active { transform: scale(0.95); }
+    .page-btn.active { background: #1e4c66; color: white; }
     
-    .pagination-container { display: flex; justify-content: center; gap: 12px; margin-top: 1rem; }
-    .page-btn { background: white; border: 1px solid #e2e9f2; padding: 10px 18px; border-radius: 50px; cursor: pointer; transition: 0.2s; }
-    .page-btn.active { background: #1e4c66; color: white; border-color: #1e4c66; }
-    
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10,28,47,0.75); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-    .modal-container { background: white; width: 90%; max-width: 580px; border-radius: 44px; padding: 2rem; max-height: 85vh; overflow-y: auto; }
+    /* Modales responsivos */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10,28,47,0.75); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 1rem; }
+    .modal-container { background: white; width: 100%; max-width: 500px; border-radius: 32px; padding: 1.5rem; max-height: 85vh; overflow-y: auto; }
+    input, textarea { font-family: 'Inter', sans-serif; border: 1px solid #e2e9f2; border-radius: 24px; padding: 10px 14px; width: 100%; font-size: 0.9rem; margin-bottom: 12px; }
+    .btn-primary-solid { background: #1e4c66; border: none; color: white; padding: 10px 20px; border-radius: 40px; font-weight: 600; cursor: pointer; width: 100%; }
     .hidden { display: none; }
-    .toast-msg { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1a2c3f; color: white; padding: 12px 28px; border-radius: 60px; z-index: 1200; font-size: 0.9rem; }
-    input, textarea { font-family: 'Inter', sans-serif; border: 1px solid #e2e9f2; border-radius: 24px; padding: 12px 18px; width: 100%; font-size: 0.95rem; margin-bottom: 14px; }
-    .btn-primary-solid { background: #1e4c66; border: none; color: white; padding: 12px 24px; border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.2s; }
-    .btn-primary-solid:hover { background: #2c6e8f; transform: scale(1.02); }
-    .loading-spinner { text-align: center; padding: 3rem; color: #6c86a3; }
+    .toast-msg { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #1a2c3f; color: white; padding: 10px 20px; border-radius: 50px; z-index: 1200; font-size: 0.8rem; white-space: nowrap; max-width: 90vw; white-space: normal; text-align: center; }
+    .loading-spinner { text-align: center; padding: 2rem; color: #6c86a3; }
+    
+    /* Botón flotante para móvil */
+    .fab-mobile {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 56px;
+      height: 56px;
+      background: #1e4c66;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      cursor: pointer;
+      z-index: 40;
+      transition: 0.2s;
+    }
+    .fab-mobile:active { transform: scale(0.92); }
+    @media (min-width: 768px) { .fab-mobile { display: none; } }
+    body.dark-mode .fab-mobile { background: #2c6e8f; }
   </style>
 </head>
 <body>
@@ -185,10 +245,10 @@
     <div class="logo-area"><div class="logo">Vincle<span>.chat</span></div></div>
     <div class="header-actions">
       <button class="dark-mode-btn" id="darkModeBtn"><i class="fas fa-moon"></i></button>
-      <div class="user-profile">
+      <button class="mobile-menu-toggle" id="mobileMenuToggle"><i class="fas fa-bars"></i></button>
+      <div class="user-profile" id="userProfileBtn">
         <div class="user-avatar" id="userAvatar">V</div>
-        <div><div class="user-name" id="displayNameText">Pensador</div>
-        <button id="editProfileBtn" style="background:none;border:none;font-size:0.75rem;color:#4f7a9e;cursor:pointer;"><i class="fas fa-pen"></i> nombre</button></div>
+        <div class="user-name" id="displayNameText">Pensador</div>
       </div>
     </div>
   </header>
@@ -198,33 +258,34 @@
       <div class="create-card" id="openCreatorBtn">
         <div class="create-header">
           <div class="mini-avatar" id="miniAvatar">V</div>
-          <div class="fake-input"><i class="fas fa-feather-alt"></i> Comparte una reflexión, idea o aprendizaje...</div>
+          <div class="fake-input"><i class="fas fa-feather-alt"></i> Comparte una reflexión...</div>
         </div>
       </div>
-      <div id="postsFeedContainer"><div class="loading-spinner"><i class="fas fa-spinner fa-pulse"></i> Conectando con Vincle...</div></div>
+      <div id="postsFeedContainer"><div class="loading-spinner"><i class="fas fa-spinner fa-pulse"></i> Conectando...</div></div>
       <div id="paginationControls" class="pagination-container"></div>
     </div>
     
-    <aside class="sidebar">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <aside class="sidebar" id="sidebar">
+      <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
+        <button id="closeSidebarBtn" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+      </div>
       <div class="sidebar-card">
         <div class="sidebar-title"><i class="fas fa-crown"></i> Reflexión del día</div>
         <div class="reflection-day" id="reflectionOfDay">
           <i class="fas fa-quote-left"></i>
-          <p style="margin-top: 10px; font-style: italic;">"La sabiduría no es producto de la escolarización, sino del intento de adquirirla durante toda la vida."</p>
-          <small style="display: block; margin-top: 10px;">— Albert Einstein</small>
+          <p style="margin-top: 8px; font-style: italic;">"La sabiduría no es producto de la escolarización, sino del intento de adquirirla durante toda la vida."</p>
+          <small style="display: block; margin-top: 8px;">— Albert Einstein</small>
         </div>
       </div>
-      
       <div class="sidebar-card">
         <div class="sidebar-title"><i class="fas fa-hashtag"></i> Tendencias</div>
         <div id="trendingHashtags"></div>
       </div>
-      
       <div class="sidebar-card">
-        <div class="sidebar-title"><i class="fas fa-bookmark"></i> Tus reflexiones guardadas</div>
-        <div id="savedPostsList">No tienes posts guardados</div>
+        <div class="sidebar-title"><i class="fas fa-bookmark"></i> Guardados</div>
+        <div id="savedPostsList">No hay guardados</div>
       </div>
-      
       <div class="sidebar-card">
         <div class="sidebar-title"><i class="fas fa-fire"></i> Mentes que inspiran</div>
         <div id="topLocalCreators">Cargando...</div>
@@ -233,18 +294,20 @@
   </div>
 </div>
 
+<button class="fab-mobile" id="fabCreateBtn"><i class="fas fa-plus"></i></button>
+
 <!-- MODALES -->
 <div id="createModal" class="modal-overlay hidden">
   <div class="modal-container">
-    <h3 style="margin-bottom:1.2rem;"><i class="fas fa-lightbulb"></i> Nueva reflexión</h3>
+    <h3 style="margin-bottom:1rem;"><i class="fas fa-lightbulb"></i> Nueva reflexión</h3>
     <input type="text" id="modalTitle" placeholder="Título (opcional)">
     <textarea id="modalBody" rows="4" placeholder="Escribe tu reflexión..."></textarea>
     <input type="text" id="modalCategory" placeholder="Categoría">
     <input type="text" id="modalImageUrl" placeholder="URL de imagen (opcional)">
-    <input type="text" id="modalHashtags" placeholder="Hashtags separados por espacio (ej: #filosofia #aprendizaje)">
-    <div style="display:flex; gap:14px; justify-content:flex-end;">
-      <button id="cancelModalBtn" style="background:transparent; border:1px solid #cad5e2; padding:10px 24px; border-radius:40px;">Cancelar</button>
-      <button id="confirmPublishBtn" class="btn-primary-solid">Publicar →</button>
+    <input type="text" id="modalHashtags" placeholder="Hashtags separados por espacio (ej: #filosofia)">
+    <div style="display:flex; gap:10px; justify-content:flex-end;">
+      <button id="cancelModalBtn" style="background:transparent; border:1px solid #cad5e2; padding:8px 20px; border-radius:40px;">Cancelar</button>
+      <button id="confirmPublishBtn" class="btn-primary-solid" style="width:auto;">Publicar →</button>
     </div>
   </div>
 </div>
@@ -253,9 +316,9 @@
   <div class="modal-container">
     <h3 style="margin-bottom:1rem;">Tu identidad</h3>
     <input type="text" id="newNameInput" placeholder="Nombre público">
-    <div style="display:flex; gap:14px; justify-content:flex-end;">
-      <button id="closeNameModal" style="background:transparent; border:1px solid #cad5e2; padding:10px 24px; border-radius:40px;">Cancelar</button>
-      <button id="saveNameBtn" class="btn-primary-solid">Guardar</button>
+    <div style="display:flex; gap:10px; justify-content:flex-end;">
+      <button id="closeNameModal" style="background:transparent; border:1px solid #cad5e2; padding:8px 20px; border-radius:40px;">Cancelar</button>
+      <button id="saveNameBtn" class="btn-primary-solid" style="width:auto;">Guardar</button>
     </div>
   </div>
 </div>
@@ -283,6 +346,22 @@
 
   const postsContainer = document.getElementById("postsFeedContainer");
   const paginationDiv = document.getElementById("paginationControls");
+
+  // Mobile sidebar
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("sidebarOverlay");
+  const mobileMenuToggle = document.getElementById("mobileMenuToggle");
+  const closeSidebarBtn = document.getElementById("closeSidebarBtn");
+  
+  function openSidebar() { sidebar.classList.add("open"); overlay.classList.add("open"); document.body.style.overflow = "hidden"; }
+  function closeSidebar() { sidebar.classList.remove("open"); overlay.classList.remove("open"); document.body.style.overflow = ""; }
+  if (mobileMenuToggle) mobileMenuToggle.onclick = openSidebar;
+  if (closeSidebarBtn) closeSidebarBtn.onclick = closeSidebar;
+  if (overlay) overlay.onclick = closeSidebar;
+  
+  // FAB móvil
+  const fabBtn = document.getElementById("fabCreateBtn");
+  if (fabBtn) fabBtn.onclick = () => document.getElementById("createModal").classList.remove("hidden");
 
   // Dark Mode
   const darkModeBtn = document.getElementById("darkModeBtn");
@@ -328,7 +407,7 @@
     if (!currentUser) return;
     const profile = await getCurrentUserProfile();
     const name = profile?.displayName || "Vincleante";
-    document.getElementById("displayNameText").innerText = name;
+    document.getElementById("displayNameText").innerText = name.length > 12 ? name.slice(0,10)+".." : name;
     document.getElementById("userAvatar").innerText = name.charAt(0).toUpperCase();
     document.getElementById("miniAvatar").innerText = name.charAt(0).toUpperCase();
   }
@@ -350,7 +429,7 @@
   function renderCurrentPage() {
     if (!postsContainer) return;
     if (allPosts.length === 0) {
-      postsContainer.innerHTML = `<div style="background:white; border-radius:36px; padding:3rem; text-align:center;"><i class="fas fa-feather-alt fa-3x" style="color:#8ba0bc;"></i><p style="margin-top:16px;">Sé el primero en compartir una reflexión.</p></div>`;
+      postsContainer.innerHTML = `<div style="background:white; border-radius:28px; padding:2rem; text-align:center;"><i class="fas fa-feather-alt fa-3x" style="color:#8ba0bc;"></i><p style="margin-top:12px;">Sé el primero en compartir una reflexión.</p></div>`;
       return;
     }
     const start = (currentPage - 1) * POSTS_PER_PAGE;
@@ -367,20 +446,20 @@
       card.innerHTML = `
         <div class="post-header">
           <div class="avatar">${escapeHtml(post.userDisplayName?.charAt(0) || 'V')}</div>
-          <div>
+          <div style="flex:1; min-width:0;">
             <div class="post-user-name">${escapeHtml(post.userDisplayName || "Vincleante")}<span class="post-category">${escapeHtml(post.category || "reflexión")}</span></div>
             <div class="post-time">${timeAgo}</div>
           </div>
         </div>
         <div class="post-content">
           ${post.title ? `<div class="post-title">${escapeHtml(post.title)}</div>` : ''}
-          <div class="post-text">${escapeHtml(post.body || '')} ${hashtags.length ? `<br><small style="color:#2c6e8f;">${hashtags.map(h => `<span class="topic-chip" style="font-size:0.7rem; cursor:pointer;">${h}</span>`).join(' ')}</small>` : ''}</div>
+          <div class="post-text">${escapeHtml(post.body || '')} ${hashtags.length ? `<br><small style="color:#2c6e8f;">${hashtags.map(h => `<span class="topic-chip" style="font-size:0.65rem; display:inline-block;">${h}</span>`).join(' ')}</small>` : ''}</div>
           ${post.imageUrl ? `<div class="post-media"><img src="${post.imageUrl}" loading="lazy" onerror="this.style.display='none'"></div>` : ''}
         </div>
         <div class="post-actions">
           <button class="action-btn like-btn" data-id="${post.id}"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i> <span>${post.likeCount || 0}</span></button>
-          <button class="action-btn comment-toggle" data-id="${post.id}"><i class="far fa-comment-dots"></i> Dialogar (${post.commentsCount || 0})</button>
-          <button class="action-btn save-btn ${isSaved ? 'active' : ''}" data-id="${post.id}"><i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i> ${isSaved ? 'Guardado' : 'Guardar'}</button>
+          <button class="action-btn comment-toggle" data-id="${post.id}"><i class="far fa-comment-dots"></i> <span>${post.commentsCount || 0}</span></button>
+          <button class="action-btn save-btn" data-id="${post.id}"><i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i></button>
         </div>
         <div class="comments-section hidden" id="comments-${post.id}">
           <div id="comments-list-${post.id}"></div>
@@ -397,16 +476,11 @@
       const commentsDiv = card.querySelector(`.comments-section`);
       commentToggle.addEventListener("click", () => {
         commentsDiv.classList.toggle("hidden");
-        if (!commentsDiv.classList.contains("hidden")) {
-          renderComments(post.id, post.comments || []);
-        }
+        if (!commentsDiv.classList.contains("hidden")) renderComments(post.id, post.comments || []);
       });
       card.querySelector(".send-comment").addEventListener("click", () => addComment(post.id));
-      
       postsContainer.appendChild(card);
-      if (post.comments && post.comments.length > 0 && !commentsDiv.classList.contains("hidden")) {
-        renderComments(post.id, post.comments);
-      }
+      if (post.comments?.length && !commentsDiv.classList.contains("hidden")) renderComments(post.id, post.comments);
     });
   }
 
@@ -414,7 +488,7 @@
     const container = document.getElementById(`comments-list-${postId}`);
     if (!container) return;
     if (!comments || comments.length === 0) {
-      container.innerHTML = '<div style="text-align:center; padding:1rem; color:#7c8ba0;">Sé el primero en dialogar sobre esta reflexión</div>';
+      container.innerHTML = '<div style="text-align:center; padding:0.8rem; font-size:0.8rem; color:#7c8ba0;">Sé el primero en dialogar</div>';
       return;
     }
     container.innerHTML = comments.map(c => `
@@ -445,10 +519,7 @@
       authorName: profile?.displayName || "Vincleante",
       timestamp: new Date()
     };
-    await updateDoc(postRef, {
-      comments: arrayUnion(newComment),
-      commentsCount: (currentComments.length + 1)
-    });
+    await updateDoc(postRef, { comments: arrayUnion(newComment), commentsCount: currentComments.length + 1 });
     input.value = "";
     renderComments(postId, [...currentComments, newComment]);
   }
@@ -471,24 +542,18 @@
     localStorage.setItem("vincle_saved", JSON.stringify(savedPosts));
     renderSavedPostsList();
     renderCurrentPage();
-    showToast(savedPosts.includes(postId) ? "Reflexión guardada" : "Eliminada de guardados");
+    showToast(savedPosts.includes(postId) ? "Guardado" : "Eliminado");
   }
 
   function renderSavedPostsList() {
     const container = document.getElementById("savedPostsList");
     if (!container) return;
-    if (savedPosts.length === 0) {
-      container.innerHTML = "No tienes reflexiones guardadas";
-      return;
-    }
+    if (savedPosts.length === 0) { container.innerHTML = "No hay guardados"; return; }
     const saved = allPosts.filter(p => savedPosts.includes(p.id));
-    if (saved.length === 0) {
-      container.innerHTML = "No tienes reflexiones guardadas";
-      return;
-    }
+    if (saved.length === 0) { container.innerHTML = "No hay guardados"; return; }
     container.innerHTML = saved.slice(0, 5).map(p => `
-      <div class="saved-post-item" onclick="window.scrollTo({top:0})">
-        <div style="font-weight:600; font-size:0.85rem;">${p.title || p.body?.substring(0, 50)}...</div>
+      <div class="saved-post-item" onclick="document.getElementById('postsFeedContainer').scrollIntoView({behavior:'smooth'})">
+        <div style="font-weight:600; font-size:0.8rem;">${p.title || p.body?.substring(0, 50)}...</div>
         <small style="color:#7c8ba0;">${p.userDisplayName}</small>
       </div>
     `).join('');
@@ -497,18 +562,14 @@
   function updateTrendingHashtags() {
     const hashtagCount = new Map();
     allPosts.forEach(post => {
-      const hashtags = extractHashtags(post.body + (post.title || ""));
-      hashtags.forEach(tag => {
+      extractHashtags(post.body + (post.title || "")).forEach(tag => {
         hashtagCount.set(tag, (hashtagCount.get(tag) || 0) + 1);
       });
     });
     const sorted = Array.from(hashtagCount.entries()).sort((a,b) => b[1] - a[1]).slice(0, 8);
     const container = document.getElementById("trendingHashtags");
-    if (sorted.length === 0) {
-      container.innerHTML = '<span class="topic-chip">#filosofia</span><span class="topic-chip">#aprendizaje</span>';
-      return;
-    }
-    container.innerHTML = sorted.map(([tag, count]) => `<span class="topic-chip">${tag} <small style="font-size:0.65rem;">${count}</small></span>`).join('');
+    if (sorted.length === 0) { container.innerHTML = '<span class="topic-chip">#filosofia</span><span class="topic-chip">#aprendizaje</span>'; return; }
+    container.innerHTML = sorted.map(([tag, count]) => `<span class="topic-chip">${tag} <small>${count}</small></span>`).join('');
   }
 
   function extractHashtags(text) {
@@ -520,7 +581,7 @@
     const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
     if (totalPages <= 1) { paginationDiv.innerHTML = ""; return; }
     let html = "";
-    for (let i = 1; i <= Math.min(totalPages, 8); i++) {
+    for (let i = 1; i <= Math.min(totalPages, 6); i++) {
       html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
     }
     paginationDiv.innerHTML = html;
@@ -568,9 +629,9 @@
       const container = document.getElementById("topLocalCreators");
       if (sorted.length === 0) { container.innerHTML = "<span>Comparte y aparecerás</span>"; return; }
       container.innerHTML = sorted.map(([name, count]) => `
-        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
-          <div class="avatar" style="width:38px;height:38px;font-size:0.9rem;">${name.charAt(0)}</div>
-          <div><strong>${escapeHtml(name)}</strong><div style="font-size:11px;">${count} reflexiones</div></div>
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+          <div class="avatar" style="width:34px;height:34px;font-size:0.85rem;">${name.charAt(0)}</div>
+          <div style="flex:1; min-width:0;"><strong style="font-size:0.85rem;">${escapeHtml(name)}</strong><div style="font-size:10px;">${count} reflexiones</div></div>
         </div>
       `).join('');
     } catch(e) {}
@@ -613,7 +674,7 @@
   };
 
   const editModal = document.getElementById("editNameModal");
-  document.getElementById("editProfileBtn").onclick = async () => {
+  document.getElementById("userProfileBtn").onclick = async () => {
     const profile = await getCurrentUserProfile();
     document.getElementById("newNameInput").value = profile?.displayName || "";
     editModal.classList.remove("hidden");
@@ -629,6 +690,8 @@
     editModal.classList.add("hidden");
   };
   document.getElementById("closeNameModal").onclick = () => editModal.classList.add("hidden");
+  
+  window.renderComments = renderComments;
 </script>
 </body>
 </html>
