@@ -4,17 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>Vincle.chat · Reflexiones que conectan</title>
-  <!-- Fuentes y estilos premium -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- Firebase SDKs -->
   <script type="importmap">
     {
       "imports": {
         "firebase/app": "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js",
         "firebase/auth": "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js",
-        "firebase/firestore": "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js",
-        "firebase/storage": "https://www.gstatic.com/firebasejs/11.0.2/firebase-storage.js"
+        "firebase/firestore": "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js"
       }
     }
   </script>
@@ -40,10 +37,8 @@
       min-height: 100vh;
     }
 
-    /* Header refinado */
     .header {
       background: rgba(255,255,255,0.98);
-      backdrop-filter: blur(0px);
       border-bottom: 1px solid #eef2f8;
       padding: 1rem 2rem;
       position: sticky;
@@ -69,13 +64,11 @@
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      letter-spacing: -0.5px;
     }
 
     .logo span {
       font-weight: 500;
       font-size: 0.85rem;
-      background: none;
       color: #5c6f87;
     }
 
@@ -84,7 +77,6 @@
       color: #5e7a93;
       border-left: 1px solid #dce5ef;
       padding-left: 0.8rem;
-      margin-left: 0.3rem;
     }
 
     .user-profile {
@@ -106,7 +98,6 @@
       justify-content: center;
       color: white;
       font-weight: 700;
-      font-size: 1rem;
     }
 
     .user-name {
@@ -120,10 +111,8 @@
       font-size: 0.75rem;
       color: #4f7a9e;
       cursor: pointer;
-      transition: 0.2s;
     }
 
-    /* Feed principal con más espacio */
     .main-feed {
       flex: 1;
       padding: 2rem 2rem;
@@ -135,7 +124,6 @@
     @media (max-width: 880px) {
       .main-feed {
         grid-template-columns: 1fr;
-        padding: 1.2rem;
       }
       .sidebar {
         display: none;
@@ -148,7 +136,6 @@
       gap: 2rem;
     }
 
-    /* Tarjeta de publicación con más espacio y sombra elegante */
     .post-card {
       background: white;
       border-radius: 32px;
@@ -158,7 +145,7 @@
     }
 
     .post-card:hover {
-      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.06), 0 0 0 1px #e2ebf3;
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.06);
       transform: translateY(-2px);
     }
 
@@ -220,7 +207,6 @@
       font-weight: 700;
       margin: 0.6rem 0 0.8rem 0;
       letter-spacing: -0.3px;
-      line-height: 1.35;
     }
 
     .post-text {
@@ -244,9 +230,7 @@
     .post-media img {
       max-width: 100%;
       max-height: 400px;
-      object-fit: cover;
-      width: auto;
-      cursor: pointer;
+      object-fit: contain;
     }
 
     .post-actions {
@@ -266,7 +250,6 @@
       font-weight: 500;
       color: #546e86;
       cursor: pointer;
-      transition: 0.15s;
       padding: 6px 12px;
       border-radius: 40px;
     }
@@ -276,15 +259,9 @@
       color: #1a4c6e;
     }
 
-    .action-btn i {
-      font-size: 1.2rem;
-    }
-
-    /* Área de creación */
     .create-card {
       background: white;
       border-radius: 36px;
-      margin-bottom: 0.2rem;
       padding: 1.2rem 1.5rem;
       box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02), 0 0 0 1px #eef3fc;
       cursor: pointer;
@@ -292,7 +269,7 @@
     }
 
     .create-card:hover {
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04), 0 0 0 1px #dce7f0;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
     }
 
     .create-header {
@@ -311,7 +288,6 @@
       justify-content: center;
       color: white;
       font-weight: bold;
-      font-size: 1.1rem;
     }
 
     .fake-input {
@@ -323,7 +299,6 @@
       font-size: 0.95rem;
     }
 
-    /* Paginación */
     .pagination-container {
       display: flex;
       justify-content: center;
@@ -339,7 +314,6 @@
       border-radius: 50px;
       font-weight: 500;
       cursor: pointer;
-      transition: 0.2s;
     }
 
     .page-btn.active {
@@ -348,11 +322,6 @@
       border-color: #1e4c66;
     }
 
-    .page-btn:hover:not(.active) {
-      background: #eef2fa;
-    }
-
-    /* Modal */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -373,7 +342,6 @@
       max-width: 580px;
       border-radius: 44px;
       padding: 2rem;
-      box-shadow: 0 30px 50px rgba(0,0,0,0.2);
     }
 
     .hidden {
@@ -391,11 +359,8 @@
       border-radius: 60px;
       font-size: 0.85rem;
       z-index: 1200;
-      font-weight: 500;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }
 
-    /* Sidebar */
     .sidebar-card {
       background: white;
       border-radius: 32px;
@@ -407,7 +372,6 @@
     .sidebar-title {
       font-weight: 700;
       margin-bottom: 1.2rem;
-      font-size: 1rem;
       border-left: 4px solid #2c6e8f;
       padding-left: 14px;
     }
@@ -419,7 +383,6 @@
       padding: 6px 18px;
       margin: 6px 6px 0 0;
       font-size: 0.75rem;
-      font-weight: 500;
     }
 
     .creator-item {
@@ -436,17 +399,11 @@
       padding: 12px 18px;
       width: 100%;
       font-size: 0.95rem;
-      transition: 0.2s;
     }
 
     input:focus, textarea:focus {
       outline: none;
       border-color: #2c6e8f;
-      box-shadow: 0 0 0 3px rgba(44,110,143,0.1);
-    }
-
-    button {
-      cursor: pointer;
     }
 
     .btn-primary-solid {
@@ -456,13 +413,21 @@
       padding: 12px 24px;
       border-radius: 40px;
       font-weight: 600;
-      font-size: 0.9rem;
+      cursor: pointer;
     }
 
     .loading-spinner {
       text-align: center;
       padding: 3rem;
       color: #6c86a3;
+    }
+
+    .error-message {
+      background: #fee2e2;
+      color: #991b1b;
+      padding: 1rem;
+      border-radius: 20px;
+      text-align: center;
     }
   </style>
 </head>
@@ -492,51 +457,42 @@
       </div>
 
       <div id="postsFeedContainer">
-        <div class="loading-spinner"><i class="fas fa-spinner fa-pulse"></i> Cargando reflexiones...</div>
+        <div class="loading-spinner"><i class="fas fa-spinner fa-pulse"></i> Conectando con Vincle...</div>
       </div>
 
-      <!-- Paginación -->
       <div id="paginationControls" class="pagination-container"></div>
     </div>
 
     <aside class="sidebar">
       <div class="sidebar-card">
-        <div class="sidebar-title"><i class="fas fa-brain"></i> Tópicos en tendencia</div>
+        <div class="sidebar-title"><i class="fas fa-brain"></i> Tópicos</div>
         <div>
           <span class="topic-chip">#filosofía</span>
           <span class="topic-chip">#neurociencia</span>
           <span class="topic-chip">#creatividad</span>
-          <span class="topic-chip">#ética digital</span>
+          <span class="topic-chip">#ética</span>
           <span class="topic-chip">#aprendizaje</span>
-          <span class="topic-chip">#innovación</span>
         </div>
       </div>
       <div class="sidebar-card">
-        <div class="sidebar-title"><i class="fas fa-fire"></i> Mentes más activas</div>
-        <div id="topLocalCreators">Cargando comunidad...</div>
-      </div>
-      <div class="sidebar-card">
-        <div class="sidebar-title"><i class="fas fa-quote-left"></i> Cita Vincle</div>
-        <p style="font-style: italic; font-size: 0.85rem;">"Cada reflexión es un puente hacia otra mente."</p>
+        <div class="sidebar-title"><i class="fas fa-fire"></i> Mentes activas</div>
+        <div id="topLocalCreators">Cargando...</div>
       </div>
     </aside>
   </div>
 </div>
 
-<!-- MODAL CREAR PUBLICACIÓN -->
+<!-- MODAL CREAR -->
 <div id="createModal" class="modal-overlay hidden">
   <div class="modal-container">
-    <h3 style="margin-bottom: 1.2rem; font-weight: 700;"><i class="fas fa-lightbulb"></i> Nueva reflexión</h3>
-    <input type="text" id="modalTitle" placeholder="Título (opcional, pero potente)" style="margin-bottom: 14px;">
-    <textarea id="modalBody" rows="4" placeholder="Escribe tu idea, reflexión o análisis..." style="margin-bottom: 14px;"></textarea>
-    <input type="text" id="modalCategory" placeholder="Categoría (ej: psicología, arte, ciencia)" style="margin-bottom: 14px;">
-    <div style="display: flex; gap: 14px; align-items: center; margin-bottom: 24px;">
-      <label style="background:#f0f4fa; padding: 10px 20px; border-radius: 40px; font-size:0.85rem; cursor:pointer;"><i class="fas fa-image"></i> Añadir imagen <input type="file" id="modalImageUpload" accept="image/*" style="display:none;"></label>
-      <span id="imagePreviewName" style="font-size: 0.75rem; color: #6b7f99;"></span>
-    </div>
+    <h3 style="margin-bottom: 1.2rem;"><i class="fas fa-lightbulb"></i> Nueva reflexión</h3>
+    <input type="text" id="modalTitle" placeholder="Título (opcional)" style="margin-bottom: 14px;">
+    <textarea id="modalBody" rows="4" placeholder="Escribe tu reflexión..." style="margin-bottom: 14px;"></textarea>
+    <input type="text" id="modalCategory" placeholder="Categoría" style="margin-bottom: 14px;">
+    <input type="text" id="modalImageUrl" placeholder="URL de imagen (opcional)" style="margin-bottom: 24px;">
     <div style="display: flex; gap: 14px; justify-content: flex-end;">
       <button id="cancelModalBtn" style="background:transparent; border:1px solid #cad5e2; padding:10px 24px; border-radius:40px;">Cancelar</button>
-      <button id="confirmPublishBtn" class="btn-primary-solid">Publicar reflexión →</button>
+      <button id="confirmPublishBtn" class="btn-primary-solid">Publicar →</button>
     </div>
   </div>
 </div>
@@ -544,7 +500,7 @@
 <!-- MODAL EDITAR NOMBRE -->
 <div id="editNameModal" class="modal-overlay hidden">
   <div class="modal-container">
-    <h3 style="margin-bottom: 1rem;">Tu identidad en Vincle</h3>
+    <h3 style="margin-bottom: 1rem;">Tu identidad</h3>
     <input type="text" id="newNameInput" placeholder="Nombre público" style="margin-bottom: 24px;">
     <div style="display: flex; gap: 14px; justify-content: flex-end;">
       <button id="closeNameModal" style="background:transparent; border:1px solid #cad5e2; padding:10px 24px; border-radius:40px;">Cancelar</button>
@@ -556,10 +512,9 @@
 <script type="module">
   import { initializeApp } from "firebase/app";
   import { getAuth, signInAnonymously, onAuthStateChanged, updateProfile } from "firebase/auth";
-  import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, doc, updateDoc, arrayUnion, arrayRemove, getDoc, setDoc, limit, startAfter, getDocs } from "firebase/firestore";
-  import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+  import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, doc, updateDoc, arrayUnion, arrayRemove, getDoc, setDoc, limit, getDocs } from "firebase/firestore";
 
-  // Config Firebase
+  // Firebase Config
   const firebaseConfig = {
     apiKey: "AIzaSyDGrspy5R6usV6KMEIsxNb_7P5GuibbX4I",
     authDomain: "vinclechat-564d1.firebaseapp.com",
@@ -569,44 +524,41 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
-  const storage = getStorage(app);
 
-  // Estado
   let currentUser = null;
-  let allPosts = [];       // todos los posts cargados (para paginación local)
+  let allPosts = [];
   let currentPage = 1;
   const POSTS_PER_PAGE = 15;
   let totalPages = 1;
+  let isLoading = true;
 
-  // Elementos
   const postsContainer = document.getElementById("postsFeedContainer");
   const paginationDiv = document.getElementById("paginationControls");
 
-  // Autenticación anónima + perfil
+  // Autenticación
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       currentUser = user;
-      // Asegurar perfil en Firestore
       const userRef = doc(db, "users", user.uid);
       const snap = await getDoc(userRef);
       if (!snap.exists()) {
         const randomName = "pensador_" + Math.floor(Math.random() * 900 + 100);
         await setDoc(userRef, {
           displayName: randomName,
-          createdAt: new Date(),
-          avatarColor: "#" + Math.floor(Math.random()*16777215).toString(16).slice(0,6)
+          createdAt: new Date()
         });
-        // Actualizar displayName en auth
         await updateProfile(user, { displayName: randomName });
       }
       updateUserUI();
       loadTopCreators();
       subscribeToPosts();
     } else {
-      // Login anónimo automático
       try {
         await signInAnonymously(auth);
-      } catch(e) { console.error(e); }
+      } catch(e) {
+        console.error("Error auth:", e);
+        postsContainer.innerHTML = `<div class="error-message"><i class="fas fa-exclamation-triangle"></i> Error de conexión con Firebase. Verifica las reglas de Firestore.</div>`;
+      }
     }
   });
 
@@ -623,39 +575,53 @@
     const profile = await getCurrentUserProfile();
     const name = profile?.displayName || currentUser.displayName || "Vincleante";
     document.getElementById("displayNameText").innerText = name;
-    const initial = name.charAt(0).toUpperCase();
-    document.getElementById("userAvatar").innerText = initial;
-    document.getElementById("miniAvatar").innerText = initial;
+    document.getElementById("userAvatar").innerText = name.charAt(0).toUpperCase();
+    document.getElementById("miniAvatar").innerText = name.charAt(0).toUpperCase();
   }
 
-  // Suscripción en tiempo real (máximo 50 para paginación local, pero usamos snapshot y luego paginamos)
+  // Suscripción a posts
   let unsubscribePosts = null;
   function subscribeToPosts() {
     if (unsubscribePosts) unsubscribePosts();
     const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
-    unsubscribePosts = onSnapshot(q, (snapshot) => {
-      allPosts = [];
-      snapshot.forEach(docSnap => {
-        allPosts.push({ id: docSnap.id, ...docSnap.data() });
-      });
-      totalPages = Math.max(1, Math.ceil(allPosts.length / POSTS_PER_PAGE));
-      if (currentPage > totalPages) currentPage = totalPages;
-      renderCurrentPage();
-      renderPagination();
-      loadTopCreators();
-    });
+    
+    unsubscribePosts = onSnapshot(q, 
+      (snapshot) => {
+        allPosts = [];
+        snapshot.forEach(docSnap => {
+          allPosts.push({ id: docSnap.id, ...docSnap.data() });
+        });
+        totalPages = Math.max(1, Math.ceil(allPosts.length / POSTS_PER_PAGE));
+        if (currentPage > totalPages) currentPage = totalPages;
+        renderCurrentPage();
+        renderPagination();
+        loadTopCreators();
+        isLoading = false;
+      },
+      (error) => {
+        console.error("Error en snapshot:", error);
+        postsContainer.innerHTML = `<div class="error-message">
+          <i class="fas fa-exclamation-triangle"></i> Error: ${error.message}<br>
+          <small>Necesitas configurar reglas de Firestore (ver instrucciones abajo)</small>
+        </div>`;
+      }
+    );
   }
 
   function renderCurrentPage() {
     if (!postsContainer) return;
+    
+    if (allPosts.length === 0 && !isLoading) {
+      postsContainer.innerHTML = `<div style="background: white; border-radius: 36px; padding: 3rem; text-align: center;">
+        <i class="fas fa-feather-alt fa-3x" style="color: #8ba0bc;"></i>
+        <p style="margin-top: 16px;">Sé el primero en compartir una reflexión.</p>
+      </div>`;
+      return;
+    }
+    
     const start = (currentPage - 1) * POSTS_PER_PAGE;
     const end = start + POSTS_PER_PAGE;
     const pagePosts = allPosts.slice(start, end);
-    
-    if (pagePosts.length === 0 && allPosts.length === 0) {
-      postsContainer.innerHTML = `<div style="background: white; border-radius: 36px; padding: 3rem; text-align: center; color: #5f7f9a;"><i class="fas fa-feather-alt fa-3x"></i><p style="margin-top: 16px;">Sé el primero en compartir una reflexión profunda.</p></div>`;
-      return;
-    }
     
     postsContainer.innerHTML = "";
     pagePosts.forEach(post => {
@@ -677,25 +643,24 @@
         <div class="post-content">
           ${post.title ? `<div class="post-title">${escapeHtml(post.title)}</div>` : ''}
           <div class="post-text">${escapeHtml(post.body || '')}</div>
-          ${post.imageUrl ? `<div class="post-media"><img src="${post.imageUrl}" alt="reflexión visual" loading="lazy"></div>` : ''}
+          ${post.imageUrl ? `<div class="post-media"><img src="${post.imageUrl}" alt="imagen" loading="lazy" onerror="this.style.display='none'"></div>` : ''}
         </div>
         <div class="post-actions">
-          <button class="action-btn like-btn" data-id="${post.id}"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart" style="color:${isLiked ? '#d43f34' : '#546e86'}"></i> <span class="like-count">${post.likeCount || 0}</span></button>
-          <button class="action-btn comment-simulate"><i class="far fa-comment-dots"></i> Dialogar</button>
-          <button class="action-btn"><i class="far fa-bookmark"></i> Inspirar</button>
+          <button class="action-btn like-btn" data-id="${post.id}">
+            <i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart" style="color:${isLiked ? '#d43f34' : '#546e86'}"></i> 
+            <span class="like-count">${post.likeCount || 0}</span>
+          </button>
+          <button class="action-btn"><i class="far fa-comment-dots"></i> Dialogar</button>
         </div>
       `;
       const likeBtn = card.querySelector(".like-btn");
-      likeBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        toggleLike(post.id, post.likes || []);
-      });
+      likeBtn.addEventListener("click", () => toggleLike(post.id, post.likes || []));
       postsContainer.appendChild(card);
     });
   }
 
   async function toggleLike(postId, currentLikesArray) {
-    if (!currentUser) { showToast("Inicia sesión para valorar"); return; }
+    if (!currentUser) { showToast("Inicia sesión para dar like"); return; }
     const postRef = doc(db, "posts", postId);
     const hasLiked = currentLikesArray.includes(currentUser.uid);
     if (hasLiked) {
@@ -713,10 +678,7 @@
 
   function renderPagination() {
     if (!paginationDiv) return;
-    if (totalPages <= 1) {
-      paginationDiv.innerHTML = "";
-      return;
-    }
+    if (totalPages <= 1) { paginationDiv.innerHTML = ""; return; }
     let html = "";
     for (let i = 1; i <= Math.min(totalPages, 8); i++) {
       html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
@@ -732,24 +694,16 @@
     });
   }
 
-  // Crear post con imagen
-  async function publishPost(title, body, category, imageFile) {
+  async function publishPost(title, body, category, imageUrl) {
     if (!currentUser) { showToast("Autenticando..."); return false; }
-    let imageUrl = null;
-    if (imageFile) {
-      try {
-        const storageRef = ref(storage, `posts/${Date.now()}_${imageFile.name}`);
-        await uploadBytes(storageRef, imageFile);
-        imageUrl = await getDownloadURL(storageRef);
-      } catch(e) { showToast("Error imagen"); }
-    }
     const profile = await getCurrentUserProfile();
     const displayName = profile?.displayName || currentUser.displayName || "Vincleante";
+    
     await addDoc(collection(db, "posts"), {
       title: title.trim() || null,
       body: body.trim(),
       category: category.trim() || "idea",
-      imageUrl: imageUrl,
+      imageUrl: imageUrl.trim() || null,
       userId: currentUser.uid,
       userDisplayName: displayName,
       createdAt: new Date(),
@@ -760,27 +714,30 @@
     return true;
   }
 
-  // Top creadores
   async function loadTopCreators() {
     if (!currentUser) return;
-    const q = query(collection(db, "posts"), orderBy("createdAt", "desc"), limit(100));
-    const snapshot = await getDocs(q);
-    const countMap = new Map();
-    snapshot.forEach(doc => {
-      const name = doc.data().userDisplayName;
-      if (name) countMap.set(name, (countMap.get(name) || 0) + 1);
-    });
-    const sorted = Array.from(countMap.entries()).sort((a,b) => b[1] - a[1]).slice(0,5);
-    const container = document.getElementById("topLocalCreators");
-    if (sorted.length === 0) { container.innerHTML = "<span>Comparte y aparecerás</span>"; return; }
-    let html = "";
-    for (let [name, count] of sorted) {
-      html += `<div class="creator-item"><div class="avatar" style="width:38px;height:38px;font-size:0.9rem;">${name.charAt(0)}</div><div><strong>${escapeHtml(name)}</strong><div style="font-size:11px;">${count} reflexiones</div></div></div>`;
-    }
-    container.innerHTML = html;
+    try {
+      const q = query(collection(db, "posts"), orderBy("createdAt", "desc"), limit(100));
+      const snapshot = await getDocs(q);
+      const countMap = new Map();
+      snapshot.forEach(doc => {
+        const name = doc.data().userDisplayName;
+        if (name) countMap.set(name, (countMap.get(name) || 0) + 1);
+      });
+      const sorted = Array.from(countMap.entries()).sort((a,b) => b[1] - a[1]).slice(0,5);
+      const container = document.getElementById("topLocalCreators");
+      if (sorted.length === 0) { container.innerHTML = "<span>Comparte y aparecerás</span>"; return; }
+      let html = "";
+      for (let [name, count] of sorted) {
+        html += `<div class="creator-item">
+          <div class="avatar" style="width:38px;height:38px;font-size:0.9rem;">${name.charAt(0)}</div>
+          <div><strong>${escapeHtml(name)}</strong><div style="font-size:11px;">${count} reflexiones</div></div>
+        </div>`;
+      }
+      container.innerHTML = html;
+    } catch(e) { console.warn(e); }
   }
 
-  // Helpers
   function getTimeAgo(timestamp) {
     if (!timestamp) return "reciente";
     const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
@@ -795,34 +752,32 @@
     return `hace ${Math.floor(days / 7)} sem`;
   }
 
-  function escapeHtml(str) { if(!str) return ""; return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+  function escapeHtml(str) { if(!str) return ""; return str.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
   function showToast(msg) { const t = document.createElement('div'); t.className='toast-msg'; t.innerText=msg; document.body.appendChild(t); setTimeout(()=>t.remove(), 2500); }
 
-  // Modales
+  // Eventos modales
   const createModal = document.getElementById("createModal");
   document.getElementById("openCreatorBtn").addEventListener("click", () => createModal.classList.remove("hidden"));
   document.getElementById("cancelModalBtn").addEventListener("click", () => createModal.classList.add("hidden"));
-  let selectedImageFile = null;
-  document.getElementById("modalImageUpload").addEventListener("change", (e) => { selectedImageFile = e.target.files[0]; document.getElementById("imagePreviewName").innerText = selectedImageFile ? "✓ imagen lista" : ""; });
   document.getElementById("confirmPublishBtn").addEventListener("click", async () => {
     const title = document.getElementById("modalTitle").value;
     const body = document.getElementById("modalBody").value;
     const cat = document.getElementById("modalCategory").value;
+    const imgUrl = document.getElementById("modalImageUrl").value;
     if (!body.trim() && !title.trim()) { showToast("Escribe una reflexión o título"); return; }
-    await publishPost(title, body, cat, selectedImageFile);
+    await publishPost(title, body, cat, imgUrl);
     createModal.classList.add("hidden");
     document.getElementById("modalTitle").value = "";
     document.getElementById("modalBody").value = "";
     document.getElementById("modalCategory").value = "";
-    selectedImageFile = null;
-    document.getElementById("imagePreviewName").innerText = "";
+    document.getElementById("modalImageUrl").value = "";
   });
 
   // Editar nombre
   const editModal = document.getElementById("editNameModal");
   document.getElementById("editProfileBtn").addEventListener("click", async () => {
     const profile = await getCurrentUserProfile();
-    document.getElementById("newNameInput").value = profile?.displayName || currentUser?.displayName || "";
+    document.getElementById("newNameInput").value = profile?.displayName || "";
     editModal.classList.remove("hidden");
   });
   document.getElementById("saveNameBtn").addEventListener("click", async () => {
@@ -833,11 +788,46 @@
       await setDoc(userRef, { displayName: newName }, { merge: true });
       await updateProfile(currentUser, { displayName: newName });
       updateUserUI();
-      showToast(`Ahora te llamas ${newName}`);
+      showToast(`Ahora eres ${newName}`);
     }
     editModal.classList.add("hidden");
   });
   document.getElementById("closeNameModal").addEventListener("click", () => editModal.classList.add("hidden"));
 </script>
+
+<!-- INSTRUCCIONES PARA FIREBASE -->
+<div style="display: none;">
+  <!-- 
+    ⚠️ CONFIGURACIÓN NECESARIA EN FIRESTORE ⚠️
+    
+    Ve a Firebase Console → Firestore Database → Rules
+    y pega estas reglas:
+    
+    rules_version = '2';
+    service cloud.firestore {
+      match /databases/{database}/documents {
+        match /{document=**} {
+          allow read, write: if true;
+        }
+      }
+    }
+    
+    ⚠️ IMPORTANTE: Estas reglas son SOLO PARA DESARROLLO.
+    En producción debes restringir a usuarios autenticados.
+    
+    También debes habilitar Authentication → Sign-in method → Anonymous
+    
+    ================================================
+    SOLUCIÓN AL ERROR "cargando reflexiones":
+    
+    1. Ve a Firebase Console
+    2. Firestore Database → Crear base de datos (modo producción o prueba)
+    3. En Rules, pega las reglas de arriba
+    4. En Authentication → activa "Anónimo"
+    5. Recarga la página
+    
+    Las publicaciones se guardarán permanentemente.
+  -->
+</div>
 </body>
 </html>
