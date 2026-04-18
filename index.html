@@ -95,16 +95,33 @@
       gap: 1rem;
     }
     
-    /* Desktop layout */
+    /* Desktop layout - sidebar FIJADO (sticky) */
     @media (min-width: 768px) {
       .main-feed {
         padding: 2rem;
         display: grid;
         grid-template-columns: 1fr 320px;
         gap: 2rem;
+        align-items: start;
       }
       .mobile-menu-toggle { display: none; }
-      .sidebar { display: block !important; position: static; transform: none !important; width: auto !important; }
+      .sidebar { 
+        display: block !important; 
+        position: sticky !important;
+        top: 80px !important;
+        right: auto !important;
+        width: auto !important;
+        height: auto !important;
+        transform: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        overflow-y: visible !important;
+      }
+      .sidebar-card {
+        margin-bottom: 1.5rem;
+      }
+      .close-sidebar-desktop { display: none; }
     }
     
     /* Móvil: sidebar oculto y drawer */
@@ -150,7 +167,7 @@
     
     .posts-section { display: flex; flex-direction: column; gap: 1.5rem; width: 100%; }
     
-    /* Tarjetas responsivas - nunca se salen de pantalla */
+    /* Tarjetas responsivas */
     .post-card {
       background: white;
       border-radius: 28px;
@@ -168,7 +185,43 @@
     .post-time { font-size: 0.65rem; color: #7c8ba0; margin-top: 3px; }
     .post-content { padding: 0.3rem 1.2rem 1rem 1.2rem; word-wrap: break-word; overflow-wrap: break-word; }
     .post-title { font-size: 1.3rem; font-weight: 700; margin: 0.5rem 0; line-height: 1.35; word-break: break-word; }
-    .post-text { font-size: 0.95rem; margin: 0.6rem 0; white-space: pre-wrap; line-height: 1.6; word-break: break-word; }
+    
+    /* Texto con límite y botón ver más */
+    .post-text {
+      font-size: 0.95rem;
+      margin: 0.6rem 0;
+      white-space: pre-wrap;
+      line-height: 1.6;
+      word-break: break-word;
+    }
+    .post-text.collapsed {
+      max-height: 120px;
+      overflow: hidden;
+      position: relative;
+    }
+    .post-text.collapsed::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      background: linear-gradient(transparent, white);
+    }
+    body.dark-mode .post-text.collapsed::after {
+      background: linear-gradient(transparent, #1e293b);
+    }
+    .read-more-btn {
+      background: none;
+      border: none;
+      color: #2c6e8f;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      padding: 4px 0;
+      display: inline-block;
+    }
+    
     .post-media { margin: 0.8rem 0; border-radius: 20px; text-align: center; background: #f2f6fb; overflow: hidden; }
     .post-media img { max-width: 100%; max-height: 350px; width: auto; object-fit: contain; border-radius: 20px; cursor: pointer; }
     
@@ -176,7 +229,7 @@
     .action-btn { background: none; border: none; display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 500; color: #546e86; cursor: pointer; padding: 6px 12px; border-radius: 40px; transition: 0.2s; }
     .action-btn:active { transform: scale(0.96); }
     
-    /* Comentarios responsivos */
+    /* Comentarios */
     .comments-section { padding: 0 1.2rem 1.2rem 1.2rem; border-top: 1px solid #eff3fa; background: #fafbfd; }
     .comment { display: flex; gap: 10px; margin-top: 0.8rem; padding: 0.6rem; border-radius: 16px; background: white; word-break: break-word; }
     .comment-avatar { width: 28px; height: 28px; background: #dce5f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: bold; flex-shrink: 0; }
@@ -199,23 +252,24 @@
     .topic-chip { display: inline-block; background: #eef2fa; border-radius: 30px; padding: 4px 12px; margin: 4px 4px 0 0; font-size: 0.7rem; cursor: pointer; }
     .reflection-day { background: linear-gradient(135deg, #1e3b4a, #2c6e8f); color: white; padding: 1rem; border-radius: 20px; margin-top: 0.8rem; font-size: 0.85rem; }
     .saved-post-item { padding: 0.6rem 0; border-bottom: 1px solid #eef3fc; cursor: pointer; font-size: 0.8rem; word-break: break-word; }
+    .creator-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
     
-    /* Paginación responsiva */
+    /* Paginación */
     .pagination-container { display: flex; justify-content: center; gap: 8px; margin-top: 1rem; flex-wrap: wrap; }
     .page-btn { background: white; border: 1px solid #e2e9f2; padding: 6px 14px; border-radius: 40px; cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
     .page-btn:active { transform: scale(0.95); }
     .page-btn.active { background: #1e4c66; color: white; }
     
-    /* Modales responsivos */
+    /* Modales */
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10,28,47,0.75); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 1rem; }
     .modal-container { background: white; width: 100%; max-width: 500px; border-radius: 32px; padding: 1.5rem; max-height: 85vh; overflow-y: auto; }
     input, textarea { font-family: 'Inter', sans-serif; border: 1px solid #e2e9f2; border-radius: 24px; padding: 10px 14px; width: 100%; font-size: 0.9rem; margin-bottom: 12px; }
     .btn-primary-solid { background: #1e4c66; border: none; color: white; padding: 10px 20px; border-radius: 40px; font-weight: 600; cursor: pointer; width: 100%; }
     .hidden { display: none; }
-    .toast-msg { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #1a2c3f; color: white; padding: 10px 20px; border-radius: 50px; z-index: 1200; font-size: 0.8rem; white-space: nowrap; max-width: 90vw; white-space: normal; text-align: center; }
+    .toast-msg { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #1a2c3f; color: white; padding: 10px 20px; border-radius: 50px; z-index: 1200; font-size: 0.8rem; text-align: center; max-width: 90vw; }
     .loading-spinner { text-align: center; padding: 2rem; color: #6c86a3; }
     
-    /* Botón flotante para móvil */
+    /* FAB móvil */
     .fab-mobile {
       position: fixed;
       bottom: 20px;
@@ -267,7 +321,7 @@
     
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
     <aside class="sidebar" id="sidebar">
-      <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
+      <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;" class="close-sidebar-desktop">
         <button id="closeSidebarBtn" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
       </div>
       <div class="sidebar-card">
@@ -347,6 +401,9 @@
   const postsContainer = document.getElementById("postsFeedContainer");
   const paginationDiv = document.getElementById("paginationControls");
 
+  // Estado de expansión de textos (por post)
+  let expandedPosts = new Set();
+
   // Mobile sidebar
   const sidebar = document.getElementById("sidebar");
   const overlay = document.getElementById("sidebarOverlay");
@@ -359,7 +416,6 @@
   if (closeSidebarBtn) closeSidebarBtn.onclick = closeSidebar;
   if (overlay) overlay.onclick = closeSidebar;
   
-  // FAB móvil
   const fabBtn = document.getElementById("fabCreateBtn");
   if (fabBtn) fabBtn.onclick = () => document.getElementById("createModal").classList.remove("hidden");
 
@@ -426,6 +482,15 @@
     });
   }
 
+  function toggleReadMore(postId) {
+    if (expandedPosts.has(postId)) {
+      expandedPosts.delete(postId);
+    } else {
+      expandedPosts.add(postId);
+    }
+    renderCurrentPage(); // Re-renderizar para actualizar el estado
+  }
+
   function renderCurrentPage() {
     if (!postsContainer) return;
     if (allPosts.length === 0) {
@@ -440,6 +505,10 @@
       const isSaved = savedPosts.includes(post.id);
       const timeAgo = getTimeAgo(post.createdAt);
       const hashtags = post.hashtags || extractHashtags(post.body + (post.title || ""));
+      const isExpanded = expandedPosts.has(post.id);
+      const textContent = post.body || "";
+      const needsTruncation = textContent.length > 300 || textContent.split('\n').length > 8;
+      const shouldCollapse = needsTruncation && !isExpanded;
       
       const card = document.createElement("div");
       card.className = "post-card";
@@ -453,7 +522,11 @@
         </div>
         <div class="post-content">
           ${post.title ? `<div class="post-title">${escapeHtml(post.title)}</div>` : ''}
-          <div class="post-text">${escapeHtml(post.body || '')} ${hashtags.length ? `<br><small style="color:#2c6e8f;">${hashtags.map(h => `<span class="topic-chip" style="font-size:0.65rem; display:inline-block;">${h}</span>`).join(' ')}</small>` : ''}</div>
+          <div class="post-text ${shouldCollapse ? 'collapsed' : ''}" id="post-text-${post.id}">
+            ${escapeHtml(textContent)}
+          </div>
+          ${needsTruncation ? `<button class="read-more-btn" data-id="${post.id}">${isExpanded ? 'ver menos ↑' : 'ver más ↓'}</button>` : ''}
+          ${hashtags.length ? `<div style="margin-top:8px;">${hashtags.map(h => `<span class="topic-chip" style="font-size:0.65rem; display:inline-block;">${h}</span>`).join(' ')}</div>` : ''}
           ${post.imageUrl ? `<div class="post-media"><img src="${post.imageUrl}" loading="lazy" onerror="this.style.display='none'"></div>` : ''}
         </div>
         <div class="post-actions">
@@ -472,6 +545,13 @@
       
       card.querySelector(".like-btn").addEventListener("click", () => toggleLike(post.id, post.likes || []));
       card.querySelector(".save-btn").addEventListener("click", () => toggleSave(post.id));
+      const readMoreBtn = card.querySelector(".read-more-btn");
+      if (readMoreBtn) {
+        readMoreBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          toggleReadMore(post.id);
+        });
+      }
       const commentToggle = card.querySelector(".comment-toggle");
       const commentsDiv = card.querySelector(`.comments-section`);
       commentToggle.addEventListener("click", () => {
@@ -552,8 +632,8 @@
     const saved = allPosts.filter(p => savedPosts.includes(p.id));
     if (saved.length === 0) { container.innerHTML = "No hay guardados"; return; }
     container.innerHTML = saved.slice(0, 5).map(p => `
-      <div class="saved-post-item" onclick="document.getElementById('postsFeedContainer').scrollIntoView({behavior:'smooth'})">
-        <div style="font-weight:600; font-size:0.8rem;">${p.title || p.body?.substring(0, 50)}...</div>
+      <div class="saved-post-item">
+        <div style="font-weight:600; font-size:0.8rem;">${p.title || (p.body ? p.body.substring(0, 50) : "Reflexión")}...</div>
         <small style="color:#7c8ba0;">${p.userDisplayName}</small>
       </div>
     `).join('');
@@ -629,7 +709,7 @@
       const container = document.getElementById("topLocalCreators");
       if (sorted.length === 0) { container.innerHTML = "<span>Comparte y aparecerás</span>"; return; }
       container.innerHTML = sorted.map(([name, count]) => `
-        <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+        <div class="creator-item">
           <div class="avatar" style="width:34px;height:34px;font-size:0.85rem;">${name.charAt(0)}</div>
           <div style="flex:1; min-width:0;"><strong style="font-size:0.85rem;">${escapeHtml(name)}</strong><div style="font-size:10px;">${count} reflexiones</div></div>
         </div>
