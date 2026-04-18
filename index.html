@@ -4,9 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>Vincle.chat · Reflexiones que conectan</title>
-  <!-- Fuentes y estilos profesionales -->
+  <!-- Fuentes y estilos premium -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Firebase SDKs -->
+  <script type="importmap">
+    {
+      "imports": {
+        "firebase/app": "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js",
+        "firebase/auth": "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js",
+        "firebase/firestore": "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js",
+        "firebase/storage": "https://www.gstatic.com/firebasejs/11.0.2/firebase-storage.js"
+      }
+    }
+  </script>
   <style>
     * {
       margin: 0;
@@ -16,26 +27,25 @@
 
     body {
       font-family: 'Inter', sans-serif;
-      background: #f7f9fc;
+      background: #f5f7fb;
       color: #0a1c2f;
       line-height: 1.5;
     }
 
-    /* Layout principal */
     .app-container {
-      max-width: 1300px;
+      max-width: 1280px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
     }
 
-    /* Header elegante */
+    /* Header refinado */
     .header {
-      background: rgba(255,255,255,0.96);
+      background: rgba(255,255,255,0.98);
       backdrop-filter: blur(0px);
       border-bottom: 1px solid #eef2f8;
-      padding: 0.9rem 2rem;
+      padding: 1rem 2rem;
       position: sticky;
       top: 0;
       z-index: 20;
@@ -53,7 +63,7 @@
     }
 
     .logo {
-      font-size: 1.9rem;
+      font-size: 2rem;
       font-weight: 800;
       background: linear-gradient(135deg, #183c4f, #2c6e8f);
       -webkit-background-clip: text;
@@ -82,13 +92,13 @@
       align-items: center;
       gap: 15px;
       background: #f0f4fa;
-      padding: 6px 18px 6px 12px;
+      padding: 6px 20px 6px 14px;
       border-radius: 60px;
     }
 
     .user-avatar {
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
       background: #1e3b4a;
       border-radius: 100%;
       display: flex;
@@ -107,19 +117,19 @@
     .edit-name-btn {
       background: none;
       border: none;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: #4f7a9e;
       cursor: pointer;
       transition: 0.2s;
     }
 
-    /* Feed principal estilo Instagram + TikTok + Quora */
+    /* Feed principal con más espacio */
     .main-feed {
       flex: 1;
-      padding: 2rem 1.8rem;
+      padding: 2rem 2rem;
       display: grid;
       grid-template-columns: 1fr 320px;
-      gap: 2rem;
+      gap: 2.5rem;
     }
 
     @media (max-width: 880px) {
@@ -135,40 +145,42 @@
     .posts-section {
       display: flex;
       flex-direction: column;
-      gap: 1.8rem;
+      gap: 2rem;
     }
 
-    /* Tarjeta de publicación */
+    /* Tarjeta de publicación con más espacio y sombra elegante */
     .post-card {
       background: white;
-      border-radius: 28px;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.03), 0 0 0 1px #eef3fc;
+      border-radius: 32px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04), 0 0 0 1px #eef3fc;
       overflow: hidden;
       transition: transform 0.2s, box-shadow 0.2s;
     }
 
     .post-card:hover {
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05), 0 0 0 1px #e2ebf3;
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.06), 0 0 0 1px #e2ebf3;
+      transform: translateY(-2px);
     }
 
     .post-header {
-      padding: 1rem 1.3rem 0.4rem 1.3rem;
+      padding: 1.2rem 1.5rem 0.6rem 1.5rem;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
     .avatar {
-      width: 44px;
-      height: 44px;
+      width: 48px;
+      height: 48px;
       background: #dce5f0;
       border-radius: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: bold;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       color: #1f4662;
+      flex-shrink: 0;
     }
 
     .post-user-info {
@@ -177,16 +189,16 @@
 
     .post-user-name {
       font-weight: 700;
-      font-size: 0.95rem;
+      font-size: 1rem;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
     .post-category {
       background: #eef3fc;
-      padding: 3px 12px;
+      padding: 4px 14px;
       border-radius: 30px;
       font-size: 0.7rem;
       font-weight: 600;
@@ -196,33 +208,34 @@
     .post-time {
       font-size: 0.7rem;
       color: #7c8ba0;
-      margin-top: 3px;
+      margin-top: 4px;
     }
 
     .post-content {
-      padding: 0.2rem 1.3rem 1rem 1.3rem;
+      padding: 0.5rem 1.5rem 1.2rem 1.5rem;
     }
 
     .post-title {
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       font-weight: 700;
-      margin: 0.5rem 0 0.6rem 0;
+      margin: 0.6rem 0 0.8rem 0;
       letter-spacing: -0.3px;
-      line-height: 1.3;
+      line-height: 1.35;
     }
 
     .post-text {
       color: #1f2e45;
-      font-size: 0.95rem;
-      margin: 0.5rem 0;
+      font-size: 1rem;
+      margin: 0.8rem 0;
       white-space: pre-wrap;
+      line-height: 1.6;
     }
 
     .post-media {
-      margin: 0.9rem 0;
+      margin: 1rem 0;
       border-radius: 24px;
       overflow: hidden;
-      max-height: 440px;
+      max-height: 460px;
       display: flex;
       justify-content: center;
       background: #f2f6fb;
@@ -230,16 +243,17 @@
 
     .post-media img {
       max-width: 100%;
-      max-height: 380px;
+      max-height: 400px;
       object-fit: cover;
       width: auto;
+      cursor: pointer;
     }
 
     .post-actions {
-      padding: 0.5rem 1.3rem 1rem 1.3rem;
+      padding: 0.8rem 1.5rem 1.2rem 1.5rem;
       border-top: 1px solid #eff3fa;
       display: flex;
-      gap: 1.8rem;
+      gap: 2rem;
     }
 
     .action-btn {
@@ -248,40 +262,48 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       font-weight: 500;
       color: #546e86;
       cursor: pointer;
       transition: 0.15s;
+      padding: 6px 12px;
+      border-radius: 40px;
+    }
+
+    .action-btn:hover {
+      background: #f0f4fa;
+      color: #1a4c6e;
     }
 
     .action-btn i {
       font-size: 1.2rem;
     }
 
-    .action-btn:hover {
-      color: #1a4c6e;
-    }
-
     /* Área de creación */
     .create-card {
       background: white;
-      border-radius: 32px;
-      margin-bottom: 0.5rem;
-      padding: 1.2rem 1.4rem;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02), 0 0 0 1px #eef3fc;
+      border-radius: 36px;
+      margin-bottom: 0.2rem;
+      padding: 1.2rem 1.5rem;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02), 0 0 0 1px #eef3fc;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .create-card:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04), 0 0 0 1px #dce7f0;
     }
 
     .create-header {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 15px;
+      gap: 14px;
     }
 
     .mini-avatar {
-      width: 42px;
-      height: 42px;
+      width: 46px;
+      height: 46px;
       background: #1e3b4a;
       border-radius: 100%;
       display: flex;
@@ -289,16 +311,45 @@
       justify-content: center;
       color: white;
       font-weight: bold;
+      font-size: 1.1rem;
     }
 
     .fake-input {
       flex: 1;
       background: #f3f6fc;
       border-radius: 60px;
-      padding: 12px 18px;
-      color: #2c5270;
-      font-size: 0.9rem;
+      padding: 14px 22px;
+      color: #5f7f9a;
+      font-size: 0.95rem;
+    }
+
+    /* Paginación */
+    .pagination-container {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .page-btn {
+      background: white;
+      border: 1px solid #e2e9f2;
+      padding: 10px 18px;
+      border-radius: 50px;
+      font-weight: 500;
       cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .page-btn.active {
+      background: #1e4c66;
+      color: white;
+      border-color: #1e4c66;
+    }
+
+    .page-btn:hover:not(.active) {
+      background: #eef2fa;
     }
 
     /* Modal */
@@ -308,7 +359,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(10, 28, 47, 0.7);
+      background: rgba(10, 28, 47, 0.75);
       backdrop-filter: blur(5px);
       display: flex;
       align-items: center;
@@ -319,10 +370,10 @@
     .modal-container {
       background: white;
       width: 90%;
-      max-width: 560px;
-      border-radius: 40px;
-      padding: 1.8rem;
-      box-shadow: 0 25px 40px rgba(0,0,0,0.2);
+      max-width: 580px;
+      border-radius: 44px;
+      padding: 2rem;
+      box-shadow: 0 30px 50px rgba(0,0,0,0.2);
     }
 
     .hidden {
@@ -331,41 +382,41 @@
 
     .toast-msg {
       position: fixed;
-      bottom: 25px;
+      bottom: 30px;
       left: 50%;
       transform: translateX(-50%);
       background: #1a2c3f;
       color: white;
-      padding: 10px 22px;
+      padding: 12px 28px;
       border-radius: 60px;
       font-size: 0.85rem;
       z-index: 1200;
       font-weight: 500;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }
 
     /* Sidebar */
     .sidebar-card {
       background: white;
-      border-radius: 28px;
-      padding: 1.5rem;
+      border-radius: 32px;
+      padding: 1.6rem;
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.02), 0 0 0 1px #edf2f9;
-      margin-bottom: 1.6rem;
+      margin-bottom: 1.8rem;
     }
 
     .sidebar-title {
       font-weight: 700;
-      margin-bottom: 1rem;
+      margin-bottom: 1.2rem;
       font-size: 1rem;
       border-left: 4px solid #2c6e8f;
-      padding-left: 12px;
+      padding-left: 14px;
     }
 
     .topic-chip {
       display: inline-block;
       background: #eef2fa;
       border-radius: 40px;
-      padding: 5px 16px;
+      padding: 6px 18px;
       margin: 6px 6px 0 0;
       font-size: 0.75rem;
       font-weight: 500;
@@ -374,17 +425,17 @@
     .creator-item {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 14px;
+      gap: 14px;
+      margin-bottom: 16px;
     }
 
     input, textarea {
       font-family: 'Inter', sans-serif;
       border: 1px solid #e2e9f2;
       border-radius: 24px;
-      padding: 10px 16px;
+      padding: 12px 18px;
       width: 100%;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       transition: 0.2s;
     }
 
@@ -402,9 +453,16 @@
       background: #1e4c66;
       border: none;
       color: white;
-      padding: 10px 20px;
+      padding: 12px 24px;
       border-radius: 40px;
       font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .loading-spinner {
+      text-align: center;
+      padding: 3rem;
+      color: #6c86a3;
     }
   </style>
 </head>
@@ -413,12 +471,12 @@
   <header class="header">
     <div class="logo-area">
       <div class="logo">Vincle<span>.chat</span></div>
-      <div class="tagline">ideas · intelecto · descubrimiento</div>
+      <div class="tagline">ideas · intelecto · comunidad</div>
     </div>
     <div class="user-profile" id="userProfileBar">
       <div class="user-avatar" id="userAvatar">V</div>
       <div>
-        <div class="user-name" id="displayNameText">Vincleante</div>
+        <div class="user-name" id="displayNameText">Pensador</div>
         <button id="editProfileBtn" class="edit-name-btn"><i class="fas fa-pen"></i> nombre</button>
       </div>
     </div>
@@ -426,7 +484,6 @@
 
   <div class="main-feed">
     <div class="posts-section">
-      <!-- tarjeta para crear contenido estilo tiktok/ig -->
       <div class="create-card" id="openCreatorBtn">
         <div class="create-header">
           <div class="mini-avatar" id="miniAvatar">V</div>
@@ -435,8 +492,11 @@
       </div>
 
       <div id="postsFeedContainer">
-        <!-- dinámico -->
+        <div class="loading-spinner"><i class="fas fa-spinner fa-pulse"></i> Cargando reflexiones...</div>
       </div>
+
+      <!-- Paginación -->
+      <div id="paginationControls" class="pagination-container"></div>
     </div>
 
     <aside class="sidebar">
@@ -448,6 +508,7 @@
           <span class="topic-chip">#creatividad</span>
           <span class="topic-chip">#ética digital</span>
           <span class="topic-chip">#aprendizaje</span>
+          <span class="topic-chip">#innovación</span>
         </div>
       </div>
       <div class="sidebar-card">
@@ -462,140 +523,152 @@
   </div>
 </div>
 
-<!-- MODAL PARA CREAR PUBLICACIÓN -->
+<!-- MODAL CREAR PUBLICACIÓN -->
 <div id="createModal" class="modal-overlay hidden">
   <div class="modal-container">
-    <h3 style="margin-bottom: 1rem; font-weight: 700;"><i class="fas fa-lightbulb"></i> Nueva reflexión</h3>
-    <input type="text" id="modalTitle" placeholder="Título (opcional, pero potente)" style="margin-bottom: 12px;">
-    <textarea id="modalBody" rows="4" placeholder="Escribe tu idea, reflexión o análisis..." style="margin-bottom: 12px;"></textarea>
-    <input type="text" id="modalCategory" placeholder="Categoría (ej: psicología, arte, ciencia)" style="margin-bottom: 12px;">
-    <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 20px;">
-      <label style="background:#f0f4fa; padding: 8px 16px; border-radius: 40px; font-size:0.8rem; cursor:pointer;"><i class="fas fa-image"></i> Añadir imagen <input type="file" id="modalImageUpload" accept="image/*" style="display:none;"></label>
-      <span id="imagePreviewName" style="font-size: 0.7rem; color: #6b7f99;"></span>
+    <h3 style="margin-bottom: 1.2rem; font-weight: 700;"><i class="fas fa-lightbulb"></i> Nueva reflexión</h3>
+    <input type="text" id="modalTitle" placeholder="Título (opcional, pero potente)" style="margin-bottom: 14px;">
+    <textarea id="modalBody" rows="4" placeholder="Escribe tu idea, reflexión o análisis..." style="margin-bottom: 14px;"></textarea>
+    <input type="text" id="modalCategory" placeholder="Categoría (ej: psicología, arte, ciencia)" style="margin-bottom: 14px;">
+    <div style="display: flex; gap: 14px; align-items: center; margin-bottom: 24px;">
+      <label style="background:#f0f4fa; padding: 10px 20px; border-radius: 40px; font-size:0.85rem; cursor:pointer;"><i class="fas fa-image"></i> Añadir imagen <input type="file" id="modalImageUpload" accept="image/*" style="display:none;"></label>
+      <span id="imagePreviewName" style="font-size: 0.75rem; color: #6b7f99;"></span>
     </div>
-    <div style="display: flex; gap: 12px; justify-content: flex-end;">
-      <button id="cancelModalBtn" class="btn-outline" style="background:transparent; border:1px solid #cad5e2; padding:8px 20px; border-radius:40px;">Cancelar</button>
+    <div style="display: flex; gap: 14px; justify-content: flex-end;">
+      <button id="cancelModalBtn" style="background:transparent; border:1px solid #cad5e2; padding:10px 24px; border-radius:40px;">Cancelar</button>
       <button id="confirmPublishBtn" class="btn-primary-solid">Publicar reflexión →</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL EDITAR NOMBRE LOCAL -->
+<!-- MODAL EDITAR NOMBRE -->
 <div id="editNameModal" class="modal-overlay hidden">
   <div class="modal-container">
-    <h3 style="margin-bottom: 0.8rem;">Tu identidad en Vincle</h3>
-    <input type="text" id="newNameInput" placeholder="Nombre público" style="margin-bottom: 20px;">
-    <div style="display: flex; gap: 12px; justify-content: flex-end;">
-      <button id="closeNameModal" class="btn-outline" style="background:transparent; border:1px solid #cad5e2;">Cancelar</button>
+    <h3 style="margin-bottom: 1rem;">Tu identidad en Vincle</h3>
+    <input type="text" id="newNameInput" placeholder="Nombre público" style="margin-bottom: 24px;">
+    <div style="display: flex; gap: 14px; justify-content: flex-end;">
+      <button id="closeNameModal" style="background:transparent; border:1px solid #cad5e2; padding:10px 24px; border-radius:40px;">Cancelar</button>
       <button id="saveNameBtn" class="btn-primary-solid">Guardar</button>
     </div>
   </div>
 </div>
 
-<script>
-  // ---------- RED SOCIAL COMPLETAMENTE LOCAL (localStorage) ----------
-  // Estructura: posts, usuario actual (nombre, avatar inicial)
-  let currentLocalUser = {
-    id: "local_user_1",
-    name: "Vincleante",
-    avatarInitial: "V"
+<script type="module">
+  import { initializeApp } from "firebase/app";
+  import { getAuth, signInAnonymously, onAuthStateChanged, updateProfile } from "firebase/auth";
+  import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, doc, updateDoc, arrayUnion, arrayRemove, getDoc, setDoc, limit, startAfter, getDocs } from "firebase/firestore";
+  import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
+  // Config Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyDGrspy5R6usV6KMEIsxNb_7P5GuibbX4I",
+    authDomain: "vinclechat-564d1.firebaseapp.com",
+    projectId: "vinclechat-564d1"
   };
 
-  let postsArray = [];
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const storage = getStorage(app);
 
-  // Cargar datos desde localStorage
-  function loadLocalData() {
-    const storedUser = localStorage.getItem("vincle_user");
-    if (storedUser) {
-      try {
-        const parsed = JSON.parse(storedUser);
-        currentLocalUser.name = parsed.name || "Vincleante";
-        currentLocalUser.avatarInitial = parsed.avatarInitial || currentLocalUser.name.charAt(0).toUpperCase();
-      } catch(e) {}
-    }
-    const storedPosts = localStorage.getItem("vincle_posts");
-    if (storedPosts) {
-      postsArray = JSON.parse(storedPosts);
-      // Ordenar por timestamp descendente
-      postsArray.sort((a,b) => b.timestamp - a.timestamp);
+  // Estado
+  let currentUser = null;
+  let allPosts = [];       // todos los posts cargados (para paginación local)
+  let currentPage = 1;
+  const POSTS_PER_PAGE = 15;
+  let totalPages = 1;
+
+  // Elementos
+  const postsContainer = document.getElementById("postsFeedContainer");
+  const paginationDiv = document.getElementById("paginationControls");
+
+  // Autenticación anónima + perfil
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      currentUser = user;
+      // Asegurar perfil en Firestore
+      const userRef = doc(db, "users", user.uid);
+      const snap = await getDoc(userRef);
+      if (!snap.exists()) {
+        const randomName = "pensador_" + Math.floor(Math.random() * 900 + 100);
+        await setDoc(userRef, {
+          displayName: randomName,
+          createdAt: new Date(),
+          avatarColor: "#" + Math.floor(Math.random()*16777215).toString(16).slice(0,6)
+        });
+        // Actualizar displayName en auth
+        await updateProfile(user, { displayName: randomName });
+      }
+      updateUserUI();
+      loadTopCreators();
+      subscribeToPosts();
     } else {
-      // Publicaciones de ejemplo para dar vida intelectual
-      postsArray = [
-        {
-          id: "post1",
-          title: "La paradoja de la creatividad",
-          body: "Cuanto más intentamos forzar una idea brillante, más se esconde. La creatividad florece en la calma y la observación.",
-          category: "psicología",
-          imageUrl: null,
-          authorName: "Elena M.",
-          authorInitial: "E",
-          timestamp: Date.now() - 86400000,
-          likes: ["user_x", "user_y"],
-          likeCount: 2,
-          commentsCount: 0
-        },
-        {
-          id: "post2",
-          title: "Inteligencia colectiva",
-          body: "Las redes pueden ser espacios de inteligencia compartida si cultivamos el diálogo respetuoso. Vincle nace de esa visión.",
-          category: "filosofía",
-          imageUrl: null,
-          authorName: "Pensador Anónimo",
-          authorInitial: "P",
-          timestamp: Date.now() - 172800000,
-          likes: [],
-          likeCount: 5,
-          commentsCount: 0
-        },
-        {
-          id: "post3",
-          title: "Aprender a desaprender",
-          body: "El conocimiento más valioso a veces es soltar viejos esquemas. Reflexión sobre adaptabilidad.",
-          category: "aprendizaje",
-          imageUrl: null,
-          authorName: "Lucía R.",
-          authorInitial: "L",
-          timestamp: Date.now() - 345600000,
-          likes: ["user_z"],
-          likeCount: 1,
-          commentsCount: 0
-        }
-      ];
-      savePostsToLocal();
+      // Login anónimo automático
+      try {
+        await signInAnonymously(auth);
+      } catch(e) { console.error(e); }
     }
-    updateUIWithPosts();
+  });
+
+  async function getCurrentUserProfile() {
+    if (!currentUser) return null;
+    const userRef = doc(db, "users", currentUser.uid);
+    const snap = await getDoc(userRef);
+    if (snap.exists()) return snap.data();
+    return { displayName: currentUser.displayName || "Vincleante" };
   }
 
-  function saveUserToLocal() {
-    localStorage.setItem("vincle_user", JSON.stringify({
-      name: currentLocalUser.name,
-      avatarInitial: currentLocalUser.avatarInitial
-    }));
+  async function updateUserUI() {
+    if (!currentUser) return;
+    const profile = await getCurrentUserProfile();
+    const name = profile?.displayName || currentUser.displayName || "Vincleante";
+    document.getElementById("displayNameText").innerText = name;
+    const initial = name.charAt(0).toUpperCase();
+    document.getElementById("userAvatar").innerText = initial;
+    document.getElementById("miniAvatar").innerText = initial;
   }
 
-  function savePostsToLocal() {
-    localStorage.setItem("vincle_posts", JSON.stringify(postsArray));
+  // Suscripción en tiempo real (máximo 50 para paginación local, pero usamos snapshot y luego paginamos)
+  let unsubscribePosts = null;
+  function subscribeToPosts() {
+    if (unsubscribePosts) unsubscribePosts();
+    const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+    unsubscribePosts = onSnapshot(q, (snapshot) => {
+      allPosts = [];
+      snapshot.forEach(docSnap => {
+        allPosts.push({ id: docSnap.id, ...docSnap.data() });
+      });
+      totalPages = Math.max(1, Math.ceil(allPosts.length / POSTS_PER_PAGE));
+      if (currentPage > totalPages) currentPage = totalPages;
+      renderCurrentPage();
+      renderPagination();
+      loadTopCreators();
+    });
   }
 
-  function updateUIWithPosts() {
-    const container = document.getElementById("postsFeedContainer");
-    if (!container) return;
-    if (postsArray.length === 0) {
-      container.innerHTML = `<div style="background: white; border-radius: 32px; padding: 2.5rem; text-align: center; color: #5f7f9a;"><i class="fas fa-feather-alt fa-2x"></i><p style="margin-top: 12px;">Aún no hay reflexiones, sé el primero en inspirar.</p></div>`;
+  function renderCurrentPage() {
+    if (!postsContainer) return;
+    const start = (currentPage - 1) * POSTS_PER_PAGE;
+    const end = start + POSTS_PER_PAGE;
+    const pagePosts = allPosts.slice(start, end);
+    
+    if (pagePosts.length === 0 && allPosts.length === 0) {
+      postsContainer.innerHTML = `<div style="background: white; border-radius: 36px; padding: 3rem; text-align: center; color: #5f7f9a;"><i class="fas fa-feather-alt fa-3x"></i><p style="margin-top: 16px;">Sé el primero en compartir una reflexión profunda.</p></div>`;
       return;
     }
-    container.innerHTML = "";
-    postsArray.forEach(post => {
-      const isLiked = currentLocalUser.id && post.likes && post.likes.includes(currentLocalUser.id);
-      const timeAgo = getTimeAgo(post.timestamp);
+    
+    postsContainer.innerHTML = "";
+    pagePosts.forEach(post => {
+      const isLiked = currentUser && post.likes?.includes(currentUser.uid);
+      const timeAgo = getTimeAgo(post.createdAt);
       const card = document.createElement("div");
       card.className = "post-card";
       card.innerHTML = `
         <div class="post-header">
-          <div class="avatar" style="background: #d9e6f2;">${escapeHtml(post.authorInitial || post.authorName.charAt(0))}</div>
+          <div class="avatar">${escapeHtml(post.userDisplayName?.charAt(0) || 'V')}</div>
           <div class="post-user-info">
             <div class="post-user-name">
-              ${escapeHtml(post.authorName)}
+              ${escapeHtml(post.userDisplayName || "Vincleante")}
               <span class="post-category">${escapeHtml(post.category || "reflexión")}</span>
             </div>
             <div class="post-time">${timeAgo}</div>
@@ -603,47 +676,116 @@
         </div>
         <div class="post-content">
           ${post.title ? `<div class="post-title">${escapeHtml(post.title)}</div>` : ''}
-          <div class="post-text">${escapeHtml(post.body)}</div>
-          ${post.imageUrl ? `<div class="post-media"><img src="${post.imageUrl}" alt="visual reflexión" loading="lazy"></div>` : ''}
+          <div class="post-text">${escapeHtml(post.body || '')}</div>
+          ${post.imageUrl ? `<div class="post-media"><img src="${post.imageUrl}" alt="reflexión visual" loading="lazy"></div>` : ''}
         </div>
         <div class="post-actions">
           <button class="action-btn like-btn" data-id="${post.id}"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart" style="color:${isLiked ? '#d43f34' : '#546e86'}"></i> <span class="like-count">${post.likeCount || 0}</span></button>
-          <button class="action-btn comment-simulate"><i class="far fa-comment-dots"></i> Reflexionar</button>
+          <button class="action-btn comment-simulate"><i class="far fa-comment-dots"></i> Dialogar</button>
           <button class="action-btn"><i class="far fa-bookmark"></i> Inspirar</button>
         </div>
       `;
       const likeBtn = card.querySelector(".like-btn");
       likeBtn.addEventListener("click", (e) => {
         e.preventDefault();
-        toggleLike(post.id);
+        toggleLike(post.id, post.likes || []);
       });
-      container.appendChild(card);
+      postsContainer.appendChild(card);
     });
   }
 
-  function toggleLike(postId) {
-    const postIndex = postsArray.findIndex(p => p.id === postId);
-    if (postIndex === -1) return;
-    const post = postsArray[postIndex];
-    if (!post.likes) post.likes = [];
-    const userLiked = post.likes.includes(currentLocalUser.id);
-    if (userLiked) {
-      post.likes = post.likes.filter(id => id !== currentLocalUser.id);
-      post.likeCount = (post.likeCount || 0) - 1;
+  async function toggleLike(postId, currentLikesArray) {
+    if (!currentUser) { showToast("Inicia sesión para valorar"); return; }
+    const postRef = doc(db, "posts", postId);
+    const hasLiked = currentLikesArray.includes(currentUser.uid);
+    if (hasLiked) {
+      await updateDoc(postRef, {
+        likes: arrayRemove(currentUser.uid),
+        likeCount: currentLikesArray.length - 1
+      });
     } else {
-      post.likes.push(currentLocalUser.id);
-      post.likeCount = (post.likeCount || 0) + 1;
+      await updateDoc(postRef, {
+        likes: arrayUnion(currentUser.uid),
+        likeCount: currentLikesArray.length + 1
+      });
     }
-    postsArray[postIndex] = post;
-    savePostsToLocal();
-    updateUIWithPosts();
-    showToast(userLiked ? "Has retirado tu like" : "Has valorado esta reflexión");
   }
 
+  function renderPagination() {
+    if (!paginationDiv) return;
+    if (totalPages <= 1) {
+      paginationDiv.innerHTML = "";
+      return;
+    }
+    let html = "";
+    for (let i = 1; i <= Math.min(totalPages, 8); i++) {
+      html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
+    }
+    paginationDiv.innerHTML = html;
+    document.querySelectorAll(".page-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        currentPage = parseInt(btn.dataset.page);
+        renderCurrentPage();
+        renderPagination();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    });
+  }
+
+  // Crear post con imagen
+  async function publishPost(title, body, category, imageFile) {
+    if (!currentUser) { showToast("Autenticando..."); return false; }
+    let imageUrl = null;
+    if (imageFile) {
+      try {
+        const storageRef = ref(storage, `posts/${Date.now()}_${imageFile.name}`);
+        await uploadBytes(storageRef, imageFile);
+        imageUrl = await getDownloadURL(storageRef);
+      } catch(e) { showToast("Error imagen"); }
+    }
+    const profile = await getCurrentUserProfile();
+    const displayName = profile?.displayName || currentUser.displayName || "Vincleante";
+    await addDoc(collection(db, "posts"), {
+      title: title.trim() || null,
+      body: body.trim(),
+      category: category.trim() || "idea",
+      imageUrl: imageUrl,
+      userId: currentUser.uid,
+      userDisplayName: displayName,
+      createdAt: new Date(),
+      likes: [],
+      likeCount: 0
+    });
+    showToast("✨ Reflexión publicada");
+    return true;
+  }
+
+  // Top creadores
+  async function loadTopCreators() {
+    if (!currentUser) return;
+    const q = query(collection(db, "posts"), orderBy("createdAt", "desc"), limit(100));
+    const snapshot = await getDocs(q);
+    const countMap = new Map();
+    snapshot.forEach(doc => {
+      const name = doc.data().userDisplayName;
+      if (name) countMap.set(name, (countMap.get(name) || 0) + 1);
+    });
+    const sorted = Array.from(countMap.entries()).sort((a,b) => b[1] - a[1]).slice(0,5);
+    const container = document.getElementById("topLocalCreators");
+    if (sorted.length === 0) { container.innerHTML = "<span>Comparte y aparecerás</span>"; return; }
+    let html = "";
+    for (let [name, count] of sorted) {
+      html += `<div class="creator-item"><div class="avatar" style="width:38px;height:38px;font-size:0.9rem;">${name.charAt(0)}</div><div><strong>${escapeHtml(name)}</strong><div style="font-size:11px;">${count} reflexiones</div></div></div>`;
+    }
+    container.innerHTML = html;
+  }
+
+  // Helpers
   function getTimeAgo(timestamp) {
     if (!timestamp) return "reciente";
-    const seconds = Math.floor((Date.now() - timestamp) / 1000);
-    if (seconds < 60) return "hace unos segundos";
+    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+    if (seconds < 60) return "ahora";
     const minutes = Math.floor(seconds / 60);
     if (minutes < 60) return `hace ${minutes} min`;
     const hours = Math.floor(minutes / 60);
@@ -653,173 +795,49 @@
     return `hace ${Math.floor(days / 7)} sem`;
   }
 
-  function escapeHtml(str) {
-    if (!str) return "";
-    return str.replace(/[&<>]/g, function(m) {
-      if (m === '&') return '&amp;';
-      if (m === '<') return '&lt;';
-      if (m === '>') return '&gt;';
-      return m;
-    });
-  }
+  function escapeHtml(str) { if(!str) return ""; return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+  function showToast(msg) { const t = document.createElement('div'); t.className='toast-msg'; t.innerText=msg; document.body.appendChild(t); setTimeout(()=>t.remove(), 2500); }
 
-  function showToast(message, duration = 2500) {
-    const existing = document.querySelector('.toast-msg');
-    if (existing) existing.remove();
-    const toast = document.createElement('div');
-    toast.className = 'toast-msg';
-    toast.innerText = message;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), duration);
-  }
-
-  // Crear nueva publicación (local)
-  function createNewPost(title, body, category, imageDataUrl) {
-    if (!body.trim() && !title.trim()) {
-      showToast("Escribe una reflexión o un título", 1800);
-      return false;
-    }
-    const newId = "post_" + Date.now() + "_" + Math.floor(Math.random() * 10000);
-    const newPost = {
-      id: newId,
-      title: title.trim() || null,
-      body: body.trim(),
-      category: category.trim() || "idea",
-      imageUrl: imageDataUrl || null,
-      authorName: currentLocalUser.name,
-      authorInitial: currentLocalUser.avatarInitial || currentLocalUser.name.charAt(0).toUpperCase(),
-      timestamp: Date.now(),
-      likes: [],
-      likeCount: 0,
-      commentsCount: 0
-    };
-    postsArray.unshift(newPost);
-    savePostsToLocal();
-    updateUIWithPosts();
-    showToast("✨ Reflexión publicada en Vincle");
-    return true;
-  }
-
-  // Top creadores locales
-  function updateTopCreators() {
-    const creatorsMap = new Map();
-    postsArray.forEach(post => {
-      const name = post.authorName;
-      if (creatorsMap.has(name)) {
-        creatorsMap.set(name, creatorsMap.get(name) + 1);
-      } else {
-        creatorsMap.set(name, 1);
-      }
-    });
-    const sorted = Array.from(creatorsMap.entries()).sort((a,b) => b[1] - a[1]).slice(0, 5);
-    const container = document.getElementById("topLocalCreators");
-    if (!container) return;
-    if (sorted.length === 0) {
-      container.innerHTML = "<span>Comparte y aparecerás aquí</span>";
-      return;
-    }
-    let html = "";
-    sorted.forEach(([name, count]) => {
-      const initial = name.charAt(0).toUpperCase();
-      html += `<div class="creator-item"><div class="avatar" style="width:34px;height:34px;font-size:0.9rem;">${initial}</div><div><strong>${escapeHtml(name)}</strong><div style="font-size:11px;">${count} reflexiones</div></div></div>`;
-    });
-    container.innerHTML = html;
-  }
-
-  // Sincronizar UI nombre usuario
-  function refreshUserUI() {
-    document.getElementById("displayNameText").innerText = currentLocalUser.name;
-    document.getElementById("userAvatar").innerText = currentLocalUser.avatarInitial || currentLocalUser.name.charAt(0).toUpperCase();
-    document.getElementById("miniAvatar").innerText = currentLocalUser.avatarInitial || currentLocalUser.name.charAt(0).toUpperCase();
-    saveUserToLocal();
-    updateUIWithPosts(); // refrescar para mostrar nuevos nombres en posts anteriores
-    updateTopCreators();
-  }
-
-  // MODALES
+  // Modales
   const createModal = document.getElementById("createModal");
-  const openCreatorBtn = document.getElementById("openCreatorBtn");
-  const cancelModalBtn = document.getElementById("cancelModalBtn");
-  const confirmPublishBtn = document.getElementById("confirmPublishBtn");
-  const modalTitle = document.getElementById("modalTitle");
-  const modalBody = document.getElementById("modalBody");
-  const modalCategory = document.getElementById("modalCategory");
-  const modalImageUpload = document.getElementById("modalImageUpload");
-  const imagePreviewName = document.getElementById("imagePreviewName");
-  let selectedImageDataUrl = null;
-
-  openCreatorBtn.addEventListener("click", () => {
-    modalTitle.value = "";
-    modalBody.value = "";
-    modalCategory.value = "";
-    selectedImageDataUrl = null;
-    imagePreviewName.innerText = "";
-    modalImageUpload.value = "";
-    createModal.classList.remove("hidden");
-  });
-
-  cancelModalBtn.addEventListener("click", () => {
+  document.getElementById("openCreatorBtn").addEventListener("click", () => createModal.classList.remove("hidden"));
+  document.getElementById("cancelModalBtn").addEventListener("click", () => createModal.classList.add("hidden"));
+  let selectedImageFile = null;
+  document.getElementById("modalImageUpload").addEventListener("change", (e) => { selectedImageFile = e.target.files[0]; document.getElementById("imagePreviewName").innerText = selectedImageFile ? "✓ imagen lista" : ""; });
+  document.getElementById("confirmPublishBtn").addEventListener("click", async () => {
+    const title = document.getElementById("modalTitle").value;
+    const body = document.getElementById("modalBody").value;
+    const cat = document.getElementById("modalCategory").value;
+    if (!body.trim() && !title.trim()) { showToast("Escribe una reflexión o título"); return; }
+    await publishPost(title, body, cat, selectedImageFile);
     createModal.classList.add("hidden");
+    document.getElementById("modalTitle").value = "";
+    document.getElementById("modalBody").value = "";
+    document.getElementById("modalCategory").value = "";
+    selectedImageFile = null;
+    document.getElementById("imagePreviewName").innerText = "";
   });
 
-  modalImageUpload.addEventListener("change", (e) => {
-    const file = e.target.files[0];
-    if (file && file.type.startsWith("image/")) {
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        selectedImageDataUrl = ev.target.result;
-        imagePreviewName.innerText = "✓ imagen lista";
-      };
-      reader.readAsDataURL(file);
-    } else {
-      selectedImageDataUrl = null;
-      imagePreviewName.innerText = "";
+  // Editar nombre
+  const editModal = document.getElementById("editNameModal");
+  document.getElementById("editProfileBtn").addEventListener("click", async () => {
+    const profile = await getCurrentUserProfile();
+    document.getElementById("newNameInput").value = profile?.displayName || currentUser?.displayName || "";
+    editModal.classList.remove("hidden");
+  });
+  document.getElementById("saveNameBtn").addEventListener("click", async () => {
+    const newName = document.getElementById("newNameInput").value.trim();
+    if (!newName) return;
+    if (currentUser) {
+      const userRef = doc(db, "users", currentUser.uid);
+      await setDoc(userRef, { displayName: newName }, { merge: true });
+      await updateProfile(currentUser, { displayName: newName });
+      updateUserUI();
+      showToast(`Ahora te llamas ${newName}`);
     }
+    editModal.classList.add("hidden");
   });
-
-  confirmPublishBtn.addEventListener("click", () => {
-    const titleVal = modalTitle.value;
-    const bodyVal = modalBody.value;
-    const catVal = modalCategory.value;
-    if (!bodyVal.trim() && !titleVal.trim()) {
-      showToast("Agrega una reflexión o título", 1200);
-      return;
-    }
-    createNewPost(titleVal, bodyVal, catVal, selectedImageDataUrl);
-    createModal.classList.add("hidden");
-  });
-
-  // MODAL EDITAR NOMBRE
-  const editNameModal = document.getElementById("editNameModal");
-  const editProfileBtn = document.getElementById("editProfileBtn");
-  const newNameInput = document.getElementById("newNameInput");
-  const saveNameBtn = document.getElementById("saveNameBtn");
-  const closeNameModal = document.getElementById("closeNameModal");
-
-  editProfileBtn.addEventListener("click", () => {
-    newNameInput.value = currentLocalUser.name;
-    editNameModal.classList.remove("hidden");
-  });
-  saveNameBtn.addEventListener("click", () => {
-    let newName = newNameInput.value.trim();
-    if (newName.length === 0) newName = "Vincleante";
-    currentLocalUser.name = newName;
-    currentLocalUser.avatarInitial = newName.charAt(0).toUpperCase();
-    refreshUserUI();
-    editNameModal.classList.add("hidden");
-    showToast(`Ahora eres conocido como ${newName}`);
-  });
-  closeNameModal.addEventListener("click", () => {
-    editNameModal.classList.add("hidden");
-  });
-
-  // Inicializar datos y eventos
-  loadLocalData();
-  refreshUserUI();
-  updateTopCreators();
-  setInterval(() => {
-    updateTopCreators();
-  }, 8000);
+  document.getElementById("closeNameModal").addEventListener("click", () => editModal.classList.add("hidden"));
 </script>
 </body>
 </html>
