@@ -95,12 +95,14 @@
       gap: 1rem;
     }
     
-    /* Desktop layout - sidebar a la derecha FIJO */
+    /* Desktop layout - más estrecho y centrado */
     @media (min-width: 768px) {
       .main-feed {
+        max-width: 1100px;
+        margin: 0 auto;
         padding: 2rem;
         display: grid;
-        grid-template-columns: 1fr 340px;
+        grid-template-columns: minmax(0, 1fr) 300px;
         gap: 2rem;
         align-items: start;
       }
@@ -118,6 +120,11 @@
         box-shadow: none !important;
         padding: 0 !important;
         overflow-y: visible !important;
+      }
+      .posts-section {
+        max-width: 600px;
+        margin: 0 auto;
+        width: 100%;
       }
       .sidebar-card {
         margin-bottom: 1.5rem;
@@ -209,7 +216,7 @@
       box-shadow: 0 4px 20px rgba(0,0,0,0.15);
       overflow: hidden;
       z-index: 100;
-      min-width: 140px;
+      min-width: 160px;
     }
     body.dark-mode .dropdown-menu { background: #334155; }
     .dropdown-menu button {
@@ -223,8 +230,9 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      color: #dc2626;
     }
+    .dropdown-menu button:first-child { color: #dc2626; }
+    .dropdown-menu button:last-child { color: #2c6e8f; }
     .dropdown-menu button:hover { background: #fef2f2; }
     body.dark-mode .dropdown-menu button:hover { background: #450a0a; }
     
@@ -479,6 +487,30 @@
     }
   });
 
+  // Función para compartir post
+  async function sharePost(post) {
+    const shareText = `${post.title ? post.title + '\n\n' : ''}${post.body ? post.body.substring(0, 200) + (post.body.length > 200 ? '...' : '') : ''}\n\n— ${post.userDisplayName} en Vincle.chat`;
+    const shareUrl = window.location.href;
+    
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: post.title || 'Reflexión en Vincle.chat',
+          text: shareText,
+          url: shareUrl
+        });
+        showToast('✨ Compartido');
+      } catch(e) { if (e.name !== 'AbortError') copyToClipboard(shareText); }
+    } else {
+      copyToClipboard(shareText);
+    }
+  }
+  
+  function copyToClipboard(text) {
+    navigator.clipboard.writeText(text);
+    showToast('📋 Copiado al portapapeles');
+  }
+
   // Mobile sidebar
   const sidebar = document.getElementById("sidebar");
   const overlay = document.getElementById("sidebarOverlay");
@@ -579,25 +611,39 @@
     event.stopPropagation();
     if (activeDropdown) activeDropdown.remove();
     
+    const post = allPosts.find(p => p.id === postId);
     const dropdown = document.createElement('div');
     dropdown.className = 'dropdown-menu';
     dropdown.innerHTML = `
-      <button class="delete-post-btn" data-id="${postId}">
-        <i class="fas fa-trash-alt"></i> Eliminar reflexión
+      <button class="share-post-btn" data-id="${postId}">
+        <i class="fas fa-share-alt"></i> Compartir reflexión
       </button>
+      ${post && post.userId === currentUser?.uid ? `<button class="delete-post-btn" data-id="${postId}">
+        <i class="fas fa-trash-alt"></i> Eliminar reflexión
+      </button>` : ''}
     `;
     
     const trigger = event.target.closest('.menu-trigger');
     trigger.parentElement.appendChild(dropdown);
     activeDropdown = dropdown;
     
-    dropdown.querySelector('.delete-post-btn').addEventListener('click', (e) => {
+    dropdown.querySelector('.share-post-btn').addEventListener('click', (e) => {
       e.stopPropagation();
-      postToDelete = postId;
-      document.getElementById("deleteModal").classList.remove("hidden");
+      sharePost(post);
       dropdown.remove();
       activeDropdown = null;
     });
+    
+    const deleteBtn = dropdown.querySelector('.delete-post-btn');
+    if (deleteBtn) {
+      deleteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        postToDelete = postId;
+        document.getElementById("deleteModal").classList.remove("hidden");
+        dropdown.remove();
+        activeDropdown = null;
+      });
+    }
   }
 
   function renderCurrentPage() {
@@ -629,7 +675,7 @@
             <div class="post-user-name">${escapeHtml(post.userDisplayName || "Vincleante")}<span class="post-category">${escapeHtml(post.category || "reflexión")}</span></div>
             <div class="post-time">${timeAgo}</div>
           </div>
-          ${isAuthor ? `<div class="post-menu"><button class="menu-trigger" data-id="${post.id}"><i class="fas fa-ellipsis-v"></i></button></div>` : ''}
+          <div class="post-menu"><button class="menu-trigger" data-id="${post.id}"><i class="fas fa-ellipsis-v"></i></button></div>
         </div>
         <div class="post-content">
           ${post.title ? `<div class="post-title">${escapeHtml(post.title)}</div>` : ''}
