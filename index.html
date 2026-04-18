@@ -4,20 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>Vincle.chat · Reflexiones que conectan</title>
-  <!-- Fuentes y estilos base -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <!-- Fuentes y estilos profesionales -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- Firebase SDKs (modular) -->
-  <script type="importmap">
-    {
-      "imports": {
-        "firebase/app": "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js",
-        "firebase/auth": "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js",
-        "firebase/firestore": "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js",
-        "firebase/storage": "https://www.gstatic.com/firebasejs/11.0.2/firebase-storage.js"
-      }
-    }
-  </script>
   <style>
     * {
       margin: 0;
@@ -27,29 +16,29 @@
 
     body {
       font-family: 'Inter', sans-serif;
-      background: #f8fafc;
-      color: #0f172a;
+      background: #f7f9fc;
+      color: #0a1c2f;
       line-height: 1.5;
     }
 
     /* Layout principal */
     .app-container {
-      max-width: 1280px;
+      max-width: 1300px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
     }
 
-    /* Header profesional */
+    /* Header elegante */
     .header {
-      background: white;
+      background: rgba(255,255,255,0.96);
       backdrop-filter: blur(0px);
-      border-bottom: 1px solid #e9eef3;
+      border-bottom: 1px solid #eef2f8;
       padding: 0.9rem 2rem;
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 20;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -60,83 +49,83 @@
     .logo-area {
       display: flex;
       align-items: baseline;
-      gap: 6px;
+      gap: 8px;
     }
 
     .logo {
-      font-size: 1.8rem;
+      font-size: 1.9rem;
       font-weight: 800;
-      background: linear-gradient(135deg, #1e2b3c, #2c5a6e);
+      background: linear-gradient(135deg, #183c4f, #2c6e8f);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      letter-spacing: -0.3px;
+      letter-spacing: -0.5px;
     }
 
     .logo span {
       font-weight: 500;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       background: none;
-      color: #5b6e8c;
+      color: #5c6f87;
     }
 
     .tagline {
       font-size: 0.75rem;
-      color: #5b6e8c;
-      border-left: 1px solid #dce3ec;
+      color: #5e7a93;
+      border-left: 1px solid #dce5ef;
       padding-left: 0.8rem;
-      margin-left: 0.4rem;
+      margin-left: 0.3rem;
     }
 
-    .auth-buttons {
+    .user-profile {
       display: flex;
-      gap: 12px;
+      align-items: center;
+      gap: 15px;
+      background: #f0f4fa;
+      padding: 6px 18px 6px 12px;
+      border-radius: 60px;
     }
 
-    .btn {
-      padding: 8px 20px;
-      border-radius: 40px;
-      font-weight: 600;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      border: none;
-      background: transparent;
-    }
-
-    .btn-primary {
-      background: #1e2b3c;
+    .user-avatar {
+      width: 38px;
+      height: 38px;
+      background: #1e3b4a;
+      border-radius: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       color: white;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      font-weight: 700;
+      font-size: 1rem;
     }
 
-    .btn-primary:hover {
-      background: #2c4c62;
-      transform: translateY(-1px);
+    .user-name {
+      font-weight: 600;
+      font-size: 0.9rem;
     }
 
-    .btn-outline {
-      border: 1px solid #cbd5e1;
-      background: white;
+    .edit-name-btn {
+      background: none;
+      border: none;
+      font-size: 0.8rem;
+      color: #4f7a9e;
+      cursor: pointer;
+      transition: 0.2s;
     }
 
-    .btn-outline:hover {
-      background: #f1f5f9;
-    }
-
-    /* Main feed estilo Instagram/TikTok/Quora */
+    /* Feed principal estilo Instagram + TikTok + Quora */
     .main-feed {
       flex: 1;
-      padding: 2rem 1.5rem;
+      padding: 2rem 1.8rem;
       display: grid;
-      grid-template-columns: 1fr 340px;
+      grid-template-columns: 1fr 320px;
       gap: 2rem;
     }
 
     @media (max-width: 880px) {
       .main-feed {
         grid-template-columns: 1fr;
-        padding: 1.5rem;
+        padding: 1.2rem;
       }
       .sidebar {
         display: none;
@@ -149,94 +138,106 @@
       gap: 1.8rem;
     }
 
-    /* Tarjeta de publicación: mezcla visual */
+    /* Tarjeta de publicación */
     .post-card {
       background: white;
       border-radius: 28px;
-      box-shadow: 0 5px 18px rgba(0, 0, 0, 0.03), 0 0 0 1px #edf2f7;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.03), 0 0 0 1px #eef3fc;
       overflow: hidden;
-      transition: all 0.2s;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .post-card:hover {
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05), 0 0 0 1px #e2ebf3;
     }
 
     .post-header {
-      padding: 1rem 1.2rem 0.5rem 1.2rem;
+      padding: 1rem 1.3rem 0.4rem 1.3rem;
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
     .avatar {
-      width: 42px;
-      height: 42px;
-      background: #e2e8f0;
+      width: 44px;
+      height: 44px;
+      background: #dce5f0;
       border-radius: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: bold;
-      color: #2d3e50;
-      background: #d9e2ef;
+      font-size: 1.1rem;
+      color: #1f4662;
     }
 
-    .post-user {
+    .post-user-info {
+      flex: 1;
+    }
+
+    .post-user-name {
       font-weight: 700;
       font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .post-category {
+      background: #eef3fc;
+      padding: 3px 12px;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #22668d;
     }
 
     .post-time {
       font-size: 0.7rem;
-      color: #6c7a91;
-    }
-
-    .post-category {
-      background: #eef2ff;
-      padding: 2px 10px;
-      border-radius: 50px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      color: #25455b;
-      margin-left: 8px;
+      color: #7c8ba0;
+      margin-top: 3px;
     }
 
     .post-content {
-      padding: 0.2rem 1.2rem 1rem 1.2rem;
+      padding: 0.2rem 1.3rem 1rem 1.3rem;
     }
 
     .post-title {
-      font-size: 1.35rem;
+      font-size: 1.4rem;
       font-weight: 700;
-      margin: 0.5rem 0 0.5rem 0;
-      letter-spacing: -0.2px;
+      margin: 0.5rem 0 0.6rem 0;
+      letter-spacing: -0.3px;
       line-height: 1.3;
     }
 
     .post-text {
-      color: #1f2a3e;
+      color: #1f2e45;
       font-size: 0.95rem;
       margin: 0.5rem 0;
       white-space: pre-wrap;
     }
 
     .post-media {
-      margin: 0.8rem 0;
+      margin: 0.9rem 0;
       border-radius: 24px;
       overflow: hidden;
-      max-height: 420px;
+      max-height: 440px;
       display: flex;
       justify-content: center;
-      background: #f1f5f9;
+      background: #f2f6fb;
     }
 
-    .post-media img, .post-media video {
+    .post-media img {
       max-width: 100%;
       max-height: 380px;
       object-fit: cover;
-      width: 100%;
+      width: auto;
     }
 
     .post-actions {
-      padding: 0.6rem 1.2rem 1rem 1.2rem;
-      border-top: 1px solid #eff3f8;
+      padding: 0.5rem 1.3rem 1rem 1.3rem;
+      border-top: 1px solid #eff3fa;
       display: flex;
       gap: 1.8rem;
     }
@@ -247,11 +248,11 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 500;
-      color: #4a5b7a;
+      color: #546e86;
       cursor: pointer;
-      transition: 0.1s;
+      transition: 0.15s;
     }
 
     .action-btn i {
@@ -259,39 +260,114 @@
     }
 
     .action-btn:hover {
-      color: #1e2b3c;
+      color: #1a4c6e;
     }
 
-    /* sidebar sugerencias / top intelectuales */
-    .sidebar {
-      position: sticky;
-      top: 90px;
-      align-self: start;
+    /* Área de creación */
+    .create-card {
+      background: white;
+      border-radius: 32px;
+      margin-bottom: 0.5rem;
+      padding: 1.2rem 1.4rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02), 0 0 0 1px #eef3fc;
     }
 
+    .create-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .mini-avatar {
+      width: 42px;
+      height: 42px;
+      background: #1e3b4a;
+      border-radius: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+    }
+
+    .fake-input {
+      flex: 1;
+      background: #f3f6fc;
+      border-radius: 60px;
+      padding: 12px 18px;
+      color: #2c5270;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 28, 47, 0.7);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-container {
+      background: white;
+      width: 90%;
+      max-width: 560px;
+      border-radius: 40px;
+      padding: 1.8rem;
+      box-shadow: 0 25px 40px rgba(0,0,0,0.2);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .toast-msg {
+      position: fixed;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1a2c3f;
+      color: white;
+      padding: 10px 22px;
+      border-radius: 60px;
+      font-size: 0.85rem;
+      z-index: 1200;
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    /* Sidebar */
     .sidebar-card {
       background: white;
       border-radius: 28px;
       padding: 1.5rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.02), 0 0 0 1px #edf2f7;
-      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.02), 0 0 0 1px #edf2f9;
+      margin-bottom: 1.6rem;
     }
 
     .sidebar-title {
       font-weight: 700;
       margin-bottom: 1rem;
       font-size: 1rem;
-      border-left: 4px solid #2c5a6e;
-      padding-left: 10px;
+      border-left: 4px solid #2c6e8f;
+      padding-left: 12px;
     }
 
-    .trending-tag {
+    .topic-chip {
       display: inline-block;
-      background: #eef2ff;
+      background: #eef2fa;
       border-radius: 40px;
-      padding: 6px 14px;
-      margin: 5px 6px 0 0;
-      font-size: 0.8rem;
+      padding: 5px 16px;
+      margin: 6px 6px 0 0;
+      font-size: 0.75rem;
       font-weight: 500;
     }
 
@@ -302,69 +378,33 @@
       margin-bottom: 14px;
     }
 
-    .create-post-area {
-      background: white;
-      border-radius: 32px;
-      margin-bottom: 2rem;
-      padding: 1.2rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.02), 0 0 0 1px #eef3fc;
-    }
-
-    .create-input {
-      width: 100%;
-      border: 1px solid #e2e8f0;
-      border-radius: 60px;
-      padding: 12px 18px;
-      font-family: inherit;
-      resize: none;
-      font-size: 0.9rem;
-    }
-
-    .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(4px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-
-    .modal-card {
-      background: white;
-      max-width: 500px;
-      width: 90%;
-      border-radius: 40px;
-      padding: 1.8rem;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 25px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #1f2a3e;
-      color: white;
-      padding: 8px 18px;
-      border-radius: 50px;
-      font-size: 0.8rem;
-      z-index: 1100;
-    }
-
-    textarea, input {
+    input, textarea {
       font-family: 'Inter', sans-serif;
+      border: 1px solid #e2e9f2;
+      border-radius: 24px;
+      padding: 10px 16px;
+      width: 100%;
+      font-size: 0.9rem;
+      transition: 0.2s;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #2c6e8f;
+      box-shadow: 0 0 0 3px rgba(44,110,143,0.1);
     }
 
     button {
       cursor: pointer;
+    }
+
+    .btn-primary-solid {
+      background: #1e4c66;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-weight: 600;
     }
   </style>
 </head>
@@ -373,338 +413,413 @@
   <header class="header">
     <div class="logo-area">
       <div class="logo">Vincle<span>.chat</span></div>
-      <div class="tagline">reflexiones · ideas · intelecto</div>
+      <div class="tagline">ideas · intelecto · descubrimiento</div>
     </div>
-    <div id="authSection" class="auth-buttons">
-      <!-- dinamico -->
+    <div class="user-profile" id="userProfileBar">
+      <div class="user-avatar" id="userAvatar">V</div>
+      <div>
+        <div class="user-name" id="displayNameText">Vincleante</div>
+        <button id="editProfileBtn" class="edit-name-btn"><i class="fas fa-pen"></i> nombre</button>
+      </div>
     </div>
   </header>
 
   <div class="main-feed">
     <div class="posts-section">
-      <div id="createPostWidget" class="create-post-area hidden">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-          <strong><i class="fas fa-pen-fancy"></i> Comparte una reflexión</strong>
-          <button id="closeCreateBtn" class="btn btn-outline" style="padding: 4px 12px;">Cancelar</button>
+      <!-- tarjeta para crear contenido estilo tiktok/ig -->
+      <div class="create-card" id="openCreatorBtn">
+        <div class="create-header">
+          <div class="mini-avatar" id="miniAvatar">V</div>
+          <div class="fake-input"><i class="fas fa-feather-alt"></i> Comparte una reflexión, idea o aprendizaje...</div>
         </div>
-        <input type="text" id="postTitleInput" placeholder="Título (inspirador, provocador...)" style="width:100%; padding: 12px; border-radius: 30px; border:1px solid #e2e8f0; margin-bottom: 12px;">
-        <textarea id="postBodyInput" rows="3" placeholder="Escribe tu idea, reflexión o aprendizaje..." style="width:100%; border-radius: 24px; padding: 12px; border:1px solid #e2e8f0;"></textarea>
-        <div style="display: flex; gap: 12px; margin: 12px 0;">
-          <input type="text" id="postCategoryInput" placeholder="Categoría (ej: filosofía, ciencia, arte)" style="flex:1; border-radius: 40px; border:1px solid #e2e8f0; padding: 8px 12px;">
-          <label style="background:#f1f5f9; padding: 8px 16px; border-radius: 40px; font-size:0.8rem;"><i class="fas fa-image"></i> Imagen <input type="file" id="imageUpload" accept="image/*" style="display:none;"></label>
-        </div>
-        <button id="publishPostBtn" class="btn btn-primary" style="width:100%;">Publicar reflexión →</button>
       </div>
 
-      <div id="postsFeed">
-        <!-- Aquí se renderizan las publicaciones -->
-        <div style="text-align: center; padding: 3rem; color: #6c7a91;">Cargando reflexiones profundas...</div>
+      <div id="postsFeedContainer">
+        <!-- dinámico -->
       </div>
     </div>
+
     <aside class="sidebar">
       <div class="sidebar-card">
-        <div class="sidebar-title"><i class="fas fa-brain"></i> Tópicos virales</div>
+        <div class="sidebar-title"><i class="fas fa-brain"></i> Tópicos en tendencia</div>
         <div>
-          <span class="trending-tag">#filosofía</span>
-          <span class="trending-tag">#innovación</span>
-          <span class="trending-tag">#neurociencia</span>
-          <span class="trending-tag">#creatividad</span>
-          <span class="trending-tag">#ética</span>
+          <span class="topic-chip">#filosofía</span>
+          <span class="topic-chip">#neurociencia</span>
+          <span class="topic-chip">#creatividad</span>
+          <span class="topic-chip">#ética digital</span>
+          <span class="topic-chip">#aprendizaje</span>
         </div>
       </div>
       <div class="sidebar-card">
-        <div class="sidebar-title"><i class="fas fa-users"></i> Mentes activas</div>
-        <div id="topUsersList">Cargando...</div>
+        <div class="sidebar-title"><i class="fas fa-fire"></i> Mentes más activas</div>
+        <div id="topLocalCreators">Cargando comunidad...</div>
       </div>
       <div class="sidebar-card">
-        <div class="sidebar-title"><i class="fas fa-quote-right"></i> Cita Vincle</div>
-        <p style="font-style: italic; font-size: 0.85rem;">"Las grandes ideas nacen del diálogo sincero."</p>
+        <div class="sidebar-title"><i class="fas fa-quote-left"></i> Cita Vincle</div>
+        <p style="font-style: italic; font-size: 0.85rem;">"Cada reflexión es un puente hacia otra mente."</p>
       </div>
     </aside>
   </div>
 </div>
 
-<script type="module">
-  import { initializeApp } from "firebase/app";
-  import { getAuth, signInAnonymously, onAuthStateChanged, signOut } from "firebase/auth";
-  import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, doc, updateDoc, arrayUnion, arrayRemove, getDoc, setDoc, Timestamp, limit } from "firebase/firestore";
-  import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+<!-- MODAL PARA CREAR PUBLICACIÓN -->
+<div id="createModal" class="modal-overlay hidden">
+  <div class="modal-container">
+    <h3 style="margin-bottom: 1rem; font-weight: 700;"><i class="fas fa-lightbulb"></i> Nueva reflexión</h3>
+    <input type="text" id="modalTitle" placeholder="Título (opcional, pero potente)" style="margin-bottom: 12px;">
+    <textarea id="modalBody" rows="4" placeholder="Escribe tu idea, reflexión o análisis..." style="margin-bottom: 12px;"></textarea>
+    <input type="text" id="modalCategory" placeholder="Categoría (ej: psicología, arte, ciencia)" style="margin-bottom: 12px;">
+    <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 20px;">
+      <label style="background:#f0f4fa; padding: 8px 16px; border-radius: 40px; font-size:0.8rem; cursor:pointer;"><i class="fas fa-image"></i> Añadir imagen <input type="file" id="modalImageUpload" accept="image/*" style="display:none;"></label>
+      <span id="imagePreviewName" style="font-size: 0.7rem; color: #6b7f99;"></span>
+    </div>
+    <div style="display: flex; gap: 12px; justify-content: flex-end;">
+      <button id="cancelModalBtn" class="btn-outline" style="background:transparent; border:1px solid #cad5e2; padding:8px 20px; border-radius:40px;">Cancelar</button>
+      <button id="confirmPublishBtn" class="btn-primary-solid">Publicar reflexión →</button>
+    </div>
+  </div>
+</div>
 
-  // Config Firebase (proporcionada)
-  const firebaseConfig = {
-    apiKey: "AIzaSyDGrspy5R6usV6KMEIsxNb_7P5GuibbX4I",
-    authDomain: "vinclechat-564d1.firebaseapp.com",
-    projectId: "vinclechat-564d1"
+<!-- MODAL EDITAR NOMBRE LOCAL -->
+<div id="editNameModal" class="modal-overlay hidden">
+  <div class="modal-container">
+    <h3 style="margin-bottom: 0.8rem;">Tu identidad en Vincle</h3>
+    <input type="text" id="newNameInput" placeholder="Nombre público" style="margin-bottom: 20px;">
+    <div style="display: flex; gap: 12px; justify-content: flex-end;">
+      <button id="closeNameModal" class="btn-outline" style="background:transparent; border:1px solid #cad5e2;">Cancelar</button>
+      <button id="saveNameBtn" class="btn-primary-solid">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---------- RED SOCIAL COMPLETAMENTE LOCAL (localStorage) ----------
+  // Estructura: posts, usuario actual (nombre, avatar inicial)
+  let currentLocalUser = {
+    id: "local_user_1",
+    name: "Vincleante",
+    avatarInitial: "V"
   };
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  const storage = getStorage(app);
+  let postsArray = [];
 
-  // Estado global
-  let currentUser = null;
-  let allPosts = [];
-
-  // Elementos DOM
-  const authSection = document.getElementById('authSection');
-  const postsFeed = document.getElementById('postsFeed');
-  const createPostWidget = document.getElementById('createPostWidget');
-  const closeCreateBtn = document.getElementById('closeCreateBtn');
-  const publishBtn = document.getElementById('publishPostBtn');
-  const postTitleInput = document.getElementById('postTitleInput');
-  const postBodyInput = document.getElementById('postBodyInput');
-  const postCategoryInput = document.getElementById('postCategoryInput');
-  const imageUpload = document.getElementById('imageUpload');
-  const topUsersList = document.getElementById('topUsersList');
-
-  // Utilidades
-  function showToast(msg, duration = 2500) {
-    let existing = document.querySelector('.toast');
-    if(existing) existing.remove();
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.innerText = msg;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), duration);
-  }
-
-  // Autenticación anónima pero con nombre personalizable? Simulamos un perfil con ID único + opción de nombre?
-  // Para experiencia social: cada usuario anónimo puede establecer un displayName opcional (lo guardamos en Firestore / users)
-  // Pero simplificamos: nombre aleatorio basado en uid. Más elegante: guardar en localStorage "username" o settear.
-  async function ensureUserProfile(user) {
-    if (!user) return;
-    const userRef = doc(db, "users", user.uid);
-    const snap = await getDoc(userRef);
-    if (!snap.exists()) {
-      const randomName = "pensador_" + Math.floor(Math.random() * 900 + 100);
-      await setDoc(userRef, {
-        displayName: randomName,
-        createdAt: Timestamp.now(),
-        avatarColor: "#" + Math.floor(Math.random()*16777215).toString(16).slice(0,6)
-      });
-    }
-  }
-
-  async function getCurrentUserProfile() {
-    if (!currentUser) return null;
-    const userRef = doc(db, "users", currentUser.uid);
-    const snap = await getDoc(userRef);
-    if (snap.exists()) return { uid: currentUser.uid, ...snap.data() };
-    else return { uid: currentUser.uid, displayName: "anónimo" };
-  }
-
-  // Renderizar header
-  function renderAuthUI() {
-    if (currentUser) {
-      authSection.innerHTML = `<span style="font-size:0.85rem; background:#eef2ff; padding:6px 14px; border-radius:40px;"><i class="fas fa-user-astronaut"></i> Conectado</span>
-                               <button id="signOutBtn" class="btn btn-outline">Salir</button>
-                               <button id="showCreateBtn" class="btn btn-primary"><i class="fas fa-plus"></i> Nueva idea</button>`;
-      document.getElementById('signOutBtn')?.addEventListener('click', () => signOut(auth));
-      document.getElementById('showCreateBtn')?.addEventListener('click', () => {
-        if (currentUser) createPostWidget.classList.remove('hidden');
-        else showToast("Inicia sesión para publicar");
-      });
-    } else {
-      authSection.innerHTML = `<button id="anonLoginBtn" class="btn btn-primary">Acceder como invitado</button>`;
-      document.getElementById('anonLoginBtn')?.addEventListener('click', async () => {
-        try {
-          await signInAnonymously(auth);
-          showToast("Bienvenide a Vincle.chat");
-        } catch(e) { showToast("Error: "+e.message); }
-      });
-      createPostWidget.classList.add('hidden');
-    }
-  }
-
-  closeCreateBtn.addEventListener('click', () => {
-    createPostWidget.classList.add('hidden');
-    postTitleInput.value = '';
-    postBodyInput.value = '';
-    postCategoryInput.value = '';
-    imageUpload.value = '';
-  });
-
-  // Publicar con imagen opcional
-  publishBtn.addEventListener('click', async () => {
-    if (!currentUser) { showToast("Necesitas estar autenticado"); return; }
-    const title = postTitleInput.value.trim();
-    const body = postBodyInput.value.trim();
-    if (!title && !body) { showToast("Escribe al menos un título o reflexión"); return; }
-    const category = postCategoryInput.value.trim() || "reflexión";
-    let imageUrl = null;
-    const file = imageUpload.files[0];
-    if (file) {
+  // Cargar datos desde localStorage
+  function loadLocalData() {
+    const storedUser = localStorage.getItem("vincle_user");
+    if (storedUser) {
       try {
-        const storageRef = ref(storage, `posts/${Date.now()}_${file.name}`);
-        await uploadBytes(storageRef, file);
-        imageUrl = await getDownloadURL(storageRef);
-      } catch(e) { showToast("Error al subir imagen"); console.warn(e); }
+        const parsed = JSON.parse(storedUser);
+        currentLocalUser.name = parsed.name || "Vincleante";
+        currentLocalUser.avatarInitial = parsed.avatarInitial || currentLocalUser.name.charAt(0).toUpperCase();
+      } catch(e) {}
     }
-    const profile = await getCurrentUserProfile();
-    const displayName = profile?.displayName || "Buscador";
-    await addDoc(collection(db, "posts"), {
-      title: title,
-      body: body,
-      category: category,
-      imageUrl: imageUrl,
-      userId: currentUser.uid,
-      userDisplayName: displayName,
-      createdAt: Timestamp.now(),
-      likes: [],
-      likeCount: 0
-    });
-    showToast("¡Reflexión publicada!");
-    createPostWidget.classList.add('hidden');
-    postTitleInput.value = '';
-    postBodyInput.value = '';
-    postCategoryInput.value = '';
-    imageUpload.value = '';
-  });
-
-  // Dar like / quitar like
-  async function toggleLike(postId, currentLikesArray) {
-    if (!currentUser) { showToast("Inicia sesión para dar like"); return; }
-    const postRef = doc(db, "posts", postId);
-    const hasLiked = currentLikesArray.includes(currentUser.uid);
-    if (hasLiked) {
-      await updateDoc(postRef, {
-        likes: arrayRemove(currentUser.uid),
-        likeCount: (currentLikesArray.length - 1)
-      });
+    const storedPosts = localStorage.getItem("vincle_posts");
+    if (storedPosts) {
+      postsArray = JSON.parse(storedPosts);
+      // Ordenar por timestamp descendente
+      postsArray.sort((a,b) => b.timestamp - a.timestamp);
     } else {
-      await updateDoc(postRef, {
-        likes: arrayUnion(currentUser.uid),
-        likeCount: (currentLikesArray.length + 1)
-      });
+      // Publicaciones de ejemplo para dar vida intelectual
+      postsArray = [
+        {
+          id: "post1",
+          title: "La paradoja de la creatividad",
+          body: "Cuanto más intentamos forzar una idea brillante, más se esconde. La creatividad florece en la calma y la observación.",
+          category: "psicología",
+          imageUrl: null,
+          authorName: "Elena M.",
+          authorInitial: "E",
+          timestamp: Date.now() - 86400000,
+          likes: ["user_x", "user_y"],
+          likeCount: 2,
+          commentsCount: 0
+        },
+        {
+          id: "post2",
+          title: "Inteligencia colectiva",
+          body: "Las redes pueden ser espacios de inteligencia compartida si cultivamos el diálogo respetuoso. Vincle nace de esa visión.",
+          category: "filosofía",
+          imageUrl: null,
+          authorName: "Pensador Anónimo",
+          authorInitial: "P",
+          timestamp: Date.now() - 172800000,
+          likes: [],
+          likeCount: 5,
+          commentsCount: 0
+        },
+        {
+          id: "post3",
+          title: "Aprender a desaprender",
+          body: "El conocimiento más valioso a veces es soltar viejos esquemas. Reflexión sobre adaptabilidad.",
+          category: "aprendizaje",
+          imageUrl: null,
+          authorName: "Lucía R.",
+          authorInitial: "L",
+          timestamp: Date.now() - 345600000,
+          likes: ["user_z"],
+          likeCount: 1,
+          commentsCount: 0
+        }
+      ];
+      savePostsToLocal();
     }
+    updateUIWithPosts();
   }
 
-  // Render feed estilo mezcla
-  function renderPosts() {
-    if (!postsFeed) return;
-    if (allPosts.length === 0) {
-      postsFeed.innerHTML = `<div style="background: white; border-radius: 32px; padding: 2rem; text-align:center;">✨ Aún no hay reflexiones, ¡sé el primero en compartir una idea!</div>`;
+  function saveUserToLocal() {
+    localStorage.setItem("vincle_user", JSON.stringify({
+      name: currentLocalUser.name,
+      avatarInitial: currentLocalUser.avatarInitial
+    }));
+  }
+
+  function savePostsToLocal() {
+    localStorage.setItem("vincle_posts", JSON.stringify(postsArray));
+  }
+
+  function updateUIWithPosts() {
+    const container = document.getElementById("postsFeedContainer");
+    if (!container) return;
+    if (postsArray.length === 0) {
+      container.innerHTML = `<div style="background: white; border-radius: 32px; padding: 2.5rem; text-align: center; color: #5f7f9a;"><i class="fas fa-feather-alt fa-2x"></i><p style="margin-top: 12px;">Aún no hay reflexiones, sé el primero en inspirar.</p></div>`;
       return;
     }
-    postsFeed.innerHTML = '';
-    allPosts.forEach(post => {
-      const postId = post.id;
-      const data = post.data;
-      const isLiked = currentUser && data.likes?.includes(currentUser.uid);
-      const timeAgo = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleString() : "reciente";
-      const card = document.createElement('div');
-      card.className = 'post-card';
+    container.innerHTML = "";
+    postsArray.forEach(post => {
+      const isLiked = currentLocalUser.id && post.likes && post.likes.includes(currentLocalUser.id);
+      const timeAgo = getTimeAgo(post.timestamp);
+      const card = document.createElement("div");
+      card.className = "post-card";
       card.innerHTML = `
         <div class="post-header">
-          <div class="avatar">${(data.userDisplayName?.charAt(0) || 'U').toUpperCase()}</div>
-          <div>
-            <div class="post-user">${escapeHtml(data.userDisplayName || 'pensador')} <span class="post-category">${escapeHtml(data.category || 'idea')}</span></div>
+          <div class="avatar" style="background: #d9e6f2;">${escapeHtml(post.authorInitial || post.authorName.charAt(0))}</div>
+          <div class="post-user-info">
+            <div class="post-user-name">
+              ${escapeHtml(post.authorName)}
+              <span class="post-category">${escapeHtml(post.category || "reflexión")}</span>
+            </div>
             <div class="post-time">${timeAgo}</div>
           </div>
         </div>
         <div class="post-content">
-          ${data.title ? `<div class="post-title">${escapeHtml(data.title)}</div>` : ''}
-          <div class="post-text">${escapeHtml(data.body || '')}</div>
-          ${data.imageUrl ? `<div class="post-media"><img src="${data.imageUrl}" alt="reflexión visual" loading="lazy"></div>` : ''}
+          ${post.title ? `<div class="post-title">${escapeHtml(post.title)}</div>` : ''}
+          <div class="post-text">${escapeHtml(post.body)}</div>
+          ${post.imageUrl ? `<div class="post-media"><img src="${post.imageUrl}" alt="visual reflexión" loading="lazy"></div>` : ''}
         </div>
         <div class="post-actions">
-          <button class="action-btn like-btn" data-id="${postId}"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart" style="color:${isLiked ? '#e53e3e' : '#4a5b7a'}"></i> <span>${data.likeCount || 0}</span></button>
-          <button class="action-btn"><i class="far fa-comment"></i> Reflexionar</button>
-          <button class="action-btn"><i class="far fa-bookmark"></i> Guardar</button>
+          <button class="action-btn like-btn" data-id="${post.id}"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart" style="color:${isLiked ? '#d43f34' : '#546e86'}"></i> <span class="like-count">${post.likeCount || 0}</span></button>
+          <button class="action-btn comment-simulate"><i class="far fa-comment-dots"></i> Reflexionar</button>
+          <button class="action-btn"><i class="far fa-bookmark"></i> Inspirar</button>
         </div>
       `;
-      const likeBtn = card.querySelector('.like-btn');
-      likeBtn.addEventListener('click', (e) => {
+      const likeBtn = card.querySelector(".like-btn");
+      likeBtn.addEventListener("click", (e) => {
         e.preventDefault();
-        toggleLike(postId, data.likes || []);
+        toggleLike(post.id);
       });
-      postsFeed.appendChild(card);
+      container.appendChild(card);
     });
   }
 
-  // Suscripción en tiempo real a posts
-  function subscribePosts() {
-    const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
-    return onSnapshot(q, (snapshot) => {
-      const postsArray = [];
-      snapshot.forEach(docSnap => {
-        postsArray.push({ id: docSnap.id, data: docSnap.data() });
-      });
-      allPosts = postsArray;
-      renderPosts();
-    });
-  }
-
-  // Top usuarios según cantidad de publicaciones (simplificado)
-  async function loadTopUsers() {
-    try {
-      const postsSnap = await getDocsFromCollection(collection(db, "posts"), limit(50));
-      const userCount = new Map();
-      postsSnap.forEach(doc => {
-        const uid = doc.data().userId;
-        if (uid) userCount.set(uid, (userCount.get(uid) || 0) + 1);
-      });
-      const sorted = Array.from(userCount.entries()).sort((a,b)=>b[1]-a[1]).slice(0,5);
-      if (sorted.length === 0) { topUsersList.innerHTML = '<span>Se el primero en publicar</span>'; return; }
-      let html = '';
-      for (let [uid, count] of sorted) {
-        const userRef = doc(db, "users", uid);
-        const userSnap = await getDoc(userRef);
-        const name = userSnap.exists() ? userSnap.data().displayName : "Creador";
-        html += `<div class="creator-item"><div class="avatar" style="width:32px;height:32px;font-size:12px;">${name.charAt(0)}</div><div><strong>${escapeHtml(name)}</strong><div style="font-size:11px;">${count} reflexiones</div></div></div>`;
-      }
-      topUsersList.innerHTML = html;
-    } catch(e) { topUsersList.innerHTML = 'comunidad activa'; }
-  }
-
-  // helper getDocs
-  async function getDocsFromCollection(collectionRef, lim) {
-    const q = query(collectionRef, lim);
-    const snap = await getDocsFromQuery(q);
-    return snap;
-  }
-  // función aux porque getDocs import
-  import { getDocs, query as fireQuery, limit as limQuery } from "firebase/firestore";
-  async function getDocsFromQuery(q) {
-    const snap = await getDocs(q);
-    return snap;
-  }
-
-  // Escuchar auth
-  onAuthStateChanged(auth, async (user) => {
-    currentUser = user;
-    if (user) {
-      await ensureUserProfile(user);
-      await loadTopUsers();
+  function toggleLike(postId) {
+    const postIndex = postsArray.findIndex(p => p.id === postId);
+    if (postIndex === -1) return;
+    const post = postsArray[postIndex];
+    if (!post.likes) post.likes = [];
+    const userLiked = post.likes.includes(currentLocalUser.id);
+    if (userLiked) {
+      post.likes = post.likes.filter(id => id !== currentLocalUser.id);
+      post.likeCount = (post.likeCount || 0) - 1;
     } else {
-      topUsersList.innerHTML = 'Inicia sesión para ver comunidad';
+      post.likes.push(currentLocalUser.id);
+      post.likeCount = (post.likeCount || 0) + 1;
     }
-    renderAuthUI();
-    renderPosts(); // refrescar botones de like según estado
-  });
+    postsArray[postIndex] = post;
+    savePostsToLocal();
+    updateUIWithPosts();
+    showToast(userLiked ? "Has retirado tu like" : "Has valorado esta reflexión");
+  }
 
-  // iniciar subscriptor de posts
-  let unsubPosts = subscribePosts();
-  // loadTopUsers periódico
-  setInterval(() => { if(currentUser) loadTopUsers(); }, 15000);
-  window.loadTopUsers = loadTopUsers;
-  if (currentUser) loadTopUsers();
+  function getTimeAgo(timestamp) {
+    if (!timestamp) return "reciente";
+    const seconds = Math.floor((Date.now() - timestamp) / 1000);
+    if (seconds < 60) return "hace unos segundos";
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `hace ${minutes} min`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `hace ${hours} h`;
+    const days = Math.floor(hours / 24);
+    if (days < 7) return `hace ${days} d`;
+    return `hace ${Math.floor(days / 7)} sem`;
+  }
 
   function escapeHtml(str) {
-    if (!str) return '';
+    if (!str) return "";
     return str.replace(/[&<>]/g, function(m) {
-      if(m === '&') return '&amp;';
-      if(m === '<') return '&lt;';
-      if(m === '>') return '&gt;';
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
       return m;
-    }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-      return c;
     });
   }
-  
-  // inicial adicional: si no hay datos, crear publicaciones de ejemplo? opcional pero mantener limpio.
-  console.log("Vincle.chat — red intelectual activa");
+
+  function showToast(message, duration = 2500) {
+    const existing = document.querySelector('.toast-msg');
+    if (existing) existing.remove();
+    const toast = document.createElement('div');
+    toast.className = 'toast-msg';
+    toast.innerText = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), duration);
+  }
+
+  // Crear nueva publicación (local)
+  function createNewPost(title, body, category, imageDataUrl) {
+    if (!body.trim() && !title.trim()) {
+      showToast("Escribe una reflexión o un título", 1800);
+      return false;
+    }
+    const newId = "post_" + Date.now() + "_" + Math.floor(Math.random() * 10000);
+    const newPost = {
+      id: newId,
+      title: title.trim() || null,
+      body: body.trim(),
+      category: category.trim() || "idea",
+      imageUrl: imageDataUrl || null,
+      authorName: currentLocalUser.name,
+      authorInitial: currentLocalUser.avatarInitial || currentLocalUser.name.charAt(0).toUpperCase(),
+      timestamp: Date.now(),
+      likes: [],
+      likeCount: 0,
+      commentsCount: 0
+    };
+    postsArray.unshift(newPost);
+    savePostsToLocal();
+    updateUIWithPosts();
+    showToast("✨ Reflexión publicada en Vincle");
+    return true;
+  }
+
+  // Top creadores locales
+  function updateTopCreators() {
+    const creatorsMap = new Map();
+    postsArray.forEach(post => {
+      const name = post.authorName;
+      if (creatorsMap.has(name)) {
+        creatorsMap.set(name, creatorsMap.get(name) + 1);
+      } else {
+        creatorsMap.set(name, 1);
+      }
+    });
+    const sorted = Array.from(creatorsMap.entries()).sort((a,b) => b[1] - a[1]).slice(0, 5);
+    const container = document.getElementById("topLocalCreators");
+    if (!container) return;
+    if (sorted.length === 0) {
+      container.innerHTML = "<span>Comparte y aparecerás aquí</span>";
+      return;
+    }
+    let html = "";
+    sorted.forEach(([name, count]) => {
+      const initial = name.charAt(0).toUpperCase();
+      html += `<div class="creator-item"><div class="avatar" style="width:34px;height:34px;font-size:0.9rem;">${initial}</div><div><strong>${escapeHtml(name)}</strong><div style="font-size:11px;">${count} reflexiones</div></div></div>`;
+    });
+    container.innerHTML = html;
+  }
+
+  // Sincronizar UI nombre usuario
+  function refreshUserUI() {
+    document.getElementById("displayNameText").innerText = currentLocalUser.name;
+    document.getElementById("userAvatar").innerText = currentLocalUser.avatarInitial || currentLocalUser.name.charAt(0).toUpperCase();
+    document.getElementById("miniAvatar").innerText = currentLocalUser.avatarInitial || currentLocalUser.name.charAt(0).toUpperCase();
+    saveUserToLocal();
+    updateUIWithPosts(); // refrescar para mostrar nuevos nombres en posts anteriores
+    updateTopCreators();
+  }
+
+  // MODALES
+  const createModal = document.getElementById("createModal");
+  const openCreatorBtn = document.getElementById("openCreatorBtn");
+  const cancelModalBtn = document.getElementById("cancelModalBtn");
+  const confirmPublishBtn = document.getElementById("confirmPublishBtn");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalBody = document.getElementById("modalBody");
+  const modalCategory = document.getElementById("modalCategory");
+  const modalImageUpload = document.getElementById("modalImageUpload");
+  const imagePreviewName = document.getElementById("imagePreviewName");
+  let selectedImageDataUrl = null;
+
+  openCreatorBtn.addEventListener("click", () => {
+    modalTitle.value = "";
+    modalBody.value = "";
+    modalCategory.value = "";
+    selectedImageDataUrl = null;
+    imagePreviewName.innerText = "";
+    modalImageUpload.value = "";
+    createModal.classList.remove("hidden");
+  });
+
+  cancelModalBtn.addEventListener("click", () => {
+    createModal.classList.add("hidden");
+  });
+
+  modalImageUpload.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        selectedImageDataUrl = ev.target.result;
+        imagePreviewName.innerText = "✓ imagen lista";
+      };
+      reader.readAsDataURL(file);
+    } else {
+      selectedImageDataUrl = null;
+      imagePreviewName.innerText = "";
+    }
+  });
+
+  confirmPublishBtn.addEventListener("click", () => {
+    const titleVal = modalTitle.value;
+    const bodyVal = modalBody.value;
+    const catVal = modalCategory.value;
+    if (!bodyVal.trim() && !titleVal.trim()) {
+      showToast("Agrega una reflexión o título", 1200);
+      return;
+    }
+    createNewPost(titleVal, bodyVal, catVal, selectedImageDataUrl);
+    createModal.classList.add("hidden");
+  });
+
+  // MODAL EDITAR NOMBRE
+  const editNameModal = document.getElementById("editNameModal");
+  const editProfileBtn = document.getElementById("editProfileBtn");
+  const newNameInput = document.getElementById("newNameInput");
+  const saveNameBtn = document.getElementById("saveNameBtn");
+  const closeNameModal = document.getElementById("closeNameModal");
+
+  editProfileBtn.addEventListener("click", () => {
+    newNameInput.value = currentLocalUser.name;
+    editNameModal.classList.remove("hidden");
+  });
+  saveNameBtn.addEventListener("click", () => {
+    let newName = newNameInput.value.trim();
+    if (newName.length === 0) newName = "Vincleante";
+    currentLocalUser.name = newName;
+    currentLocalUser.avatarInitial = newName.charAt(0).toUpperCase();
+    refreshUserUI();
+    editNameModal.classList.add("hidden");
+    showToast(`Ahora eres conocido como ${newName}`);
+  });
+  closeNameModal.addEventListener("click", () => {
+    editNameModal.classList.add("hidden");
+  });
+
+  // Inicializar datos y eventos
+  loadLocalData();
+  refreshUserUI();
+  updateTopCreators();
+  setInterval(() => {
+    updateTopCreators();
+  }, 8000);
 </script>
 </body>
 </html>
