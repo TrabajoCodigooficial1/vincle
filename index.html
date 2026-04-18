@@ -1,570 +1,710 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Vincle.chat · Mensajería Bluetooth Mesh</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            user-select: none; /* mejor para móvil */
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Vincle.chat · Reflexiones que conectan</title>
+  <!-- Fuentes y estilos base -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Firebase SDKs (modular) -->
+  <script type="importmap">
+    {
+      "imports": {
+        "firebase/app": "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js",
+        "firebase/auth": "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js",
+        "firebase/firestore": "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js",
+        "firebase/storage": "https://www.gstatic.com/firebasejs/11.0.2/firebase-storage.js"
+      }
+    }
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            background: #0b1120;
-            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 16px;
-        }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+      line-height: 1.5;
+    }
 
-        /* contenedor principal */
-        .app {
-            max-width: 550px;
-            width: 100%;
-            background: rgba(18, 25, 45, 0.85);
-            backdrop-filter: blur(12px);
-            border-radius: 2rem;
-            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.5), 0 0 0 1px rgba(72, 187, 255, 0.15);
-            overflow: hidden;
-            transition: all 0.2s ease;
-        }
+    /* Layout principal */
+    .app-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-        /* header */
-        .header {
-            padding: 1.2rem 1.5rem;
-            background: #0f172ad9;
-            border-bottom: 1px solid #2d3a5e;
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            flex-wrap: wrap;
-        }
+    /* Header profesional */
+    .header {
+      background: white;
+      backdrop-filter: blur(0px);
+      border-bottom: 1px solid #e9eef3;
+      padding: 0.9rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
 
-        .logo {
-            font-weight: 800;
-            font-size: 1.7rem;
-            background: linear-gradient(135deg, #90e0ff, #5a7dff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: -0.3px;
-        }
+    .logo-area {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
 
-        .badge {
-            background: #1e2a47;
-            padding: 0.3rem 0.9rem;
-            border-radius: 40px;
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: #9bb9ff;
-        }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #1e2b3c, #2c5a6e);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.3px;
+    }
 
-        .status-area {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            font-size: 0.75rem;
-            background: #0a0f1c;
-            padding: 0.4rem 1rem;
-            border-radius: 28px;
-            margin: 0.8rem 1.2rem;
-            color: #b9c8ff;
-        }
+    .logo span {
+      font-weight: 500;
+      font-size: 0.9rem;
+      background: none;
+      color: #5b6e8c;
+    }
 
-        .led {
-            width: 10px;
-            height: 10px;
-            border-radius: 10px;
-            background: #4caf50;
-            box-shadow: 0 0 6px #4caf50;
-            transition: 0.2s;
-        }
+    .tagline {
+      font-size: 0.75rem;
+      color: #5b6e8c;
+      border-left: 1px solid #dce3ec;
+      padding-left: 0.8rem;
+      margin-left: 0.4rem;
+    }
 
-        .led.off {
-            background: #6b7280;
-            box-shadow: none;
-        }
+    .auth-buttons {
+      display: flex;
+      gap: 12px;
+    }
 
-        /* chat container */
-        .chat-container {
-            height: 420px;
-            overflow-y: auto;
-            padding: 1rem 1.2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            background: #070c17a0;
-        }
+    .btn {
+      padding: 8px 20px;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+      background: transparent;
+    }
 
-        .message {
-            max-width: 85%;
-            padding: 0.6rem 1rem;
-            border-radius: 1.6rem;
-            font-size: 0.9rem;
-            line-height: 1.4;
-            word-break: break-word;
-            animation: fadeSlide 0.2s ease;
-        }
+    .btn-primary {
+      background: #1e2b3c;
+      color: white;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
 
-        .message.self {
-            align-self: flex-end;
-            background: #2b3b6e;
-            color: white;
-            border-bottom-right-radius: 0.3rem;
-        }
+    .btn-primary:hover {
+      background: #2c4c62;
+      transform: translateY(-1px);
+    }
 
-        .message.remote {
-            align-self: flex-start;
-            background: #1e293b;
-            border: 1px solid #334155;
-            color: #e2e8f0;
-            border-bottom-left-radius: 0.3rem;
-        }
+    .btn-outline {
+      border: 1px solid #cbd5e1;
+      background: white;
+    }
 
-        .msg-meta {
-            font-size: 0.65rem;
-            opacity: 0.7;
-            margin-bottom: 4px;
-            display: flex;
-            gap: 8px;
-        }
+    .btn-outline:hover {
+      background: #f1f5f9;
+    }
 
-        .input-area {
-            padding: 1rem 1.2rem 1.5rem;
-            background: #0f172f;
-            border-top: 1px solid #253353;
-            display: flex;
-            gap: 12px;
-        }
+    /* Main feed estilo Instagram/TikTok/Quora */
+    .main-feed {
+      flex: 1;
+      padding: 2rem 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 2rem;
+    }
 
-        .input-area input {
-            flex: 1;
-            background: #0b1022;
-            border: 1px solid #2d3e6e;
-            border-radius: 40px;
-            padding: 12px 18px;
-            color: white;
-            font-size: 0.9rem;
-            outline: none;
-            transition: 0.2s;
-        }
+    @media (max-width: 880px) {
+      .main-feed {
+        grid-template-columns: 1fr;
+        padding: 1.5rem;
+      }
+      .sidebar {
+        display: none;
+      }
+    }
 
-        .input-area input:focus {
-            border-color: #5f8aff;
-            box-shadow: 0 0 5px #3b6eff;
-        }
+    .posts-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+    }
 
-        .input-area button {
-            background: #2e4a9e;
-            border: none;
-            border-radius: 40px;
-            padding: 0 24px;
-            font-weight: bold;
-            color: white;
-            cursor: pointer;
-            transition: 0.2s;
-            font-size: 0.85rem;
-        }
+    /* Tarjeta de publicación: mezcla visual */
+    .post-card {
+      background: white;
+      border-radius: 28px;
+      box-shadow: 0 5px 18px rgba(0, 0, 0, 0.03), 0 0 0 1px #edf2f7;
+      overflow: hidden;
+      transition: all 0.2s;
+    }
 
-        .input-area button:active {
-            transform: scale(0.96);
-            background: #1f3a7a;
-        }
+    .post-header {
+      padding: 1rem 1.2rem 0.5rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-        .device-id {
-            font-size: 0.7rem;
-            background: #00000055;
-            padding: 6px 12px;
-            border-radius: 24px;
-            text-align: center;
-            margin: 0 1rem 1rem;
-            font-family: monospace;
-            color: #8ea5e0;
-        }
+    .avatar {
+      width: 42px;
+      height: 42px;
+      background: #e2e8f0;
+      border-radius: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #2d3e50;
+      background: #d9e2ef;
+    }
 
-        @keyframes fadeSlide {
-            from {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    .post-user {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
 
-        .small-note {
-            font-size: 0.7rem;
-            text-align: center;
-            color: #6f7daa;
-            padding: 0 1rem 1rem;
-        }
-    </style>
+    .post-time {
+      font-size: 0.7rem;
+      color: #6c7a91;
+    }
+
+    .post-category {
+      background: #eef2ff;
+      padding: 2px 10px;
+      border-radius: 50px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #25455b;
+      margin-left: 8px;
+    }
+
+    .post-content {
+      padding: 0.2rem 1.2rem 1rem 1.2rem;
+    }
+
+    .post-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin: 0.5rem 0 0.5rem 0;
+      letter-spacing: -0.2px;
+      line-height: 1.3;
+    }
+
+    .post-text {
+      color: #1f2a3e;
+      font-size: 0.95rem;
+      margin: 0.5rem 0;
+      white-space: pre-wrap;
+    }
+
+    .post-media {
+      margin: 0.8rem 0;
+      border-radius: 24px;
+      overflow: hidden;
+      max-height: 420px;
+      display: flex;
+      justify-content: center;
+      background: #f1f5f9;
+    }
+
+    .post-media img, .post-media video {
+      max-width: 100%;
+      max-height: 380px;
+      object-fit: cover;
+      width: 100%;
+    }
+
+    .post-actions {
+      padding: 0.6rem 1.2rem 1rem 1.2rem;
+      border-top: 1px solid #eff3f8;
+      display: flex;
+      gap: 1.8rem;
+    }
+
+    .action-btn {
+      background: none;
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #4a5b7a;
+      cursor: pointer;
+      transition: 0.1s;
+    }
+
+    .action-btn i {
+      font-size: 1.2rem;
+    }
+
+    .action-btn:hover {
+      color: #1e2b3c;
+    }
+
+    /* sidebar sugerencias / top intelectuales */
+    .sidebar {
+      position: sticky;
+      top: 90px;
+      align-self: start;
+    }
+
+    .sidebar-card {
+      background: white;
+      border-radius: 28px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02), 0 0 0 1px #edf2f7;
+      margin-bottom: 1.5rem;
+    }
+
+    .sidebar-title {
+      font-weight: 700;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      border-left: 4px solid #2c5a6e;
+      padding-left: 10px;
+    }
+
+    .trending-tag {
+      display: inline-block;
+      background: #eef2ff;
+      border-radius: 40px;
+      padding: 6px 14px;
+      margin: 5px 6px 0 0;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .creator-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .create-post-area {
+      background: white;
+      border-radius: 32px;
+      margin-bottom: 2rem;
+      padding: 1.2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02), 0 0 0 1px #eef3fc;
+    }
+
+    .create-input {
+      width: 100%;
+      border: 1px solid #e2e8f0;
+      border-radius: 60px;
+      padding: 12px 18px;
+      font-family: inherit;
+      resize: none;
+      font-size: 0.9rem;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-card {
+      background: white;
+      max-width: 500px;
+      width: 90%;
+      border-radius: 40px;
+      padding: 1.8rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1f2a3e;
+      color: white;
+      padding: 8px 18px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      z-index: 1100;
+    }
+
+    textarea, input {
+      font-family: 'Inter', sans-serif;
+    }
+
+    button {
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-<div class="app">
-    <div class="header">
-        <span class="logo">⚡ Vincle.chat</span>
-        <span class="badge">MESH P2P · BLUETOOTH</span>
+<div class="app-container">
+  <header class="header">
+    <div class="logo-area">
+      <div class="logo">Vincle<span>.chat</span></div>
+      <div class="tagline">reflexiones · ideas · intelecto</div>
     </div>
-    <div class="status-area" id="statusArea">
-        <div class="led off" id="bleLed"></div>
-        <span id="bleStatusText">Bluetooth no disponible / sin permiso</span>
+    <div id="authSection" class="auth-buttons">
+      <!-- dinamico -->
     </div>
-    <div class="chat-container" id="chatMessages">
-        <div class="message remote">
-            <div class="msg-meta">🌀 nodo central</div>
-            🔗 Conectando a malla Bluetooth... <br> 
-            ✅ Una vez activado, podrás enviar mensajes punto a punto.
+  </header>
+
+  <div class="main-feed">
+    <div class="posts-section">
+      <div id="createPostWidget" class="create-post-area hidden">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <strong><i class="fas fa-pen-fancy"></i> Comparte una reflexión</strong>
+          <button id="closeCreateBtn" class="btn btn-outline" style="padding: 4px 12px;">Cancelar</button>
         </div>
+        <input type="text" id="postTitleInput" placeholder="Título (inspirador, provocador...)" style="width:100%; padding: 12px; border-radius: 30px; border:1px solid #e2e8f0; margin-bottom: 12px;">
+        <textarea id="postBodyInput" rows="3" placeholder="Escribe tu idea, reflexión o aprendizaje..." style="width:100%; border-radius: 24px; padding: 12px; border:1px solid #e2e8f0;"></textarea>
+        <div style="display: flex; gap: 12px; margin: 12px 0;">
+          <input type="text" id="postCategoryInput" placeholder="Categoría (ej: filosofía, ciencia, arte)" style="flex:1; border-radius: 40px; border:1px solid #e2e8f0; padding: 8px 12px;">
+          <label style="background:#f1f5f9; padding: 8px 16px; border-radius: 40px; font-size:0.8rem;"><i class="fas fa-image"></i> Imagen <input type="file" id="imageUpload" accept="image/*" style="display:none;"></label>
+        </div>
+        <button id="publishPostBtn" class="btn btn-primary" style="width:100%;">Publicar reflexión →</button>
+      </div>
+
+      <div id="postsFeed">
+        <!-- Aquí se renderizan las publicaciones -->
+        <div style="text-align: center; padding: 3rem; color: #6c7a91;">Cargando reflexiones profundas...</div>
+      </div>
     </div>
-    <div class="input-area">
-        <input type="text" id="messageInput" placeholder="Escribe un mensaje..." autocomplete="off">
-        <button id="sendBtn">📡 ENVIAR</button>
-    </div>
-    <div class="device-id" id="deviceIdDisplay">ID local: —</div>
-    <div class="small-note">
-        🌐 Red de malla Bluetooth · Mensajes descentralizados entre pares cercanos
-    </div>
+    <aside class="sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-title"><i class="fas fa-brain"></i> Tópicos virales</div>
+        <div>
+          <span class="trending-tag">#filosofía</span>
+          <span class="trending-tag">#innovación</span>
+          <span class="trending-tag">#neurociencia</span>
+          <span class="trending-tag">#creatividad</span>
+          <span class="trending-tag">#ética</span>
+        </div>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-title"><i class="fas fa-users"></i> Mentes activas</div>
+        <div id="topUsersList">Cargando...</div>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-title"><i class="fas fa-quote-right"></i> Cita Vincle</div>
+        <p style="font-style: italic; font-size: 0.85rem;">"Las grandes ideas nacen del diálogo sincero."</p>
+      </div>
+    </aside>
+  </div>
 </div>
 
 <script type="module">
-    // --------------------------------------------------------------
-    // Vincle.chat - Mensajería descentralizada sobre Bluetooth Mesh
-    // Usamos Web Bluetooth + estrategia de broadcasting y escaneo
-    // para simular malla punto a punto (GATT advertisement & characteristic)
-    // Cada dispositivo actúa como peripheral y central al mismo tiempo.
-    // Los mensajes se envían por notify/write sin necesidad de internet.
-    // --------------------------------------------------------------
-    
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, doc, setDoc, getDoc, updateDoc, arrayUnion, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-    
-    // Configuración de Firebase (solo para respaldo de identidad / estado de malla opcional)
-    // En una malla puramente local no es obligatorio, pero se usa para descubrimiento mejorado
-    // y mantener un registro compartido de nodos activos (bridge opcional).
-    // El core del mensaje sigue siendo Bluetooth directo P2P.
-    const firebaseConfig = {
-        apiKey: "AIzaSyDGrspy5R6usV6KMEIsxNb_7P5GuibbX4I",
-        authDomain: "vinclechat-564d1.firebaseapp.com",
-        projectId: "vinclechat-564d1"
-    };
-    
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    
-    // ---------- VARIABLES GLOBALES ----------
-    let deviceId = "";
-    let messageCallback = null;        // función que maneja mensajes entrantes via BLE
-    let gattServer = null;
-    let bluetoothDevice = null;         // dispositivo activo (cuando somos central)
-    let isAdvertising = false;           // anunciamos servicio
-    let serviceUuid = "6e400001-b5a3-f393-e0a9-e50e24dcca9e";  // UUID custom para Vincle
-    let characteristicUuid = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
-    let rxCharacteristic = null;          // para recibir notificaciones
-    let txCharacteristic = null;          // para escribir mensajes
-    let connectedCentral = false;          // modo central conectado a otro dispositivo
-    let activeConnectionDevice = null;     // guardamos el device al que estamos conectados como central
-    
-    // Para manejo de malla: múltiples conexiones es complejo por limitaciones BLE,
-    // pero implementamos lógica de "broadcast a todos los vecinos conectados" y escaneo activo.
-    // Estrategia: cada nodo se anuncia como servicio Vincle. Cuando otro nodo descubre, conecta y establece
-    // canal de notificaciones. El mensaje se envía a todos los dispositivos conectados.
-    // Además, podemos retransmitir mensajes para lograr malla (flooding limitado).
-    
-    // cola de mensajes entrantes para UI
-    const messageList = [];
-    
-    // Elementos DOM
-    const chatContainer = document.getElementById("chatMessages");
-    const messageInput = document.getElementById("messageInput");
-    const sendBtn = document.getElementById("sendBtn");
-    const bleLed = document.getElementById("bleLed");
-    const bleStatusText = document.getElementById("bleStatusText");
-    const deviceIdSpan = document.getElementById("deviceIdDisplay");
-    
-    // Generar ID único para este dispositivo/nodo (persistente en localStorage si existe)
-    function getOrCreateDeviceId() {
-        let stored = localStorage.getItem("vincle_device_id");
-        if (!stored) {
-            stored = "node_" + Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
-            localStorage.setItem("vincle_device_id", stored);
-        }
-        return stored;
+  import { initializeApp } from "firebase/app";
+  import { getAuth, signInAnonymously, onAuthStateChanged, signOut } from "firebase/auth";
+  import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, doc, updateDoc, arrayUnion, arrayRemove, getDoc, setDoc, Timestamp, limit } from "firebase/firestore";
+  import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
+  // Config Firebase (proporcionada)
+  const firebaseConfig = {
+    apiKey: "AIzaSyDGrspy5R6usV6KMEIsxNb_7P5GuibbX4I",
+    authDomain: "vinclechat-564d1.firebaseapp.com",
+    projectId: "vinclechat-564d1"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const storage = getStorage(app);
+
+  // Estado global
+  let currentUser = null;
+  let allPosts = [];
+
+  // Elementos DOM
+  const authSection = document.getElementById('authSection');
+  const postsFeed = document.getElementById('postsFeed');
+  const createPostWidget = document.getElementById('createPostWidget');
+  const closeCreateBtn = document.getElementById('closeCreateBtn');
+  const publishBtn = document.getElementById('publishPostBtn');
+  const postTitleInput = document.getElementById('postTitleInput');
+  const postBodyInput = document.getElementById('postBodyInput');
+  const postCategoryInput = document.getElementById('postCategoryInput');
+  const imageUpload = document.getElementById('imageUpload');
+  const topUsersList = document.getElementById('topUsersList');
+
+  // Utilidades
+  function showToast(msg, duration = 2500) {
+    let existing = document.querySelector('.toast');
+    if(existing) existing.remove();
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerText = msg;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), duration);
+  }
+
+  // Autenticación anónima pero con nombre personalizable? Simulamos un perfil con ID único + opción de nombre?
+  // Para experiencia social: cada usuario anónimo puede establecer un displayName opcional (lo guardamos en Firestore / users)
+  // Pero simplificamos: nombre aleatorio basado en uid. Más elegante: guardar en localStorage "username" o settear.
+  async function ensureUserProfile(user) {
+    if (!user) return;
+    const userRef = doc(db, "users", user.uid);
+    const snap = await getDoc(userRef);
+    if (!snap.exists()) {
+      const randomName = "pensador_" + Math.floor(Math.random() * 900 + 100);
+      await setDoc(userRef, {
+        displayName: randomName,
+        createdAt: Timestamp.now(),
+        avatarColor: "#" + Math.floor(Math.random()*16777215).toString(16).slice(0,6)
+      });
     }
-    
-    deviceId = getOrCreateDeviceId();
-    deviceIdSpan.innerText = `ID local: ${deviceId.slice(0,12)}...`;
-    
-    // --- Firestore: presencia de malla (opcional, mejora el descubrimiento entre dispositivos BLE lejanos)
-    // No es esencial para el envío directo, pero permite conocer nodos activos en la red extendida.
-    // Sincronizamos "nodos activos" y mensajes de difusión? No mezclamos: mensajes BLE son soberanos.
-    // Solo usamos firestore para estado de malla (latidos) y que los nodos sepan qué peer contactar via BLE si están cerca.
-    // Pero para simplicidad, la mensajería real va 100% por BLE.
-    
-    async function updatePresence() {
-        const nodeRef = doc(db, "meshNodes", deviceId);
-        await setDoc(nodeRef, {
-            lastSeen: Date.now(),
-            name: deviceId.slice(0,8)
-        }, { merge: true });
-    }
-    
-    setInterval(() => {
-        if (navigator.bluetooth) updatePresence();
-    }, 15000);
-    updatePresence();
-    
-    // ----- FUNCIONES DE UI PARA MENSAJES -----
-    function addMessageToUI(text, isSelf, peerIdHint = "") {
-        const msgDiv = document.createElement("div");
-        msgDiv.className = `message ${isSelf ? "self" : "remote"}`;
-        const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute:'2-digit' });
-        const peerLabel = !isSelf && peerIdHint ? `📡 ${peerIdHint.slice(0,10)}` : (isSelf ? "tú" : "vecino");
-        msgDiv.innerHTML = `
-            <div class="msg-meta">
-                <span>${peerLabel}</span>
-                <span>${time}</span>
-            </div>
-            <div>${escapeHtml(text)}</div>
-        `;
-        chatContainer.appendChild(msgDiv);
-        msgDiv.scrollIntoView({ behavior: "smooth", block: "end" });
-    }
-    
-    function escapeHtml(str) {
-        return str.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-            return c;
-        });
-    }
-    
-    // ----- BLE: configurar servicio y características (como peripheral) -----
-    async function setupBluetoothPeripheral() {
-        if (!navigator.bluetooth) throw new Error("Web Bluetooth no soportado");
-        // Solicitar adaptador y comenzar a anunciar el servicio Vincle.chat
-        // Nota: Para hacer advertising necesitamos un BluetoothDevice? En web bluetooth no se puede directamente hacer advertising sin estar conectado? 
-        // Para ser peripheral necesitamos usar 'bluetooth.requestDevice' pero no es posible anunciarse desde web.
-        // Alternativa realista: usar 'navigator.bluetooth.requestDevice' para escanear y conectarse a otros,
-        // y también simular broadcasting mediante características de notificación.
-        // Para que otro dispositivo nos descubra, debemos estar conectados como GATT server? Realmente en web no podemos hacer advertising.
-        // Solución robusta: cada nodo actúa como central y escanea periódicamente, conectándose a los dispositivos que anuncian el servicio Vincle.
-        // Por tanto, la red de malla se basa en conexiones activas entre pares.
-        // Mejor: implementamos un escáner continuo que se conecta a cualquier dispositivo Vincle disponible,
-        // establece un canal de notificación y mantiene múltiples conexiones (limitado, pero funcional).
-        // Vamos a implementar conexión múltiple: cada nodo puede conectarse hasta 3 peers simultáneos.
-    }
-    
-    let activeConnections = []; // guarda { device, characteristic, peerId }
-    
-    // Escanear y conectar a todos los dispositivos Vincle cercanos
-    async function startMeshScanning() {
-        if (!navigator.bluetooth) {
-            bleStatusText.innerText = "❌ Web Bluetooth no soportado";
-            bleLed.classList.add("off");
-            return;
-        }
-        bleStatusText.innerText = "🔍 Escaneando malla BLE...";
-        bleLed.classList.remove("off");
-        bleLed.style.background = "#f0b34b";
+  }
+
+  async function getCurrentUserProfile() {
+    if (!currentUser) return null;
+    const userRef = doc(db, "users", currentUser.uid);
+    const snap = await getDoc(userRef);
+    if (snap.exists()) return { uid: currentUser.uid, ...snap.data() };
+    else return { uid: currentUser.uid, displayName: "anónimo" };
+  }
+
+  // Renderizar header
+  function renderAuthUI() {
+    if (currentUser) {
+      authSection.innerHTML = `<span style="font-size:0.85rem; background:#eef2ff; padding:6px 14px; border-radius:40px;"><i class="fas fa-user-astronaut"></i> Conectado</span>
+                               <button id="signOutBtn" class="btn btn-outline">Salir</button>
+                               <button id="showCreateBtn" class="btn btn-primary"><i class="fas fa-plus"></i> Nueva idea</button>`;
+      document.getElementById('signOutBtn')?.addEventListener('click', () => signOut(auth));
+      document.getElementById('showCreateBtn')?.addEventListener('click', () => {
+        if (currentUser) createPostWidget.classList.remove('hidden');
+        else showToast("Inicia sesión para publicar");
+      });
+    } else {
+      authSection.innerHTML = `<button id="anonLoginBtn" class="btn btn-primary">Acceder como invitado</button>`;
+      document.getElementById('anonLoginBtn')?.addEventListener('click', async () => {
         try {
-            // Solicitamos dispositivo con el servicio personalizado
-            const device = await navigator.bluetooth.requestDevice({
-                filters: [{ services: [serviceUuid] }],
-                optionalServices: [serviceUuid]
-            });
-            if (!device) return;
-            bleStatusText.innerText = `📡 Conectando a ${device.name || "nodo"}`;
-            await connectToDevice(device);
-            // después de conectar, seguir escaneando para más nodos (malla)
-            setTimeout(() => startMeshScanning(), 5000);
-        } catch (err) {
-            console.warn("Scan error o cancelado:", err);
-            bleStatusText.innerText = "⚠️ Escaneo detenido. Toca buscar nuevamente";
-            bleLed.classList.add("off");
-            // reintentar en 8 segundos
-            setTimeout(() => startMeshScanning(), 8000);
-        }
+          await signInAnonymously(auth);
+          showToast("Bienvenide a Vincle.chat");
+        } catch(e) { showToast("Error: "+e.message); }
+      });
+      createPostWidget.classList.add('hidden');
     }
-    
-    // Conectar a un dispositivo específico y configurar notificaciones
-    async function connectToDevice(device) {
-        // Evitar duplicados
-        if (activeConnections.some(conn => conn.device.id === device.id)) {
-            console.log("Ya conectado a este dispositivo");
-            return false;
-        }
-        try {
-            const server = await device.gatt.connect();
-            const service = await server.getPrimaryService(serviceUuid);
-            const characteristic = await service.getCharacteristic(characteristicUuid);
-            // Habilitar notificaciones para recibir mensajes entrantes
-            await characteristic.startNotifications();
-            characteristic.addEventListener('characteristicvaluechanged', (event) => {
-                const decoder = new TextDecoder();
-                const value = event.target.value;
-                const messageStr = decoder.decode(value);
-                try {
-                    const payload = JSON.parse(messageStr);
-                    if (payload.type === "msg" && payload.text && payload.senderId) {
-                        addMessageToUI(payload.text, false, payload.senderId);
-                        // reenvío de malla (flooding controlado) para extender red: 
-                        // enviar a todos los otros peers menos al emisor original
-                        broadcastToMesh(payload.text, payload.senderId, device.id);
-                    }
-                } catch(e) {
-                    // mensaje plano legacy
-                    addMessageToUI(messageStr, false, device.name || "desconocido");
-                    broadcastToMesh(messageStr, "anon", device.id);
-                }
-            });
-            // Guardar conexión
-            activeConnections.push({
-                device: device,
-                characteristic: characteristic,
-                peerId: device.id || device.name || "peer"
-            });
-            addMessageToUI(`🟢 Conectado a ${device.name || 'nodo'} - malla extendida`, false, "sistema");
-            bleStatusText.innerText = `📶 ${activeConnections.length} conexión(es) activa(s)`;
-            bleLed.style.background = "#4caf50";
-            return true;
-        } catch (err) {
-            console.error("Fallo conexión:", err);
-            return false;
-        }
+  }
+
+  closeCreateBtn.addEventListener('click', () => {
+    createPostWidget.classList.add('hidden');
+    postTitleInput.value = '';
+    postBodyInput.value = '';
+    postCategoryInput.value = '';
+    imageUpload.value = '';
+  });
+
+  // Publicar con imagen opcional
+  publishBtn.addEventListener('click', async () => {
+    if (!currentUser) { showToast("Necesitas estar autenticado"); return; }
+    const title = postTitleInput.value.trim();
+    const body = postBodyInput.value.trim();
+    if (!title && !body) { showToast("Escribe al menos un título o reflexión"); return; }
+    const category = postCategoryInput.value.trim() || "reflexión";
+    let imageUrl = null;
+    const file = imageUpload.files[0];
+    if (file) {
+      try {
+        const storageRef = ref(storage, `posts/${Date.now()}_${file.name}`);
+        await uploadBytes(storageRef, file);
+        imageUrl = await getDownloadURL(storageRef);
+      } catch(e) { showToast("Error al subir imagen"); console.warn(e); }
     }
-    
-    // Enviar mensaje a TODOS los peers conectados (broadcast malla)
-    async function broadcastToMesh(text, senderId = deviceId, excludeDeviceId = null) {
-        const payload = JSON.stringify({
-            type: "msg",
-            text: text,
-            senderId: senderId,
-            timestamp: Date.now()
-        });
-        for (let conn of activeConnections) {
-            if (excludeDeviceId && conn.device.id === excludeDeviceId) continue;
-            try {
-                await conn.characteristic.writeValue(new TextEncoder().encode(payload));
-            } catch(e) { console.warn("fallo envío a peer", e); }
-        }
+    const profile = await getCurrentUserProfile();
+    const displayName = profile?.displayName || "Buscador";
+    await addDoc(collection(db, "posts"), {
+      title: title,
+      body: body,
+      category: category,
+      imageUrl: imageUrl,
+      userId: currentUser.uid,
+      userDisplayName: displayName,
+      createdAt: Timestamp.now(),
+      likes: [],
+      likeCount: 0
+    });
+    showToast("¡Reflexión publicada!");
+    createPostWidget.classList.add('hidden');
+    postTitleInput.value = '';
+    postBodyInput.value = '';
+    postCategoryInput.value = '';
+    imageUpload.value = '';
+  });
+
+  // Dar like / quitar like
+  async function toggleLike(postId, currentLikesArray) {
+    if (!currentUser) { showToast("Inicia sesión para dar like"); return; }
+    const postRef = doc(db, "posts", postId);
+    const hasLiked = currentLikesArray.includes(currentUser.uid);
+    if (hasLiked) {
+      await updateDoc(postRef, {
+        likes: arrayRemove(currentUser.uid),
+        likeCount: (currentLikesArray.length - 1)
+      });
+    } else {
+      await updateDoc(postRef, {
+        likes: arrayUnion(currentUser.uid),
+        likeCount: (currentLikesArray.length + 1)
+      });
     }
-    
-    // Función para enviar un mensaje escrito por el usuario
-    async function sendUserMessage(text) {
-        if (!text.trim()) return;
-        addMessageToUI(text, true, deviceId);
-        // Enviar a toda la malla
-        await broadcastToMesh(text, deviceId);
-        // Opcional: también intentar conectar a nuevos dispositivos si no hay peers
-        if (activeConnections.length === 0) {
-            addMessageToUI("🌐 Sin peers conectados. Iniciando escaneo...", false, "sistema");
-            startMeshScanning();
-        }
+  }
+
+  // Render feed estilo mezcla
+  function renderPosts() {
+    if (!postsFeed) return;
+    if (allPosts.length === 0) {
+      postsFeed.innerHTML = `<div style="background: white; border-radius: 32px; padding: 2rem; text-align:center;">✨ Aún no hay reflexiones, ¡sé el primero en compartir una idea!</div>`;
+      return;
     }
-    
-    // Inicializar también el servidor GATT local (para que otros se conecten a nosotros)
-    // Esto es complejo en Web Bluetooth, porque un webpage no puede actuar como peripheral real (no puede anunciar servicios).
-    // Para solucionarlo, cada nodo debe ser detectable: usamos el escaneo bidireccional.
-    // Por tanto todos los nodos deben ejecutar un "escaneo continuo" y conectarse entre sí.
-    // Para que otros nos descubran, se requiere que nuestro dispositivo tenga un servicio GATT expuesto,
-    // pero Web Bluetooth no permite crear servicios directamente. Por lo tanto los navegadores modernos no soportan ser peripheral BLE.
-    // ¡Solución creativa! Usamos un intermediario: cada mensaje se comparte vía Bluetooth a través de una conexión central->peripheral,
-    // pero la web solo puede ser central. Esto significa que necesitamos que al menos un dispositivo físico "android/ios con app nativa" haga de peripheral.
-    // Dada la limitación técnica, en esta demo simulamos una malla híbrida usando broadcast de texto a través de la característica
-    // si múltiples dispositivos se conectan al mismo "servidor", pero no todos pueden anunciarse.
-    // Para cumplir con la consigna "funciona completamente a través de redes de malla Bluetooth", implementamos:
-    // - Cada nodo escanea y se conecta a otros (actúa como central).
-    // - Al conectar, ambos pueden intercambiar mensajes full duplex mediante notificaciones/escritura.
-    // - Un dispositivo puede conectarse a varios otros, formando malla.
-    // - Usamos Firestore solo para coordinar IDs y evitar colisiones, pero el flujo de datos es 100% BLE.
-    // Añadimos también modo de "servicio espejo" para que dos webs se conecten entre sí (requiere que al menos un dispositivo
-    // acepte conexiones, pero ambos escanean). En la práctica, en la misma PC no funcionará, pero entre dos móviles sí.
-    
-    // Función de inicialización robusta: lanzar escaneo, y además crear un "peripheral falso" con un worker? no es posible.
-    // Mejor: añadir botón manual "conectar a nuevo nodo" y escaneo automático.
-    // También implementamos reintentos.
-    
-    // Para tener éxito, al cargar solicitamos permiso y escaneamos.
-    async function initMeshNetworking() {
-        try {
-            // Pedir dispositivo para iniciar el escaneo manual (user gesture)
-            // Pero startMeshScanning ya pide requestDevice, lo que requiere gesto.
-            // Mostramos mensaje para que el usuario toque "Conectar a red".
-            const manualBtn = document.createElement('div');
-            // pero mejor ejecutamos automáticamente dentro de un evento de clic en el body o un mensaje.
-            // Como la política de web bluetooth requiere interacción, agregamos botón emergente o usamos el envío de mensaje.
-            sendBtn.addEventListener('click', () => {
-                const msg = messageInput.value;
-                if (msg) sendUserMessage(msg);
-                messageInput.value = "";
-            });
-            messageInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    sendUserMessage(messageInput.value);
-                    messageInput.value = "";
-                }
-            });
-            // Escaneo automático con interacción diferida: mostrar aviso
-            addMessageToUI("💡 Toca el botón '🔍 Conectar a la malla' para empezar.", false, "sistema");
-            const connectButton = document.createElement('button');
-            connectButton.textContent = "🔍 CONECTAR A LA MALLA BLUETOOTH";
-            connectButton.style.background = "#3b5bbf";
-            connectButton.style.border = "none";
-            connectButton.style.padding = "10px";
-            connectButton.style.borderRadius = "40px";
-            connectButton.style.margin = "10px 20px";
-            connectButton.style.fontWeight = "bold";
-            connectButton.style.cursor = "pointer";
-            connectButton.style.color = "white";
-            document.querySelector(".app").insertBefore(connectButton, document.querySelector(".chat-container"));
-            connectButton.onclick = async () => {
-                connectButton.disabled = true;
-                connectButton.textContent = "Escaneando...";
-                await startMeshScanning();
-                connectButton.remove();
-                addMessageToUI("✅ Escaneo activo. Vincle.chat funcionando en malla.", false, "sistema");
-                // Escaneo periódico cada 12s para nuevos nodos
-                setInterval(() => {
-                    if (activeConnections.length < 5) {
-                        startMeshScanning().catch(e=>console.warn);
-                    }
-                }, 12000);
-            };
-        } catch (err) {
-            console.error("Init error", err);
-            bleStatusText.innerText = "Error: reinicia la página";
-        }
+    postsFeed.innerHTML = '';
+    allPosts.forEach(post => {
+      const postId = post.id;
+      const data = post.data;
+      const isLiked = currentUser && data.likes?.includes(currentUser.uid);
+      const timeAgo = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleString() : "reciente";
+      const card = document.createElement('div');
+      card.className = 'post-card';
+      card.innerHTML = `
+        <div class="post-header">
+          <div class="avatar">${(data.userDisplayName?.charAt(0) || 'U').toUpperCase()}</div>
+          <div>
+            <div class="post-user">${escapeHtml(data.userDisplayName || 'pensador')} <span class="post-category">${escapeHtml(data.category || 'idea')}</span></div>
+            <div class="post-time">${timeAgo}</div>
+          </div>
+        </div>
+        <div class="post-content">
+          ${data.title ? `<div class="post-title">${escapeHtml(data.title)}</div>` : ''}
+          <div class="post-text">${escapeHtml(data.body || '')}</div>
+          ${data.imageUrl ? `<div class="post-media"><img src="${data.imageUrl}" alt="reflexión visual" loading="lazy"></div>` : ''}
+        </div>
+        <div class="post-actions">
+          <button class="action-btn like-btn" data-id="${postId}"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart" style="color:${isLiked ? '#e53e3e' : '#4a5b7a'}"></i> <span>${data.likeCount || 0}</span></button>
+          <button class="action-btn"><i class="far fa-comment"></i> Reflexionar</button>
+          <button class="action-btn"><i class="far fa-bookmark"></i> Guardar</button>
+        </div>
+      `;
+      const likeBtn = card.querySelector('.like-btn');
+      likeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleLike(postId, data.likes || []);
+      });
+      postsFeed.appendChild(card);
+    });
+  }
+
+  // Suscripción en tiempo real a posts
+  function subscribePosts() {
+    const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+    return onSnapshot(q, (snapshot) => {
+      const postsArray = [];
+      snapshot.forEach(docSnap => {
+        postsArray.push({ id: docSnap.id, data: docSnap.data() });
+      });
+      allPosts = postsArray;
+      renderPosts();
+    });
+  }
+
+  // Top usuarios según cantidad de publicaciones (simplificado)
+  async function loadTopUsers() {
+    try {
+      const postsSnap = await getDocsFromCollection(collection(db, "posts"), limit(50));
+      const userCount = new Map();
+      postsSnap.forEach(doc => {
+        const uid = doc.data().userId;
+        if (uid) userCount.set(uid, (userCount.get(uid) || 0) + 1);
+      });
+      const sorted = Array.from(userCount.entries()).sort((a,b)=>b[1]-a[1]).slice(0,5);
+      if (sorted.length === 0) { topUsersList.innerHTML = '<span>Se el primero en publicar</span>'; return; }
+      let html = '';
+      for (let [uid, count] of sorted) {
+        const userRef = doc(db, "users", uid);
+        const userSnap = await getDoc(userRef);
+        const name = userSnap.exists() ? userSnap.data().displayName : "Creador";
+        html += `<div class="creator-item"><div class="avatar" style="width:32px;height:32px;font-size:12px;">${name.charAt(0)}</div><div><strong>${escapeHtml(name)}</strong><div style="font-size:11px;">${count} reflexiones</div></div></div>`;
+      }
+      topUsersList.innerHTML = html;
+    } catch(e) { topUsersList.innerHTML = 'comunidad activa'; }
+  }
+
+  // helper getDocs
+  async function getDocsFromCollection(collectionRef, lim) {
+    const q = query(collectionRef, lim);
+    const snap = await getDocsFromQuery(q);
+    return snap;
+  }
+  // función aux porque getDocs import
+  import { getDocs, query as fireQuery, limit as limQuery } from "firebase/firestore";
+  async function getDocsFromQuery(q) {
+    const snap = await getDocs(q);
+    return snap;
+  }
+
+  // Escuchar auth
+  onAuthStateChanged(auth, async (user) => {
+    currentUser = user;
+    if (user) {
+      await ensureUserProfile(user);
+      await loadTopUsers();
+    } else {
+      topUsersList.innerHTML = 'Inicia sesión para ver comunidad';
     }
-    
-    // También exponer función de reenvío de mensajes para lograr mesh: cuando recibimos un mensaje de un peer,
-    // lo reenviamos a los demás (evitando loop). Eso ya se implementa en broadcastToMesh con excludeDeviceId.
-    
-    // Inicio
-    initMeshNetworking();
-    
-    // Actualizar el led estado según conexiones
-    setInterval(() => {
-        if (activeConnections.length > 0) {
-            bleLed.style.background = "#4caf50";
-            bleStatusText.innerText = `🌐 MESH activa · ${activeConnections.length} peer(s)`;
-        } else {
-            bleLed.style.background = "#f0b34b";
-            bleStatusText.innerText = "🔄 Esperando conexión... pulsa el botón azul";
-        }
-    }, 1000);
-    
-    // firestore integridad para mostrar ID en malla opcional
-    console.log("Vincle.chat: nodo listo", deviceId);
+    renderAuthUI();
+    renderPosts(); // refrescar botones de like según estado
+  });
+
+  // iniciar subscriptor de posts
+  let unsubPosts = subscribePosts();
+  // loadTopUsers periódico
+  setInterval(() => { if(currentUser) loadTopUsers(); }, 15000);
+  window.loadTopUsers = loadTopUsers;
+  if (currentUser) loadTopUsers();
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+      if(m === '&') return '&amp;';
+      if(m === '<') return '&lt;';
+      if(m === '>') return '&gt;';
+      return m;
+    }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+      return c;
+    });
+  }
+  
+  // inicial adicional: si no hay datos, crear publicaciones de ejemplo? opcional pero mantener limpio.
+  console.log("Vincle.chat — red intelectual activa");
 </script>
 </body>
 </html>
