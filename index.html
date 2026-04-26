@@ -1,952 +1,364 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-  <meta name="theme-color" content="#1e3b4a">
-  <title>Vincle.chat · Reflexiones que conectan</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <script type="importmap">
-    {
-      "imports": {
-        "firebase/app": "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js",
-        "firebase/auth": "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js",
-        "firebase/firestore": "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js"
-      }
-    }
-  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vincle.Pro | Suscripción para emprendedores y programadores</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-    
-    body {
       font-family: 'Inter', sans-serif;
-      background: #f5f7fb;
-      color: #0a1c2f;
-      line-height: 1.5;
-      transition: background 0.3s, color 0.3s;
-      overflow-x: hidden;
     }
-    
-    body.dark-mode {
-      background: #121826;
-      color: #e5e7eb;
+
+    body {
+      background: #08111f;
+      color: white;
+      line-height: 1.6;
     }
-    
-    body.dark-mode .post-card,
-    body.dark-mode .create-card,
-    body.dark-mode .sidebar-card,
-    body.dark-mode .header {
-      background: #1e293b;
+
+    a {
+      text-decoration: none;
+      color: inherit;
     }
-    
-    body.dark-mode .fake-input,
-    body.dark-mode .post-category,
-    body.dark-mode .topic-chip,
-    body.dark-mode .comment {
-      background: #334155;
-      color: #cbd5e1;
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
     }
-    
-    body.dark-mode .comment { background: #0f172a; }
-    
-    .app-container {
-      max-width: 100%;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-    
-    /* Header responsive */
-    .header {
-      background: rgba(255,255,255,0.98);
-      border-bottom: 1px solid #eef2f8;
-      padding: 0.8rem 1rem;
+
+    header {
       position: sticky;
       top: 0;
-      z-index: 30;
+      z-index: 100;
+      background: rgba(8, 17, 31, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      backdrop-filter: blur(10px);
+      padding: 20px 0;
     }
-    
-    .logo { font-size: 1.6rem; font-weight: 800; background: linear-gradient(135deg, #183c4f, #2c6e8f); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .logo span { font-size: 0.7rem; color: #5c6f87; }
-    
-    .header-actions { display: flex; align-items: center; gap: 0.8rem; }
-    .dark-mode-btn { background: #f0f4fa; border: none; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-size: 1rem; transition: 0.2s; }
-    .user-profile { display: flex; align-items: center; gap: 0.8rem; background: #f0f4fa; padding: 0.3rem 1rem 0.3rem 0.5rem; border-radius: 40px; cursor: pointer; }
-    .user-avatar { width: 34px; height: 34px; background: #1e3b4a; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.9rem; }
-    .user-name { font-weight: 600; font-size: 0.85rem; }
-    
-    /* Layout principal - móvil primero */
-    .main-feed {
-      flex: 1;
-      padding: 1rem;
+
+    .logo {
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .logo span {
+      color: #22d3ee;
+    }
+
+    .menu {
       display: flex;
-      flex-direction: column;
-      gap: 1rem;
+      gap: 30px;
+      color: #cbd5e1;
+      font-size: 14px;
     }
-    
-    /* Desktop layout - más estrecho y centrado */
-    @media (min-width: 768px) {
-      .main-feed {
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 2rem;
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) 300px;
-        gap: 2rem;
-        align-items: start;
-      }
-      .mobile-menu-toggle { display: none; }
-      .sidebar { 
-        display: block !important; 
-        position: sticky !important;
-        top: 80px !important;
-        right: 0 !important;
-        left: auto !important;
-        width: auto !important;
-        height: auto !important;
-        transform: none !important;
-        background: transparent !important;
-        box-shadow: none !important;
-        padding: 0 !important;
-        overflow-y: visible !important;
-      }
-      .posts-section {
-        max-width: 600px;
-        margin: 0 auto;
-        width: 100%;
-      }
-      .sidebar-card {
-        margin-bottom: 1.5rem;
-      }
-      .close-sidebar-desktop { display: none; }
-    }
-    
-    /* Móvil: sidebar oculto y drawer */
-    @media (max-width: 767px) {
-      .sidebar {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 85%;
-        max-width: 320px;
-        height: 100vh;
-        background: white;
-        z-index: 1000;
-        padding: 1rem;
-        overflow-y: auto;
-        transition: right 0.3s ease;
-        box-shadow: -5px 0 25px rgba(0,0,0,0.1);
-      }
-      body.dark-mode .sidebar { background: #1e293b; }
-      .sidebar.open { right: 0; }
-      .sidebar-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.5);
-        z-index: 999;
-        display: none;
-      }
-      .sidebar-overlay.open { display: block; }
-      .mobile-menu-toggle {
-        background: #f0f4fa;
-        border: none;
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-        font-size: 1.2rem;
-        cursor: pointer;
-      }
-      body.dark-mode .mobile-menu-toggle { background: #334155; color: white; }
-    }
-    
-    .posts-section { display: flex; flex-direction: column; gap: 1.5rem; width: 100%; }
-    
-    /* Tarjetas responsivas */
-    .post-card {
-      background: white;
-      border-radius: 28px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.04), 0 0 0 1px #eef3fc;
-      overflow: hidden;
-      width: 100%;
-      max-width: 100%;
-      transition: transform 0.2s;
-      position: relative;
-    }
-    
-    /* Menú de tres puntos para eliminar */
-    .post-menu {
-      position: relative;
-      margin-left: auto;
-    }
-    .menu-trigger {
-      background: none;
-      border: none;
-      font-size: 1.2rem;
-      cursor: pointer;
-      color: #7c8ba0;
-      padding: 8px;
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .menu-trigger:hover { background: #f0f4fa; }
-    .dropdown-menu {
-      position: absolute;
-      right: 0;
-      top: 35px;
-      background: white;
+
+    .btn {
+      background: #22d3ee;
+      color: #08111f;
+      padding: 14px 24px;
       border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-      overflow: hidden;
-      z-index: 100;
-      min-width: 160px;
-    }
-    body.dark-mode .dropdown-menu { background: #334155; }
-    .dropdown-menu button {
-      width: 100%;
-      padding: 10px 16px;
-      text-align: left;
-      background: none;
+      font-weight: 700;
       border: none;
       cursor: pointer;
-      font-size: 0.85rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .dropdown-menu button:first-child { color: #dc2626; }
-    .dropdown-menu button:last-child { color: #2c6e8f; }
-    .dropdown-menu button:hover { background: #fef2f2; }
-    body.dark-mode .dropdown-menu button:hover { background: #450a0a; }
-    
-    .post-header { padding: 1rem 1.2rem 0.5rem 1.2rem; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-    .avatar { width: 44px; height: 44px; background: #dce5f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem; flex-shrink: 0; }
-    .post-user-name { font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .post-category { background: #eef3fc; padding: 3px 12px; border-radius: 30px; font-size: 0.65rem; font-weight: 600; }
-    .post-time { font-size: 0.65rem; color: #7c8ba0; margin-top: 3px; }
-    .post-content { padding: 0.3rem 1.2rem 1rem 1.2rem; word-wrap: break-word; overflow-wrap: break-word; }
-    .post-title { font-size: 1.3rem; font-weight: 700; margin: 0.5rem 0; line-height: 1.35; word-break: break-word; }
-    
-    /* Texto con límite y botón ver más */
-    .post-text {
-      font-size: 0.95rem;
-      margin: 0.6rem 0;
-      white-space: pre-wrap;
-      line-height: 1.6;
-      word-break: break-word;
-    }
-    .post-text.collapsed {
-      max-height: 120px;
-      overflow: hidden;
-      position: relative;
-    }
-    .post-text.collapsed::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 40px;
-      background: linear-gradient(transparent, white);
-    }
-    body.dark-mode .post-text.collapsed::after {
-      background: linear-gradient(transparent, #1e293b);
-    }
-    .read-more-btn {
-      background: none;
-      border: none;
-      color: #2c6e8f;
-      font-weight: 600;
-      font-size: 0.8rem;
-      cursor: pointer;
-      padding: 4px 0;
-      display: inline-block;
-    }
-    
-    .post-media { margin: 0.8rem 0; border-radius: 20px; text-align: center; background: #f2f6fb; overflow: hidden; }
-    .post-media img { max-width: 100%; max-height: 350px; width: auto; object-fit: contain; border-radius: 20px; cursor: pointer; }
-    
-    .post-actions { padding: 0.6rem 1.2rem 0.8rem 1.2rem; border-top: 1px solid #eff3fa; display: flex; gap: 0.8rem; flex-wrap: wrap; }
-    .action-btn { background: none; border: none; display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 500; color: #546e86; cursor: pointer; padding: 6px 12px; border-radius: 40px; transition: 0.2s; }
-    .action-btn:active { transform: scale(0.96); }
-    
-    /* Comentarios */
-    .comments-section { padding: 0 1.2rem 1.2rem 1.2rem; border-top: 1px solid #eff3fa; background: #fafbfd; }
-    .comment { display: flex; gap: 10px; margin-top: 0.8rem; padding: 0.6rem; border-radius: 16px; background: white; word-break: break-word; }
-    .comment-avatar { width: 28px; height: 28px; background: #dce5f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: bold; flex-shrink: 0; }
-    .comment-text { flex: 1; min-width: 0; }
-    .comment-author { font-weight: 600; font-size: 0.75rem; }
-    .comment-body { font-size: 0.8rem; margin-top: 3px; word-break: break-word; }
-    .add-comment { display: flex; gap: 8px; margin-top: 1rem; flex-wrap: wrap; }
-    .add-comment input { flex: 1; min-width: 150px; padding: 10px 14px; border-radius: 40px; border: 1px solid #e2e9f2; font-size: 0.85rem; }
-    .send-comment { background: #1e4c66; color: white; border: none; padding: 8px 18px; border-radius: 40px; cursor: pointer; font-size: 0.85rem; }
-    
-    /* Tarjeta de creación */
-    .create-card { background: white; border-radius: 28px; padding: 0.9rem 1.2rem; cursor: pointer; transition: 0.2s; }
-    .create-header { display: flex; align-items: center; gap: 12px; }
-    .mini-avatar { width: 42px; height: 42px; background: #1e3b4a; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1rem; flex-shrink: 0; }
-    .fake-input { flex: 1; background: #f3f6fc; border-radius: 40px; padding: 10px 16px; font-size: 0.85rem; color: #5f7f9a; white-space: nowrap; overflow-x: auto; }
-    
-    /* Sidebar cards */
-    .sidebar-card { background: white; border-radius: 24px; padding: 1rem; margin-bottom: 1rem; }
-    .sidebar-title { font-weight: 700; margin-bottom: 0.8rem; border-left: 3px solid #2c6e8f; padding-left: 10px; font-size: 0.9rem; display: flex; align-items: center; gap: 6px; }
-    .topic-chip { display: inline-block; background: #eef2fa; border-radius: 30px; padding: 4px 12px; margin: 4px 4px 0 0; font-size: 0.7rem; cursor: pointer; }
-    .reflection-day { background: linear-gradient(135deg, #1e3b4a, #2c6e8f); color: white; padding: 1rem; border-radius: 20px; margin-top: 0.8rem; font-size: 0.85rem; }
-    .saved-post-item { padding: 0.6rem 0; border-bottom: 1px solid #eef3fc; cursor: pointer; font-size: 0.8rem; word-break: break-word; }
-    .creator-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-    
-    /* Paginación */
-    .pagination-container { display: flex; justify-content: center; gap: 8px; margin-top: 1rem; flex-wrap: wrap; }
-    .page-btn { background: white; border: 1px solid #e2e9f2; padding: 6px 14px; border-radius: 40px; cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
-    .page-btn:active { transform: scale(0.95); }
-    .page-btn.active { background: #1e4c66; color: white; }
-    
-    /* Modales */
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10,28,47,0.75); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 1rem; }
-    .modal-container { background: white; width: 100%; max-width: 500px; border-radius: 32px; padding: 1.5rem; max-height: 85vh; overflow-y: auto; }
-    input, textarea { font-family: 'Inter', sans-serif; border: 1px solid #e2e9f2; border-radius: 24px; padding: 10px 14px; width: 100%; font-size: 0.9rem; margin-bottom: 12px; }
-    .btn-primary-solid { background: #1e4c66; border: none; color: white; padding: 10px 20px; border-radius: 40px; font-weight: 600; cursor: pointer; width: 100%; }
-    .btn-danger { background: #dc2626; }
-    .btn-danger:hover { background: #b91c1c; }
-    .hidden { display: none; }
-    .toast-msg { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #1a2c3f; color: white; padding: 10px 20px; border-radius: 50px; z-index: 1200; font-size: 0.8rem; text-align: center; max-width: 90vw; }
-    .loading-spinner { text-align: center; padding: 2rem; color: #6c86a3; }
-    
-    /* FAB móvil */
-    .fab-mobile {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 56px;
-      height: 56px;
-      background: #1e4c66;
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      cursor: pointer;
-      z-index: 40;
       transition: 0.2s;
     }
-    .fab-mobile:active { transform: scale(0.92); }
-    @media (min-width: 768px) { .fab-mobile { display: none; } }
-    body.dark-mode .fab-mobile { background: #2c6e8f; }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .hero {
+      padding: 100px 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero small {
+      color: #22d3ee;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .hero h1 {
+      font-size: 58px;
+      line-height: 1.1;
+      margin: 18px 0;
+    }
+
+    .hero p {
+      color: #cbd5e1;
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+
+    .hero-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 40px;
+      border-radius: 28px;
+    }
+
+    .hero-card li {
+      margin-bottom: 18px;
+      color: #e2e8f0;
+    }
+
+    section {
+      padding: 90px 0;
+    }
+
+    h2 {
+      font-size: 42px;
+      margin-bottom: 20px;
+    }
+
+    .subtitle {
+      color: #94a3b8;
+      margin-bottom: 50px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 28px;
+      padding: 32px;
+    }
+
+    .card h3 {
+      margin-bottom: 14px;
+      font-size: 22px;
+    }
+
+    .card p {
+      color: #cbd5e1;
+    }
+
+    .pricing {
+      text-align: center;
+    }
+
+    .plan {
+      position: relative;
+    }
+
+    .popular {
+      border: 1px solid #22d3ee;
+      background: rgba(34, 211, 238, 0.08);
+    }
+
+    .badge {
+      display: inline-block;
+      background: #22d3ee;
+      color: #08111f;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+    }
+
+    .price {
+      font-size: 54px;
+      font-weight: 800;
+      margin: 20px 0;
+    }
+
+    .price span {
+      font-size: 18px;
+      color: #94a3b8;
+    }
+
+    .plan ul {
+      list-style: none;
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .plan ul li {
+      margin-bottom: 12px;
+      color: #e2e8f0;
+    }
+
+    .cta {
+      text-align: center;
+    }
+
+    .cta p {
+      max-width: 700px;
+      margin: 0 auto 30px;
+      color: #cbd5e1;
+      font-size: 18px;
+    }
+
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+      color: #94a3b8;
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 42px;
+      }
+
+      .menu {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
-<div class="app-container">
-  <header class="header">
-    <div class="logo-area"><div class="logo">Vincle<span>.chat</span></div></div>
-    <div class="header-actions">
-      <button class="dark-mode-btn" id="darkModeBtn"><i class="fas fa-moon"></i></button>
-      <button class="mobile-menu-toggle" id="mobileMenuToggle"><i class="fas fa-bars"></i></button>
-      <div class="user-profile" id="userProfileBtn">
-        <div class="user-avatar" id="userAvatar">V</div>
-        <div class="user-name" id="displayNameText">Pensador</div>
-      </div>
+
+<header>
+  <div class="container nav">
+    <div>
+      <div class="logo">Vincle<span>.Pro</span></div>
+      <small>Suscripción premium para builders</small>
     </div>
-  </header>
-  
-  <div class="main-feed">
-    <div class="posts-section">
-      <div class="create-card" id="openCreatorBtn">
-        <div class="create-header">
-          <div class="mini-avatar" id="miniAvatar">V</div>
-          <div class="fake-input"><i class="fas fa-feather-alt"></i> Comparte una reflexión...</div>
-        </div>
-      </div>
-      <div id="postsFeedContainer"><div class="loading-spinner"><i class="fas fa-spinner fa-pulse"></i> Conectando...</div></div>
-      <div id="paginationControls" class="pagination-container"></div>
+
+    <div class="menu">
+      <a href="#beneficios">Beneficios</a>
+      <a href="#planes">Planes</a>
+      <a href="#comunidad">Comunidad</a>
     </div>
-    
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-    <aside class="sidebar" id="sidebar">
-      <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;" class="close-sidebar-desktop">
-        <button id="closeSidebarBtn" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
-      </div>
-      <div class="sidebar-card">
-        <div class="sidebar-title"><i class="fas fa-crown"></i> Reflexión del día</div>
-        <div class="reflection-day">
-          <i class="fas fa-quote-left"></i>
-          <p style="margin-top: 8px; font-style: italic;">"La sabiduría no es producto de la escolarización, sino del intento de adquirirla durante toda la vida."</p>
-          <small style="display: block; margin-top: 8px;">— Albert Einstein</small>
-        </div>
-      </div>
-      <div class="sidebar-card">
-        <div class="sidebar-title"><i class="fas fa-hashtag"></i> Tendencias</div>
-        <div id="trendingHashtags"></div>
-      </div>
-      <div class="sidebar-card">
-        <div class="sidebar-title"><i class="fas fa-bookmark"></i> Guardados</div>
-        <div id="savedPostsList">No hay guardados</div>
-      </div>
-      <div class="sidebar-card">
-        <div class="sidebar-title"><i class="fas fa-fire"></i> Mentes que inspiran</div>
-        <div id="topLocalCreators">Cargando...</div>
-      </div>
-    </aside>
+
+    <button class="btn">Unirme ahora</button>
   </div>
-</div>
+</header>
 
-<button class="fab-mobile" id="fabCreateBtn"><i class="fas fa-plus"></i></button>
+<section class="hero container">
+  <div>
+    <small>Construye • Escala • Conecta</small>
+    <h1>La membresía para emprendedores y programadores que quieren crecer de verdad</h1>
+    <p>
+      Accede a mentorías, networking, recursos premium y una comunidad privada
+      diseñada para founders, developers y personas que están construyendo proyectos reales.
+    </p>
 
-<!-- MODALES -->
-<div id="createModal" class="modal-overlay hidden">
-  <div class="modal-container">
-    <h3 style="margin-bottom:1rem;"><i class="fas fa-lightbulb"></i> Nueva reflexión</h3>
-    <input type="text" id="modalTitle" placeholder="Título (opcional)">
-    <textarea id="modalBody" rows="4" placeholder="Escribe tu reflexión..."></textarea>
-    <input type="text" id="modalCategory" placeholder="Categoría">
-    <input type="text" id="modalImageUrl" placeholder="URL de imagen (opcional)">
-    <input type="text" id="modalHashtags" placeholder="Hashtags separados por espacio (ej: #filosofia)">
-    <div style="display:flex; gap:10px; justify-content:flex-end;">
-      <button id="cancelModalBtn" style="background:transparent; border:1px solid #cad5e2; padding:8px 20px; border-radius:40px;">Cancelar</button>
-      <button id="confirmPublishBtn" class="btn-primary-solid" style="width:auto;">Publicar →</button>
+    <button class="btn">Empezar hoy</button>
+  </div>
+
+  <div class="hero-card">
+    <ul>
+      <li>✔ Masterclasses semanales</li>
+      <li>✔ Plantillas SaaS y negocio</li>
+      <li>✔ Mentorías grupales</li>
+      <li>✔ Comunidad privada de alto nivel</li>
+      <li>✔ Networking con founders reales</li>
+    </ul>
+  </div>
+</section>
+
+<section id="beneficios" class="container">
+  <h2>Qué obtienes</h2>
+  <p class="subtitle">No es otro curso más. Es un sistema de crecimiento continuo.</p>
+
+  <div class="grid-3">
+    <div class="card">
+      <h3>Sistema de crecimiento</h3>
+      <p>Procesos claros para pasar de una idea a ingresos reales.</p>
+    </div>
+
+    <div class="card">
+      <h3>Networking útil</h3>
+      <p>Conecta con personas que ejecutan y escalan proyectos.</p>
+    </div>
+
+    <div class="card">
+      <h3>Acción semanal</h3>
+      <p>Retos, accountability y enfoque para avanzar sin bloquearte.</p>
     </div>
   </div>
-</div>
+</section>
 
-<div id="editNameModal" class="modal-overlay hidden">
-  <div class="modal-container">
-    <h3 style="margin-bottom:1rem;">Tu identidad</h3>
-    <input type="text" id="newNameInput" placeholder="Nombre público">
-    <div style="display:flex; gap:10px; justify-content:flex-end;">
-      <button id="closeNameModal" style="background:transparent; border:1px solid #cad5e2; padding:8px 20px; border-radius:40px;">Cancelar</button>
-      <button id="saveNameBtn" class="btn-primary-solid" style="width:auto;">Guardar</button>
+<section id="planes" class="container pricing">
+  <h2>Planes de suscripción</h2>
+  <p class="subtitle">Elige el nivel adecuado para tu etapa actual</p>
+
+  <div class="grid-3">
+    <div class="card plan">
+      <h3>Starter</h3>
+      <p>Ideal para empezar</p>
+      <div class="price">19€<span>/mes</span></div>
+      <ul>
+        <li>Comunidad privada</li>
+        <li>Plantillas de negocio</li>
+        <li>Roadmaps de producto</li>
+        <li>Sesiones mensuales</li>
+      </ul>
+      <br>
+      <button class="btn">Elegir plan</button>
+    </div>
+
+    <div class="card plan popular">
+      <div class="badge">Más popular</div>
+      <h3>Pro</h3>
+      <p>Para founders en crecimiento</p>
+      <div class="price">49€<span>/mes</span></div>
+      <ul>
+        <li>Todo en Starter</li>
+        <li>Mentorías grupales</li>
+        <li>Recursos premium</li>
+        <li>Networking avanzado</li>
+        <li>Acceso prioritario</li>
+      </ul>
+      <br>
+      <button class="btn">Elegir plan</button>
+    </div>
+
+    <div class="card plan">
+      <h3>Elite</h3>
+      <p>Para escalar rápido</p>
+      <div class="price">99€<span>/mes</span></div>
+      <ul>
+        <li>Todo en Pro</li>
+        <li>Mastermind privado</li>
+        <li>Consultoría estratégica</li>
+        <li>Revisión de ventas y producto</li>
+      </ul>
+      <br>
+      <button class="btn">Elegir plan</button>
     </div>
   </div>
-</div>
+</section>
 
-<!-- Modal de confirmación para eliminar -->
-<div id="deleteModal" class="modal-overlay hidden">
-  <div class="modal-container">
-    <h3 style="margin-bottom:1rem;"><i class="fas fa-trash-alt" style="color:#dc2626;"></i> Eliminar reflexión</h3>
-    <p>¿Estás seguro de que quieres eliminar esta reflexión? Esta acción no se puede deshacer.</p>
-    <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:1.5rem;">
-      <button id="cancelDeleteBtn" style="background:transparent; border:1px solid #cad5e2; padding:8px 20px; border-radius:40px;">Cancelar</button>
-      <button id="confirmDeleteBtn" class="btn-primary-solid" style="background:#dc2626; width:auto;">Eliminar</button>
-    </div>
-  </div>
-</div>
+<section id="comunidad" class="container cta">
+  <h2>No compres más cursos. Entra en el ecosistema.</h2>
+  <p>
+    Vincle.Pro está diseñado para personas que quieren resultados, foco y relaciones estratégicas.
+    Aquí no vienes a consumir contenido: vienes a construir.
+  </p>
 
-<script type="module">
-  import { initializeApp } from "firebase/app";
-  import { getAuth, signInAnonymously, onAuthStateChanged, updateProfile } from "firebase/auth";
-  import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, doc, updateDoc, arrayUnion, arrayRemove, getDoc, setDoc, getDocs, limit as limitQuery, deleteDoc } from "firebase/firestore";
+  <button class="btn">Acceder a la membresía</button>
+</section>
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyDGrspy5R6usV6KMEIsxNb_7P5GuibbX4I",
-    authDomain: "vinclechat-564d1.firebaseapp.com",
-    projectId: "vinclechat-564d1"
-  };
+<footer>
+  © 2026 Vincle.Pro — Comunidad premium para emprendedores y programadores
+</footer>
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-
-  let currentUser = null;
-  let allPosts = [];
-  let currentPage = 1;
-  let savedPosts = JSON.parse(localStorage.getItem("vincle_saved") || "[]");
-  const POSTS_PER_PAGE = 15;
-
-  const postsContainer = document.getElementById("postsFeedContainer");
-  const paginationDiv = document.getElementById("paginationControls");
-
-  let expandedPosts = new Set();
-  let activeDropdown = null;
-  let postToDelete = null;
-
-  // Cerrar dropdown al hacer clic fuera
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.post-menu')) {
-      if (activeDropdown) {
-        activeDropdown.remove();
-        activeDropdown = null;
-      }
-    }
-  });
-
-  // Función para compartir post
-  async function sharePost(post) {
-    const shareText = `${post.title ? post.title + '\n\n' : ''}${post.body ? post.body.substring(0, 200) + (post.body.length > 200 ? '...' : '') : ''}\n\n— ${post.userDisplayName} en Vincle.chat`;
-    const shareUrl = window.location.href;
-    
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: post.title || 'Reflexión en Vincle.chat',
-          text: shareText,
-          url: shareUrl
-        });
-        showToast('✨ Compartido');
-      } catch(e) { if (e.name !== 'AbortError') copyToClipboard(shareText); }
-    } else {
-      copyToClipboard(shareText);
-    }
-  }
-  
-  function copyToClipboard(text) {
-    navigator.clipboard.writeText(text);
-    showToast('📋 Copiado al portapapeles');
-  }
-
-  // Mobile sidebar
-  const sidebar = document.getElementById("sidebar");
-  const overlay = document.getElementById("sidebarOverlay");
-  const mobileMenuToggle = document.getElementById("mobileMenuToggle");
-  const closeSidebarBtn = document.getElementById("closeSidebarBtn");
-  
-  function openSidebar() { sidebar.classList.add("open"); overlay.classList.add("open"); document.body.style.overflow = "hidden"; }
-  function closeSidebar() { sidebar.classList.remove("open"); overlay.classList.remove("open"); document.body.style.overflow = ""; }
-  if (mobileMenuToggle) mobileMenuToggle.onclick = openSidebar;
-  if (closeSidebarBtn) closeSidebarBtn.onclick = closeSidebar;
-  if (overlay) overlay.onclick = closeSidebar;
-  
-  const fabBtn = document.getElementById("fabCreateBtn");
-  if (fabBtn) fabBtn.onclick = () => document.getElementById("createModal").classList.remove("hidden");
-
-  // Dark Mode
-  const darkModeBtn = document.getElementById("darkModeBtn");
-  if (localStorage.getItem("darkMode") === "enabled") {
-    document.body.classList.add("dark-mode");
-    darkModeBtn.innerHTML = '<i class="fas fa-sun"></i>';
-  }
-  darkModeBtn.onclick = () => {
-    document.body.classList.toggle("dark-mode");
-    const isDark = document.body.classList.contains("dark-mode");
-    localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
-    darkModeBtn.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-  };
-
-  // Autenticación
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      currentUser = user;
-      const userRef = doc(db, "users", user.uid);
-      const snap = await getDoc(userRef);
-      if (!snap.exists()) {
-        const randomName = "pensador_" + Math.floor(Math.random() * 900 + 100);
-        await setDoc(userRef, { displayName: randomName, createdAt: new Date(), savedPosts: [] });
-        await updateProfile(user, { displayName: randomName });
-      }
-      updateUserUI();
-      loadTopCreators();
-      updateTrendingHashtags();
-      subscribeToPosts();
-      renderSavedPostsList();
-    } else {
-      try { await signInAnonymously(auth); } catch(e) { console.error(e); }
-    }
-  });
-
-  async function getCurrentUserProfile() {
-    if (!currentUser) return null;
-    const snap = await getDoc(doc(db, "users", currentUser.uid));
-    return snap.exists() ? snap.data() : { displayName: currentUser.displayName || "Vincleante" };
-  }
-
-  async function updateUserUI() {
-    if (!currentUser) return;
-    const profile = await getCurrentUserProfile();
-    const name = profile?.displayName || "Vincleante";
-    document.getElementById("displayNameText").innerText = name.length > 12 ? name.slice(0,10)+".." : name;
-    document.getElementById("userAvatar").innerText = name.charAt(0).toUpperCase();
-    document.getElementById("miniAvatar").innerText = name.charAt(0).toUpperCase();
-  }
-
-  function subscribeToPosts() {
-    const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
-    onSnapshot(q, (snapshot) => {
-      allPosts = [];
-      snapshot.forEach(docSnap => { allPosts.push({ id: docSnap.id, ...docSnap.data() }); });
-      const totalPages = Math.max(1, Math.ceil(allPosts.length / POSTS_PER_PAGE));
-      if (currentPage > totalPages) currentPage = totalPages;
-      renderCurrentPage();
-      renderPagination();
-      loadTopCreators();
-      updateTrendingHashtags();
-    });
-  }
-
-  async function deletePost(postId) {
-    if (!currentUser) return;
-    const post = allPosts.find(p => p.id === postId);
-    if (post && post.userId === currentUser.uid) {
-      await deleteDoc(doc(db, "posts", postId));
-      showToast("🗑️ Reflexión eliminada");
-    }
-  }
-
-  function toggleReadMore(postId) {
-    if (expandedPosts.has(postId)) {
-      expandedPosts.delete(postId);
-    } else {
-      expandedPosts.add(postId);
-    }
-    renderCurrentPage();
-  }
-
-  function toggleDropdown(postId, event) {
-    event.stopPropagation();
-    if (activeDropdown) activeDropdown.remove();
-    
-    const post = allPosts.find(p => p.id === postId);
-    const dropdown = document.createElement('div');
-    dropdown.className = 'dropdown-menu';
-    dropdown.innerHTML = `
-      <button class="share-post-btn" data-id="${postId}">
-        <i class="fas fa-share-alt"></i> Compartir reflexión
-      </button>
-      ${post && post.userId === currentUser?.uid ? `<button class="delete-post-btn" data-id="${postId}">
-        <i class="fas fa-trash-alt"></i> Eliminar reflexión
-      </button>` : ''}
-    `;
-    
-    const trigger = event.target.closest('.menu-trigger');
-    trigger.parentElement.appendChild(dropdown);
-    activeDropdown = dropdown;
-    
-    dropdown.querySelector('.share-post-btn').addEventListener('click', (e) => {
-      e.stopPropagation();
-      sharePost(post);
-      dropdown.remove();
-      activeDropdown = null;
-    });
-    
-    const deleteBtn = dropdown.querySelector('.delete-post-btn');
-    if (deleteBtn) {
-      deleteBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        postToDelete = postId;
-        document.getElementById("deleteModal").classList.remove("hidden");
-        dropdown.remove();
-        activeDropdown = null;
-      });
-    }
-  }
-
-  function renderCurrentPage() {
-    if (!postsContainer) return;
-    if (allPosts.length === 0) {
-      postsContainer.innerHTML = `<div style="background:white; border-radius:28px; padding:2rem; text-align:center;"><i class="fas fa-feather-alt fa-3x" style="color:#8ba0bc;"></i><p style="margin-top:12px;">Sé el primero en compartir una reflexión.</p></div>`;
-      return;
-    }
-    const start = (currentPage - 1) * POSTS_PER_PAGE;
-    const pagePosts = allPosts.slice(start, start + POSTS_PER_PAGE);
-    postsContainer.innerHTML = "";
-    pagePosts.forEach(post => {
-      const isLiked = currentUser && post.likes?.includes(currentUser.uid);
-      const isSaved = savedPosts.includes(post.id);
-      const timeAgo = getTimeAgo(post.createdAt);
-      const hashtags = post.hashtags || extractHashtags(post.body + (post.title || ""));
-      const isExpanded = expandedPosts.has(post.id);
-      const textContent = post.body || "";
-      const needsTruncation = textContent.length > 300 || textContent.split('\n').length > 8;
-      const shouldCollapse = needsTruncation && !isExpanded;
-      const isAuthor = currentUser && post.userId === currentUser.uid;
-      
-      const card = document.createElement("div");
-      card.className = "post-card";
-      card.innerHTML = `
-        <div class="post-header">
-          <div class="avatar">${escapeHtml(post.userDisplayName?.charAt(0) || 'V')}</div>
-          <div style="flex:1; min-width:0;">
-            <div class="post-user-name">${escapeHtml(post.userDisplayName || "Vincleante")}<span class="post-category">${escapeHtml(post.category || "reflexión")}</span></div>
-            <div class="post-time">${timeAgo}</div>
-          </div>
-          <div class="post-menu"><button class="menu-trigger" data-id="${post.id}"><i class="fas fa-ellipsis-v"></i></button></div>
-        </div>
-        <div class="post-content">
-          ${post.title ? `<div class="post-title">${escapeHtml(post.title)}</div>` : ''}
-          <div class="post-text ${shouldCollapse ? 'collapsed' : ''}" id="post-text-${post.id}">
-            ${escapeHtml(textContent)}
-          </div>
-          ${needsTruncation ? `<button class="read-more-btn" data-id="${post.id}">${isExpanded ? 'ver menos ↑' : 'ver más ↓'}</button>` : ''}
-          ${hashtags.length ? `<div style="margin-top:8px;">${hashtags.map(h => `<span class="topic-chip" style="font-size:0.65rem; display:inline-block;">${h}</span>`).join(' ')}</div>` : ''}
-          ${post.imageUrl ? `<div class="post-media"><img src="${post.imageUrl}" loading="lazy" onerror="this.style.display='none'"></div>` : ''}
-        </div>
-        <div class="post-actions">
-          <button class="action-btn like-btn" data-id="${post.id}"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i> <span>${post.likeCount || 0}</span></button>
-          <button class="action-btn comment-toggle" data-id="${post.id}"><i class="far fa-comment-dots"></i> <span>${post.commentsCount || 0}</span></button>
-          <button class="action-btn save-btn" data-id="${post.id}"><i class="fa-${isSaved ? 'solid' : 'regular'} fa-bookmark"></i></button>
-        </div>
-        <div class="comments-section hidden" id="comments-${post.id}">
-          <div id="comments-list-${post.id}"></div>
-          <div class="add-comment">
-            <input type="text" id="comment-input-${post.id}" placeholder="Escribe un diálogo...">
-            <button class="send-comment" data-id="${post.id}">Enviar</button>
-          </div>
-        </div>
-      `;
-      
-      card.querySelector(".like-btn").addEventListener("click", () => toggleLike(post.id, post.likes || []));
-      card.querySelector(".save-btn").addEventListener("click", () => toggleSave(post.id));
-      
-      const readMoreBtn = card.querySelector(".read-more-btn");
-      if (readMoreBtn) {
-        readMoreBtn.addEventListener("click", (e) => {
-          e.stopPropagation();
-          toggleReadMore(post.id);
-        });
-      }
-      
-      const menuTrigger = card.querySelector(".menu-trigger");
-      if (menuTrigger) {
-        menuTrigger.addEventListener("click", (e) => toggleDropdown(post.id, e));
-      }
-      
-      const commentToggle = card.querySelector(".comment-toggle");
-      const commentsDiv = card.querySelector(`.comments-section`);
-      commentToggle.addEventListener("click", () => {
-        commentsDiv.classList.toggle("hidden");
-        if (!commentsDiv.classList.contains("hidden")) renderComments(post.id, post.comments || []);
-      });
-      card.querySelector(".send-comment").addEventListener("click", () => addComment(post.id));
-      postsContainer.appendChild(card);
-      if (post.comments?.length && !commentsDiv.classList.contains("hidden")) renderComments(post.id, post.comments);
-    });
-  }
-
-  async function renderComments(postId, comments) {
-    const container = document.getElementById(`comments-list-${postId}`);
-    if (!container) return;
-    if (!comments || comments.length === 0) {
-      container.innerHTML = '<div style="text-align:center; padding:0.8rem; font-size:0.8rem; color:#7c8ba0;">Sé el primero en dialogar</div>';
-      return;
-    }
-    container.innerHTML = comments.map(c => `
-      <div class="comment">
-        <div class="comment-avatar">${c.authorName?.charAt(0) || 'V'}</div>
-        <div class="comment-text">
-          <div class="comment-author">${escapeHtml(c.authorName)}</div>
-          <div class="comment-body">${escapeHtml(c.text)}</div>
-          <div class="comment-time">${getTimeAgo(c.timestamp)}</div>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  async function addComment(postId) {
-    if (!currentUser) return;
-    const input = document.getElementById(`comment-input-${postId}`);
-    const text = input.value.trim();
-    if (!text) return;
-    const profile = await getCurrentUserProfile();
-    const postRef = doc(db, "posts", postId);
-    const postSnap = await getDoc(postRef);
-    const currentComments = postSnap.data()?.comments || [];
-    const newComment = {
-      id: Date.now().toString(),
-      text: text,
-      authorId: currentUser.uid,
-      authorName: profile?.displayName || "Vincleante",
-      timestamp: new Date()
-    };
-    await updateDoc(postRef, { comments: arrayUnion(newComment), commentsCount: currentComments.length + 1 });
-    input.value = "";
-    renderComments(postId, [...currentComments, newComment]);
-  }
-
-  async function toggleLike(postId, currentLikes) {
-    if (!currentUser) return;
-    const hasLiked = currentLikes.includes(currentUser.uid);
-    await updateDoc(doc(db, "posts", postId), {
-      likes: hasLiked ? arrayRemove(currentUser.uid) : arrayUnion(currentUser.uid),
-      likeCount: hasLiked ? currentLikes.length - 1 : currentLikes.length + 1
-    });
-  }
-
-  function toggleSave(postId) {
-    if (savedPosts.includes(postId)) {
-      savedPosts = savedPosts.filter(id => id !== postId);
-    } else {
-      savedPosts.push(postId);
-    }
-    localStorage.setItem("vincle_saved", JSON.stringify(savedPosts));
-    renderSavedPostsList();
-    renderCurrentPage();
-    showToast(savedPosts.includes(postId) ? "Guardado" : "Eliminado");
-  }
-
-  function renderSavedPostsList() {
-    const container = document.getElementById("savedPostsList");
-    if (!container) return;
-    if (savedPosts.length === 0) { container.innerHTML = "No hay guardados"; return; }
-    const saved = allPosts.filter(p => savedPosts.includes(p.id));
-    if (saved.length === 0) { container.innerHTML = "No hay guardados"; return; }
-    container.innerHTML = saved.slice(0, 5).map(p => `
-      <div class="saved-post-item">
-        <div style="font-weight:600; font-size:0.8rem;">${p.title || (p.body ? p.body.substring(0, 50) : "Reflexión")}...</div>
-        <small style="color:#7c8ba0;">${p.userDisplayName}</small>
-      </div>
-    `).join('');
-  }
-
-  function updateTrendingHashtags() {
-    const hashtagCount = new Map();
-    allPosts.forEach(post => {
-      extractHashtags(post.body + (post.title || "")).forEach(tag => {
-        hashtagCount.set(tag, (hashtagCount.get(tag) || 0) + 1);
-      });
-    });
-    const sorted = Array.from(hashtagCount.entries()).sort((a,b) => b[1] - a[1]).slice(0, 8);
-    const container = document.getElementById("trendingHashtags");
-    if (sorted.length === 0) { container.innerHTML = '<span class="topic-chip">#filosofia</span><span class="topic-chip">#aprendizaje</span>'; return; }
-    container.innerHTML = sorted.map(([tag, count]) => `<span class="topic-chip">${tag} <small>${count}</small></span>`).join('');
-  }
-
-  function extractHashtags(text) {
-    const matches = text.match(/#[\w\u00f1\u00d1]+/g);
-    return matches ? [...new Set(matches)] : [];
-  }
-
-  function renderPagination() {
-    const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
-    if (totalPages <= 1) { paginationDiv.innerHTML = ""; return; }
-    let html = "";
-    for (let i = 1; i <= Math.min(totalPages, 6); i++) {
-      html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
-    }
-    paginationDiv.innerHTML = html;
-    document.querySelectorAll(".page-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        currentPage = parseInt(btn.dataset.page);
-        renderCurrentPage();
-        renderPagination();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
-    });
-  }
-
-  async function publishPost(title, body, category, imageUrl, hashtagsInput) {
-    if (!currentUser) return false;
-    const profile = await getCurrentUserProfile();
-    const hashtags = hashtagsInput ? hashtagsInput.split(/\s+/).filter(h => h.startsWith('#')) : [];
-    await addDoc(collection(db, "posts"), {
-      title: title.trim() || null,
-      body: body.trim(),
-      category: category.trim() || "idea",
-      imageUrl: imageUrl.trim() || null,
-      hashtags: hashtags,
-      userId: currentUser.uid,
-      userDisplayName: profile?.displayName || "Vincleante",
-      createdAt: new Date(),
-      likes: [],
-      likeCount: 0,
-      comments: [],
-      commentsCount: 0
-    });
-    showToast("✨ Reflexión publicada");
-    return true;
-  }
-
-  async function loadTopCreators() {
-    try {
-      const snapshot = await getDocs(query(collection(db, "posts"), limitQuery(100)));
-      const countMap = new Map();
-      snapshot.forEach(doc => {
-        const name = doc.data().userDisplayName;
-        if (name) countMap.set(name, (countMap.get(name) || 0) + 1);
-      });
-      const sorted = Array.from(countMap.entries()).sort((a,b) => b[1] - a[1]).slice(0, 5);
-      const container = document.getElementById("topLocalCreators");
-      if (sorted.length === 0) { container.innerHTML = "<span>Comparte y aparecerás</span>"; return; }
-      container.innerHTML = sorted.map(([name, count]) => `
-        <div class="creator-item">
-          <div class="avatar" style="width:34px;height:34px;font-size:0.85rem;">${name.charAt(0)}</div>
-          <div style="flex:1; min-width:0;"><strong style="font-size:0.85rem;">${escapeHtml(name)}</strong><div style="font-size:10px;">${count} reflexiones</div></div>
-        </div>
-      `).join('');
-    } catch(e) {}
-  }
-
-  function getTimeAgo(timestamp) {
-    if (!timestamp) return "reciente";
-    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
-    const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
-    if (seconds < 60) return "ahora";
-    const minutes = Math.floor(seconds / 60);
-    if (minutes < 60) return `hace ${minutes} min`;
-    const hours = Math.floor(minutes / 60);
-    if (hours < 24) return `hace ${hours} h`;
-    const days = Math.floor(hours / 24);
-    if (days < 7) return `hace ${days} d`;
-    return `hace ${Math.floor(days / 7)} sem`;
-  }
-
-  function escapeHtml(str) { if(!str) return ""; return str.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
-  function showToast(msg) { const t = document.createElement('div'); t.className='toast-msg'; t.innerText=msg; document.body.appendChild(t); setTimeout(()=>t.remove(), 2500); }
-
-  // Eventos modales
-  document.getElementById("openCreatorBtn").onclick = () => document.getElementById("createModal").classList.remove("hidden");
-  document.getElementById("cancelModalBtn").onclick = () => document.getElementById("createModal").classList.add("hidden");
-  document.getElementById("confirmPublishBtn").onclick = async () => {
-    await publishPost(
-      document.getElementById("modalTitle").value,
-      document.getElementById("modalBody").value,
-      document.getElementById("modalCategory").value,
-      document.getElementById("modalImageUrl").value,
-      document.getElementById("modalHashtags").value
-    );
-    document.getElementById("createModal").classList.add("hidden");
-    document.getElementById("modalTitle").value = "";
-    document.getElementById("modalBody").value = "";
-    document.getElementById("modalCategory").value = "";
-    document.getElementById("modalImageUrl").value = "";
-    document.getElementById("modalHashtags").value = "";
-  };
-
-  // Modal eliminar
-  const deleteModal = document.getElementById("deleteModal");
-  document.getElementById("cancelDeleteBtn").onclick = () => { deleteModal.classList.add("hidden"); postToDelete = null; };
-  document.getElementById("confirmDeleteBtn").onclick = async () => {
-    if (postToDelete) {
-      await deletePost(postToDelete);
-      deleteModal.classList.add("hidden");
-      postToDelete = null;
-    }
-  };
-
-  const editModal = document.getElementById("editNameModal");
-  document.getElementById("userProfileBtn").onclick = async () => {
-    const profile = await getCurrentUserProfile();
-    document.getElementById("newNameInput").value = profile?.displayName || "";
-    editModal.classList.remove("hidden");
-  };
-  document.getElementById("saveNameBtn").onclick = async () => {
-    const newName = document.getElementById("newNameInput").value.trim();
-    if (newName && currentUser) {
-      await setDoc(doc(db, "users", currentUser.uid), { displayName: newName }, { merge: true });
-      await updateProfile(currentUser, { displayName: newName });
-      updateUserUI();
-      showToast(`Ahora eres ${newName}`);
-    }
-    editModal.classList.add("hidden");
-  };
-  document.getElementById("closeNameModal").onclick = () => editModal.classList.add("hidden");
-  
-  window.renderComments = renderComments;
-</script>
 </body>
 </html>
