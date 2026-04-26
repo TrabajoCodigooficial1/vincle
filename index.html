@@ -3,360 +3,169 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vincle.Pro | El OnlyFans del mundo Tech & Business</title>
+  <title>MacroSignal | Inteligencia de inversión para empresarios</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
-
-    body {
-      background: #08111f;
-      color: white;
-      line-height: 1.6;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .container {
-      width: 90%;
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(8, 17, 31, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 0;
-    }
-
-    .logo {
-      font-size: 28px;
-      font-weight: 800;
-    }
-
-    .logo span {
-      color: #22d3ee;
-    }
-
-    .menu {
-      display: flex;
-      gap: 30px;
-      color: #cbd5e1;
-      font-size: 14px;
-    }
-
-    .btn {
-      background: #22d3ee;
-      color: #08111f;
-      padding: 14px 24px;
-      border-radius: 16px;
-      font-weight: 700;
-      border: none;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-    }
-
-    .hero {
-      padding: 100px 0;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: center;
-    }
-
-    .hero small {
-      color: #22d3ee;
-      font-weight: 700;
-      font-size: 15px;
-    }
-
-    .hero h1 {
-      font-size: 58px;
-      line-height: 1.1;
-      margin: 18px 0;
-    }
-
-    .hero p {
-      color: #cbd5e1;
-      font-size: 18px;
-      margin-bottom: 30px;
-    }
-
-    .hero-card {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      padding: 40px;
-      border-radius: 28px;
-    }
-
-    .hero-card li {
-      margin-bottom: 18px;
-      color: #e2e8f0;
-    }
-
-    section {
-      padding: 90px 0;
-    }
-
-    h2 {
-      font-size: 42px;
-      margin-bottom: 20px;
-    }
-
-    .subtitle {
-      color: #94a3b8;
-      margin-bottom: 50px;
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-
-    .card {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 28px;
-      padding: 32px;
-    }
-
-    .card h3 {
-      margin-bottom: 14px;
-      font-size: 22px;
-    }
-
-    .card p {
-      color: #cbd5e1;
-    }
-
-    .pricing {
-      text-align: center;
-    }
-
-    .plan {
-      position: relative;
-    }
-
-    .popular {
-      border: 1px solid #22d3ee;
-      background: rgba(34, 211, 238, 0.08);
-    }
-
-    .badge {
-      display: inline-block;
-      background: #22d3ee;
-      color: #08111f;
-      font-size: 12px;
-      font-weight: 700;
-      padding: 6px 12px;
-      border-radius: 999px;
-      margin-bottom: 18px;
-    }
-
-    .price {
-      font-size: 54px;
-      font-weight: 800;
-      margin: 20px 0;
-    }
-
-    .price span {
-      font-size: 18px;
-      color: #94a3b8;
-    }
-
-    .plan ul {
-      list-style: none;
-      margin-top: 20px;
-      text-align: left;
-    }
-
-    .plan ul li {
-      margin-bottom: 12px;
-      color: #e2e8f0;
-    }
-
-    .cta {
-      text-align: center;
-    }
-
-    .cta p {
-      max-width: 700px;
-      margin: 0 auto 30px;
-      color: #cbd5e1;
-      font-size: 18px;
-    }
-
-    footer {
-      padding: 40px 0;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      text-align: center;
-      color: #94a3b8;
-    }
-
-    @media (max-width: 900px) {
-      .hero,
-      .grid-3 {
-        grid-template-columns: 1fr;
-      }
-
-      .hero h1 {
-        font-size: 42px;
-      }
-
-      .menu {
-        display: none;
-      }
-    }
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+    body{background:#07111f;color:#fff}
+    a{text-decoration:none;color:inherit}
+    .container{width:92%;max-width:1280px;margin:auto}
+    header{position:sticky;top:0;z-index:100;background:rgba(7,17,31,.96);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+    .nav{display:flex;justify-content:space-between;align-items:center;padding:20px 0}
+    .logo{font-size:30px;font-weight:800}
+    .logo span{color:#22d3ee}
+    .btn{background:#22d3ee;color:#07111f;border:none;padding:14px 24px;border-radius:16px;font-weight:700;cursor:pointer}
+    .hero{padding:80px 0 40px}
+    .hero h1{font-size:58px;line-height:1.05;max-width:900px;margin-bottom:20px}
+    .hero p{font-size:18px;color:#cbd5e1;max-width:850px}
+    .status{margin-top:32px;display:flex;gap:20px;flex-wrap:wrap}
+    .status-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);padding:28px;border-radius:24px;min-width:260px}
+    .status-value{font-size:34px;font-weight:800;margin-top:8px}
+    section{padding:50px 0}
+    h2{font-size:36px;margin-bottom:12px}
+    .subtitle{color:#94a3b8;margin-bottom:30px}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+    .news-panel{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:28px}
+    .news-list{display:flex;flex-direction:column;gap:14px;margin-top:20px}
+    .news-item{padding:16px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.05)}
+    .tag{display:inline-block;background:rgba(34,211,238,.15);color:#67e8f9;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700;margin-bottom:10px}
+    .news-item h4{font-size:16px;margin-bottom:8px}
+    .news-item p{font-size:14px;color:#cbd5e1}
+    .sources{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:20px}
+    .source-card{padding:18px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06)}
+    .source-card h4{font-size:15px}
+    .source-card small{color:#94a3b8}
+    footer{padding:40px 0;border-top:1px solid rgba(255,255,255,.08);text-align:center;color:#94a3b8}
+    @media(max-width:900px){.hero h1{font-size:40px}.grid,.sources{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
 
 <header>
   <div class="container nav">
-    <div>
-      <div class="logo">Vincle<span>.Pro</span></div>
-      <small>La plataforma de membresías para creadores tech</small>
-    </div>
-
-    <div class="menu">
-      <a href="#beneficios">Beneficios</a>
-      <a href="#planes">Planes</a>
-      <a href="#comunidad">Comunidad</a>
-    </div>
-
-    <button class="btn">Unirme ahora</button>
+    <div class="logo">Macro<span>Signal</span></div>
+    <button class="btn">Acceso Premium</button>
   </div>
 </header>
 
 <section class="hero container">
-  <div>
-    <small>Construye • Escala • Conecta</small>
-    <h1>El OnlyFans del mundo Tech, Business y Programación</h1>
-    <p>
-      Crea tu propia suscripción anual o mensual y monetiza tu conocimiento. Diseñado para programadores, emprendedores, expertos en negocio, formadores y creadores que venden acceso premium a su comunidad.
-    </p>
-
-    <button class="btn">Empezar hoy</button>
-  </div>
-
-  <div class="hero-card">
-    <ul>
-      <li>✔ Crea tu propia membresía premium</li>
-      <li>✔ Cobra suscripciones mensuales o anuales</li>
-      <li>✔ Mentorías grupales</li>
-      <li>✔ Comunidad privada de alto nivel</li>
-      <li>✔ Networking con founders reales</li>
-    </ul>
-  </div>
-</section>
-
-<section id="beneficios" class="container">
-  <h2>Qué obtienes</h2>
-  <p class="subtitle">No es otro curso más. Es un sistema de crecimiento continuo.</p>
-
-  <div class="grid-3">
-    <div class="card">
-      <h3>Sistema de crecimiento</h3>
-      <p>Procesos claros para pasar de una idea a ingresos reales.</p>
-    </div>
-
-    <div class="card">
-      <h3>Networking útil</h3>
-      <p>Conecta con personas que ejecutan y escalan proyectos.</p>
-    </div>
-
-    <div class="card">
-      <h3>Acción semanal</h3>
-      <p>Retos, accountability y enfoque para avanzar sin bloquearte.</p>
-    </div>
-  </div>
-</section>
-
-<section id="planes" class="container pricing">
-  <h2>Planes de suscripción</h2>
-  <p class="subtitle">Elige el nivel adecuado para tu etapa actual</p>
-
-  <div class="grid-3">
-    <div class="card plan">
-      <h3>Starter</h3>
-      <p>Ideal para empezar</p>
-      <div class="price">19€<span>/mes</span></div>
-      <ul>
-        <li>Comunidad privada</li>
-        <li>Plantillas de negocio</li>
-        <li>Roadmaps de producto</li>
-        <li>Sesiones mensuales</li>
-      </ul>
-      <br>
-      <button class="btn">Elegir plan</button>
-    </div>
-
-    <div class="card plan popular">
-      <div class="badge">Más popular</div>
-      <h3>Pro</h3>
-      <p>Para founders en crecimiento</p>
-      <div class="price">49€<span>/mes</span></div>
-      <ul>
-        <li>Todo en Starter</li>
-        <li>Mentorías grupales</li>
-        <li>Recursos premium</li>
-        <li>Networking avanzado</li>
-        <li>Acceso prioritario</li>
-      </ul>
-      <br>
-      <button class="btn">Elegir plan</button>
-    </div>
-
-    <div class="card plan">
-      <h3>Elite</h3>
-      <p>Para escalar rápido</p>
-      <div class="price">99€<span>/mes</span></div>
-      <ul>
-        <li>Todo en Pro</li>
-        <li>Mastermind privado</li>
-        <li>Consultoría estratégica</li>
-        <li>Revisión de ventas y producto</li>
-      </ul>
-      <br>
-      <button class="btn">Elegir plan</button>
-    </div>
-  </div>
-</section>
-
-<section id="comunidad" class="container cta">
-  <h2>No compres más cursos. Entra en el ecosistema.</h2>
+  <h1>Ayudamos a empresarios a tomar mejores decisiones de inversión</h1>
   <p>
-    Vincle.Pro está diseñado para personas que quieren resultados, foco y relaciones estratégicas.
-    Aquí no vienes a consumir contenido: vienes a construir.
+    Analizamos diariamente los mejores periódicos económicos de España y del mundo para resumir la información realmente importante.
+    Detectamos señales macroeconómicas positivas o negativas y mostramos qué negocios, sectores y sistemas son más recomendables para invertir.
   </p>
 
-  <button class="btn">Acceder a la membresía</button>
+  <div class="status">
+    <div class="status-card">
+      <div>Clima económico actual</div>
+      <div class="status-value">POSITIVO</div>
+      <small>Actualizado hoy</small>
+    </div>
+
+    <div class="status-card">
+      <div>Sector más fuerte</div>
+      <div class="status-value">IA + SaaS</div>
+      <small>Alta rentabilidad proyectada</small>
+    </div>
+
+    <div class="status-card">
+      <div>Riesgo actual</div>
+      <div class="status-value">MEDIO</div>
+      <small>Inflación y tipos de interés</small>
+    </div>
+  </div>
+</section>
+
+<section class="container">
+  <h2>Noticias resumidas al instante</h2>
+  <p class="subtitle">
+    Integración con periódicos reales mediante APIs, RSS y sistemas automáticos de análisis diario.
+  </p>
+
+  <div class="grid">
+    <div class="news-panel">
+      <div class="tag">Top 15 España</div>
+      <h3>Prensa económica española</h3>
+
+      <div class="news-list">
+        <div class="news-item">
+          <h4>El BCE mantiene vigilancia sobre inflación persistente</h4>
+          <p>Impacto: prudencia en inversión inmobiliaria y financiación empresarial.</p>
+        </div>
+
+        <div class="news-item">
+          <h4>Mayor inversión en automatización industrial en España</h4>
+          <p>Impacto: oportunidades fuertes en software B2B y servicios de eficiencia.</p>
+        </div>
+
+        <div class="news-item">
+          <h4>El turismo premium sigue acelerando márgenes</h4>
+          <p>Impacto: sectores hospitality y lujo muestran señales positivas.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="news-panel">
+      <div class="tag">Top 15 Global</div>
+      <h3>Prensa financiera mundial</h3>
+
+      <div class="news-list">
+        <div class="news-item">
+          <h4>Nasdaq impulsa nuevas rondas en empresas de IA</h4>
+          <p>Impacto: expansión de capital hacia tecnología de productividad.</p>
+        </div>
+
+        <div class="news-item">
+          <h4>Fondos privados aumentan compras en infraestructuras</h4>
+          <p>Impacto: señales fuertes en energía, logística y digitalización.</p>
+        </div>
+
+        <div class="news-item">
+          <h4>Descenso moderado en presión de tipos de interés</h4>
+          <p>Impacto: mejora en financiación y expansión de empresas medianas.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container">
+  <h2>Fuentes conectadas</h2>
+  <p class="subtitle">Estas fuentes se conectarán en tiempo real mediante agregadores y APIs de noticias.</p>
+
+  <div class="sources">
+    <div class="source-card"><h4>Expansión</h4><small>España</small></div>
+    <div class="source-card"><h4>Cinco Días</h4><small>España</small></div>
+    <div class="source-card"><h4>El Economista</h4><small>España</small></div>
+    <div class="source-card"><h4>Financial Times</h4><small>Global</small></div>
+    <div class="source-card"><h4>Bloomberg</h4><small>Global</small></div>
+    <div class="source-card"><h4>Wall Street Journal</h4><small>Global</small></div>
+  </div>
+</section>
+
+<section class="container">
+  <h2>Motor de decisión de inversión</h2>
+  <p class="subtitle">
+    El sistema clasifica automáticamente el entorno económico como positivo, neutro o negativo y recomienda los negocios más sólidos.
+  </p>
+
+  <div class="news-panel">
+    <h3>Ejemplo de recomendación automática</h3>
+    <div class="news-list">
+      <div class="news-item">
+        <h4>Recomendado ahora: SaaS B2B con IA</h4>
+        <p>Alta demanda + baja fricción + márgenes altos + escalabilidad internacional.</p>
+      </div>
+      <div class="news-item">
+        <h4>Evitar temporalmente: retail físico intensivo</h4>
+        <p>Presión operativa alta y menor previsibilidad de márgenes.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
 <footer>
-  © 2026 Vincle.Pro — Comunidad premium para emprendedores y programadores
+  © 2026 MacroSignal — Inteligencia económica para empresarios e inversores
 </footer>
 
 </body>
