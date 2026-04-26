@@ -5,436 +5,382 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>VINCLE — Conversación anónima</title>
   <style>
-    :root {
-      --bg: #0f1720;
-      --card: #0b1220;
-      --accent: #60a5fa;
-      --accent-hover: #3b82f6;
-      --muted: #94a3b8;
-      --bubble: #111827;
-      --bubble-other: #1e293b;
-      --glass: rgba(255,255,255,0.03);
-      --border: rgba(255,255,255,0.05);
-      color-scheme: dark;
-    }
-
-    * { 
-      box-sizing: border-box; 
-      margin: 0; 
-      padding: 0; 
-    }
-
-    html, body {
-      height: 100%;
+    /* ----- RESET & GLOBAL (estilo Google / Material Design) ----- */
+    * {
       margin: 0;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-      overflow: hidden;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      background: linear-gradient(135deg, #071028 0%, #0a1426 100%);
+      font-family: 'Google Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: #f8fafd;
+      color: #1e293b;
+      height: 100vh;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0;
-      position: relative;
+      flex-direction: column;
+      overflow: hidden;
+      line-height: 1.5;
     }
 
-    /* Fondo con patrón sutil */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: 
-        radial-gradient(circle at 20% 80%, rgba(96, 165, 250, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.03) 0%, transparent 50%);
-      z-index: -1;
-    }
-
-    /* === HEADER === */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 60px;
-      background: rgba(11, 18, 32, 0.95);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
+    /* Header estilo Google */
+    .app-header {
+      background: #ffffff;
+      backdrop-filter: none;
+      border-bottom: 1px solid #e9edf2;
+      height: 64px;
+      padding: 0 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 24px;
-      z-index: 1000;
-      color: #e6eef8;
-      transition: all 0.3s ease;
+      flex-shrink: 0;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03), 0 1px 6px -1px rgba(0,0,0,0.02);
+      z-index: 10;
     }
 
-    header:hover {
-      background: rgba(11, 18, 32, 0.98);
-    }
-
-    .header-brand {
+    .brand {
       display: flex;
       align-items: center;
       gap: 12px;
       text-decoration: none;
+      color: #1e293b;
     }
 
-    .logo {
+    .logo-icon {
+      background: #1a73e8;
+      border-radius: 12px;
       width: 36px;
       height: 36px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--accent), #7dd3fc);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 700;
-      color: #021;
-      box-shadow: 0 4px 15px rgba(96, 165, 250, 0.3);
-      transition: transform 0.3s ease;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
     }
 
-    .logo:hover {
-      transform: scale(1.05);
+    .logo-icon svg {
+      width: 22px;
+      height: 22px;
+      fill: white;
     }
 
-    .header-title {
-      font-size: 18px;
-      font-weight: 600;
-      letter-spacing: -0.01em;
+    .brand-text {
+      font-weight: 500;
+      font-size: 22px;
+      letter-spacing: -0.2px;
+      background: linear-gradient(135deg, #1a73e8, #0d47a1);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
     }
 
-    .header-subtitle {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 2px;
+    .header-badge {
+      background: #eef2f6;
+      border-radius: 40px;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #1e293b;
     }
 
     .header-actions {
       display: flex;
-      align-items: center;
       gap: 12px;
     }
 
     .header-btn {
+      background: transparent;
+      border: none;
       padding: 8px 16px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.03);
-      color: var(--muted);
-      cursor: pointer;
-      font-size: 14px;
+      border-radius: 24px;
       font-weight: 500;
-      transition: all 0.2s ease;
+      font-size: 14px;
+      color: #1a73e8;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
     }
 
     .header-btn:hover {
-      background: rgba(255,255,255,0.06);
-      color: #e6eef8;
-      border-color: rgba(255,255,255,0.1);
+      background: #e8f0fe;
     }
 
-    .header-btn.accent {
-      background: var(--accent);
-      color: #021;
-      border: none;
+    .header-btn.primary {
+      background: #1a73e8;
+      color: white;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
     }
 
-    .header-btn.accent:hover {
-      background: var(--accent-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
+    .header-btn.primary:hover {
+      background: #1765cc;
     }
 
-    /* === APP CONTAINER === */
-    .app-container {
-      width: 100%;
-      max-width: 1200px;
-      height: calc(100dvh - 60px);
-      margin-top: 60px;
-      padding: 24px;
-      display: grid;
-      grid-template-columns: 320px 1fr;
+    /* Layout principal (2 columnas estilo Google Chat) */
+    .main-layout {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      padding: 20px 24px 24px 24px;
       gap: 24px;
-      position: relative;
     }
 
-    /* === PANEL LATERAL === */
+    /* Panel lateral (carta elevada) */
     .side-panel {
-      background: rgba(11, 18, 32, 0.8);
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      padding: 24px;
-      height: 100%;
+      width: 340px;
+      flex-shrink: 0;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03), 0 8px 20px -4px rgba(0,0,0,0.08);
       display: flex;
       flex-direction: column;
-      overflow: hidden;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-      transition: all 0.3s ease;
+      overflow-y: auto;
+      padding: 24px;
+      border: 1px solid #eff3f8;
     }
 
-    .side-panel:hover {
-      border-color: rgba(255,255,255,0.08);
+    /* Scroll elegante */
+    .side-panel::-webkit-scrollbar, .chat-messages::-webkit-scrollbar {
+      width: 6px;
     }
 
+    .side-panel::-webkit-scrollbar-track, .chat-messages::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    .side-panel::-webkit-scrollbar-thumb, .chat-messages::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+
+    /* Secciones dentro del panel */
     .panel-section {
-      margin-bottom: 24px;
-    }
-
-    .panel-section:last-of-type {
-      margin-bottom: 0;
-      margin-top: auto;
+      margin-bottom: 32px;
     }
 
     .section-title {
       font-size: 14px;
-      color: var(--muted);
-      margin-bottom: 12px;
-      font-weight: 500;
-      letter-spacing: 0.02em;
+      font-weight: 600;
       text-transform: uppercase;
-    }
-
-    .room-controls {
-      background: var(--glass);
-      border-radius: 12px;
-      padding: 18px;
-      border: 1px solid var(--border);
-    }
-
-    .input-group {
+      letter-spacing: 0.5px;
+      color: #5f6b7a;
       margin-bottom: 16px;
     }
 
-    .input-label {
-      display: block;
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-
-    .styled-input {
-      width: 100%;
-      padding: 12px 16px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.02);
-      color: #e6eef8;
-      font-size: 15px;
-      transition: all 0.2s ease;
-    }
-
-    .styled-input:focus {
-      outline: none;
-      border-color: var(--accent);
-      background: rgba(255,255,255,0.03);
-      box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
-    }
-
-    .styled-input::placeholder {
-      color: rgba(148, 163, 184, 0.4);
-    }
-
-    .button-group {
-      display: flex;
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .btn-primary {
-      flex: 1;
-      padding: 12px;
-      border-radius: 10px;
-      border: none;
-      background: var(--accent);
-      color: #021;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-size: 14px;
-    }
-
-    .btn-primary:hover {
-      background: var(--accent-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
-    }
-
-    .btn-secondary {
-      padding: 12px 20px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--muted);
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-size: 14px;
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255,255,255,0.03);
-      color: #e6eef8;
-      border-color: rgba(255,255,255,0.1);
-    }
-
-    .identity-badge {
+    /* Identidad card */
+    .identity-card {
+      background: #f9fafc;
+      border-radius: 20px;
+      padding: 16px;
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 14px;
-      background: var(--glass);
-      border-radius: 12px;
-      border: 1px solid var(--border);
+      gap: 14px;
+      border: 1px solid #edf2f7;
     }
 
-    .emoji-large {
-      font-size: 24px;
-      width: 44px;
-      height: 44px;
+    .identity-avatar {
+      width: 52px;
+      height: 52px;
+      background: white;
+      border-radius: 28px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(255,255,255,0.03);
-      border-radius: 10px;
+      font-size: 28px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
     }
 
     .color-dot {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      border: 2px solid rgba(255,255,255,0.1);
+      width: 16px;
+      height: 16px;
+      border-radius: 16px;
+      border: 2px solid white;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
     }
 
-    .identity-info {
+    .identity-details {
       flex: 1;
     }
 
     .identity-name {
       font-weight: 600;
       font-size: 16px;
-      color: #e6eef8;
     }
 
     .identity-sub {
       font-size: 12px;
-      color: var(--muted);
-      margin-top: 2px;
+      color: #5f6b7a;
     }
 
-    /* === CHAT CONTAINER === */
-    .chat-container {
-      background: rgba(11, 18, 32, 0.8);
-      backdrop-filter: blur(10px);
+    /* Inputs estilo material */
+    .material-input {
+      width: 100%;
+      padding: 12px 14px;
       border-radius: 16px;
-      border: 1px solid var(--border);
+      border: 1px solid #dce3ec;
+      background: white;
+      font-size: 14px;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .material-input:focus {
+      outline: none;
+      border-color: #1a73e8;
+      box-shadow: 0 0 0 3px rgba(26,115,232,0.1);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .btn-primary {
+      background: #1a73e8;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 40px;
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.2s;
+      flex: 1;
+    }
+
+    .btn-primary:hover {
+      background: #1765cc;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .btn-secondary {
+      background: white;
+      border: 1px solid #dce3ec;
+      padding: 10px 18px;
+      border-radius: 40px;
+      font-weight: 500;
+      font-size: 14px;
+      color: #1e293b;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: #f8fafd;
+      border-color: #cbd5e1;
+    }
+
+    .action-stack {
       display: flex;
       flex-direction: column;
-      height: 100%;
+      gap: 12px;
+    }
+
+    .stats-footer {
+      margin-top: auto;
+      padding-top: 20px;
+      border-top: 1px solid #edf2f7;
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #5f6b7a;
+    }
+
+    /* CHAT container (carta principal) */
+    .chat-window {
+      flex: 1;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03), 0 8px 20px -4px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
       overflow: hidden;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      border: 1px solid #eff3f8;
     }
 
     .chat-header {
       padding: 20px 24px;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid #eff3f8;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-shrink: 0;
     }
 
-    .room-info {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+    .room-badge {
+      background: #eef2ff;
+      border-radius: 32px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #1a73e8;
     }
 
-    .room-name {
-      font-weight: 600;
-      font-size: 18px;
-      color: #e6eef8;
+    .room-id-copy {
       display: flex;
       align-items: center;
       gap: 8px;
-    }
-
-    .room-id {
+      background: #f8fafc;
+      padding: 6px 14px;
+      border-radius: 32px;
       font-size: 13px;
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      color: #2c3e50;
     }
 
     .copy-icon {
       cursor: pointer;
+      font-size: 14px;
       opacity: 0.6;
-      transition: opacity 0.2s ease;
+      transition: opacity 0.2s;
     }
 
     .copy-icon:hover {
       opacity: 1;
     }
 
-    .room-meta {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 4px;
-    }
-
-    .expiry-info {
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .online-count {
-      font-size: 12px;
-      color: #10b981;
+    .online-badge {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 8px;
+      font-size: 13px;
+      background: #eef2ff;
+      padding: 6px 14px;
+      border-radius: 32px;
+      color: #1e293b;
     }
 
-    /* === MESSAGES AREA === */
-    .messages-area {
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: #0f9d58;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    /* Mensajes */
+    .chat-messages {
       flex: 1;
-      padding: 24px;
       overflow-y: auto;
+      padding: 24px;
       display: flex;
       flex-direction: column;
       gap: 16px;
-      background: linear-gradient(180deg, 
-        rgba(255,255,255,0.01) 0%,
-        transparent 30%,
-        transparent 100%);
-      scroll-behavior: smooth;
+      background: #ffffff;
     }
 
-    .message-bubble {
-      max-width: 75%;
-      padding: 16px 20px;
-      border-radius: 18px;
-      position: relative;
-      line-height: 1.5;
-      word-break: break-word;
-      animation: messageAppear 0.3s ease-out;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    .message {
+      max-width: 70%;
+      display: flex;
+      flex-direction: column;
+      animation: fadeUp 0.25s ease;
     }
 
-    @keyframes messageAppear {
+    @keyframes fadeUp {
       from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(8px);
       }
       to {
         opacity: 1;
@@ -442,413 +388,267 @@
       }
     }
 
-    .message-bubble.other {
-      align-self: flex-start;
-      background: var(--bubble-other);
-      border-bottom-left-radius: 6px;
+    .message.mine {
+      align-self: flex-end;
     }
 
-    .message-bubble.mine {
-      align-self: flex-end;
-      background: linear-gradient(135deg, var(--accent), #7dd3fc);
-      color: #021;
+    .message.other {
+      align-self: flex-start;
+    }
+
+    .message-bubble {
+      border-radius: 24px;
+      padding: 12px 18px;
+      background: #f1f5f9;
+      color: #0f172a;
+      width: fit-content;
+      max-width: 100%;
+      word-wrap: break-word;
+    }
+
+    .message.mine .message-bubble {
+      background: #1a73e8;
+      color: white;
       border-bottom-right-radius: 6px;
+    }
+
+    .message.other .message-bubble {
+      background: #f1f5f9;
+      border-bottom-left-radius: 6px;
     }
 
     .message-sender {
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 8px;
-    }
-
-    .sender-emoji {
-      font-size: 16px;
-    }
-
-    .sender-name {
-      font-weight: 600;
-      font-size: 14px;
-    }
-
-    .message-text {
-      font-size: 15px;
-      line-height: 1.5;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 6px;
     }
 
     .message-time {
       font-size: 11px;
       opacity: 0.7;
-      margin-top: 8px;
+      margin-top: 6px;
       text-align: right;
     }
 
-    /* === MESSAGE COMPOSER === */
-    .message-composer {
-      padding: 20px 24px;
-      border-top: 1px solid var(--border);
+    .mine .message-time {
+      color: rgba(255,255,255,0.8);
+    }
+
+    /* Composer */
+    .composer-area {
+      padding: 16px 24px 24px;
+      border-top: 1px solid #eff3f8;
+      background: white;
       display: flex;
       gap: 12px;
-      align-items: center;
-      flex-shrink: 0;
-      background: rgba(11, 18, 32, 0.9);
+      align-items: flex-end;
     }
 
     .composer-input {
       flex: 1;
-      padding: 14px 18px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.02);
-      color: #e6eef8;
-      font-size: 15px;
+      border: 1px solid #dce3ec;
+      border-radius: 28px;
+      padding: 12px 20px;
+      font-size: 14px;
       resize: none;
-      min-height: 48px;
-      max-height: 120px;
-      line-height: 1.5;
-      transition: all 0.2s ease;
+      max-height: 100px;
+      font-family: inherit;
+      transition: 0.2s;
     }
 
     .composer-input:focus {
       outline: none;
-      border-color: var(--accent);
-      background: rgba(255,255,255,0.03);
-      box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+      border-color: #1a73e8;
+      box-shadow: 0 0 0 3px rgba(26,115,232,0.1);
     }
 
     .send-button {
-      padding: 14px 24px;
-      border-radius: 12px;
+      background: #1a73e8;
+      color: white;
       border: none;
-      background: var(--accent);
-      color: #021;
-      font-weight: 600;
+      border-radius: 40px;
+      padding: 10px 24px;
+      font-weight: 500;
       cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      min-width: 100px;
-      justify-content: center;
-    }
-
-    .send-button:hover:not(:disabled) {
-      background: var(--accent-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
-    }
-
-    .send-button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    /* === STATS BAR === */
-    .stats-bar {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 12px 24px;
-      border-top: 1px solid var(--border);
-      background: rgba(11, 18, 32, 0.9);
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .stat-item {
+      transition: 0.2s;
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
-    /* === MOBILE PANEL (oculto en desktop) === */
-    .mobile-panel {
-      display: none;
+    .send-button:hover {
+      background: #1765cc;
     }
 
-    /* === RESPONSIVE === */
-    @media (max-width: 1024px) {
-      .app-container {
-        grid-template-columns: 1fr;
-        padding: 16px;
-        gap: 16px;
-      }
-      
-      .side-panel {
-        display: none;
-      }
-      
-      .header-btn span {
-        display: none;
-      }
-      
-      .mobile-panel {
-        display: block;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .app-container {
-        height: calc(100dvh - 60px);
-        padding: 0;
-        border-radius: 0;
-      }
-      
-      .chat-container {
-        border-radius: 0;
-        border: none;
-      }
-      
-      .message-bubble {
-        max-width: 85%;
-      }
-      
-      .messages-area {
-        padding: 16px;
-      }
-      
-      .message-composer {
-        padding: 16px;
-      }
-    }
-
-    /* === UTILITY CLASSES === */
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #10b981;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-
-    .badge {
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-size: 11px;
-      font-weight: 500;
-      background: rgba(96, 165, 250, 0.1);
-      color: var(--accent);
-    }
-
-    .divider {
-      height: 1px;
-      background: var(--border);
-      margin: 16px 0;
-    }
-
-    /* === SCROLLBAR STYLING === */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: rgba(255,255,255,0.02);
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.1);
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(255,255,255,0.2);
-    }
-
-    /* === TYPING INDICATOR === */
+    /* Typing indicator */
     .typing-indicator {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      padding: 12px 20px;
-      background: var(--bubble-other);
-      border-radius: 18px;
-      align-self: flex-start;
+      background: #f1f5f9;
       width: fit-content;
-      margin-left: 12px;
+      padding: 10px 18px;
+      border-radius: 24px;
+      display: flex;
+      gap: 4px;
+      margin-left: 24px;
+      margin-bottom: 8px;
     }
 
     .typing-dot {
       width: 6px;
       height: 6px;
+      background: #64748b;
       border-radius: 50%;
-      background: var(--muted);
-      animation: typing 1.4s infinite ease-in-out;
+      animation: blink 1.2s infinite;
     }
 
-    .typing-dot:nth-child(1) { animation-delay: -0.32s; }
-    .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
 
-    @keyframes typing {
-      0%, 80%, 100% { transform: scale(0.6); opacity: 0.6; }
-      40% { transform: scale(1); opacity: 1; }
+    @keyframes blink {
+      0%, 60%, 100% { opacity: 0.3; transform: scale(0.8);}
+      30% { opacity: 1; transform: scale(1);}
+    }
+
+    /* Responsive */
+    @media (max-width: 820px) {
+      .main-layout {
+        padding: 12px;
+        gap: 12px;
+      }
+      .side-panel {
+        display: none;
+      }
+      .message {
+        max-width: 85%;
+      }
+      .app-header {
+        padding: 0 16px;
+      }
+      .header-btn span:first-child {
+        display: none;
+      }
+    }
+
+    /* Tooltip / microinteracciones */
+    .badge-small {
+      background: #eef2ff;
+      border-radius: 40px;
+      font-size: 12px;
+      padding: 2px 10px;
+    }
+
+    button:active {
+      transform: scale(0.97);
     }
   </style>
 </head>
 <body>
 
-<header>
-  <a href="#" class="header-brand">
-    <div class="logo">
-      <svg viewBox="0 0 48 48" width="24" height="24" fill="#021">
-        <circle cx="24" cy="24" r="8" />
-        <path d="M24 12C24 12 30 18 30 24C30 30 24 36 24 36" fill="none" stroke="#021" stroke-width="2"/>
-        <path d="M24 12C24 12 18 18 18 24C18 30 24 36 24 36" fill="none" stroke="#021" stroke-width="2"/>
+<header class="app-header">
+  <div class="brand">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="white">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 13c-2.33 0-4.31-1.46-5.11-3.5h10.22c-.8 2.04-2.78 3.5-5.11 3.5z"/>
       </svg>
     </div>
-    <div>
-      <div class="header-title">VINCLE</div>
-      <div class="header-subtitle">Chat anónimo • Sin registro</div>
-    </div>
-  </a>
-  
+    <span class="brand-text">VINCLE</span>
+    <span class="header-badge">anónimo · sin registro</span>
+  </div>
   <div class="header-actions">
-    <button id="roomInfoBtn" class="header-btn">
-      <span>💬</span>
-      <span>Sala activa</span>
-    </button>
-    <button id="newRoomBtn" class="header-btn accent">
-      <span>✨</span>
-      <span>Nueva sala</span>
-    </button>
+    <button id="roomInfoBtn" class="header-btn">💬 Sala activa</button>
+    <button id="newRoomBtn" class="header-btn primary">✨ Nueva sala</button>
   </div>
 </header>
 
-<div class="app-container">
-  <!-- Panel lateral para desktop -->
+<div class="main-layout">
+  <!-- PANEL LATERAL (professional Google style) -->
   <aside class="side-panel">
     <div class="panel-section">
-      <h3 class="section-title">Tu identidad</h3>
-      <div class="identity-badge">
-        <div class="emoji-large" id="myEmoji">🔷</div>
+      <div class="section-title">Tu identidad</div>
+      <div class="identity-card">
+        <div class="identity-avatar" id="myEmoji">🔷</div>
         <div class="color-dot" id="myColor"></div>
-        <div class="identity-info">
+        <div class="identity-details">
           <div class="identity-name" id="anonLabel">Anónimo</div>
-          <div class="identity-sub">Color y emoji únicos</div>
+          <div class="identity-sub">color + emoji únicos</div>
         </div>
       </div>
     </div>
 
     <div class="panel-section">
-      <h3 class="section-title">Gestionar sala</h3>
-      <div class="room-controls">
-        <div class="input-group">
-          <label class="input-label">ID de sala</label>
-          <input type="text" 
-                 id="roomInput" 
-                 class="styled-input" 
-                 placeholder="Introduce ID o genera uno" 
-                 spellcheck="false" />
-        </div>
-        <div class="button-group">
-          <button id="createBtn" class="btn-primary">Unirse/Crear</button>
+      <div class="section-title">Gestionar sala</div>
+      <div>
+        <input type="text" id="roomInput" class="material-input" placeholder="ID de sala o crea nueva" spellcheck="false">
+        <div class="btn-group">
+          <button id="createBtn" class="btn-primary">Unirse / Crear</button>
           <button id="copyBtn" class="btn-secondary">Copiar enlace</button>
         </div>
-        <div style="font-size: 12px; color: var(--muted); margin-top: 12px; line-height: 1.4;">
-          Comparte el enlace con quien quieras. Los mensajes se borran automáticamente después de 24 horas.
+        <div style="font-size:12px; color:#5f6b7a; margin-top: 14px;">
+          Comparte el enlace 📎 Los mensajes se borran tras 24h.
         </div>
       </div>
     </div>
 
-    <div class="divider"></div>
-
     <div class="panel-section">
-      <h3 class="section-title">Acciones rápidas</h3>
-      <div style="display: flex; flex-direction: column; gap: 8px;">
-        <button id="clearChatBtn" class="btn-secondary">
-          <span>🗑️</span> Limpiar chat local
-        </button>
-        <button id="randomRoomBtn" class="btn-secondary">
-          <span>🎲</span> Sala aleatoria
-        </button>
-        <button id="shareRoomBtn" class="btn-secondary">
-          <span>📤</span> Compartir sala
-        </button>
+      <div class="section-title">Acciones rápidas</div>
+      <div class="action-stack">
+        <button id="clearChatBtn" class="btn-secondary">🗑️ Limpiar chat local</button>
+        <button id="randomRoomBtn" class="btn-secondary">🎲 Sala aleatoria</button>
+        <button id="shareRoomBtn" class="btn-secondary">📤 Compartir sala</button>
       </div>
     </div>
 
-    <div class="panel-section">
-      <div class="stats-bar">
-        <div class="stat-item">
-          <span>🕒</span>
-          <span>Expira en <span id="expiryLabel">24h</span></span>
-        </div>
-        <div class="stat-item">
-          <span>👤</span>
-          <span id="onlineCount">1 en línea</span>
-        </div>
-      </div>
+    <div class="stats-footer">
+      <span>🕒 expira <span id="expiryLabel">24h</span></span>
+      <span>👤 <span id="onlineCount">1</span> en línea</span>
     </div>
   </aside>
 
-  <!-- Área principal del chat -->
-  <main class="chat-container">
+  <!-- CHAT PRINCIPAL -->
+  <main class="chat-window">
     <div class="chat-header">
-      <div class="room-info">
-        <div class="room-name">
-          <span>Sala:</span>
-          <span id="roomTitle">Cargando...</span>
-          <span class="badge" id="roomPrivacy">Público</span>
-        </div>
-        <div class="room-id">
-          <span>ID: <span id="roomIdText">-</span></span>
-          <span class="copy-icon" id="copyRoomIdBtn" title="Copiar ID">📋</span>
+      <div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span class="room-badge" id="roomTitle">Sala</span>
+          <div class="room-id-copy">
+            <span id="roomIdText">---</span>
+            <span class="copy-icon" id="copyRoomIdBtn" title="Copiar ID">📋</span>
+          </div>
         </div>
       </div>
-      
-      <div class="room-meta">
-        <div class="expiry-info">
-          Mensajes expiran en <span id="expiryTimer">24h</span>
-        </div>
-        <div class="online-count">
-          <span class="status-dot"></span>
-          <span id="liveUsers">1</span> en línea
+      <div class="online-badge">
+        <span class="status-dot"></span>
+        <span id="liveUsers">1</span> conectados
+      </div>
+    </div>
+
+    <div class="chat-messages" id="messages">
+      <div class="message other">
+        <div class="message-bubble">
+          <div class="message-sender">
+            <span>👋</span> <strong>Sistema</strong>
+          </div>
+          <div>Bienvenido a VINCLE. Tu identidad es anónima. Mensajes con expiración 24h.</div>
+          <div class="message-time">Ahora</div>
         </div>
       </div>
     </div>
 
-    <div class="messages-area" id="messages">
-      <!-- Mensajes se cargan aquí -->
-      <div class="message-bubble other">
-        <div class="message-sender">
-          <span class="sender-emoji">👋</span>
-          <span class="sender-name">Sistema</span>
-        </div>
-        <div class="message-text">
-          Bienvenido a VINCLE. Tu identidad es anónima. Los mensajes se borran automáticamente después de 24 horas.
-        </div>
-        <div class="message-time">Ahora</div>
-      </div>
-    </div>
-
-    <div class="message-composer">
-      <textarea 
-        id="textInput" 
-        class="composer-input" 
-        placeholder="Escribe tu mensaje aquí (Enter para enviar, Shift+Enter para nueva línea)..." 
-        rows="1"
-        spellcheck="true"></textarea>
-      <button id="sendBtn" class="send-button">
-        <span>Enviar</span>
-        <span>↗</span>
-      </button>
+    <div class="composer-area">
+      <textarea id="textInput" class="composer-input" rows="1" placeholder="Escribe un mensaje... (Enter para enviar)"></textarea>
+      <button id="sendBtn" class="send-button">Enviar ↗</button>
     </div>
   </main>
 </div>
 
-<!-- Mobile panel (oculto en desktop) -->
-<div class="mobile-panel" id="mobilePanel">
-  <!-- Contenido móvil aquí -->
-</div>
-
+<!-- Firebase libraries -->
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
 <script>
+  // Configuración de Firebase (misma credencial original)
   const firebaseConfig = {
     apiKey: "AIzaSyXMvncuf1Jhux5dVzDJ_VQe3cw3tIntt",
     authDomain: "vincle-e76dd.firebaseapp.com",
@@ -859,19 +659,27 @@
     appId: "1:11807936515:web:ff67d9da38e956ff62cee6"
   };
   
-  // Inicializar Firebase
   firebase.initializeApp(firebaseConfig);
   const database = firebase.database();
 
-  // Constantes
   const MESSAGE_EXPIRY_HOURS = 24;
   
-  // Obtener parámetros de URL
+  // URL y storage
   const urlParams = new URLSearchParams(window.location.search);
   const ROOM_PARAM = urlParams.get('room');
   const DEFAULT_ROOM = ROOM_PARAM || localStorage.getItem('vincle_room') || generateRandomId(7);
 
-  // Elementos DOM
+  // ---- Identidad (misma lógica robusta) ----
+  const COLORS = ['#1a73e8', '#0f9d58', '#f9ab00', '#ea4335', '#a142f4', '#00bcd4', '#ff6d00'];
+  const EMOJIS = ['🔷','🔶','💎','🐧','🌊','🍃','⚡','✨','🎧','📘','🧩','🎨'];
+  const pickRandom = arr => arr[Math.floor(Math.random() * arr.length)];
+  
+  const sessionColor = sessionStorage.getItem('vincle_color') || pickRandom(COLORS);
+  const sessionEmoji = sessionStorage.getItem('vincle_emoji') || pickRandom(EMOJIS);
+  sessionStorage.setItem('vincle_color', sessionColor);
+  sessionStorage.setItem('vincle_emoji', sessionEmoji);
+  
+  // DOM elements
   const q = id => document.getElementById(id);
   const roomInput = q('roomInput');
   const createBtn = q('createBtn');
@@ -886,72 +694,39 @@
   const clearChatBtn = q('clearChatBtn');
   const randomRoomBtn = q('randomRoomBtn');
   const expiryLabel = q('expiryLabel');
-  const expiryTimer = q('expiryTimer');
+  const copyRoomIdBtn = q('copyRoomIdBtn');
+  const newRoomBtn = q('newRoomBtn');
+  const roomInfoBtn = q('roomInfoBtn');
+  const shareRoomBtn = q('shareRoomBtn');
+  const liveUsersSpan = q('liveUsers');
+  const onlineCountSpan = q('onlineCount');
 
-  // Configuración de identidad (mismo que antes)
-  const COLORS = ['#f97316','#fb7185','#60a5fa','#34d399','#f59e0b','#a78bfa','#ef4444'];
-  const EMOJIS = ['🔷','🔶','🔺','🔵','🟣','🟢','🌿','✨','⚡','🌙','☀️','🔥'];
-  
-  const pickRandom = array => array[Math.floor(Math.random() * array.length)];
-  
-  const sessionColor = sessionStorage.getItem('vincle_color') || pickRandom(COLORS);
-  const sessionEmoji = sessionStorage.getItem('vincle_emoji') || pickRandom(EMOJIS);
-  
-  // Guardar en sessionStorage
-  sessionStorage.setItem('vincle_color', sessionColor);
-  sessionStorage.setItem('vincle_emoji', sessionEmoji);
-  
-  // Actualizar UI de identidad
   myColorEl.style.background = sessionColor;
   myEmojiEl.textContent = sessionEmoji;
 
-  // Estado de la sala
   let currentRoom = DEFAULT_ROOM;
+  let presenceRef = null;
+  let userPresenceKey = null;
 
-  // Generar ID aleatorio
-  function generateRandomId(length) {
+  function generateRandomId(length = 7) {
     const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
-    for (let i = 0; i < length; i++) {
-      result += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
+    for (let i = 0; i < length; i++) result += chars.charAt(Math.floor(Math.random() * chars.length));
     return result;
   }
 
-  // Establecer sala
-  function setRoom(roomId) {
-    currentRoom = roomId;
-    
-    // Actualizar UI
-    roomTitle.textContent = `Sala — ${roomId}`;
-    roomIdText.textContent = roomId;
-    roomInput.value = roomId;
-    
-    // Actualizar URL
-    const url = new URL(window.location);
-    url.searchParams.set('room', roomId);
-    window.history.replaceState({}, '', url);
-    
-    // Guardar en localStorage
-    localStorage.setItem('vincle_room', roomId);
-    
-    // Actualizar contadores
-    expiryLabel.textContent = MESSAGE_EXPIRY_HOURS + "h";
-    expiryTimer.textContent = MESSAGE_EXPIRY_HOURS + "h";
-    
-    // Escuchar mensajes
-    listenToMessages();
-  }
-
-  // Obtener referencia a la base de datos (USANDO LA ESTRUCTURA ORIGINAL)
+  // Obtener referencia mensajes
   function getMessagesRef() {
     return database.ref('rooms/' + currentRoom + '/messages');
   }
 
-  // Enviar mensaje (USANDO LA ESTRUCTURA ORIGINAL)
+  function getPresenceRef() {
+    return database.ref('rooms/' + currentRoom + '/presence');
+  }
+
+  // Enviar mensaje
   function sendMessage(text) {
     if (!text.trim()) return;
-    
     const now = Date.now();
     const messageData = {
       text: text.trim(),
@@ -960,209 +735,179 @@
       ts: now,
       expiry: now + (MESSAGE_EXPIRY_HOURS * 3600000)
     };
-    
     getMessagesRef().push(messageData);
     textInput.value = '';
+    adjustTextareaHeight();
+  }
+
+  function adjustTextareaHeight() {
     textInput.style.height = 'auto';
+    textInput.style.height = (textInput.scrollHeight) + 'px';
   }
 
-  // Crear burbuja de mensaje (USANDO LA ESTRUCTURA ORIGINAL)
-  function createMessageBubble(message, isMine) {
-    const bubble = document.createElement('div');
-    bubble.className = `message-bubble ${isMine ? 'mine' : 'other'}`;
-    
-    // Formatear fecha
-    const messageDate = new Date(message.ts || Date.now());
-    const timeString = formatTime(messageDate);
-    
-    bubble.innerHTML = `
-      <div class="message-sender">
-        <span class="sender-emoji">${message.emoji || '👤'}</span>
-        <span class="sender-name">${isMine ? 'Tú' : 'Anónimo'}</span>
-      </div>
-      <div class="message-text">${escapeHtml(message.text)}</div>
-      <div class="message-time">${timeString}</div>
-    `;
-    
-    return bubble;
-  }
-
-  // Escuchar mensajes (USANDO LA ESTRUCTURA ORIGINAL)
-  function listenToMessages() {
-    // Limpiar mensajes existentes
-    messagesEl.innerHTML = '';
-    
-    // Añadir mensaje de bienvenida
-    const welcomeBubble = document.createElement('div');
-    welcomeBubble.className = 'message-bubble other';
-    welcomeBubble.innerHTML = `
-      <div class="message-sender">
-        <span class="sender-emoji">👋</span>
-        <span class="sender-name">Sistema</span>
-      </div>
-      <div class="message-text">
-        Bienvenido a la sala <strong>${currentRoom}</strong>. Tu identidad es anónima. 
-        Los mensajes se borran automáticamente después de ${MESSAGE_EXPIRY_HOURS} horas.
-      </div>
-      <div class="message-time">Ahora</div>
-    `;
-    messagesEl.appendChild(welcomeBubble);
-    
-    // Escuchar nuevos mensajes
-    getMessagesRef()
-      .limitToLast(100)
-      .on('child_added', (snapshot) => {
-        const message = snapshot.val();
-        if (!message) return;
-        
-        // Verificar si el mensaje ha expirado
-        if (message.expiry && Date.now() > message.expiry) {
-          return;
-        }
-        
-        const isMine = (message.color === sessionColor && message.emoji === sessionEmoji);
-        const messageBubble = createMessageBubble(message, isMine);
-        messagesEl.appendChild(messageBubble);
-        
-        // Auto-scroll
-        setTimeout(() => {
-          messagesEl.scrollTop = messagesEl.scrollHeight;
-        }, 100);
-      });
-  }
-
-  // Funciones utilitarias
-  function escapeHtml(text) {
+  function escapeHtml(str) {
     const div = document.createElement('div');
-    div.textContent = text;
+    div.textContent = str;
     return div.innerHTML;
   }
 
-  function formatTime(date) {
+  function formatTime(timestamp) {
+    const date = new Date(timestamp);
     const now = new Date();
     const diff = now - date;
-    
     if (diff < 60000) return 'Ahora';
     if (diff < 3600000) return `${Math.floor(diff / 60000)} min`;
-    if (diff < 86400000) {
-      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    }
-    return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
+    if (diff < 86400000) return date.toLocaleTimeString([], { hour: '2-digit', minute:'2-digit' });
+    return date.toLocaleDateString([], { day:'numeric', month:'short' });
   }
 
-  // Event Listeners
+  // Crear burbuja (estilo profesional)
+  function appendMessage(message, isMine, messageId = null) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `message ${isMine ? 'mine' : 'other'}`;
+    const timeStr = formatTime(message.ts || Date.now());
+    msgDiv.innerHTML = `
+      <div class="message-bubble">
+        <div class="message-sender">
+          <span>${message.emoji || '👤'}</span>
+          <strong>${isMine ? 'Tú' : 'Anónimo'}</strong>
+        </div>
+        <div>${escapeHtml(message.text)}</div>
+        <div class="message-time">${timeStr}</div>
+      </div>
+    `;
+    messagesEl.appendChild(msgDiv);
+    setTimeout(() => messagesEl.scrollTop = messagesEl.scrollHeight, 50);
+  }
+
+  let messageListener = null;
+  function listenToMessages() {
+    if (messageListener) messageListener();
+    messagesEl.innerHTML = '';
+    // Mensaje de bienvenida específico de la sala
+    const welcomeMsg = document.createElement('div');
+    welcomeMsg.className = 'message other';
+    welcomeMsg.innerHTML = `
+      <div class="message-bubble">
+        <div class="message-sender"><span>🔒</span> <strong>Sistema</strong></div>
+        <div>Entraste a la sala <strong>${currentRoom}</strong>. Los mensajes expiran tras ${MESSAGE_EXPIRY_HOURS}h.</div>
+        <div class="message-time">Ahora</div>
+      </div>
+    `;
+    messagesEl.appendChild(welcomeMsg);
+
+    const ref = getMessagesRef();
+    messageListener = ref.orderByChild('ts').limitToLast(100).on('child_added', (snapshot) => {
+      const msg = snapshot.val();
+      if (!msg) return;
+      if (msg.expiry && Date.now() > msg.expiry) return;
+      const isMine = (msg.color === sessionColor && msg.emoji === sessionEmoji);
+      appendMessage(msg, isMine);
+    });
+  }
+
+  function updatePresenceSystem() {
+    if (presenceRef) presenceRef.off();
+    const presenceDb = getPresenceRef();
+    const myPresenceKey = Math.random().toString(36).substr(2, 8);
+    userPresenceKey = myPresenceKey;
+    const presenceData = {
+      color: sessionColor,
+      emoji: sessionEmoji,
+      lastSeen: Date.now(),
+      key: myPresenceKey
+    };
+    presenceDb.child(myPresenceKey).set(presenceData);
+    presenceDb.child(myPresenceKey).onDisconnect().remove();
+
+    // Contar usuarios activos (últimos 15 segundos)
+    const activeTime = 15000;
+    const interval = setInterval(() => {
+      presenceDb.once('value', (snap) => {
+        let count = 0;
+        const now = Date.now();
+        snap.forEach(child => {
+          const val = child.val();
+          if (val && (now - (val.lastSeen || 0) < activeTime)) count++;
+        });
+        if (liveUsersSpan) liveUsersSpan.innerText = count;
+        if (onlineCountSpan) onlineCountSpan.innerText = count;
+      });
+    }, 4000);
+    // mantener actualizado lastSeen
+    const heartbeat = setInterval(() => {
+      if (userPresenceKey) presenceDb.child(userPresenceKey).update({ lastSeen: Date.now() });
+    }, 10000);
+    
+    // cleanup on room change
+    window.cleanPresence = () => {
+      clearInterval(interval);
+      clearInterval(heartbeat);
+      if (userPresenceKey) presenceDb.child(userPresenceKey).remove();
+      presenceDb.off();
+    };
+  }
+
+  // Cambiar sala central
+  function setRoom(roomId) {
+    if (window.cleanPresence) window.cleanPresence();
+    currentRoom = roomId;
+    roomTitle.textContent = `Sala: ${roomId}`;
+    roomIdText.textContent = roomId;
+    roomInput.value = roomId;
+    localStorage.setItem('vincle_room', roomId);
+    const url = new URL(window.location);
+    url.searchParams.set('room', roomId);
+    window.history.replaceState({}, '', url);
+    expiryLabel.textContent = `${MESSAGE_EXPIRY_HOURS}h`;
+    listenToMessages();
+    updatePresenceSystem();
+  }
+
+  // Eventos UI
   createBtn.addEventListener('click', () => {
-    const roomId = (roomInput.value || '').trim() || generateRandomId(7);
-    setRoom(roomId);
+    const newId = (roomInput.value || '').trim() || generateRandomId(7);
+    setRoom(newId);
   });
-
   copyBtn.addEventListener('click', () => {
-    if (!currentRoom) return;
-    const url = window.location.origin + window.location.pathname + '?room=' + encodeURIComponent(currentRoom);
-    navigator.clipboard.writeText(url).then(() => {
-      alert('¡Enlace copiado al portapapeles!');
-    });
+    const link = window.location.origin + window.location.pathname + '?room=' + encodeURIComponent(currentRoom);
+    navigator.clipboard.writeText(link).then(() => alert('Enlace copiado al portapapeles'));
   });
-
   copyRoomIdBtn.addEventListener('click', () => {
-    if (!currentRoom) return;
     navigator.clipboard.writeText(currentRoom).then(() => {
-      const original = copyRoomIdBtn.innerHTML;
-      copyRoomIdBtn.innerHTML = '✅';
-      setTimeout(() => {
-        copyRoomIdBtn.innerHTML = original;
-      }, 2000);
+      copyRoomIdBtn.textContent = '✅';
+      setTimeout(() => copyRoomIdBtn.textContent = '📋', 1500);
     });
   });
-
-  sendBtn.addEventListener('click', () => {
-    sendMessage(textInput.value);
-  });
-
+  sendBtn.addEventListener('click', () => sendMessage(textInput.value));
   textInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       sendMessage(textInput.value);
     }
   });
-
-  // Auto-expand textarea
-  textInput.addEventListener('input', function() {
-    this.style.height = 'auto';
-    this.style.height = (this.scrollHeight) + 'px';
-  });
-
+  textInput.addEventListener('input', adjustTextareaHeight);
   clearChatBtn.addEventListener('click', () => {
-    if (confirm('¿Limpiar todos los mensajes locales?')) {
-      // Esto solo limpia la vista local, no los mensajes en Firebase
+    if (confirm('Limpiar solo la vista local? Los mensajes en el servidor se conservan.')) {
       messagesEl.innerHTML = '';
-      
-      // Añadir mensaje de sistema
-      const systemBubble = document.createElement('div');
-      systemBubble.className = 'message-bubble other';
-      systemBubble.innerHTML = `
-        <div class="message-sender">
-          <span class="sender-emoji">🧹</span>
-          <span class="sender-name">Sistema</span>
-        </div>
-        <div class="message-text">
-          Chat local limpiado. Los mensajes en el servidor permanecen.
-        </div>
-        <div class="message-time">Ahora</div>
-      `;
-      messagesEl.appendChild(systemBubble);
+      const sysMsg = document.createElement('div');
+      sysMsg.className = 'message other';
+      sysMsg.innerHTML = `<div class="message-bubble"><div class="message-sender"><span>🧹</span><strong>Sistema</strong></div><div>Vista local limpiada.</div><div class="message-time">Ahora</div></div>`;
+      messagesEl.appendChild(sysMsg);
     }
   });
-
-  randomRoomBtn.addEventListener('click', () => {
-    const newRoomId = generateRandomId(7);
-    setRoom(newRoomId);
-  });
-
-  newRoomBtn.addEventListener('click', () => {
-    const newRoomId = generateRandomId(7);
-    setRoom(newRoomId);
-  });
-
-  roomInfoBtn.addEventListener('click', () => {
-    alert(`Sala actual: ${currentRoom}\n\nComparte este enlace:\n${window.location.href}`);
-  });
-
+  randomRoomBtn.addEventListener('click', () => setRoom(generateRandomId(7)));
+  newRoomBtn.addEventListener('click', () => setRoom(generateRandomId(7)));
+  roomInfoBtn.addEventListener('click', () => alert(`Sala actual: ${currentRoom}\nEnlace: ${window.location.href}`));
   shareRoomBtn.addEventListener('click', () => {
     const url = window.location.href;
-    
-    if (navigator.share) {
-      navigator.share({
-        title: 'Únete a mi sala en VINCLE',
-        text: 'Chatea conmigo de forma anónima',
-        url: url
-      });
-    } else {
-      navigator.clipboard.writeText(url).then(() => {
-        alert('Enlace copiado. Compártelo con quien quieras.');
-      });
-    }
+    if (navigator.share) navigator.share({ title: 'VINCLE - Sala anónima', url });
+    else navigator.clipboard.writeText(url).then(() => alert('Enlace copiado'));
   });
 
-  // Inicializar
-  document.addEventListener('DOMContentLoaded', () => {
-    // Establecer sala inicial
-    setRoom(currentRoom);
-    
-    // Foco automático en el input
-    setTimeout(() => {
-      textInput.focus();
-    }, 500);
-  });
-
-  // Manejar tecla Escape para limpiar foco
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      textInput.blur();
-    }
-  });
+  // Start
+  setRoom(currentRoom);
+  setTimeout(() => textInput.focus(), 300);
 </script>
-
 </body>
 </html>
-
