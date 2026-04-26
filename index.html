@@ -1,172 +1,560 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MacroSignal | Inteligencia de inversión para empresarios</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
-    body{background:#07111f;color:#fff}
-    a{text-decoration:none;color:inherit}
-    .container{width:92%;max-width:1280px;margin:auto}
-    header{position:sticky;top:0;z-index:100;background:rgba(7,17,31,.96);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
-    .nav{display:flex;justify-content:space-between;align-items:center;padding:20px 0}
-    .logo{font-size:30px;font-weight:800}
-    .logo span{color:#22d3ee}
-    .btn{background:#22d3ee;color:#07111f;border:none;padding:14px 24px;border-radius:16px;font-weight:700;cursor:pointer}
-    .hero{padding:80px 0 40px}
-    .hero h1{font-size:58px;line-height:1.05;max-width:900px;margin-bottom:20px}
-    .hero p{font-size:18px;color:#cbd5e1;max-width:850px}
-    .status{margin-top:32px;display:flex;gap:20px;flex-wrap:wrap}
-    .status-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);padding:28px;border-radius:24px;min-width:260px}
-    .status-value{font-size:34px;font-weight:800;margin-top:8px}
-    section{padding:50px 0}
-    h2{font-size:36px;margin-bottom:12px}
-    .subtitle{color:#94a3b8;margin-bottom:30px}
-    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
-    .news-panel{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:28px}
-    .news-list{display:flex;flex-direction:column;gap:14px;margin-top:20px}
-    .news-item{padding:16px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.05)}
-    .tag{display:inline-block;background:rgba(34,211,238,.15);color:#67e8f9;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700;margin-bottom:10px}
-    .news-item h4{font-size:16px;margin-bottom:8px}
-    .news-item p{font-size:14px;color:#cbd5e1}
-    .sources{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:20px}
-    .source-card{padding:18px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06)}
-    .source-card h4{font-size:15px}
-    .source-card small{color:#94a3b8}
-    footer{padding:40px 0;border-top:1px solid rgba(255,255,255,.08);text-align:center;color:#94a3b8}
-    @media(max-width:900px){.hero h1{font-size:40px}.grid,.sources{grid-template-columns:1fr}}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Vincle.chat - Menú automático por WhatsApp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Dashboard del Restaurante */
+        .dashboard {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        h1 {
+            font-size: 28px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .restaurant-info {
+            background: #f3f4f6;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .qr-section {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            margin-top: 24px;
+        }
+
+        .qr-code {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            display: inline-block;
+            margin: 16px 0;
+        }
+
+        .menu-preview {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .menu-preview h3 {
+            color: #374151;
+            margin-bottom: 12px;
+        }
+
+        .menu-preview a {
+            color: #667eea;
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        /* Panel de Clientes Simulado */
+        .client-panel {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .client-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 16px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .connected-clients {
+            background: #f3f4f6;
+            border-radius: 16px;
+            padding: 16px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .client-item {
+            background: white;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .send-menu-btn {
+            background: #667eea;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .alert {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard, .client-panel {
+                padding: 16px;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <!-- Dashboard del Restaurante -->
+        <div class="dashboard">
+            <div class="header">
+                <h1>🍽️ Vincle.chat - Panel del Restaurante</h1>
+                <button id="saveRestaurantBtn">💾 Guardar Cambios</button>
+            </div>
 
-<header>
-  <div class="container nav">
-    <div class="logo">Macro<span>Signal</span></div>
-    <button class="btn">Acceso Premium</button>
-  </div>
-</header>
+            <div id="alertContainer"></div>
 
-<section class="hero container">
-  <h1>Ayudamos a empresarios a tomar mejores decisiones de inversión</h1>
-  <p>
-    Analizamos diariamente los mejores periódicos económicos de España y del mundo para resumir la información realmente importante.
-    Detectamos señales macroeconómicas positivas o negativas y mostramos qué negocios, sectores y sistemas son más recomendables para invertir.
-  </p>
+            <div class="restaurant-info">
+                <div class="form-group">
+                    <label>📋 Nombre del Restaurante</label>
+                    <input type="text" id="restaurantName" placeholder="Ej: La Buena Mesa">
+                </div>
 
-  <div class="status">
-    <div class="status-card">
-      <div>Clima económico actual</div>
-      <div class="status-value">POSITIVO</div>
-      <small>Actualizado hoy</small>
-    </div>
+                <div class="form-group">
+                    <label>📱 Número de WhatsApp (internacional sin +)</label>
+                    <input type="tel" id="whatsappNumber" placeholder="Ej: 521234567890">
+                </div>
 
-    <div class="status-card">
-      <div>Sector más fuerte</div>
-      <div class="status-value">IA + SaaS</div>
-      <small>Alta rentabilidad proyectada</small>
-    </div>
+                <div class="form-group">
+                    <label>📄 Menú (enlace o texto)</label>
+                    <textarea id="menuLink" rows="3" placeholder="Pega aquí el enlace a tu menú (Google Docs, PDF, o escribe el menú en texto)"></textarea>
+                </div>
+            </div>
 
-    <div class="status-card">
-      <div>Riesgo actual</div>
-      <div class="status-value">MEDIO</div>
-      <small>Inflación y tipos de interés</small>
-    </div>
-  </div>
-</section>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalClients">0</div>
+                    <div>Clientes Registrados</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                    <div class="stat-number" id="menusSent">0</div>
+                    <div>Menús Enviados</div>
+                </div>
+            </div>
 
-<section class="container">
-  <h2>Noticias resumidas al instante</h2>
-  <p class="subtitle">
-    Integración con periódicos reales mediante APIs, RSS y sistemas automáticos de análisis diario.
-  </p>
+            <div class="qr-section">
+                <h3>📱 Código QR para tus clientes</h3>
+                <p>Los clientes escanean esto UNA SOLA VEZ y reciben el menú automáticamente cada vez que entren</p>
+                <div class="qr-code" id="qrCode"></div>
+                <button id="downloadQrBtn">⬇️ Descargar QR</button>
+            </div>
 
-  <div class="grid">
-    <div class="news-panel">
-      <div class="tag">Top 15 España</div>
-      <h3>Prensa económica española</h3>
-
-      <div class="news-list">
-        <div class="news-item">
-          <h4>El BCE mantiene vigilancia sobre inflación persistente</h4>
-          <p>Impacto: prudencia en inversión inmobiliaria y financiación empresarial.</p>
+            <div class="menu-preview">
+                <h3>📖 Vista Previa del Menú</h3>
+                <div id="menuPreview"></div>
+            </div>
         </div>
 
-        <div class="news-item">
-          <h4>Mayor inversión en automatización industrial en España</h4>
-          <p>Impacto: oportunidades fuertes en software B2B y servicios de eficiencia.</p>
-        </div>
+        <!-- Panel de Detección de Clientes (Simulado, pero con lógica real de Firebase) -->
+        <div class="client-panel">
+            <h2>🔄 Simulador de Entrada de Clientes</h2>
+            <p style="color: #6b7280; margin-bottom: 16px;">Simula la detección WiFi de clientes que entran al restaurante</p>
+            
+            <div id="detectionSimulator">
+                <div class="form-group">
+                    <label>Nombre del Cliente (para simular)</label>
+                    <input type="text" id="clientName" placeholder="Ej: Juan Pérez">
+                </div>
+                <div class="form-group">
+                    <label>Número de WhatsApp (internacional sin +)</label>
+                    <input type="tel" id="clientWhatsapp" placeholder="Ej: 52123456789">
+                </div>
+                <button id="simulateEntryBtn">📍 Simular Entrada al Restaurante</button>
+            </div>
 
-        <div class="news-item">
-          <h4>El turismo premium sigue acelerando márgenes</h4>
-          <p>Impacto: sectores hospitality y lujo muestran señales positivas.</p>
+            <div style="margin-top: 24px;">
+                <h3>📱 Clientes Registrados (WiFi Detectados)</h3>
+                <div id="connectedClientsList" class="connected-clients">
+                    <p style="color: #9ca3af; text-align: center;">No hay clientes registrados aún</p>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
-    <div class="news-panel">
-      <div class="tag">Top 15 Global</div>
-      <h3>Prensa financiera mundial</h3>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script>
+        // Configuración de Firebase (ya proporcionada)
+        const firebaseConfig = {
+            apiKey: "AIzaSyXMvncuf1Jhux5dVzDJ_VQe3cw3tIntt",
+            authDomain: "vincle-e76dd.firebaseapp.com",
+            databaseURL: "https://vincle-e76dd-default-rtdb.firebaseio.com",
+            projectId: "vincle-e76dd",
+            storageBucket: "vincle-e76dd.firebasestorage.app",
+            messagingSenderId: "11807936515",
+            appId: "1:11807936515:web:ff67d9da38e956ff62cee6"
+        };
 
-      <div class="news-list">
-        <div class="news-item">
-          <h4>Nasdaq impulsa nuevas rondas en empresas de IA</h4>
-          <p>Impacto: expansión de capital hacia tecnología de productividad.</p>
-        </div>
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
 
-        <div class="news-item">
-          <h4>Fondos privados aumentan compras en infraestructuras</h4>
-          <p>Impacto: señales fuertes en energía, logística y digitalización.</p>
-        </div>
+        let currentRestaurantId = 'restaurante_demo_001';
 
-        <div class="news-item">
-          <h4>Descenso moderado en presión de tipos de interés</h4>
-          <p>Impacto: mejora en financiación y expansión de empresas medianas.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+        // Función para mostrar alertas
+        function showAlert(message, type = 'success') {
+            const alertContainer = document.getElementById('alertContainer');
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.innerHTML = message;
+            alertContainer.appendChild(alertDiv);
+            setTimeout(() => alertDiv.remove(), 3000);
+        }
 
-<section class="container">
-  <h2>Fuentes conectadas</h2>
-  <p class="subtitle">Estas fuentes se conectarán en tiempo real mediante agregadores y APIs de noticias.</p>
+        // Guardar configuración del restaurante en Firebase
+        document.getElementById('saveRestaurantBtn').addEventListener('click', async () => {
+            const name = document.getElementById('restaurantName').value;
+            const whatsapp = document.getElementById('whatsappNumber').value;
+            const menu = document.getElementById('menuLink').value;
 
-  <div class="sources">
-    <div class="source-card"><h4>Expansión</h4><small>España</small></div>
-    <div class="source-card"><h4>Cinco Días</h4><small>España</small></div>
-    <div class="source-card"><h4>El Economista</h4><small>España</small></div>
-    <div class="source-card"><h4>Financial Times</h4><small>Global</small></div>
-    <div class="source-card"><h4>Bloomberg</h4><small>Global</small></div>
-    <div class="source-card"><h4>Wall Street Journal</h4><small>Global</small></div>
-  </div>
-</section>
+            if (!name || !whatsapp || !menu) {
+                showAlert('⚠️ Por favor completa todos los campos', 'error');
+                return;
+            }
 
-<section class="container">
-  <h2>Motor de decisión de inversión</h2>
-  <p class="subtitle">
-    El sistema clasifica automáticamente el entorno económico como positivo, neutro o negativo y recomienda los negocios más sólidos.
-  </p>
+            try {
+                await database.ref(`restaurantes/${currentRestaurantId}`).set({
+                    nombre: name,
+                    whatsapp: whatsapp,
+                    menu: menu,
+                    updatedAt: Date.now()
+                });
+                showAlert('✅ Configuración guardada exitosamente en Firebase', 'success');
+                updateMenuPreview(menu);
+            } catch (error) {
+                console.error(error);
+                showAlert('❌ Error al guardar: ' + error.message, 'error');
+            }
+        });
 
-  <div class="news-panel">
-    <h3>Ejemplo de recomendación automática</h3>
-    <div class="news-list">
-      <div class="news-item">
-        <h4>Recomendado ahora: SaaS B2B con IA</h4>
-        <p>Alta demanda + baja fricción + márgenes altos + escalabilidad internacional.</p>
-      </div>
-      <div class="news-item">
-        <h4>Evitar temporalmente: retail físico intensivo</h4>
-        <p>Presión operativa alta y menor previsibilidad de márgenes.</p>
-      </div>
-    </div>
-  </div>
-</section>
+        // Actualizar vista previa del menú
+        function updateMenuPreview(menuText) {
+            const previewDiv = document.getElementById('menuPreview');
+            if (menuText.startsWith('http')) {
+                previewDiv.innerHTML = `<a href="${menuText}" target="_blank">🔗 Ver menú en línea</a><br><small>${menuText}</small>`;
+            } else {
+                previewDiv.innerHTML = `<p>${menuText.replace(/\n/g, '<br>')}</p>`;
+            }
+        }
 
-<footer>
-  © 2026 MacroSignal — Inteligencia económica para empresarios e inversores
-</footer>
+        // Generar QR dinámico para clientes
+        function generateQRCode() {
+            const qrDiv = document.getElementById('qrCode');
+            const restaurantData = {
+                id: currentRestaurantId,
+                url: `https://vincle.chat/${currentRestaurantId}`
+            };
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(JSON.stringify(restaurantData))}`;
+            qrDiv.innerHTML = `<img src="${qrUrl}" alt="QR Code" style="width: 150px; height: 150px;">`;
+        }
 
+        // Descargar QR
+        document.getElementById('downloadQrBtn').addEventListener('click', () => {
+            const qrImg = document.querySelector('#qrCode img');
+            if (qrImg) {
+                const link = document.createElement('a');
+                link.download = 'vincle_chat_qr.png';
+                link.href = qrImg.src;
+                link.click();
+                showAlert('✅ QR descargado. Puedes imprimirlo y ponerlo en tu restaurante', 'success');
+            }
+        });
+
+        // Registrar cliente y enviar menú automáticamente
+        async function registerClientAndSendMenu(clientName, clientWhatsapp) {
+            try {
+                // Obtener datos del restaurante
+                const snapshot = await database.ref(`restaurantes/${currentRestaurantId}`).once('value');
+                const restaurant = snapshot.val();
+                
+                if (!restaurant) {
+                    showAlert('⚠️ Primero configura los datos del restaurante', 'error');
+                    return false;
+                }
+
+                // Registrar cliente en Firebase
+                const clientId = `client_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+                await database.ref(`clientes/${currentRestaurantId}/${clientId}`).set({
+                    nombre: clientName,
+                    whatsapp: clientWhatsapp,
+                    mac_simulada: `MAC_${clientWhatsapp.replace(/\D/g, '')}`,
+                    fecha_registro: Date.now(),
+                    ultima_visita: Date.now()
+                });
+
+                // Incrementar contador de clientes
+                const clientsRef = database.ref(`stats/${currentRestaurantId}/totalClientes`);
+                clientsRef.transaction(current => (current || 0) + 1);
+
+                // Incrementar contador de menús enviados
+                const menusRef = database.ref(`stats/${currentRestaurantId}/menusEnviados`);
+                menusRef.transaction(current => (current || 0) + 1);
+
+                // Enviar menú por WhatsApp (simulado con enlace real)
+                const menuLink = restaurant.menu;
+                const whatsappLink = `https://wa.me/${clientWhatsapp}?text=¡Hola!%20Aquí%20tienes%20el%20menú%20de%20${encodeURIComponent(restaurant.nombre)}%3A%20${encodeURIComponent(menuLink)}`;
+                
+                // Abrir WhatsApp en nueva pestaña (simulación de envío real)
+                window.open(whatsappLink, '_blank');
+                
+                showAlert(`📤 Menú enviado a ${clientName} (${clientWhatsapp}) por WhatsApp`, 'success');
+                return true;
+            } catch (error) {
+                console.error(error);
+                showAlert('❌ Error al registrar cliente: ' + error.message, 'error');
+                return false;
+            }
+        }
+
+        // Simular entrada de cliente (detección WiFi)
+        document.getElementById('simulateEntryBtn').addEventListener('click', async () => {
+            const clientName = document.getElementById('clientName').value;
+            const clientWhatsapp = document.getElementById('clientWhatsapp').value;
+
+            if (!clientName || !clientWhatsapp) {
+                showAlert('⚠️ Ingresa el nombre y número del cliente', 'error');
+                return;
+            }
+
+            // Simular que el sistema detecta el dispositivo por WiFi
+            showAlert(`📡 WiFi detectó un nuevo dispositivo cerca. MAC simulada: ${clientName.replace(/\s/g, '')}_DEVICE`, 'success');
+            
+            // Registrar y enviar menú automáticamente
+            await registerClientAndSendMenu(clientName, clientWhatsapp);
+            
+            // Limpiar campos
+            document.getElementById('clientName').value = '';
+            document.getElementById('clientWhatsapp').value = '';
+            
+            // Actualizar lista de clientes
+            loadClientsList();
+        });
+
+        // Cargar lista de clientes registrados
+        async function loadClientsList() {
+            try {
+                const snapshot = await database.ref(`clientes/${currentRestaurantId}`).once('value');
+                const clients = snapshot.val();
+                const container = document.getElementById('connectedClientsList');
+                
+                if (!clients || Object.keys(clients).length === 0) {
+                    container.innerHTML = '<p style="color: #9ca3af; text-align: center;">No hay clientes registrados aún</p>';
+                    return;
+                }
+
+                let html = '';
+                for (let [id, client] of Object.entries(clients)) {
+                    html += `
+                        <div class="client-item">
+                            <div>
+                                <strong>${client.nombre}</strong><br>
+                                <small>📱 ${client.whatsapp}</small><br>
+                                <small>🔧 ${client.mac_simulada}</small>
+                            </div>
+                            <button class="send-menu-btn" onclick="resendMenu('${client.whatsapp}', '${client.nombre}')">
+                                📤 Reenviar menú
+                            </button>
+                        </div>
+                    `;
+                }
+                container.innerHTML = html;
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        // Función global para reenviar menú manualmente
+        window.resendMenu = async (whatsapp, nombre) => {
+            const snapshot = await database.ref(`restaurantes/${currentRestaurantId}`).once('value');
+            const restaurant = snapshot.val();
+            if (restaurant) {
+                const whatsappLink = `https://wa.me/${whatsapp}?text=¡Hola!%20Aquí%20tienes%20el%20menú%20de%20${encodeURIComponent(restaurant.nombre)}%3A%20${encodeURIComponent(restaurant.menu)}`;
+                window.open(whatsappLink, '_blank');
+                showAlert(`📤 Menú reenviado a ${nombre}`, 'success');
+                
+                // Incrementar contador de menús enviados
+                const menusRef = database.ref(`stats/${currentRestaurantId}/menusEnviados`);
+                menusRef.transaction(current => (current || 0) + 1);
+            }
+        };
+
+        // Cargar estadísticas en tiempo real
+        function loadStats() {
+            const statsRef = database.ref(`stats/${currentRestaurantId}`);
+            statsRef.on('value', (snapshot) => {
+                const stats = snapshot.val() || {};
+                document.getElementById('totalClients').innerText = stats.totalClientes || 0;
+                document.getElementById('menusSent').innerText = stats.menusEnviados || 0;
+            });
+        }
+
+        // Cargar datos del restaurante al iniciar
+        async function loadRestaurantData() {
+            try {
+                const snapshot = await database.ref(`restaurantes/${currentRestaurantId}`).once('value');
+                const restaurant = snapshot.val();
+                if (restaurant) {
+                    document.getElementById('restaurantName').value = restaurant.nombre || '';
+                    document.getElementById('whatsappNumber').value = restaurant.whatsapp || '';
+                    document.getElementById('menuLink').value = restaurant.menu || '';
+                    updateMenuPreview(restaurant.menu || '');
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        // Inicializar todo
+        function init() {
+            generateQRCode();
+            loadRestaurantData();
+            loadClientsList();
+            loadStats();
+            
+            // Actualizar lista de clientes cada 5 segundos (en tiempo real)
+            setInterval(loadClientsList, 5000);
+        }
+
+        init();
+    </script>
 </body>
 </html>
