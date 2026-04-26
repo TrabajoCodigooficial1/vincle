@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Vincle.chat - Menú automático por WhatsApp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vincle.chat - Menú automático por WiFi</title>
     <style>
         * {
             margin: 0;
@@ -12,48 +12,45 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
             padding: 20px;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
-        /* Dashboard del Restaurante */
-        .dashboard {
-            background: white;
+        /* Panel del Restaurante */
+        .panel {
+            background: rgba(255,255,255,0.95);
             border-radius: 24px;
             padding: 24px;
             margin-bottom: 24px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
         }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        h1 {
-            font-size: 28px;
+        h1, h2 {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            margin-bottom: 20px;
         }
 
-        .restaurant-info {
-            background: #f3f4f6;
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
             padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
         }
 
         .form-group {
@@ -64,22 +61,21 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: #374151;
+            color: #333;
         }
 
-        input, textarea {
+        input, textarea, select {
             width: 100%;
             padding: 12px;
-            border: 2px solid #e5e7eb;
+            border: 2px solid #e0e0e0;
             border-radius: 12px;
-            font-size: 16px;
+            font-size: 14px;
             transition: all 0.3s;
         }
 
-        input:focus, textarea:focus {
+        input:focus, textarea:focus, select:focus {
             outline: none;
             border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         button {
@@ -88,81 +84,63 @@
             border: none;
             padding: 12px 24px;
             border-radius: 12px;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s;
         }
 
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
 
-        button:active {
-            transform: translateY(0);
+        .device-list {
+            max-height: 400px;
+            overflow-y: auto;
         }
 
-        .qr-section {
-            background: #f9fafb;
-            padding: 20px;
-            border-radius: 16px;
-            text-align: center;
-            margin-top: 24px;
+        .device-item {
+            background: #f8f9fa;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #667eea;
         }
 
-        .qr-code {
-            background: white;
-            padding: 20px;
-            border-radius: 16px;
-            display: inline-block;
-            margin: 16px 0;
+        .device-info {
+            flex: 1;
         }
 
-        .menu-preview {
-            background: white;
-            border: 2px solid #e5e7eb;
-            border-radius: 16px;
-            padding: 20px;
-            margin-top: 20px;
+        .device-mac {
+            font-family: monospace;
+            font-size: 12px;
+            color: #666;
         }
 
-        .menu-preview h3 {
-            color: #374151;
-            margin-bottom: 12px;
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
         }
 
-        .menu-preview a {
-            color: #667eea;
-            text-decoration: none;
-            word-break: break-all;
-        }
-
-        /* Panel de Clientes Simulado */
-        .client-panel {
-            background: white;
-            border-radius: 24px;
-            padding: 24px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-
-        .client-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .status-connected {
+            background: #10b981;
             color: white;
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 16px;
         }
 
         .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 16px;
             margin-bottom: 24px;
         }
 
-        .stat-card {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        .stat {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 20px;
             border-radius: 16px;
@@ -170,142 +148,146 @@
         }
 
         .stat-number {
-            font-size: 32px;
+            font-size: 36px;
             font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .connected-clients {
-            background: #f3f4f6;
-            border-radius: 16px;
-            padding: 16px;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .client-item {
-            background: white;
-            padding: 12px;
-            margin-bottom: 8px;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .send-menu-btn {
-            background: #667eea;
-            color: white;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            cursor: pointer;
-            border: none;
         }
 
         .alert {
             padding: 12px;
             border-radius: 8px;
             margin-bottom: 16px;
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .alert-success {
             background: #d1fae5;
             color: #065f46;
-            border: 1px solid #a7f3d0;
+            border-left: 4px solid #10b981;
         }
 
-        .alert-error {
-            background: #fee2e2;
-            color: #991b1b;
-            border: 1px solid #fecaca;
+        .alert-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .wifi-config {
+            background: #fef3c7;
+            padding: 16px;
+            border-radius: 12px;
+            margin-top: 16px;
         }
 
         @media (max-width: 768px) {
-            .dashboard, .client-panel {
-                padding: 16px;
+            .grid-2 {
+                grid-template-columns: 1fr;
             }
-            
-            button {
-                width: 100%;
+            .stats {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Dashboard del Restaurante -->
-        <div class="dashboard">
-            <div class="header">
-                <h1>🍽️ Vincle.chat - Panel del Restaurante</h1>
-                <button id="saveRestaurantBtn">💾 Guardar Cambios</button>
-            </div>
-
-            <div id="alertContainer"></div>
-
-            <div class="restaurant-info">
-                <div class="form-group">
-                    <label>📋 Nombre del Restaurante</label>
-                    <input type="text" id="restaurantName" placeholder="Ej: La Buena Mesa">
-                </div>
-
-                <div class="form-group">
-                    <label>📱 Número de WhatsApp (internacional sin +)</label>
-                    <input type="tel" id="whatsappNumber" placeholder="Ej: 521234567890">
-                </div>
-
-                <div class="form-group">
-                    <label>📄 Menú (enlace o texto)</label>
-                    <textarea id="menuLink" rows="3" placeholder="Pega aquí el enlace a tu menú (Google Docs, PDF, o escribe el menú en texto)"></textarea>
-                </div>
-            </div>
+        <!-- Panel Principal del Restaurante -->
+        <div class="panel">
+            <h1>🍽️ Vincle.chat - Menú Automágico por WiFi</h1>
+            <p style="color: #666; margin-bottom: 20px;">Los clientes se conectan al WiFi → Reciben el menú automáticamente → Cero acciones manuales</p>
 
             <div class="stats">
-                <div class="stat-card">
-                    <div class="stat-number" id="totalClients">0</div>
-                    <div>Clientes Registrados</div>
+                <div class="stat">
+                    <div class="stat-number" id="totalDevices">0</div>
+                    <div>Dispositivos detectados</div>
                 </div>
-                <div class="stat-card" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                <div class="stat" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
                     <div class="stat-number" id="menusSent">0</div>
-                    <div>Menús Enviados</div>
+                    <div>Menús enviados</div>
+                </div>
+                <div class="stat" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                    <div class="stat-number" id="onlineNow">0</div>
+                    <div>Conectados ahora</div>
                 </div>
             </div>
 
-            <div class="qr-section">
-                <h3>📱 Código QR para tus clientes</h3>
-                <p>Los clientes escanean esto UNA SOLA VEZ y reciben el menú automáticamente cada vez que entren</p>
-                <div class="qr-code" id="qrCode"></div>
-                <button id="downloadQrBtn">⬇️ Descargar QR</button>
+            <div class="grid-2">
+                <!-- Configuración del Restaurante -->
+                <div class="card">
+                    <h2>⚙️ Configuración</h2>
+                    <div id="alertArea"></div>
+                    
+                    <div class="form-group">
+                        <label>🏪 Nombre del restaurante</label>
+                        <input type="text" id="restaurantName" placeholder="Ej: La Buena Mesa">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>📱 WhatsApp del restaurante</label>
+                        <input type="tel" id="restaurantWhatsapp" placeholder="Ej: 521234567890">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>📄 Menú (enlace o texto)</label>
+                        <textarea id="menuContent" rows="4" placeholder="https://tu-menu.com  o escribe el menú aquí..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>🌐 Nombre del WiFi del restaurante (SSID)</label>
+                        <input type="text" id="wifiSsid" placeholder="Ej: LaBuenaMesa_WiFi">
+                    </div>
+                    
+                    <button id="saveConfigBtn">💾 Guardar configuración</button>
+
+                    <div class="wifi-config">
+                        <strong>📡 ¿Cómo funciona esto en la vida real?</strong>
+                        <p style="margin-top: 8px; font-size: 14px;">
+                            1️⃣ El restaurante tiene WiFi abierto (SSID: <span id="displaySsid">el que configures</span>)<br>
+                            2️⃣ El cliente se conecta automáticamente (la mayoría tiene WiFi auto-conectado)<br>
+                            3️⃣ Vincle.chat detecta el nuevo dispositivo<br>
+                            4️⃣ <strong>El menú llega por WhatsApp al instante</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Dispositivos Detectados en Tiempo Real -->
+                <div class="card">
+                    <h2>📡 Dispositivos detectados ahora</h2>
+                    <p style="color: #666; font-size: 14px; margin-bottom: 16px;">
+                        Estos clientes están conectados al WiFi y ya recibieron (o recibirán) el menú
+                    </p>
+                    <div id="devicesList" class="device-list">
+                        <p style="color: #999; text-align: center;">Esperando detección de dispositivos...</p>
+                    </div>
+                </div>
             </div>
 
-            <div class="menu-preview">
-                <h3>📖 Vista Previa del Menú</h3>
-                <div id="menuPreview"></div>
-            </div>
-        </div>
-
-        <!-- Panel de Detección de Clientes (Simulado, pero con lógica real de Firebase) -->
-        <div class="client-panel">
-            <h2>🔄 Simulador de Entrada de Clientes</h2>
-            <p style="color: #6b7280; margin-bottom: 16px;">Simula la detección WiFi de clientes que entran al restaurante</p>
-            
-            <div id="detectionSimulator">
-                <div class="form-group">
-                    <label>Nombre del Cliente (para simular)</label>
-                    <input type="text" id="clientName" placeholder="Ej: Juan Pérez">
+            <!-- Simulador de Conexión WiFi (PARA PRUEBAS - en producción esto es automático) -->
+            <div class="card" style="margin-top: 24px;">
+                <h2>🧪 Simulador de llegada de clientes (para pruebas)</h2>
+                <p style="color: #666; margin-bottom: 16px;">
+                    En un entorno real, esto es automático. Aquí puedes SIMULAR que un cliente se conecta al WiFi.
+                </p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <input type="text" id="simulateMac" placeholder="MAC del dispositivo (ej: AA:BB:CC:DD:EE:FF)">
+                    <input type="text" id="simulatePhone" placeholder="WhatsApp del cliente (ej: 52123456789)">
+                    <input type="text" id="simulateName" placeholder="Nombre del cliente">
+                    <button id="simulateConnectBtn">🔌 Simular conexión WiFi</button>
                 </div>
-                <div class="form-group">
-                    <label>Número de WhatsApp (internacional sin +)</label>
-                    <input type="tel" id="clientWhatsapp" placeholder="Ej: 52123456789">
-                </div>
-                <button id="simulateEntryBtn">📍 Simular Entrada al Restaurante</button>
-            </div>
-
-            <div style="margin-top: 24px;">
-                <h3>📱 Clientes Registrados (WiFi Detectados)</h3>
-                <div id="connectedClientsList" class="connected-clients">
-                    <p style="color: #9ca3af; text-align: center;">No hay clientes registrados aún</p>
-                </div>
+                <p style="font-size: 12px; color: #999; margin-top: 12px;">
+                    💡 <strong>Dato real:</strong> Los routers profesionales (UniFi, MikroTik, Meraki) pueden enviar webhooks cuando un dispositivo se conecta. 
+                    Vincle.chat recibe esos webhooks y envía el menú automáticamente.
+                </p>
             </div>
         </div>
     </div>
@@ -313,7 +295,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script>
-        // Configuración de Firebase (ya proporcionada)
+        // Configuración Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyXMvncuf1Jhux5dVzDJ_VQe3cw3tIntt",
             authDomain: "vincle-e76dd.firebaseapp.com",
@@ -324,237 +306,240 @@
             appId: "1:11807936515:web:ff67d9da38e956ff62cee6"
         };
 
-        // Inicializar Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        let currentRestaurantId = 'restaurante_demo_001';
+        const RESTAURANT_ID = 'restaurante_principal';
 
-        // Función para mostrar alertas
+        // Mostrar alertas
         function showAlert(message, type = 'success') {
-            const alertContainer = document.getElementById('alertContainer');
-            const alertDiv = document.createElement('div');
-            alertDiv.className = `alert alert-${type}`;
-            alertDiv.innerHTML = message;
-            alertContainer.appendChild(alertDiv);
-            setTimeout(() => alertDiv.remove(), 3000);
+            const alertArea = document.getElementById('alertArea');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = message;
+            alertArea.appendChild(alert);
+            setTimeout(() => alert.remove(), 3000);
         }
 
-        // Guardar configuración del restaurante en Firebase
-        document.getElementById('saveRestaurantBtn').addEventListener('click', async () => {
+        // Guardar configuración del restaurante
+        document.getElementById('saveConfigBtn').addEventListener('click', async () => {
             const name = document.getElementById('restaurantName').value;
-            const whatsapp = document.getElementById('whatsappNumber').value;
-            const menu = document.getElementById('menuLink').value;
+            const whatsapp = document.getElementById('restaurantWhatsapp').value;
+            const menu = document.getElementById('menuContent').value;
+            const ssid = document.getElementById('wifiSsid').value;
 
             if (!name || !whatsapp || !menu) {
-                showAlert('⚠️ Por favor completa todos los campos', 'error');
+                showAlert('⚠️ Completa todos los campos', 'info');
                 return;
             }
 
             try {
-                await database.ref(`restaurantes/${currentRestaurantId}`).set({
+                await database.ref(`restaurantes/${RESTAURANT_ID}`).set({
                     nombre: name,
                     whatsapp: whatsapp,
                     menu: menu,
+                    ssid: ssid,
                     updatedAt: Date.now()
                 });
-                showAlert('✅ Configuración guardada exitosamente en Firebase', 'success');
-                updateMenuPreview(menu);
+                showAlert('✅ Configuración guardada. ¡El sistema ya está activo!', 'success');
+                document.getElementById('displaySsid').innerText = ssid || 'el WiFi que configures';
             } catch (error) {
-                console.error(error);
-                showAlert('❌ Error al guardar: ' + error.message, 'error');
+                showAlert('❌ Error: ' + error.message);
             }
         });
 
-        // Actualizar vista previa del menú
-        function updateMenuPreview(menuText) {
-            const previewDiv = document.getElementById('menuPreview');
-            if (menuText.startsWith('http')) {
-                previewDiv.innerHTML = `<a href="${menuText}" target="_blank">🔗 Ver menú en línea</a><br><small>${menuText}</small>`;
-            } else {
-                previewDiv.innerHTML = `<p>${menuText.replace(/\n/g, '<br>')}</p>`;
-            }
-        }
-
-        // Generar QR dinámico para clientes
-        function generateQRCode() {
-            const qrDiv = document.getElementById('qrCode');
-            const restaurantData = {
-                id: currentRestaurantId,
-                url: `https://vincle.chat/${currentRestaurantId}`
-            };
-            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(JSON.stringify(restaurantData))}`;
-            qrDiv.innerHTML = `<img src="${qrUrl}" alt="QR Code" style="width: 150px; height: 150px;">`;
-        }
-
-        // Descargar QR
-        document.getElementById('downloadQrBtn').addEventListener('click', () => {
-            const qrImg = document.querySelector('#qrCode img');
-            if (qrImg) {
-                const link = document.createElement('a');
-                link.download = 'vincle_chat_qr.png';
-                link.href = qrImg.src;
-                link.click();
-                showAlert('✅ QR descargado. Puedes imprimirlo y ponerlo en tu restaurante', 'success');
-            }
-        });
-
-        // Registrar cliente y enviar menú automáticamente
-        async function registerClientAndSendMenu(clientName, clientWhatsapp) {
+        // ENVIAR MENÚ POR WHATSAPP AUTOMÁTICAMENTE
+        async function sendMenuAutomatically(deviceMac, phoneNumber, deviceName) {
             try {
                 // Obtener datos del restaurante
-                const snapshot = await database.ref(`restaurantes/${currentRestaurantId}`).once('value');
+                const snapshot = await database.ref(`restaurantes/${RESTAURANT_ID}`).once('value');
                 const restaurant = snapshot.val();
                 
-                if (!restaurant) {
-                    showAlert('⚠️ Primero configura los datos del restaurante', 'error');
+                if (!restaurant || !restaurant.menu) {
+                    console.log('Restaurante no configurado');
                     return false;
                 }
 
-                // Registrar cliente en Firebase
-                const clientId = `client_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-                await database.ref(`clientes/${currentRestaurantId}/${clientId}`).set({
-                    nombre: clientName,
-                    whatsapp: clientWhatsapp,
-                    mac_simulada: `MAC_${clientWhatsapp.replace(/\D/g, '')}`,
-                    fecha_registro: Date.now(),
-                    ultima_visita: Date.now()
+                // Verificar si ya se envió menú a este dispositivo antes
+                const historySnapshot = await database.ref(`historial/${RESTAURANT_ID}/${deviceMac}`).once('value');
+                const alreadySent = historySnapshot.exists();
+
+                // Construir mensaje de WhatsApp
+                const message = `🍽️ *${restaurant.nombre}*\n\n¡Bienvenido! Aquí tienes nuestro menú:\n\n${restaurant.menu}\n\n✅ Este mensaje se envió automáticamente porque detectamos que estás en nuestro restaurante.`;
+                const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+                // Registrar en historial
+                await database.ref(`historial/${RESTAURANT_ID}/${deviceMac}`).set({
+                    telefono: phoneNumber,
+                    nombre: deviceName,
+                    fecha_envio: Date.now(),
+                    enviado: true
                 });
 
-                // Incrementar contador de clientes
-                const clientsRef = database.ref(`stats/${currentRestaurantId}/totalClientes`);
-                clientsRef.transaction(current => (current || 0) + 1);
-
                 // Incrementar contador de menús enviados
-                const menusRef = database.ref(`stats/${currentRestaurantId}/menusEnviados`);
+                const menusRef = database.ref(`stats/${RESTAURANT_ID}/menusEnviados`);
                 menusRef.transaction(current => (current || 0) + 1);
 
-                // Enviar menú por WhatsApp (simulado con enlace real)
-                const menuLink = restaurant.menu;
-                const whatsappLink = `https://wa.me/${clientWhatsapp}?text=¡Hola!%20Aquí%20tienes%20el%20menú%20de%20${encodeURIComponent(restaurant.nombre)}%3A%20${encodeURIComponent(menuLink)}`;
+                // Abrir WhatsApp (simula el envío automático)
+                window.open(whatsappUrl, '_blank');
                 
-                // Abrir WhatsApp en nueva pestaña (simulación de envío real)
-                window.open(whatsappLink, '_blank');
-                
-                showAlert(`📤 Menú enviado a ${clientName} (${clientWhatsapp}) por WhatsApp`, 'success');
+                // Mostrar notificación en el panel
+                showAlert(`📤 Menú enviado automáticamente a ${deviceName || phoneNumber}`, 'success');
                 return true;
             } catch (error) {
                 console.error(error);
-                showAlert('❌ Error al registrar cliente: ' + error.message, 'error');
                 return false;
             }
         }
 
-        // Simular entrada de cliente (detección WiFi)
-        document.getElementById('simulateEntryBtn').addEventListener('click', async () => {
-            const clientName = document.getElementById('clientName').value;
-            const clientWhatsapp = document.getElementById('clientWhatsapp').value;
-
-            if (!clientName || !clientWhatsapp) {
-                showAlert('⚠️ Ingresa el nombre y número del cliente', 'error');
-                return;
-            }
-
-            // Simular que el sistema detecta el dispositivo por WiFi
-            showAlert(`📡 WiFi detectó un nuevo dispositivo cerca. MAC simulada: ${clientName.replace(/\s/g, '')}_DEVICE`, 'success');
+        // DETECTAR NUEVO DISPOSITIVO (simulación - en producción esto es un webhook del router)
+        async function detectNewDevice(mac, phoneNumber, deviceName) {
+            // Verificar si el dispositivo ya está registrado
+            const deviceRef = await database.ref(`dispositivos/${RESTAURANT_ID}/${mac}`).once('value');
             
-            // Registrar y enviar menú automáticamente
-            await registerClientAndSendMenu(clientName, clientWhatsapp);
-            
-            // Limpiar campos
-            document.getElementById('clientName').value = '';
-            document.getElementById('clientWhatsapp').value = '';
-            
-            // Actualizar lista de clientes
-            loadClientsList();
-        });
+            if (!deviceRef.exists()) {
+                // Nuevo dispositivo detectado
+                await database.ref(`dispositivos/${RESTAURANT_ID}/${mac}`).set({
+                    mac: mac,
+                    telefono: phoneNumber || null,
+                    nombre: deviceName || 'Cliente',
+                    primera_conexion: Date.now(),
+                    ultima_conexion: Date.now(),
+                    online: true
+                });
 
-        // Cargar lista de clientes registrados
-        async function loadClientsList() {
-            try {
-                const snapshot = await database.ref(`clientes/${currentRestaurantId}`).once('value');
-                const clients = snapshot.val();
-                const container = document.getElementById('connectedClientsList');
+                // Incrementar contador total
+                const devicesRef = database.ref(`stats/${RESTAURANT_ID}/totalDispositivos`);
+                devicesRef.transaction(current => (current || 0) + 1);
+
+                // Si tiene número de teléfono, enviar menú automáticamente
+                if (phoneNumber) {
+                    await sendMenuAutomatically(mac, phoneNumber, deviceName);
+                } else {
+                    showAlert(`📱 Dispositivo ${mac} conectado. Esperando número de WhatsApp para enviar menú.`, 'info');
+                }
+            } else {
+                // Dispositivo conocido, actualizar última conexión
+                await database.ref(`dispositivos/${RESTAURANT_ID}/${mac}`).update({
+                    ultima_conexion: Date.now(),
+                    online: true
+                });
                 
-                if (!clients || Object.keys(clients).length === 0) {
-                    container.innerHTML = '<p style="color: #9ca3af; text-align: center;">No hay clientes registrados aún</p>';
+                // Reenviar menú si ya tiene teléfono
+                const deviceData = deviceRef.val();
+                if (deviceData.telefono) {
+                    await sendMenuAutomatically(mac, deviceData.telefono, deviceData.nombre);
+                }
+            }
+            
+            // Actualizar lista en tiempo real
+            loadDevices();
+        }
+
+        // Cargar dispositivos conectados
+        async function loadDevices() {
+            const devicesRef = database.ref(`dispositivos/${RESTAURANT_ID}`);
+            devicesRef.on('value', (snapshot) => {
+                const devices = snapshot.val();
+                const container = document.getElementById('devicesList');
+                const onlineNow = document.getElementById('onlineNow');
+                
+                if (!devices || Object.keys(devices).length === 0) {
+                    container.innerHTML = '<p style="color: #999; text-align: center;">No hay dispositivos conectados</p>';
+                    if (onlineNow) onlineNow.innerText = '0';
                     return;
                 }
 
+                let onlineCount = 0;
                 let html = '';
-                for (let [id, client] of Object.entries(clients)) {
+                const now = Date.now();
+                
+                for (let [mac, device] of Object.entries(devices)) {
+                    const isOnline = (now - device.ultima_conexion) < 300000; // 5 minutos
+                    if (isOnline) onlineCount++;
+                    
                     html += `
-                        <div class="client-item">
-                            <div>
-                                <strong>${client.nombre}</strong><br>
-                                <small>📱 ${client.whatsapp}</small><br>
-                                <small>🔧 ${client.mac_simulada}</small>
+                        <div class="device-item">
+                            <div class="device-info">
+                                <strong>${device.nombre || 'Cliente'}</strong>
+                                <div class="device-mac">MAC: ${mac}</div>
+                                <div class="device-mac">📱 WhatsApp: ${device.telefono || 'No registrado'}</div>
+                                <div class="device-mac">🕐 Conectado: ${new Date(device.ultima_conexion).toLocaleTimeString()}</div>
                             </div>
-                            <button class="send-menu-btn" onclick="resendMenu('${client.whatsapp}', '${client.nombre}')">
-                                📤 Reenviar menú
-                            </button>
+                            <span class="status-badge ${isOnline ? 'status-connected' : ''}">
+                                ${isOnline ? '🟢 Conectado' : '⚪ Ausente'}
+                            </span>
                         </div>
                     `;
                 }
+                
                 container.innerHTML = html;
-            } catch (error) {
-                console.error(error);
-            }
+                if (onlineNow) onlineNow.innerText = onlineCount;
+            });
         }
 
-        // Función global para reenviar menú manualmente
-        window.resendMenu = async (whatsapp, nombre) => {
-            const snapshot = await database.ref(`restaurantes/${currentRestaurantId}`).once('value');
-            const restaurant = snapshot.val();
-            if (restaurant) {
-                const whatsappLink = `https://wa.me/${whatsapp}?text=¡Hola!%20Aquí%20tienes%20el%20menú%20de%20${encodeURIComponent(restaurant.nombre)}%3A%20${encodeURIComponent(restaurant.menu)}`;
-                window.open(whatsappLink, '_blank');
-                showAlert(`📤 Menú reenviado a ${nombre}`, 'success');
-                
-                // Incrementar contador de menús enviados
-                const menusRef = database.ref(`stats/${currentRestaurantId}/menusEnviados`);
-                menusRef.transaction(current => (current || 0) + 1);
-            }
-        };
-
-        // Cargar estadísticas en tiempo real
-        function loadStats() {
-            const statsRef = database.ref(`stats/${currentRestaurantId}`);
+        // Cargar estadísticas
+        async function loadStats() {
+            const statsRef = database.ref(`stats/${RESTAURANT_ID}`);
             statsRef.on('value', (snapshot) => {
                 const stats = snapshot.val() || {};
-                document.getElementById('totalClients').innerText = stats.totalClientes || 0;
+                document.getElementById('totalDevices').innerText = stats.totalDispositivos || 0;
                 document.getElementById('menusSent').innerText = stats.menusEnviados || 0;
             });
         }
 
-        // Cargar datos del restaurante al iniciar
-        async function loadRestaurantData() {
-            try {
-                const snapshot = await database.ref(`restaurantes/${currentRestaurantId}`).once('value');
-                const restaurant = snapshot.val();
-                if (restaurant) {
-                    document.getElementById('restaurantName').value = restaurant.nombre || '';
-                    document.getElementById('whatsappNumber').value = restaurant.whatsapp || '';
-                    document.getElementById('menuLink').value = restaurant.menu || '';
-                    updateMenuPreview(restaurant.menu || '');
-                }
-            } catch (error) {
-                console.error(error);
+        // Cargar configuración guardada
+        async function loadConfig() {
+            const snapshot = await database.ref(`restaurantes/${RESTAURANT_ID}`).once('value');
+            const config = snapshot.val();
+            if (config) {
+                document.getElementById('restaurantName').value = config.nombre || '';
+                document.getElementById('restaurantWhatsapp').value = config.whatsapp || '';
+                document.getElementById('menuContent').value = config.menu || '';
+                document.getElementById('wifiSsid').value = config.ssid || '';
+                document.getElementById('displaySsid').innerText = config.ssid || 'el WiFi que configures';
             }
         }
 
-        // Inicializar todo
-        function init() {
-            generateQRCode();
-            loadRestaurantData();
-            loadClientsList();
-            loadStats();
+        // SIMULADOR: Conexión de cliente
+        document.getElementById('simulateConnectBtn').addEventListener('click', () => {
+            const mac = document.getElementById('simulateMac').value;
+            const phone = document.getElementById('simulatePhone').value;
+            const name = document.getElementById('simulateName').value;
             
-            // Actualizar lista de clientes cada 5 segundos (en tiempo real)
-            setInterval(loadClientsList, 5000);
-        }
+            if (!mac) {
+                showAlert('⚠️ Ingresa una MAC de dispositivo para simular', 'info');
+                return;
+            }
+            
+            detectNewDevice(mac, phone, name);
+            
+            // Limpiar campos
+            document.getElementById('simulateMac').value = '';
+            document.getElementById('simulatePhone').value = '';
+            document.getElementById('simulateName').value = '';
+        });
 
-        init();
+        // Inicializar
+        loadConfig();
+        loadDevices();
+        loadStats();
+
+        // Actualizar dispositivos cada 5 segundos
+        setInterval(() => {
+            const devicesRef = database.ref(`dispositivos/${RESTAURANT_ID}`);
+            devicesRef.once('value', (snapshot) => {
+                const devices = snapshot.val();
+                if (devices) {
+                    const now = Date.now();
+                    for (let [mac, device] of Object.entries(devices)) {
+                        if ((now - device.ultima_conexion) > 300000) {
+                            database.ref(`dispositivos/${RESTAURANT_ID}/${mac}`).update({ online: false });
+                        }
+                    }
+                }
+            });
+        }, 60000);
     </script>
 </body>
 </html>
