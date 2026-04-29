@@ -3,35 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vincle.chat | Cambio rápido para negocios</title>
+  <title>Sistema Vincle | Vincle Chat</title>
+  <meta name="description" content="Sistema Vincle - Servicio profesional de cambio de monedas, suministro de cambio y soluciones rápidas para negocios en Ourense y Santiago de Compostela." />
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: Arial, sans-serif;
+      font-family: Inter, Arial, sans-serif;
     }
 
     body {
-      background: #f7f8fc;
-      color: #1a1a1a;
+      background: #f5f7fb;
+      color: #111827;
       line-height: 1.6;
     }
 
     .container {
-      width: 90%;
-      max-width: 1100px;
-      margin: auto;
+      width: 92%;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     header {
-      padding: 80px 0 60px;
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      color: #2563eb;
+    }
+
+    .hero {
+      padding: 110px 0 90px;
       text-align: center;
     }
 
     h1 {
-      font-size: 3rem;
-      margin-bottom: 20px;
+      font-size: 3.4rem;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      font-weight: 800;
+      letter-spacing: -1px;
     }
 
     .highlight {
@@ -39,171 +68,228 @@
     }
 
     .subtitle {
-      font-size: 1.2rem;
-      max-width: 700px;
-      margin: 0 auto 30px;
-      color: #555;
+      max-width: 760px;
+      margin: 0 auto 35px;
+      font-size: 1.15rem;
+      color: #4b5563;
     }
 
     .cta {
       display: inline-block;
       background: #2563eb;
       color: white;
-      padding: 16px 28px;
+      padding: 16px 32px;
+      border-radius: 14px;
       text-decoration: none;
-      border-radius: 12px;
-      font-weight: bold;
-      transition: 0.2s;
+      font-weight: 700;
+      font-size: 1rem;
+      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.15);
+      transition: 0.2s ease;
     }
 
     .cta:hover {
+      transform: translateY(-2px);
       background: #1d4ed8;
     }
 
+    .trust {
+      margin-top: 28px;
+      color: #6b7280;
+      font-size: 0.95rem;
+    }
+
     section {
-      padding: 60px 0;
+      padding: 90px 0;
     }
 
     h2 {
       text-align: center;
-      margin-bottom: 40px;
-      font-size: 2rem;
+      font-size: 2.2rem;
+      margin-bottom: 18px;
+      font-weight: 800;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 50px;
+      color: #6b7280;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
     }
 
     .card {
       background: white;
-      padding: 24px;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.04);
+      border: 1px solid #eef2f7;
     }
 
     .card h3 {
-      margin-bottom: 10px;
-      font-size: 1.1rem;
-    }
-
-    .how-it-works {
-      text-align: center;
-      max-width: 800px;
-      margin: auto;
+      margin-bottom: 14px;
+      font-size: 1.2rem;
     }
 
     .steps {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      margin-top: 40px;
     }
 
     .step {
       background: white;
-      padding: 20px;
-      border-radius: 14px;
-      width: 220px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      border-radius: 18px;
+      padding: 28px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.04);
+      border: 1px solid #eef2f7;
+    }
+
+    .step-number {
+      font-size: 0.95rem;
+      color: #2563eb;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .final-cta {
+      background: white;
+      border-radius: 24px;
+      padding: 70px 40px;
+      text-align: center;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.04);
     }
 
     footer {
       padding: 50px 0;
       text-align: center;
-      color: #666;
+      color: #6b7280;
       font-size: 0.95rem;
     }
 
     @media (max-width: 768px) {
       h1 {
-        font-size: 2.2rem;
+        font-size: 2.3rem;
       }
 
-      .subtitle {
-        font-size: 1rem;
+      .hero {
+        padding: 80px 0 70px;
+      }
+
+      h2 {
+        font-size: 1.8rem;
       }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="container">
-      <h1>¿Te falta <span class="highlight">cambio para caja</span>?</h1>
-      <p class="subtitle">
-        Servicio rápido de cambio de monedas y suministro de efectivo para pequeños negocios en Ourense y Santiago de Compostela.
-      </p>
-      <a class="cta" href="https://wa.me/34600000000" target="_blank">
-        Solicitar cambio ahora
-      </a>
-    </div>
-  </header>
+<header>
+  <div class="container nav">
+    <div class="logo">Sistema <span>Vincle</span></div>
+    <a class="cta" href="https://wa.me/34699849287" target="_blank">Contactar</a>
+  </div>
+</header>
 
-  <section>
-    <div class="container">
-      <h2>¿Qué ofrecemos?</h2>
-      <div class="grid">
-        <div class="card">
-          <h3>Cambio rápido de monedas</h3>
-          <p>Convertimos monedas en billetes de forma cómoda, rápida y segura.</p>
-        </div>
+<section class="hero">
+  <div class="container">
+    <h1>¿Te falta <span class="highlight">cambio para caja</span> en tu negocio?</h1>
+    <p class="subtitle">
+      En Sistema Vincle ofrecemos cambio rápido de monedas, suministro de efectivo y soluciones prácticas para pequeños negocios en Ourense y Santiago de Compostela. Servicio profesional, cercano y fiable.
+    </p>
 
-        <div class="card">
-          <h3>Suministro de cambio</h3>
-          <p>Monedas de 1€, 2€, 50c, 20c y más para tu caja diaria.</p>
-        </div>
+    <a class="cta" href="https://wa.me/34699849287" target="_blank">
+      Contactar al +34 699 84 92 87
+    </a>
 
-        <div class="card">
-          <h3>Servicio local</h3>
-          <p>Atención cercana para bares, cafeterías, tiendas y negocios de barrio.</p>
-        </div>
+    <p class="trust">
+      Vincle Chat · Atención directa · Respuesta rápida · Servicio local de confianza
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>Servicios principales</h2>
+    <p class="section-subtitle">
+      Ayudamos a comercios, bares, cafeterías y negocios de proximidad a ahorrar tiempo y evitar problemas diarios de caja.
+    </p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Cambio de monedas a billetes</h3>
+        <p>Convertimos tus monedas acumuladas en efectivo útil de forma rápida, organizada y segura.</p>
+      </div>
+
+      <div class="card">
+        <h3>Suministro de cambio</h3>
+        <p>Disponibilidad de monedas para caja: 2€, 1€, 50c, 20c, 10c, 5c, 2c y 1c según necesidad.</p>
+      </div>
+
+      <div class="card">
+        <h3>Servicio local profesional</h3>
+        <p>Atención directa para negocios de barrio con una solución cercana, eficiente y de confianza.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section>
-    <div class="container how-it-works">
-      <h2>¿Cómo funciona?</h2>
-      <div class="steps">
-        <div class="step">
-          <h3>1. Contactas</h3>
-          <p>Nos escribes directamente por WhatsApp.</p>
-        </div>
+<section>
+  <div class="container">
+    <h2>Cómo funciona</h2>
+    <p class="section-subtitle">
+      Un proceso simple pensado para que no pierdas tiempo buscando cambio o desplazándote al banco.
+    </p>
 
-        <div class="step">
-          <h3>2. Preparación</h3>
-          <p>Organizamos el cambio que necesitas.</p>
-        </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">Paso 1</div>
+        <h3>Nos contactas</h3>
+        <p>Escríbenos directamente por Vincle Chat o WhatsApp para indicar lo que necesitas.</p>
+      </div>
 
-        <div class="step">
-          <h3>3. Entrega rápida</h3>
-          <p>Recibes tu cambio de forma cómoda y sencilla.</p>
-        </div>
+      <div class="step">
+        <div class="step-number">Paso 2</div>
+        <h3>Preparamos tu cambio</h3>
+        <p>Organizamos monedas o billetes según tu necesidad real de caja.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-number">Paso 3</div>
+        <h3>Servicio rápido</h3>
+        <p>Recibes una solución ágil, clara y cómoda para tu negocio.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section>
-    <div class="container" style="text-align:center;">
-      <h2>Haz tu negocio más cómodo</h2>
-      <p class="subtitle">
-        Menos tiempo buscando cambio. Más tiempo atendiendo clientes.
+<section>
+  <div class="container">
+    <div class="final-cta">
+      <h2>Menos tiempo buscando cambio.<br>Más tiempo atendiendo clientes.</h2>
+      <p class="section-subtitle" style="margin-top:20px; margin-bottom:35px;">
+        Sistema Vincle está diseñado para ayudarte a resolver un problema diario con una solución profesional y eficiente.
       </p>
-      <a class="cta" href="https://wa.me/34600000000" target="_blank">
-        Hablar ahora
+
+      <a class="cta" href="https://wa.me/34699849287" target="_blank">
+        Hablar ahora con Sistema Vincle
       </a>
     </div>
-  </section>
+  </div>
+</section>
 
-  <footer>
-    <div class="container">
-      Vincle.chat · Servicio local de cambio para negocios<br>
-      Ourense · Santiago de Compostela
-    </div>
-  </footer>
+<footer>
+  <div class="container">
+    <strong>Sistema Vincle</strong><br>
+    Vincle Chat · Ourense · Santiago de Compostela<br>
+    Contacto directo: +34 699 84 92 87
+  </div>
+</footer>
 
 </body>
 </html>
