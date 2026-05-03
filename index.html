@@ -4,18 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Vincle · Propuestas inteligentes</title>
-  <!-- Firebase SDKs - VERSIÓN CORREGIDA -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  <!-- Font Awesome 6 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap');
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       background-color: #fafaf9;
       font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
@@ -23,15 +15,7 @@
       color: #1e1e2a;
       padding: 2rem 1rem;
     }
-
-    @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap');
-
-    .container {
-      max-width: 780px;
-      margin: 0 auto;
-      transition: all 0.2s ease;
-    }
-
+    .container { max-width: 780px; margin: 0 auto; transition: all 0.2s ease; }
     .card {
       background: #ffffff;
       border-radius: 24px;
@@ -39,17 +23,8 @@
       border: 1px solid #e9e9ef;
       transition: box-shadow 0.2s, border 0.2s;
     }
-
-    .card:hover {
-      border-color: #d0d0db;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03), 0 2px 4px rgba(0, 0, 0, 0.02);
-    }
-
-    .hero {
-      margin-bottom: 2rem;
-      text-align: left;
-    }
-
+    .card:hover { border-color: #d0d0db; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03), 0 2px 4px rgba(0, 0, 0, 0.02); }
+    .hero { margin-bottom: 2rem; text-align: left; }
     .hero h1 {
       font-size: 2.75rem;
       font-weight: 700;
@@ -60,7 +35,6 @@
       color: transparent;
       margin-bottom: 0.25rem;
     }
-
     .badge {
       font-size: 0.9rem;
       color: #5b5b6e;
@@ -71,11 +45,7 @@
       padding: 0.2rem 0.7rem;
       border-radius: 40px;
     }
-
-    .form-group {
-      margin-bottom: 1.25rem;
-    }
-
+    .form-group { margin-bottom: 1.25rem; }
     label {
       font-size: 0.85rem;
       font-weight: 500;
@@ -85,7 +55,6 @@
       display: block;
       margin-bottom: 0.5rem;
     }
-
     input, textarea {
       width: 100%;
       border: 1px solid #e6e6ec;
@@ -98,17 +67,8 @@
       outline: none;
       color: #14141c;
     }
-
-    input:focus, textarea:focus {
-      border-color: #3b3b5c;
-      box-shadow: 0 0 0 3px rgba(59, 59, 92, 0.08);
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 90px;
-    }
-
+    input:focus, textarea:focus { border-color: #3b3b5c; box-shadow: 0 0 0 3px rgba(59, 59, 92, 0.08); }
+    textarea { resize: vertical; min-height: 90px; }
     .btn-primary {
       background: #1e1e2a;
       color: white;
@@ -126,24 +86,14 @@
       width: 100%;
       box-shadow: 0 1px 1px rgba(0,0,0,0.05);
     }
-
-    .btn-primary:hover {
-      background: #2b2b3a;
-      transform: scale(0.98);
-    }
-
+    .btn-primary:hover { background: #2b2b3a; transform: scale(0.98); }
     .btn-secondary {
       background: transparent;
       border: 1px solid #d4d4de;
       color: #2c2c38;
       box-shadow: none;
     }
-
-    .btn-secondary:hover {
-      background: #f5f5f7;
-      transform: none;
-    }
-
+    .btn-secondary:hover { background: #f5f5f7; transform: none; }
     .result-link {
       margin-top: 1.5rem;
       padding: 1rem;
@@ -153,24 +103,9 @@
       word-break: break-all;
       border-left: 4px solid #1e1e2a;
     }
-
-    .result-link a {
-      color: #1e1e2a;
-      font-weight: 600;
-      text-decoration: none;
-      border-bottom: 1px dashed #acacbc;
-    }
-
-    .result-link a:hover {
-      color: #000;
-      border-bottom: 1px solid #000;
-    }
-
-    .viewer-card {
-      text-align: center;
-      padding: 2rem 2rem 2.2rem;
-    }
-
+    .result-link a { color: #1e1e2a; font-weight: 600; text-decoration: none; border-bottom: 1px dashed #acacbc; }
+    .result-link a:hover { color: #000; border-bottom: 1px solid #000; }
+    .viewer-card { text-align: center; padding: 2rem 2rem 2.2rem; }
     .viewer-title {
       font-size: 2.2rem;
       font-weight: 700;
@@ -181,14 +116,7 @@
       -webkit-background-clip: text;
       color: transparent;
     }
-
-    .viewer-desc {
-      color: #4a4a5c;
-      font-size: 1.05rem;
-      margin: 1rem 0;
-      white-space: pre-wrap;
-    }
-
+    .viewer-desc { color: #4a4a5c; font-size: 1.05rem; margin: 1rem 0; white-space: pre-wrap; }
     .price-tag {
       background: #f2f2f5;
       display: inline-block;
@@ -199,7 +127,6 @@
       margin: 0.75rem 0 1.5rem;
       color: #1E1E2A;
     }
-
     .pay-button {
       background: #1e1e2a;
       color: white;
@@ -215,12 +142,7 @@
       transition: 0.2s;
       text-decoration: none;
     }
-
-    .pay-button:hover {
-      background: #2c2c3c;
-      transform: scale(0.97);
-    }
-
+    .pay-button:hover { background: #2c2c3c; transform: scale(0.97); }
     .toast-msg {
       position: fixed;
       bottom: 24px;
@@ -238,110 +160,48 @@
       backdrop-filter: blur(8px);
       background: rgba(30,30,42,0.9);
     }
-
-    hr {
-      margin: 1rem 0;
-      border: none;
-      border-top: 1px solid #efeff2;
-    }
-
-    @media (max-width: 560px) {
-      .container {
-        padding: 0;
-      }
-      .hero h1 {
-        font-size: 2rem;
-      }
-    }
-
-    .fade-in {
-      animation: fade 0.3s ease;
-    }
-    @keyframes fade {
-      from { opacity: 0; transform: translateY(6px);}
-      to { opacity: 1; transform: translateY(0);}
-    }
-
-    .loading {
-      opacity: 0.7;
-      pointer-events: none;
-    }
+    hr { margin: 1rem 0; border: none; border-top: 1px solid #efeff2; }
+    @media (max-width: 560px) { .container { padding: 0; } .hero h1 { font-size: 2rem; } }
+    .fade-in { animation: fade 0.3s ease; }
+    @keyframes fade { from { opacity: 0; transform: translateY(6px);} to { opacity: 1; transform: translateY(0);} }
   </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
 <div class="container">
-  <!-- MODO CREACIÓN -->
   <div id="creatorSection">
     <div class="hero">
       <h1>Vincle</h1>
-      <div class="badge">
-        <i class="fas fa-bolt" style="font-size: 12px;"></i> Propuestas al instante
-      </div>
-      <p style="margin-top: 12px; color:#5b5b6e;">Crea una propuesta profesional en segundos, comparte el enlace y cobra de forma elegante.</p>
+      <div class="badge"><i class="fas fa-bolt"></i> Propuestas al instante</div>
+      <p style="margin-top: 12px; color:#5b5b6e;">Crea una propuesta profesional, comparte el enlace y cobra.</p>
     </div>
-
     <div class="card" style="padding: 1.8rem;">
-      <div class="form-group">
-        <label><i class="far fa-file-alt"></i> Título</label>
-        <input type="text" id="titleInput" placeholder="Ej: Landing page corporativa" autocomplete="off">
-      </div>
-      <div class="form-group">
-        <label><i class="far fa-align-left"></i> Descripción</label>
-        <textarea id="descInput" placeholder="Detalla el servicio, alcance o los beneficios..."></textarea>
-      </div>
-      <div class="form-group">
-        <label><i class="fas fa-euro-sign"></i> Precio</label>
-        <input type="text" id="priceInput" placeholder="ej: 1.200 € o 75€/hora" autocomplete="off">
-      </div>
-      <div class="form-group">
-        <label><i class="fas fa-link"></i> Link de pago (Stripe / PayPal / Bizum)</label>
-        <input type="url" id="paylinkInput" placeholder="https://tu-enlace-de-pago.com">
-      </div>
-
-      <button class="btn-primary" id="createProposalBtn">
-        <i class="fas fa-magic"></i> Crear enlace de propuesta
-      </button>
-
+      <div class="form-group"><label><i class="far fa-file-alt"></i> Título</label><input type="text" id="titleInput" placeholder="Ej: Landing page corporativa"></div>
+      <div class="form-group"><label><i class="far fa-align-left"></i> Descripción</label><textarea id="descInput" placeholder="Detalla el servicio..."></textarea></div>
+      <div class="form-group"><label><i class="fas fa-euro-sign"></i> Precio</label><input type="text" id="priceInput" placeholder="ej: 1.200 €"></div>
+      <div class="form-group"><label><i class="fas fa-link"></i> Link de pago</label><input type="url" id="paylinkInput" placeholder="https://tu-enlace-de-pago.com"></div>
+      <button class="btn-primary" id="createProposalBtn"><i class="fas fa-magic"></i> Crear enlace</button>
       <div id="creationResult" style="margin-top: 1.2rem;"></div>
-    </div>
-
-    <div style="margin-top: 2rem; text-align: center; font-size: 0.8rem; color:#a1a1b0;">
-      <i class="fas fa-shield-alt"></i> Los datos se guardan en Firestore · compatible con móvil
     </div>
   </div>
 
-  <!-- MODO VISUALIZACIÓN -->
   <div id="viewerSection" style="display: none;">
     <div class="card viewer-card" style="padding: 2rem;">
-      <div style="display: flex; justify-content: flex-start;">
-        <span class="badge"><i class="fas fa-file-invoice"></i> Propuesta Vincle</span>
-      </div>
+      <div style="display: flex; justify-content: flex-start;"><span class="badge"><i class="fas fa-file-invoice"></i> Propuesta Vincle</span></div>
       <h2 id="viewerTitle" class="viewer-title">—</h2>
       <div id="viewerDesc" class="viewer-desc">—</div>
       <div class="price-tag" id="viewerPrice">—</div>
-      <div>
-        <a id="viewerPayLink" href="#" target="_blank" class="pay-button">
-          <i class="fas fa-credit-card"></i> Proceder al pago
-        </a>
-      </div>
+      <div><a id="viewerPayLink" href="#" target="_blank" class="pay-button"><i class="fas fa-credit-card"></i> Proceder al pago</a></div>
       <hr>
-      <p style="font-size: 0.75rem; color:#8787a0; margin-top: 1rem;">
-        <i class="fas fa-lock"></i> Pago seguro externo · El vendedor te contactará tras la transacción.
-      </p>
-      <div style="margin-top: 1.5rem;">
-        <button id="backToHomeBtn" class="btn-primary btn-secondary" style="width: auto; background: transparent; color:#1e1e2a;">
-          <i class="fas fa-arrow-left"></i> Volver al inicio
-        </button>
-      </div>
+      <p style="font-size: 0.75rem; color:#8787a0;"><i class="fas fa-lock"></i> Pago seguro externo</p>
+      <div style="margin-top: 1.5rem;"><button id="backToHomeBtn" class="btn-primary btn-secondary" style="width: auto; background: transparent;"><i class="fas fa-arrow-left"></i> Volver al inicio</button></div>
     </div>
   </div>
 </div>
-
-<div id="toastMsg" class="toast-msg">✨ Enlace copiado al portapapeles</div>
+<div id="toastMsg" class="toast-msg">✨ Enlace copiado</div>
 
 <script>
-  // -------------------- CONFIGURACIÓN FIREBASE FIRESTORE --------------------
   const firebaseConfig = {
     apiKey: "AIzaSyXMvncuf1Jhux5dVzDJ_VQe3cw3tIntt",
     authDomain: "vincle-e76dd.firebaseapp.com",
@@ -351,20 +211,18 @@
     appId: "1:11807936515:web:ff67d9da38e956ff62cee6"
   };
 
-  // Inicializar Firebase
   let db;
   try {
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-    }
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     db = firebase.firestore();
-    console.log("✅ Firestore inicializado correctamente");
-  } catch (error) {
-    console.error("❌ Error inicializando Firebase:", error);
-    alert("Error conectando con Firebase. Revisa la consola.");
-  }
+    console.log("✅ Firestore conectado");
+    
+    // Probar escritura mínima para verificar permisos
+    db.collection('test').add({ test: true }).then(() => {
+      console.log("✅ Permisos de escritura OK");
+    }).catch(e => console.error("❌ Error de permisos:", e.message));
+  } catch(e) { console.error("Error:", e); alert("Error de conexión"); }
 
-  // Referencias DOM
   const creatorDiv = document.getElementById('creatorSection');
   const viewerDiv = document.getElementById('viewerSection');
   const titleInput = document.getElementById('titleInput');
@@ -373,225 +231,95 @@
   const paylinkInput = document.getElementById('paylinkInput');
   const createBtn = document.getElementById('createProposalBtn');
   const creationResultDiv = document.getElementById('creationResult');
-
-  // Elementos viewer
   const viewerTitle = document.getElementById('viewerTitle');
   const viewerDesc = document.getElementById('viewerDesc');
   const viewerPriceSpan = document.getElementById('viewerPrice');
   const viewerPayLink = document.getElementById('viewerPayLink');
   const backBtn = document.getElementById('backToHomeBtn');
 
-  // Toast notification
-  function showToast(message, duration = 2200) {
+  function showToast(msg, duration = 2200) {
     const toast = document.getElementById('toastMsg');
-    toast.innerText = message || '✨ Operación completada';
+    toast.innerText = msg;
     toast.style.opacity = '1';
-    setTimeout(() => {
-      toast.style.opacity = '0';
-    }, duration);
+    setTimeout(() => toast.style.opacity = '0', duration);
   }
 
-  // Crear propuesta en FIRESTORE
   async function createProposal() {
-    // Validar campos
-    let title = titleInput.value.trim();
-    let desc = descInput.value.trim();
-    let price = priceInput.value.trim();
-    let paylink = paylinkInput.value.trim();
+    const title = titleInput.value.trim();
+    const desc = descInput.value.trim();
+    const price = priceInput.value.trim();
+    const paylink = paylinkInput.value.trim();
 
-    if (!title) {
-      showToast('❌ El título es obligatorio', 1800);
-      titleInput.focus();
-      return;
-    }
-    if (!desc) {
-      showToast('✏️ Añade una descripción para tu propuesta', 1800);
-      descInput.focus();
-      return;
-    }
-    if (!price) {
-      showToast('💰 Indica un precio (ej: 350€ o a convenir)', 1800);
-      priceInput.focus();
-      return;
-    }
-    if (!paylink) {
-      showToast('🔗 Agrega el link de pago (Stripe, PayPal, etc.)', 1800);
-      paylinkInput.focus();
-      return;
-    }
-    if (!paylink.startsWith('http://') && !paylink.startsWith('https://')) {
-      showToast('🔗 El link debe comenzar con http:// o https://', 1800);
-      paylinkInput.focus();
-      return;
-    }
+    if (!title) { showToast('❌ Título obligatorio'); titleInput.focus(); return; }
+    if (!desc) { showToast('✏️ Descripción obligatoria'); descInput.focus(); return; }
+    if (!price) { showToast('💰 Precio obligatorio'); priceInput.focus(); return; }
+    if (!paylink) { showToast('🔗 Link de pago obligatorio'); paylinkInput.focus(); return; }
+    if (!paylink.startsWith('http')) { showToast('🔗 El link debe empezar con http:// o https://'); return; }
 
-    // Mostrar loading en el botón
-    const originalBtnText = createBtn.innerHTML;
     createBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Guardando...';
     createBtn.disabled = true;
 
-    const proposalData = {
-      title: title,
-      desc: desc,
-      price: price,
-      paylink: paylink,
-      createdAt: new Date().toISOString()
-    };
-
     try {
-      // Guardar en Firestore
-      const docRef = await db.collection('proposals').add(proposalData);
-      const proposalId = docRef.id;
+      const docRef = await db.collection('proposals').add({
+        title, desc, price, paylink,
+        createdAt: new Date().toISOString()
+      });
       
-      // Construir URL
-      const baseUrl = window.location.href.split('?')[0];
-      const generatedUrl = `${baseUrl}?id=${proposalId}`;
-      
-      // Mostrar resultado
+      const url = `${window.location.href.split('?')[0]}?id=${docRef.id}`;
       creationResultDiv.innerHTML = `
         <div class="result-link fade-in">
-          <i class="fas fa-link" style="margin-right: 8px;"></i> 
-          <strong>✅ Propuesta creada</strong><br>
-          <span style="font-size: 0.85rem;">Comparte este enlace:</span><br>
-          <a href="${generatedUrl}" target="_blank" id="dynamicLink">${generatedUrl}</a>
-          <div style="margin-top: 12px;">
-            <button id="copyLinkBtn" class="btn-primary" style="background: #2c2c3a; width: auto; padding: 0.5rem 1rem; font-size: 0.8rem;">
-              <i class="far fa-copy"></i> Copiar enlace
-            </button>
-          </div>
-        </div>
-      `;
+          <i class="fas fa-link"></i> <strong>✅ Propuesta creada</strong><br>
+          <a href="${url}" target="_blank" id="dynamicLink">${url}</a>
+          <div style="margin-top:12px"><button id="copyLinkBtn" style="background:#2c2c3a; padding:0.5rem 1rem; border-radius:40px; border:none; color:white; cursor:pointer;"><i class="far fa-copy"></i> Copiar</button></div>
+        </div>`;
       
-      // Limpiar campos
-      titleInput.value = '';
-      descInput.value = '';
-      priceInput.value = '';
-      paylinkInput.value = '';
+      document.getElementById('copyLinkBtn')?.addEventListener('click', () => {
+        navigator.clipboard.writeText(document.getElementById('dynamicLink').href);
+        showToast('📋 Enlace copiado');
+      });
       
-      // Funcionalidad copiar
-      const copyBtn = document.getElementById('copyLinkBtn');
-      if (copyBtn) {
-        copyBtn.addEventListener('click', () => {
-          const linkAnchor = document.getElementById('dynamicLink');
-          if (linkAnchor) {
-            navigator.clipboard.writeText(linkAnchor.href).then(() => {
-              showToast('📋 Enlace copiado al portapapeles', 1500);
-            }).catch(() => {
-              // Fallback
-              const textarea = document.createElement('textarea');
-              textarea.value = linkAnchor.href;
-              document.body.appendChild(textarea);
-              textarea.select();
-              document.execCommand('copy');
-              document.body.removeChild(textarea);
-              showToast('📋 Enlace copiado', 1500);
-            });
-          }
-        });
-      }
-      showToast('🎉 Propuesta guardada en Firestore', 2000);
-    } catch (error) {
-      console.error('Error al guardar:', error);
-      showToast('⚠️ Error al guardar. Revisa las reglas de Firestore', 3000);
-      creationResultDiv.innerHTML = `<div class="result-link" style="border-left-color:#e55;"><i class="fas fa-exclamation-triangle"></i> Error: ${error.message}</div>`;
+      titleInput.value = descInput.value = priceInput.value = paylinkInput.value = '';
+      showToast('🎉 Propuesta guardada');
+    } catch(e) {
+      console.error(e);
+      showToast('⚠️ Error: ' + e.message);
+      creationResultDiv.innerHTML = `<div class="result-link" style="border-left-color:#e55;">❌ Error: ${e.message}</div>`;
     } finally {
-      // Restaurar botón
-      createBtn.innerHTML = originalBtnText;
+      createBtn.innerHTML = '<i class="fas fa-magic"></i> Crear enlace';
       createBtn.disabled = false;
     }
   }
 
-  // Cargar propuesta desde Firestore
-  async function loadProposalFromUrl() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const proposalId = urlParams.get('id');
+  async function loadProposal() {
+    const id = new URLSearchParams(window.location.search).get('id');
+    if (!id) { creatorDiv.style.display = 'block'; viewerDiv.style.display = 'none'; return; }
     
-    if (proposalId && proposalId.trim() !== '') {
-      creatorDiv.style.display = 'none';
-      viewerDiv.style.display = 'block';
-      
-      try {
-        const docRef = db.collection('proposals').doc(proposalId);
-        const docSnap = await docRef.get();
-        
-        if (docSnap.exists) {
-          const data = docSnap.data();
-          viewerTitle.innerText = data.title || 'Sin título';
-          viewerDesc.innerText = data.desc || 'Sin descripción';
-          viewerPriceSpan.innerText = data.price || '—';
-          
-          if (data.paylink && (data.paylink.startsWith('http://') || data.paylink.startsWith('https://'))) {
-            viewerPayLink.href = data.paylink;
-            viewerPayLink.style.opacity = '1';
-            viewerPayLink.style.cursor = 'pointer';
-            // Quitar event listener anterior si existe
-            const newLink = viewerPayLink.cloneNode(true);
-            viewerPayLink.parentNode.replaceChild(newLink, viewerPayLink);
-            window.viewerPayLink = newLink;
-          } else {
-            viewerPayLink.href = '#';
-            viewerPayLink.style.opacity = '0.6';
-            viewerPayLink.style.cursor = 'not-allowed';
-          }
-          viewerDiv.classList.add('fade-in');
-          setTimeout(() => viewerDiv.classList.remove('fade-in'), 400);
-        } else {
-          viewerTitle.innerText = 'Propuesta no encontrada';
-          viewerDesc.innerText = 'El enlace que intentas ver no existe o fue eliminado.';
-          viewerPriceSpan.innerText = '—';
-          viewerPayLink.href = '#';
-          viewerPayLink.style.opacity = '0.5';
-          viewerPayLink.style.pointerEvents = 'none';
-          showToast('❌ No se encontró la propuesta', 2000);
-        }
-      } catch (error) {
-        console.error('Error leyendo propuesta:', error);
-        viewerTitle.innerText = 'Error al cargar';
-        viewerDesc.innerText = 'Hubo un problema cargando esta propuesta. Verifica tu conexión y las reglas de Firestore.';
-        viewerPriceSpan.innerText = '⚠️';
-        viewerPayLink.href = '#';
+    creatorDiv.style.display = 'none';
+    viewerDiv.style.display = 'block';
+    
+    try {
+      const doc = await db.collection('proposals').doc(id).get();
+      if (doc.exists) {
+        const data = doc.data();
+        viewerTitle.innerText = data.title || 'Sin título';
+        viewerDesc.innerText = data.desc || '';
+        viewerPriceSpan.innerText = data.price || '—';
+        viewerPayLink.href = data.paylink?.startsWith('http') ? data.paylink : '#';
+      } else {
+        viewerTitle.innerText = 'Propuesta no encontrada';
+        viewerDesc.innerText = 'Este enlace no existe o fue eliminado.';
+        viewerPriceSpan.innerText = '—';
       }
-    } else {
-      creatorDiv.style.display = 'block';
-      viewerDiv.style.display = 'none';
-      if (creationResultDiv) creationResultDiv.innerHTML = '';
-    }
+    } catch(e) { console.error(e); viewerTitle.innerText = 'Error al cargar'; }
   }
 
-  // Eventos
   createBtn.addEventListener('click', createProposal);
-
-  function resetToCreator() {
-    const newUrl = window.location.href.split('?')[0];
-    window.history.pushState({}, document.title, newUrl);
-    creatorDiv.style.display = 'block';
-    viewerDiv.style.display = 'none';
-    if (creationResultDiv) creationResultDiv.innerHTML = '';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    showToast('🏠 Modo creación activado', 1200);
-  }
-
-  backBtn.addEventListener('click', resetToCreator);
-
-  window.addEventListener('popstate', () => {
-    loadProposalFromUrl();
+  backBtn.addEventListener('click', () => {
+    history.pushState({}, '', window.location.pathname);
+    loadProposal();
   });
-
-  // Enter key support
-  const inputs = [titleInput, descInput, priceInput, paylinkInput];
-  inputs.forEach(input => {
-    if (input) {
-      input.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          createProposal();
-        }
-      });
-    }
-  });
-
-  // Inicializar
-  loadProposalFromUrl();
+  window.addEventListener('popstate', loadProposal);
+  loadProposal();
 </script>
 </body>
 </html>
