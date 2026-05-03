@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Vinclechat · Propuestas profesionales · Socios estratégicos</title>
+  <title>Vinclechat · Propuestas premium · Carrusel infinito</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
@@ -23,7 +23,6 @@
       min-height: 100vh;
     }
 
-    /* Scroll suave */
     html {
       scroll-behavior: smooth;
     }
@@ -46,22 +45,29 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
     }
 
     .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
       font-size: 1.5rem;
       font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .logo svg {
+      width: 48px;
+      height: 48px;
+    }
+
+    .logo-text {
       background: linear-gradient(135deg, #1d1d1f 0%, #3a3a3e 100%);
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent;
-      letter-spacing: -0.02em;
-    }
-
-    .logo i {
-      background: none;
-      color: #0071e3;
-      margin-right: 8px;
     }
 
     .nav-links {
@@ -123,7 +129,92 @@
       margin: 0 auto;
     }
 
-    /* Tarjetas estilo Notion */
+    /* CARRUSEL INFINITO PREMIUM */
+    .marquee-section {
+      margin: 4rem 0;
+      padding: 2rem 0;
+      background: linear-gradient(90deg, transparent, #f5f5f7 5%, #f5f5f7 95%, transparent);
+      border-radius: 80px;
+      overflow: hidden;
+    }
+
+    .marquee-title {
+      text-align: center;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: #86868b;
+      margin-bottom: 1.5rem;
+    }
+
+    .marquee {
+      overflow: hidden;
+      position: relative;
+      white-space: nowrap;
+    }
+
+    .marquee::before,
+    .marquee::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 100px;
+      height: 100%;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .marquee::before {
+      left: 0;
+      background: linear-gradient(90deg, #f5f5f7, transparent);
+    }
+
+    .marquee::after {
+      right: 0;
+      background: linear-gradient(-90deg, #f5f5f7, transparent);
+    }
+
+    .marquee-track {
+      display: inline-flex;
+      gap: 4rem;
+      animation: scroll 30s linear infinite;
+    }
+
+    .marquee-track:hover {
+      animation-play-state: paused;
+    }
+
+    .marquee-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #1d1d1f;
+      padding: 0.5rem 2rem;
+      background: white;
+      border-radius: 60px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      transition: all 0.3s;
+    }
+
+    .marquee-item i {
+      font-size: 1.8rem;
+      color: #0071e3;
+    }
+
+    .marquee-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 24px rgba(0, 113, 227, 0.15);
+      color: #0071e3;
+    }
+
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Tarjetas */
     .card {
       background: #ffffff;
       border-radius: 24px;
@@ -135,91 +226,6 @@
     .card:hover {
       border-color: #d0d0db;
       box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
-    }
-
-    /* Sección de socios - Estilo Forbes/Apple */
-    .partners-section {
-      margin: 4rem 0;
-      padding: 2rem;
-      background: linear-gradient(135deg, #f5f5f7 0%, #ffffff 100%);
-      border-radius: 32px;
-      text-align: center;
-    }
-
-    .section-title {
-      font-size: 2rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.5rem;
-      color: #1d1d1f;
-    }
-
-    .section-subtitle {
-      color: #6e6e73;
-      margin-bottom: 2rem;
-      font-size: 1rem;
-    }
-
-    .partners-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 2rem;
-      margin-top: 1.5rem;
-    }
-
-    .partner-card {
-      background: white;
-      padding: 1.5rem;
-      border-radius: 20px;
-      text-align: center;
-      transition: all 0.3s;
-      border: 1px solid #e9e9ef;
-      cursor: pointer;
-    }
-
-    .partner-card:hover {
-      transform: translateY(-4px);
-      border-color: #0071e3;
-      box-shadow: 0 12px 24px rgba(0, 113, 227, 0.1);
-    }
-
-    .partner-icon {
-      width: 60px;
-      height: 60px;
-      margin: 0 auto 1rem;
-      background: linear-gradient(135deg, #f5f5f7 0%, #e8e8ed 100%);
-      border-radius: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: #0071e3;
-    }
-
-    .partner-card h3 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      color: #1d1d1f;
-    }
-
-    .partner-card p {
-      font-size: 0.8rem;
-      color: #6e6e73;
-    }
-
-    /* Badge de socio confiable */
-    .trust-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: #f5f5f7;
-      padding: 0.3rem 1rem;
-      border-radius: 40px;
-      font-size: 0.75rem;
-      color: #1d1d1f;
-      margin-top: 1rem;
     }
 
     /* Formulario */
@@ -299,7 +305,6 @@
       border-color: #d0d0db;
     }
 
-    /* Resultados */
     .result-card {
       margin-top: 1.5rem;
       padding: 1.25rem;
@@ -315,7 +320,6 @@
       word-break: break-all;
     }
 
-    /* Vista de propuesta */
     .viewer-container {
       text-align: center;
       padding: 2rem;
@@ -353,7 +357,6 @@
       transform: translateY(-2px);
     }
 
-    /* Toast */
     .toast {
       position: fixed;
       bottom: 30px;
@@ -387,7 +390,6 @@
       to { transform: rotate(360deg); }
     }
 
-    /* Footer */
     .footer {
       text-align: center;
       padding: 2rem;
@@ -400,18 +402,49 @@
     @media (max-width: 768px) {
       .container { padding: 1rem; }
       .hero-section h1 { font-size: 2.5rem; }
-      .partners-grid { gap: 1rem; }
-      .nav-container { flex-direction: column; gap: 1rem; }
+      .marquee-item { font-size: 1rem; padding: 0.3rem 1rem; }
+      .marquee-item i { font-size: 1.2rem; }
+      .nav-container { flex-direction: column; }
     }
   </style>
 </head>
 <body>
 
-<!-- Navegación estilo Apple -->
 <div class="navbar">
   <div class="nav-container">
     <div class="logo">
-      <i class="fas fa-bolt"></i> Vinclechat
+      <!-- Logo Trinity: Trébol con rostro femenino SVG -->
+      <svg width="48" height="48" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#0071e3"/>
+            <stop offset="100%" style="stop-color:#0051a3"/>
+          </linearGradient>
+        </defs>
+        <!-- Hojas del trébol -->
+        <path d="M50 45 C35 25, 15 30, 20 50 C25 70, 45 65, 50 45Z" fill="url(#leafGrad)" opacity="0.9"/>
+        <path d="M50 45 C65 25, 85 30, 80 50 C75 70, 55 65, 50 45Z" fill="url(#leafGrad)" opacity="0.9"/>
+        <path d="M50 45 C40 20, 60 20, 50 45Z" fill="url(#leafGrad)" opacity="0.85"/>
+        <!-- Tallo -->
+        <path d="M50 50 Q52 70, 48 85" stroke="#0051a3" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <!-- Rostro femenino en el centro -->
+        <circle cx="50" cy="48" r="12" fill="#FFE4C4"/>
+        <!-- Ojos -->
+        <ellipse cx="46" cy="46" rx="2" ry="2.5" fill="#1d1d1f"/>
+        <ellipse cx="54" cy="46" rx="2" ry="2.5" fill="#1d1d1f"/>
+        <!-- Ojos brillo -->
+        <circle cx="46.8" cy="45" r="0.8" fill="white"/>
+        <circle cx="54.8" cy="45" r="0.8" fill="white"/>
+        <!-- Sonrisa -->
+        <path d="M47 51 Q50 54, 53 51" stroke="#1d1d1f" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <!-- Pestañas -->
+        <path d="M43 44 L41 42" stroke="#1d1d1f" stroke-width="0.8" stroke-linecap="round"/>
+        <path d="M57 44 L59 42" stroke="#1d1d1f" stroke-width="0.8" stroke-linecap="round"/>
+        <!-- Sonrojo -->
+        <circle cx="45" cy="50" r="2.5" fill="#FFB6C1" opacity="0.5"/>
+        <circle cx="55" cy="50" r="2.5" fill="#FFB6C1" opacity="0.5"/>
+      </svg>
+      <span class="logo-text">Vinclechat</span>
     </div>
     <div class="nav-links">
       <a href="#creator">Crear propuesta</a>
@@ -421,13 +454,39 @@
 </div>
 
 <div class="container">
-  <!-- Hero Section -->
   <div class="hero-section" id="creator">
     <div class="hero-badge">
       <i class="fas fa-rocket"></i> La nueva forma de facturar
     </div>
     <h1>Propuestas que<br>cierran negocios</h1>
     <p class="hero-subtitle">Crea, comparte y cobra en segundos. Diseño profesional, tecnología de punta.</p>
+  </div>
+
+  <!-- SECCIÓN DE CARRUSEL INFINITO PREMIUM -->
+  <div class="marquee-section" id="partners">
+    <div class="marquee-title">
+      <i class="fas fa-handshake"></i> EMPRESAS QUE CONFÍAN EN NOSOTROS
+    </div>
+    <div class="marquee">
+      <div class="marquee-track">
+        <div class="marquee-item"><i class="fas fa-globe-americas"></i> Mundibussiness</div>
+        <div class="marquee-item"><i class="fas fa-microchip"></i> Mytelai</div>
+        <div class="marquee-item"><i class="fas fa-users"></i> Knowmeet</div>
+        <div class="marquee-item"><i class="fas fa-brain"></i> Instituto NeuroStart</div>
+        <div class="marquee-item"><i class="fas fa-robot"></i> Marikaf-ai</div>
+        <!-- Duplicado para efecto infinito -->
+        <div class="marquee-item"><i class="fas fa-globe-americas"></i> Mundibussiness</div>
+        <div class="marquee-item"><i class="fas fa-microchip"></i> Mytelai</div>
+        <div class="marquee-item"><i class="fas fa-users"></i> Knowmeet</div>
+        <div class="marquee-item"><i class="fas fa-brain"></i> Instituto NeuroStart</div>
+        <div class="marquee-item"><i class="fas fa-robot"></i> Marikaf-ai</div>
+      </div>
+    </div>
+    <div style="text-align: center; margin-top: 1.5rem;">
+      <span style="display: inline-flex; align-items: center; gap: 6px; background: rgba(0,113,227,0.1); padding: 0.3rem 1rem; border-radius: 40px; font-size: 0.75rem; color: #0071e3;">
+        <i class="fas fa-infinity"></i> +32 empresas líderes utilizan Vinclechat
+      </span>
+    </div>
   </div>
 
   <!-- Sección de creación -->
@@ -438,77 +497,27 @@
           <label><i class="fas fa-heading"></i> Título de la propuesta</label>
           <input type="text" id="title" placeholder="Ej: Consultoría estratégica 2025" required>
         </div>
-
         <div class="form-group">
           <label><i class="fas fa-align-left"></i> Descripción</label>
           <textarea id="description" placeholder="Describe el alcance, entregables y condiciones..."></textarea>
         </div>
-
         <div class="form-group">
           <label><i class="fas fa-tag"></i> Precio</label>
-          <input type="text" id="price" placeholder="Ej: 2.500€ · 150€/hora · Presupuesto personalizado">
+          <input type="text" id="price" placeholder="Ej: 2.500€ · 150€/hora">
         </div>
-
         <div class="form-group">
           <label><i class="fas fa-credit-card"></i> Link de pago</label>
           <input type="url" id="paymentLink" placeholder="https://paypal.me/... / https://stripe.com/...">
         </div>
-
         <button type="submit" class="btn-primary" id="createBtn">
           <i class="fas fa-magic"></i> Crear propuesta
         </button>
       </form>
-
       <div id="resultArea"></div>
     </div>
   </div>
 
-  <!-- SECCIÓN DE SOCIOS (ESTILO FORBES/APPLE) -->
-  <div class="partners-section" id="partners">
-    <div class="section-title">
-      Confían en nosotros
-    </div>
-    <div class="section-subtitle">
-      <i class="fas fa-chart-line"></i> Empresas líderes que ya usan Vinclechat
-    </div>
-    <div class="partners-grid">
-      <div class="partner-card">
-        <div class="partner-icon">MB</div>
-        <h3>Mundibussiness</h3>
-        <p>Consultoría global</p>
-        <div class="trust-badge"><i class="fas fa-check-circle"></i> Socio estratégico</div>
-      </div>
-      <div class="partner-card">
-        <div class="partner-icon">MT</div>
-        <h3>Mytelai</h3>
-        <p>Inteligencia artificial</p>
-        <div class="trust-badge"><i class="fas fa-check-circle"></i> Innovación</div>
-      </div>
-      <div class="partner-card">
-        <div class="partner-icon">KM</div>
-        <h3>Knowmeet</h3>
-        <p>Networking profesional</p>
-        <div class="trust-badge"><i class="fas fa-check-circle"></i> Partner oficial</div>
-      </div>
-      <div class="partner-card">
-        <div class="partner-icon">IN</div>
-        <h3>Instituto NeuroStart</h3>
-        <p>Neuroformación ejecutiva</p>
-        <div class="trust-badge"><i class="fas fa-check-circle"></i> Certificado</div>
-      </div>
-      <div class="partner-card">
-        <div class="partner-icon">MK</div>
-        <h3>Marikaf-ai</h3>
-        <p>Automatización con IA</p>
-        <div class="trust-badge"><i class="fas fa-check-circle"></i> Aliado tecnológico</div>
-      </div>
-    </div>
-    <div style="margin-top: 2rem;">
-      <span class="trust-badge"><i class="fas fa-infinity"></i> +32 empresas confían en nuestra plataforma</span>
-    </div>
-  </div>
-
-  <!-- Sección de visualización de propuestas -->
+  <!-- Vista de propuesta -->
   <div id="viewerSection" style="display: none;">
     <div class="card viewer-container">
       <div class="hero-badge" style="background: linear-gradient(135deg, #34c759 0%, #28a745 100%);">
@@ -536,7 +545,6 @@
 <div id="toast" class="toast"></div>
 
 <script>
-  // Configuración de Firebase Vinclechat
   const firebaseConfig = {
     apiKey: "AIzaSyBfJq-6CniQvqmR6aRS3XNC5GxE5E1bMpQ",
     authDomain: "vinclechat-564d1.firebaseapp.com",
@@ -548,9 +556,7 @@
 
   let db;
   try {
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-    }
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     db = firebase.firestore();
     console.log('✅ Vinclechat conectado');
   } catch (error) {
