@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Vincle · Propuestas inteligentes</title>
-  <!-- Firebase SDKs (Compatibilidad con la versión 8 estable) -->
+  <!-- Firebase SDKs para FIRESTORE -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-  <!-- Font Awesome 6 (gratuito, íconos limpios) -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
@@ -24,7 +24,6 @@
       padding: 2rem 1rem;
     }
 
-    /* Inter font suave (Google Fonts opcional) */
     @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap');
 
     .container {
@@ -33,14 +32,12 @@
       transition: all 0.2s ease;
     }
 
-    /* Tarjetas estilo Notion: bordes suaves, sombra ligera */
     .card {
       background: #ffffff;
       border-radius: 24px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.03);
       border: 1px solid #e9e9ef;
       transition: box-shadow 0.2s, border 0.2s;
-      backdrop-filter: blur(0px);
     }
 
     .card:hover {
@@ -48,7 +45,6 @@
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03), 0 2px 4px rgba(0, 0, 0, 0.02);
     }
 
-    /* Encabezado limpio */
     .hero {
       margin-bottom: 2rem;
       text-align: left;
@@ -76,7 +72,6 @@
       border-radius: 40px;
     }
 
-    /* Formulario */
     .form-group {
       margin-bottom: 1.25rem;
     }
@@ -114,7 +109,6 @@
       min-height: 90px;
     }
 
-    /* Botón moderno tipo ChatGPT/Notion */
     .btn-primary {
       background: #1e1e2a;
       color: white;
@@ -150,7 +144,6 @@
       transform: none;
     }
 
-    /* Link resultado */
     .result-link {
       margin-top: 1.5rem;
       padding: 1rem;
@@ -173,7 +166,6 @@
       border-bottom: 1px solid #000;
     }
 
-    /* Vista de propuesta (viewer) elegante */
     .viewer-card {
       text-align: center;
       padding: 2rem 2rem 2.2rem;
@@ -229,7 +221,6 @@
       transform: scale(0.97);
     }
 
-    /* Notificación sutil */
     .toast-msg {
       position: fixed;
       bottom: 24px;
@@ -248,18 +239,12 @@
       background: rgba(30,30,42,0.9);
     }
 
-    /* iconos pequeños dentro de inputs */
-    .input-icon {
-      position: relative;
-    }
-
     hr {
       margin: 1rem 0;
       border: none;
       border-top: 1px solid #efeff2;
     }
 
-    /* Responsive */
     @media (max-width: 560px) {
       .container {
         padding: 0;
@@ -269,7 +254,6 @@
       }
     }
 
-    /* Animación */
     .fade-in {
       animation: fade 0.3s ease;
     }
@@ -282,7 +266,7 @@
 <body>
 
 <div class="container">
-  <!-- MODO CREACIÓN (por defecto visible) -->
+  <!-- MODO CREACIÓN -->
   <div id="creatorSection">
     <div class="hero">
       <h1>Vincle</h1>
@@ -318,11 +302,11 @@
     </div>
 
     <div style="margin-top: 2rem; text-align: center; font-size: 0.8rem; color:#a1a1b0;">
-      <i class="fas fa-shield-alt"></i> Los datos se guardan en tiempo real · compatible con móvil
+      <i class="fas fa-shield-alt"></i> Los datos se guardan en Firestore · compatible con móvil
     </div>
   </div>
 
-  <!-- MODO VISUALIZACIÓN (propuesta) -->
+  <!-- MODO VISUALIZACIÓN -->
   <div id="viewerSection" style="display: none;">
     <div class="card viewer-card" style="padding: 2rem;">
       <div style="display: flex; justify-content: flex-start;">
@@ -352,7 +336,7 @@
 <div id="toastMsg" class="toast-msg">✨ Enlace copiado al portapapeles</div>
 
 <script>
-  // -------------------- CONFIGURACIÓN FIREBASE (misma que mantuviste) --------------------
+  // -------------------- CONFIGURACIÓN FIREBASE FIRESTORE --------------------
   const firebaseConfig = {
     apiKey: "AIzaSyXMvncuf1Jhux5dVzDJ_VQe3cw3tIntt",
     authDomain: "vincle-e76dd.firebaseapp.com",
@@ -363,13 +347,13 @@
     appId: "1:11807936515:web:ff67d9da38e956ff62cee6"
   };
 
-  // Inicializar Firebase si no existe (para prevenir doble inicialización)
+  // Inicializar Firebase
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
-  } else {
-    firebase.app(); // usa la existente
   }
-  const database = firebase.database();
+  
+  // Inicializar FIRESTORE
+  const db = firebase.firestore();
 
   // Referencias DOM
   const creatorDiv = document.getElementById('creatorSection');
@@ -388,7 +372,7 @@
   const viewerPayLink = document.getElementById('viewerPayLink');
   const backBtn = document.getElementById('backToHomeBtn');
 
-  // Función para mostrar notificación tipo toast
+  // Toast notification
   function showToast(message, duration = 2200) {
     const toast = document.getElementById('toastMsg');
     toast.innerText = message || '✨ Operación completada';
@@ -398,14 +382,13 @@
     }, duration);
   }
 
-  // Crear propuesta y generar enlace (con validaciones mejoradas)
-  function createProposal() {
+  // Crear propuesta en FIRESTORE
+  async function createProposal() {
     let title = titleInput.value.trim();
     let desc = descInput.value.trim();
     let price = priceInput.value.trim();
     let paylink = paylinkInput.value.trim();
 
-    // Validaciones amigables
     if (!title) {
       showToast('❌ El título es obligatorio', 1800);
       titleInput.focus();
@@ -426,7 +409,6 @@
       paylinkInput.focus();
       return;
     }
-    // validar formato básico de URL (opcional pero mejora UX)
     if (!paylink.startsWith('http://') && !paylink.startsWith('https://')) {
       showToast('🔗 El link debe comenzar con http:// o https://', 1800);
       paylinkInput.focus();
@@ -438,164 +420,144 @@
       desc: desc,
       price: price,
       paylink: paylink,
-      createdAt: firebase.database.ServerValue.TIMESTAMP || Date.now()
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
     };
 
-    // Usamos timestamp + random para evitar colisiones y URLs más limpias
-    const uniqueId = Date.now() + '-' + Math.floor(Math.random() * 10000);
-    const proposalRef = database.ref('proposals/' + uniqueId);
-
-    proposalRef.set(proposalData)
-      .then(() => {
-        // Construir URL actual con parámetro id
-        const baseUrl = window.location.href.split('?')[0];
-        const generatedUrl = `${baseUrl}?id=${uniqueId}`;
-        
-        // Mostrar el resultado con estilo y opción de copiar
-        creationResultDiv.innerHTML = `
-          <div class="result-link fade-in">
-            <i class="fas fa-link" style="margin-right: 8px;"></i> 
-            <strong>✅ Propuesta creada</strong><br>
-            <span style="font-size: 0.85rem;">Comparte este enlace:</span><br>
-            <a href="${generatedUrl}" target="_blank" id="dynamicLink">${generatedUrl}</a>
-            <div style="margin-top: 12px;">
-              <button id="copyLinkBtn" class="btn-primary" style="background: #2c2c3a; width: auto; padding: 0.5rem 1rem; font-size: 0.8rem;">
-                <i class="far fa-copy"></i> Copiar enlace
-              </button>
-            </div>
+    try {
+      // Usamos add() para que Firestore genere un ID automático
+      const docRef = await db.collection('proposals').add(proposalData);
+      const proposalId = docRef.id;
+      
+      // Construir URL
+      const baseUrl = window.location.href.split('?')[0];
+      const generatedUrl = `${baseUrl}?id=${proposalId}`;
+      
+      // Mostrar resultado
+      creationResultDiv.innerHTML = `
+        <div class="result-link fade-in">
+          <i class="fas fa-link" style="margin-right: 8px;"></i> 
+          <strong>✅ Propuesta creada</strong><br>
+          <span style="font-size: 0.85rem;">Comparte este enlace:</span><br>
+          <a href="${generatedUrl}" target="_blank" id="dynamicLink">${generatedUrl}</a>
+          <div style="margin-top: 12px;">
+            <button id="copyLinkBtn" class="btn-primary" style="background: #2c2c3a; width: auto; padding: 0.5rem 1rem; font-size: 0.8rem;">
+              <i class="far fa-copy"></i> Copiar enlace
+            </button>
           </div>
-        `;
-        
-        // Limpiar campos tras éxito (opcional pero mejora flujo)
-        titleInput.value = '';
-        descInput.value = '';
-        priceInput.value = '';
-        paylinkInput.value = '';
-        
-        // Añadir funcionalidad de copiar al botón generado
-        const copyBtn = document.getElementById('copyLinkBtn');
-        if (copyBtn) {
-          copyBtn.addEventListener('click', () => {
-            const linkAnchor = document.getElementById('dynamicLink');
-            if (linkAnchor) {
-              navigator.clipboard.writeText(linkAnchor.href).then(() => {
-                showToast('📋 Enlace copiado al portapapeles', 1500);
-              }).catch(() => {
-                // fallback
-                const textarea = document.createElement('textarea');
-                textarea.value = linkAnchor.href;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                showToast('📋 Enlace copiado (manual)', 1500);
-              });
-            }
-          });
-        }
-        showToast('🎉 Propuesta guardada, ya puedes compartir el link', 2000);
-      })
-      .catch(err => {
-        console.error(err);
-        showToast('⚠️ Error al guardar. Revisa conexión o configuración de Firebase', 2500);
-        creationResultDiv.innerHTML = `<div class="result-link" style="border-left-color:#e55;"><i class="fas fa-exclamation-triangle"></i> Error: ${err.message}</div>`;
-      });
+        </div>
+      `;
+      
+      // Limpiar campos
+      titleInput.value = '';
+      descInput.value = '';
+      priceInput.value = '';
+      paylinkInput.value = '';
+      
+      // Funcionalidad copiar
+      const copyBtn = document.getElementById('copyLinkBtn');
+      if (copyBtn) {
+        copyBtn.addEventListener('click', () => {
+          const linkAnchor = document.getElementById('dynamicLink');
+          if (linkAnchor) {
+            navigator.clipboard.writeText(linkAnchor.href).then(() => {
+              showToast('📋 Enlace copiado al portapapeles', 1500);
+            }).catch(() => {
+              const textarea = document.createElement('textarea');
+              textarea.value = linkAnchor.href;
+              document.body.appendChild(textarea);
+              textarea.select();
+              document.execCommand('copy');
+              document.body.removeChild(textarea);
+              showToast('📋 Enlace copiado', 1500);
+            });
+          }
+        });
+      }
+      showToast('🎉 Propuesta guardada en Firestore', 2000);
+    } catch (error) {
+      console.error('Error al guardar:', error);
+      showToast('⚠️ Error al guardar. Revisa las reglas de Firestore', 2500);
+      creationResultDiv.innerHTML = `<div class="result-link" style="border-left-color:#e55;"><i class="fas fa-exclamation-triangle"></i> Error: ${error.message}</div>`;
+    }
   }
 
-  // Función para cargar propuesta desde parámetro URL (id)
-  function loadProposalFromUrl() {
+  // Cargar propuesta desde Firestore
+  async function loadProposalFromUrl() {
     const urlParams = new URLSearchParams(window.location.search);
     const proposalId = urlParams.get('id');
     
     if (proposalId && proposalId.trim() !== '') {
-      // Cambiar la vista: ocultar creator, mostrar viewer
       creatorDiv.style.display = 'none';
       viewerDiv.style.display = 'block';
       
-      // Leer datos de Firebase
-      const proposalRef = database.ref('proposals/' + proposalId);
-      proposalRef.once('value').then(snapshot => {
-        const data = snapshot.val();
-        if (data && data.title) {
-          // Rellenar la vista con la información
+      try {
+        const docRef = db.collection('proposals').doc(proposalId);
+        const docSnap = await docRef.get();
+        
+        if (docSnap.exists) {
+          const data = docSnap.data();
           viewerTitle.innerText = data.title || 'Sin título';
           viewerDesc.innerText = data.desc || 'Sin descripción';
-          viewerPriceSpan.innerText = data.price ? data.price : '—';
+          viewerPriceSpan.innerText = data.price || '—';
+          
           if (data.paylink && (data.paylink.startsWith('http://') || data.paylink.startsWith('https://'))) {
             viewerPayLink.href = data.paylink;
+            viewerPayLink.style.opacity = '1';
+            viewerPayLink.style.cursor = 'pointer';
           } else {
-            // Si el link de pago no es válido, deshabilitamos pero mostramos info
             viewerPayLink.href = '#';
             viewerPayLink.style.opacity = '0.6';
             viewerPayLink.style.cursor = 'not-allowed';
             viewerPayLink.addEventListener('click', (e) => {
               e.preventDefault();
-              showToast('⚠️ El enlace de pago no es válido o falta configurar', 2000);
+              showToast('⚠️ El enlace de pago no es válido', 2000);
             });
           }
-          // Añadir animación de entrada
           viewerDiv.classList.add('fade-in');
           setTimeout(() => viewerDiv.classList.remove('fade-in'), 400);
         } else {
-          // Propuesta no encontrada: mostrar mensaje amigable en el viewer
           viewerTitle.innerText = 'Propuesta no encontrada';
-          viewerDesc.innerText = 'El enlace que intentas ver no existe o fue eliminado. Puedes crear una nueva propuesta.';
+          viewerDesc.innerText = 'El enlace que intentas ver no existe o fue eliminado.';
           viewerPriceSpan.innerText = '—';
           viewerPayLink.href = '#';
           viewerPayLink.style.opacity = '0.5';
           viewerPayLink.style.pointerEvents = 'none';
           showToast('❌ No se encontró la propuesta', 2000);
         }
-      }).catch(error => {
+      } catch (error) {
         console.error('Error leyendo propuesta:', error);
         viewerTitle.innerText = 'Error al cargar';
-        viewerDesc.innerText = 'Hubo un problema cargando esta propuesta. Verifica tu conexión.';
+        viewerDesc.innerText = 'Hubo un problema cargando esta propuesta. Verifica tu conexión y las reglas de Firestore.';
         viewerPriceSpan.innerText = '⚠️';
         viewerPayLink.href = '#';
-      });
+      }
     } else {
-      // No hay id, aseguramos vista de creación
       creatorDiv.style.display = 'block';
       viewerDiv.style.display = 'none';
-      // Limpiar resultado previo de creación residual
       if (creationResultDiv) creationResultDiv.innerHTML = '';
     }
   }
 
-  // Evento para botón de crear propuesta con mejor feedback
+  // Eventos
   createBtn.addEventListener('click', createProposal);
 
-  // Botón "Volver al inicio" (limpia URL y restablece vista)
   function resetToCreator() {
-    // Cambiar la URL sin recargar la página (borrar parámetro id)
     const newUrl = window.location.href.split('?')[0];
     window.history.pushState({}, document.title, newUrl);
-    // Mostrar creador, ocultar viewer
     creatorDiv.style.display = 'block';
     viewerDiv.style.display = 'none';
-    // Limpiar resultado de creación si existía
     if (creationResultDiv) creationResultDiv.innerHTML = '';
-    // Restablecer scroll invisible
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    // Pequeño toast
     showToast('🏠 Modo creación activado', 1200);
   }
 
   backBtn.addEventListener('click', resetToCreator);
 
-  // Escuchar cambios en la historia (popstate) cuando el usuario usa botones atrás/adelante
   window.addEventListener('popstate', () => {
-    // Al navegar con el historial, reevaluar si hay id en la URL.
     loadProposalFromUrl();
   });
 
-  // Inicial: comprobar si existe parámetro "id"
-  loadProposalFromUrl();
-
-  // Función extra para copiar rápido desde cualquier parte? No es necesario, pero añadimos un shortcut: si presionas Ctrl+K en creación no interfiere.
-  // Mejora: Si el usuario está en el viewer y hace clic en un botón alternativo adicional? ya está con back.
-  
-  // Pequeña mejora: Al intentar crear propuesta con enter en cualquier campo, capturar submit visual
+  // Enter key support
   const inputs = [titleInput, descInput, priceInput, paylinkInput];
   inputs.forEach(input => {
     if (input) {
@@ -607,12 +569,9 @@
       });
     }
   });
-  
-  // Opcional: verificar si el usuario está viendo una propuesta y si el enlace de pago está roto avisar suavemente
-  // También agregamos un mensaje si se intenta recargar la página con id inválido ya está cubierto.
-  
-  // proporcionar un comportamiento extra: notificación si se intenta copiar la URL dinámica desde el toast previa generación
-  console.log('Vincle funcional - estilo Notion + ChatGPT');
+
+  // Inicializar
+  loadProposalFromUrl();
 </script>
 </body>
 </html>
