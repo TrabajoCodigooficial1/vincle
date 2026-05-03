@@ -443,9 +443,78 @@
 
 <div class="container">
   <div class="hero-section" id="creator">
-    <div class="hero-badge">
-      <i class="fas fa-rocket"></i> La nueva forma de facturar
-    </div>
+   <div class="hero-badge">
+  <i class="fas fa-robot"></i>
+  <span>IA activa · Nueva forma de facturar</span>
+</div>
+
+<style>
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #eaf2ff;
+
+  background: linear-gradient(135deg, #0f172a, #1e293b, #0b1220);
+  border: 1px solid rgba(59, 130, 246, 0.35);
+
+  box-shadow:
+    0 0 0 1px rgba(59,130,246,0.15),
+    0 10px 30px rgba(0,0,0,0.35),
+    0 0 25px rgba(59,130,246,0.25);
+
+  position: relative;
+  overflow: hidden;
+}
+
+/* efecto “energía IA” */
+.hero-badge::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(59,130,246,0.4),
+    transparent
+  );
+  animation: scan 3s linear infinite;
+}
+
+@keyframes scan {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* icono estilo IA */
+.hero-badge i {
+  color: #60a5fa;
+  font-size: 16px;
+  filter: drop-shadow(0 0 6px rgba(96,165,250,0.7));
+}
+
+/* texto */
+.hero-badge span {
+  position: relative;
+  z-index: 1;
+  letter-spacing: 0.2px;
+}
+
+/* hover más “vivo” */
+.hero-badge:hover {
+  transform: translateY(-1px);
+  transition: 0.2s ease;
+  box-shadow:
+    0 0 0 1px rgba(59,130,246,0.25),
+    0 12px 35px rgba(0,0,0,0.45),
+    0 0 35px rgba(59,130,246,0.35);
+}
+</style>
     <h1>Lo sencillo, <br> <i>vende</i> </h1>
     <p class="hero-subtitle">Propuestas que cierran ventas. Crea tu link de venta en segundos.</p>
   </div>
