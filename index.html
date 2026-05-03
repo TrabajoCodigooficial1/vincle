@@ -1,295 +1,95 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sistema Vincle | Vincle Chat</title>
-  <meta name="description" content="Sistema Vincle - Servicio profesional de cambio de monedas, suministro de cambio y soluciones rápidas para negocios en Ourense y Santiago de Compostela." />
+  <meta charset="UTF-8">
+  <title>Vincle Prototype</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Inter, Arial, sans-serif;
-    }
-
     body {
-      background: #f5f7fb;
-      color: #111827;
-      line-height: 1.6;
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
     }
-
-    .container {
-      width: 92%;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    header {
-      background: white;
-      border-bottom: 1px solid #e5e7eb;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 0;
-    }
-
-    .logo {
-      font-size: 1.4rem;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-    }
-
-    .logo span {
-      color: #2563eb;
-    }
-
-    .hero {
-      padding: 110px 0 90px;
-      text-align: center;
-    }
-
-    h1 {
-      font-size: 3.4rem;
-      line-height: 1.1;
-      margin-bottom: 24px;
-      font-weight: 800;
-      letter-spacing: -1px;
-    }
-
-    .highlight {
-      color: #2563eb;
-    }
-
-    .subtitle {
-      max-width: 760px;
-      margin: 0 auto 35px;
-      font-size: 1.15rem;
-      color: #4b5563;
-    }
-
-    .cta {
-      display: inline-block;
-      background: #2563eb;
-      color: white;
-      padding: 16px 32px;
-      border-radius: 14px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 1rem;
-      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.15);
-      transition: 0.2s ease;
-    }
-
-    .cta:hover {
-      transform: translateY(-2px);
-      background: #1d4ed8;
-    }
-
-    .trust {
-      margin-top: 28px;
-      color: #6b7280;
-      font-size: 0.95rem;
-    }
-
-    section {
-      padding: 90px 0;
-    }
-
-    h2 {
-      text-align: center;
-      font-size: 2.2rem;
-      margin-bottom: 18px;
-      font-weight: 800;
-    }
-
-    .section-subtitle {
-      text-align: center;
-      max-width: 700px;
-      margin: 0 auto 50px;
-      color: #6b7280;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 20px;
-      padding: 30px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.04);
-      border: 1px solid #eef2f7;
-    }
-
-    .card h3 {
-      margin-bottom: 14px;
-      font-size: 1.2rem;
-    }
-
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 24px;
-      margin-top: 40px;
-    }
-
-    .step {
-      background: white;
-      border-radius: 18px;
-      padding: 28px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.04);
-      border: 1px solid #eef2f7;
-    }
-
-    .step-number {
-      font-size: 0.95rem;
-      color: #2563eb;
-      font-weight: 700;
+    input, textarea {
+      width: 100%;
       margin-bottom: 10px;
+      padding: 10px;
     }
-
-    .final-cta {
-      background: white;
-      border-radius: 24px;
-      padding: 70px 40px;
-      text-align: center;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.04);
+    button {
+      padding: 10px 15px;
+      cursor: pointer;
     }
-
-    footer {
-      padding: 50px 0;
-      text-align: center;
-      color: #6b7280;
-      font-size: 0.95rem;
+    .card {
+      border: 1px solid #ddd;
+      padding: 20px;
+      border-radius: 10px;
     }
-
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 2.3rem;
-      }
-
-      .hero {
-        padding: 80px 0 70px;
-      }
-
-      h2 {
-        font-size: 1.8rem;
-      }
-    }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
 
-<header>
-  <div class="container nav">
-    <div class="logo">Sistema <span>Vincle</span></div>
-    <a class="cta" href="https://wa.me/34699849287" target="_blank">Contactar</a>
-  </div>
-</header>
+<div id="creator">
+  <h2>Crear propuesta</h2>
+  <input id="title" placeholder="Título">
+  <textarea id="desc" placeholder="Descripción"></textarea>
+  <input id="price" placeholder="Precio (€)">
+  <input id="paylink" placeholder="Link de pago (Stripe, etc)">
+  <button onclick="generate()">Generar link</button>
 
-<section class="hero">
-  <div class="container">
-    <h1>¿Te falta <span class="highlight">cambio para caja</span> en tu negocio?</h1>
-    <p class="subtitle">
-      En Sistema Vincle conectamos particulares que quieren cambiar monedas por billetes con negocios que necesitan cambio para caja. Ofrecemos un servicio rápido, profesional y fiable en Ourense y Santiago de Compostela.
-    </p>
+  <p id="result"></p>
+</div>
 
-    <a class="cta" href="https://wa.me/34699849287" target="_blank">
-      Contactar al +34 699 84 92 87
+<div id="viewer" class="hidden">
+  <div class="card">
+    <h2 id="v_title"></h2>
+    <p id="v_desc"></p>
+    <h3 id="v_price"></h3>
+
+    <button onclick="accept()">Aceptar</button>
+    <br><br>
+    <a id="v_pay" target="_blank">
+      <button>Pagar</button>
     </a>
-
-    <p class="trust">
-      Vincle Chat · Atención directa · Respuesta rápida · Servicio local de confianza
-    </p>
   </div>
-</section>
+</div>
 
-<section>
-  <div class="container">
-    <h2>Servicios principales</h2>
-    <p class="section-subtitle">
-      Ayudamos tanto a particulares con monedas acumuladas como a comercios, bares y negocios que necesitan cambio diario para caja.
-    </p>
+<script>
+function generate() {
+  const data = {
+    title: document.getElementById("title").value,
+    desc: document.getElementById("desc").value,
+    price: document.getElementById("price").value,
+    paylink: document.getElementById("paylink").value
+  };
 
-    <div class="grid">
-      <div class="card">
-        <h3>Particulares: monedas por billetes</h3>
-        <p>Si tienes monedas acumuladas en casa, las convertimos en billetes de forma rápida, cómoda y segura.</p>
-      </div>
+  const encoded = btoa(JSON.stringify(data));
+  const url = location.origin + location.pathname + "#" + encoded;
 
-      <div class="card">
-        <h3>Negocios: suministro de cambio</h3>
-        <p>Los comercios reciben monedas para caja: 2€, 1€, 50c, 20c, 10c, 5c, 2c y 1c según necesidad.</p>
-      </div>
+  document.getElementById("result").innerHTML =
+    'Tu link: <a href="' + url + '">' + url + '</a>';
+}
 
-      <div class="card">
-        <h3>Servicio local profesional</h3>
-        <p>Atención directa para negocios de barrio con una solución cercana, eficiente y de confianza.</p>
-      </div>
-    </div>
-  </div>
-</section>
+function load() {
+  if (location.hash.length > 1) {
+    const data = JSON.parse(atob(location.hash.substring(1)));
 
-<section>
-  <div class="container">
-    <h2>Cómo funciona</h2>
-    <p class="section-subtitle">
-      Un proceso simple pensado para que no pierdas tiempo buscando cambio o desplazándote al banco.
-    </p>
+    document.getElementById("creator").classList.add("hidden");
+    document.getElementById("viewer").classList.remove("hidden");
 
-    <div class="steps">
-      <div class="step">
-        <div class="step-number">Paso 1</div>
-        <h3>Nos contactas</h3>
-        <p>Particular o negocio, nos escribes directamente por Vincle Chat o WhatsApp y nos indicas lo que necesitas.</p>
-      </div>
+    document.getElementById("v_title").innerText = data.title;
+    document.getElementById("v_desc").innerText = data.desc;
+    document.getElementById("v_price").innerText = data.price + "€";
+    document.getElementById("v_pay").href = data.paylink;
+  }
+}
 
-      <div class="step">
-        <div class="step-number">Paso 2</div>
-        <h3>Preparamos tu cambio</h3>
-        <p>Recogemos monedas de particulares y preparamos cambio para negocios según cada necesidad.</p>
-      </div>
+function accept() {
+  alert("Propuesta aceptada (simulación)");
+}
 
-      <div class="step">
-        <div class="step-number">Paso 3</div>
-        <h3>Servicio rápido</h3>
-        <p>Recibes una solución ágil, clara y cómoda para tu negocio.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="container">
-    <div class="final-cta">
-      <h2>Menos tiempo buscando cambio.<br>Más tiempo atendiendo clientes.</h2>
-      <p class="section-subtitle" style="margin-top:20px; margin-bottom:35px;">
-        Sistema Vincle conecta monedas que sobran en hogares con negocios que las necesitan cada día, creando una solución útil, rápida y eficiente para todos.
-      </p>
-
-      <a class="cta" href="https://wa.me/34699849287" target="_blank">
-        Hablar ahora con Sistema Vincle
-      </a>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="container">
-    <strong>Sistema Vincle</strong><br>
-    Vincle Chat · Ourense · Santiago de Compostela<br>
-    Contacto directo: +34 699 84 92 87
-  </div>
-</footer>
+load();
+</script>
 
 </body>
 </html>
