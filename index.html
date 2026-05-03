@@ -3,205 +3,330 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Vincle · Propuestas inteligentes</title>
+  <title>Vincle · Propuestas profesionales</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Firebase SDKs - Versión estable -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap');
-    
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    /* Reset y estilos base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      background-color: #fafaf9;
-      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
-      line-height: 1.5;
-      color: #1e1e2a;
+      background: linear-gradient(135deg, #f5f7fa 0%, #f0f2f5 100%);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      line-height: 1.6;
+      color: #1a1a2e;
+      min-height: 100vh;
       padding: 2rem 1rem;
     }
-    .container { max-width: 780px; margin: 0 auto; transition: all 0.2s ease; }
-    .card {
-      background: #ffffff;
-      border-radius: 24px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.03);
-      border: 1px solid #e9e9ef;
-      transition: box-shadow 0.2s, border 0.2s;
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
     }
-    .card:hover { border-color: #d0d0db; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03), 0 2px 4px rgba(0, 0, 0, 0.02); }
-    .hero { margin-bottom: 2rem; text-align: left; }
+
+    /* Tarjetas estilo Notion */
+    .card {
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(10px);
+      border-radius: 28px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Header */
+    .hero {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
     .hero h1 {
-      font-size: 2.75rem;
+      font-size: 3.5rem;
       font-weight: 700;
-      letter-spacing: -0.02em;
-      background: linear-gradient(135deg, #1E1E2A 0%, #3a3a4a 100%);
+      background: linear-gradient(135deg, #1e293b 0%, #2d3748 100%);
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent;
-      margin-bottom: 0.25rem;
-    }
-    .badge {
-      font-size: 0.9rem;
-      color: #5b5b6e;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: #f0f0f2;
-      padding: 0.2rem 0.7rem;
-      border-radius: 40px;
-    }
-    .form-group { margin-bottom: 1.25rem; }
-    label {
-      font-size: 0.85rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-      color: #6b6b7e;
-      display: block;
       margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
     }
-    input, textarea {
-      width: 100%;
-      border: 1px solid #e6e6ec;
-      background: #ffffff;
-      padding: 0.85rem 1rem;
-      border-radius: 16px;
-      font-size: 0.95rem;
-      font-family: inherit;
-      transition: 0.2s;
-      outline: none;
-      color: #14141c;
-    }
-    input:focus, textarea:focus { border-color: #3b3b5c; box-shadow: 0 0 0 3px rgba(59, 59, 92, 0.08); }
-    textarea { resize: vertical; min-height: 90px; }
-    .btn-primary {
-      background: #1e1e2a;
-      color: white;
-      border: none;
-      padding: 0.85rem 1.6rem;
-      border-radius: 40px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: 0.2s;
+
+    .badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      justify-content: center;
-      width: 100%;
-      box-shadow: 0 1px 1px rgba(0,0,0,0.05);
-    }
-    .btn-primary:hover { background: #2b2b3a; transform: scale(0.98); }
-    .btn-secondary {
-      background: transparent;
-      border: 1px solid #d4d4de;
-      color: #2c2c38;
-      box-shadow: none;
-    }
-    .btn-secondary:hover { background: #f5f5f7; transform: none; }
-    .result-link {
-      margin-top: 1.5rem;
-      padding: 1rem;
-      background: #f8f8fa;
-      border-radius: 20px;
-      font-size: 0.9rem;
-      word-break: break-all;
-      border-left: 4px solid #1e1e2a;
-    }
-    .result-link a { color: #1e1e2a; font-weight: 600; text-decoration: none; border-bottom: 1px dashed #acacbc; }
-    .result-link a:hover { color: #000; border-bottom: 1px solid #000; }
-    .viewer-card { text-align: center; padding: 2rem 2rem 2.2rem; }
-    .viewer-title {
-      font-size: 2.2rem;
-      font-weight: 700;
-      letter-spacing: -0.3px;
-      margin: 1rem 0 0.5rem;
-      background: linear-gradient(145deg, #1F1F2B, #2F2F40);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-    .viewer-desc { color: #4a4a5c; font-size: 1.05rem; margin: 1rem 0; white-space: pre-wrap; }
-    .price-tag {
-      background: #f2f2f5;
-      display: inline-block;
-      padding: 0.5rem 1.5rem;
-      border-radius: 60px;
-      font-size: 2rem;
-      font-weight: 700;
-      margin: 0.75rem 0 1.5rem;
-      color: #1E1E2A;
-    }
-    .pay-button {
-      background: #1e1e2a;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
-      border-radius: 60px;
-      padding: 0.9rem 2rem;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+
+    .subtitle {
+      color: #64748b;
+      font-size: 1.1rem;
+    }
+
+    /* Formulario */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
+      font-size: 1rem;
+      transition: all 0.2s;
+      font-family: inherit;
+      background: white;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    /* Botones */
+    .btn-primary {
+      background: linear-gradient(135deg, #1e293b 0%, #2d3748 100%);
+      color: white;
+      border: none;
+      padding: 1rem 1.5rem;
+      border-radius: 40px;
       font-size: 1rem;
       font-weight: 600;
-      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
       display: inline-flex;
       align-items: center;
-      gap: 12px;
-      cursor: pointer;
-      transition: 0.2s;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #1e293b;
+      border: 2px solid #e2e8f0;
+      padding: 0.75rem 1.5rem;
+    }
+
+    .btn-secondary:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+
+    /* Resultados */
+    .result-card {
+      margin-top: 1.5rem;
+      padding: 1.25rem;
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      border-radius: 20px;
+      border-left: 4px solid #22c55e;
+    }
+
+    .result-card a {
+      color: #166534;
       text-decoration: none;
+      font-weight: 600;
+      word-break: break-all;
     }
-    .pay-button:hover { background: #2c2c3c; transform: scale(0.97); }
-    .toast-msg {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #1e1e2a;
+
+    .result-card a:hover {
+      text-decoration: underline;
+    }
+
+    /* Vista de propuesta */
+    .viewer-container {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .viewer-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin: 1rem 0;
+      color: #1e293b;
+    }
+
+    .viewer-price {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #667eea;
+      margin: 1.5rem 0;
+    }
+
+    .pay-button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
-      padding: 8px 20px;
-      border-radius: 60px;
-      font-size: 0.85rem;
-      z-index: 1000;
-      opacity: 0;
-      transition: opacity 0.2s;
-      pointer-events: none;
-      backdrop-filter: blur(8px);
-      background: rgba(30,30,42,0.9);
+      padding: 1rem 2rem;
+      border-radius: 40px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      transition: all 0.2s;
     }
-    hr { margin: 1rem 0; border: none; border-top: 1px solid #efeff2; }
-    @media (max-width: 560px) { .container { padding: 0; } .hero h1 { font-size: 2rem; } }
-    .fade-in { animation: fade 0.3s ease; }
-    @keyframes fade { from { opacity: 0; transform: translateY(6px);} to { opacity: 1; transform: translateY(0);} }
+
+    .pay-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1e293b;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      transition: transform 0.3s;
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Loading */
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid white;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      body { padding: 1rem; }
+      .hero h1 { font-size: 2.5rem; }
+      .viewer-title { font-size: 1.8rem; }
+    }
   </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
 <div class="container">
+  <!-- Sección de creación -->
   <div id="creatorSection">
     <div class="hero">
+      <div class="badge">
+        <i class="fas fa-bolt"></i> Propuestas instantáneas
+      </div>
       <h1>Vincle</h1>
-      <div class="badge"><i class="fas fa-bolt"></i> Propuestas al instante</div>
-      <p style="margin-top: 12px; color:#5b5b6e;">Crea una propuesta profesional, comparte el enlace y cobra.</p>
+      <p class="subtitle">Crea y comparte propuestas profesionales en segundos</p>
     </div>
-    <div class="card" style="padding: 1.8rem;">
-      <div class="form-group"><label><i class="far fa-file-alt"></i> Título</label><input type="text" id="titleInput" placeholder="Ej: Landing page corporativa"></div>
-      <div class="form-group"><label><i class="far fa-align-left"></i> Descripción</label><textarea id="descInput" placeholder="Detalla el servicio..."></textarea></div>
-      <div class="form-group"><label><i class="fas fa-euro-sign"></i> Precio</label><input type="text" id="priceInput" placeholder="ej: 1.200 €"></div>
-      <div class="form-group"><label><i class="fas fa-link"></i> Link de pago</label><input type="url" id="paylinkInput" placeholder="https://tu-enlace-de-pago.com"></div>
-      <button class="btn-primary" id="createProposalBtn"><i class="fas fa-magic"></i> Crear enlace</button>
-      <div id="creationResult" style="margin-top: 1.2rem;"></div>
+
+    <div class="card" style="padding: 2rem;">
+      <form id="proposalForm">
+        <div class="form-group">
+          <label><i class="fas fa-heading"></i> Título de la propuesta</label>
+          <input type="text" id="title" placeholder="Ej: Desarrollo web completo" required>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-align-left"></i> Descripción</label>
+          <textarea id="description" placeholder="Describe los detalles del servicio, alcance, condiciones..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-tag"></i> Precio</label>
+          <input type="text" id="price" placeholder="Ej: 1.200€ · 75€/hora · Presupuesto a medida">
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-credit-card"></i> Link de pago</label>
+          <input type="url" id="paymentLink" placeholder="https://paypal.me/tuusuario / https://stripe.com/...">
+        </div>
+
+        <button type="submit" class="btn-primary" id="createBtn">
+          <i class="fas fa-magic"></i> Crear propuesta
+        </button>
+      </form>
+
+      <div id="resultArea"></div>
     </div>
   </div>
 
+  <!-- Sección de visualización -->
   <div id="viewerSection" style="display: none;">
-    <div class="card viewer-card" style="padding: 2rem;">
-      <div style="display: flex; justify-content: flex-start;"><span class="badge"><i class="fas fa-file-invoice"></i> Propuesta Vincle</span></div>
-      <h2 id="viewerTitle" class="viewer-title">—</h2>
-      <div id="viewerDesc" class="viewer-desc">—</div>
-      <div class="price-tag" id="viewerPrice">—</div>
-      <div><a id="viewerPayLink" href="#" target="_blank" class="pay-button"><i class="fas fa-credit-card"></i> Proceder al pago</a></div>
-      <hr>
-      <p style="font-size: 0.75rem; color:#8787a0;"><i class="fas fa-lock"></i> Pago seguro externo</p>
-      <div style="margin-top: 1.5rem;"><button id="backToHomeBtn" class="btn-primary btn-secondary" style="width: auto; background: transparent;"><i class="fas fa-arrow-left"></i> Volver al inicio</button></div>
+    <div class="card viewer-container">
+      <div class="badge" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+        <i class="fas fa-file-invoice"></i> Propuesta Vincle
+      </div>
+      <h2 id="viewerTitle" class="viewer-title">Cargando...</h2>
+      <div id="viewerDescription" style="color: #475569; margin: 1rem 0; line-height: 1.6;"></div>
+      <div id="viewerPrice" class="viewer-price"></div>
+      <a id="viewerPayLink" href="#" target="_blank" class="pay-button">
+        <i class="fas fa-credit-card"></i> Proceder al pago
+      </a>
+      <div style="margin-top: 2rem;">
+        <button id="backBtn" class="btn-primary btn-secondary" style="width: auto; padding: 0.75rem 1.5rem;">
+          <i class="fas fa-arrow-left"></i> Crear nueva propuesta
+        </button>
+      </div>
     </div>
   </div>
 </div>
-<div id="toastMsg" class="toast-msg">✨ Enlace copiado</div>
+
+<div id="toast" class="toast"></div>
 
 <script>
+  // Configuración de Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyXMvncuf1Jhux5dVzDJ_VQe3cw3tIntt",
     authDomain: "vincle-e76dd.firebaseapp.com",
@@ -211,115 +336,221 @@
     appId: "1:11807936515:web:ff67d9da38e956ff62cee6"
   };
 
+  // Inicializar Firebase
   let db;
   try {
-    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
     db = firebase.firestore();
-    console.log("✅ Firestore conectado");
-    
-    // Probar escritura mínima para verificar permisos
-    db.collection('test').add({ test: true }).then(() => {
-      console.log("✅ Permisos de escritura OK");
-    }).catch(e => console.error("❌ Error de permisos:", e.message));
-  } catch(e) { console.error("Error:", e); alert("Error de conexión"); }
-
-  const creatorDiv = document.getElementById('creatorSection');
-  const viewerDiv = document.getElementById('viewerSection');
-  const titleInput = document.getElementById('titleInput');
-  const descInput = document.getElementById('descInput');
-  const priceInput = document.getElementById('priceInput');
-  const paylinkInput = document.getElementById('paylinkInput');
-  const createBtn = document.getElementById('createProposalBtn');
-  const creationResultDiv = document.getElementById('creationResult');
-  const viewerTitle = document.getElementById('viewerTitle');
-  const viewerDesc = document.getElementById('viewerDesc');
-  const viewerPriceSpan = document.getElementById('viewerPrice');
-  const viewerPayLink = document.getElementById('viewerPayLink');
-  const backBtn = document.getElementById('backToHomeBtn');
-
-  function showToast(msg, duration = 2200) {
-    const toast = document.getElementById('toastMsg');
-    toast.innerText = msg;
-    toast.style.opacity = '1';
-    setTimeout(() => toast.style.opacity = '0', duration);
+    console.log('✅ Firebase conectado correctamente');
+  } catch (error) {
+    console.error('❌ Error de conexión:', error);
+    showToast('Error de conexión con el servidor', 3000);
   }
 
-  async function createProposal() {
-    const title = titleInput.value.trim();
-    const desc = descInput.value.trim();
-    const price = priceInput.value.trim();
-    const paylink = paylinkInput.value.trim();
+  // Elementos del DOM
+  const creatorSection = document.getElementById('creatorSection');
+  const viewerSection = document.getElementById('viewerSection');
+  const createBtn = document.getElementById('createBtn');
+  const backBtn = document.getElementById('backBtn');
+  const resultArea = document.getElementById('resultArea');
+  const form = document.getElementById('proposalForm');
 
-    if (!title) { showToast('❌ Título obligatorio'); titleInput.focus(); return; }
-    if (!desc) { showToast('✏️ Descripción obligatoria'); descInput.focus(); return; }
-    if (!price) { showToast('💰 Precio obligatorio'); priceInput.focus(); return; }
-    if (!paylink) { showToast('🔗 Link de pago obligatorio'); paylinkInput.focus(); return; }
-    if (!paylink.startsWith('http')) { showToast('🔗 El link debe empezar con http:// o https://'); return; }
+  // Función para mostrar toast
+  function showToast(message, duration = 2500) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, duration);
+  }
 
-    createBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Guardando...';
-    createBtn.disabled = true;
-
+  // Función para copiar al portapapeles
+  async function copyToClipboard(text) {
     try {
-      const docRef = await db.collection('proposals').add({
-        title, desc, price, paylink,
-        createdAt: new Date().toISOString()
-      });
-      
-      const url = `${window.location.href.split('?')[0]}?id=${docRef.id}`;
-      creationResultDiv.innerHTML = `
-        <div class="result-link fade-in">
-          <i class="fas fa-link"></i> <strong>✅ Propuesta creada</strong><br>
-          <a href="${url}" target="_blank" id="dynamicLink">${url}</a>
-          <div style="margin-top:12px"><button id="copyLinkBtn" style="background:#2c2c3a; padding:0.5rem 1rem; border-radius:40px; border:none; color:white; cursor:pointer;"><i class="far fa-copy"></i> Copiar</button></div>
-        </div>`;
-      
-      document.getElementById('copyLinkBtn')?.addEventListener('click', () => {
-        navigator.clipboard.writeText(document.getElementById('dynamicLink').href);
-        showToast('📋 Enlace copiado');
-      });
-      
-      titleInput.value = descInput.value = priceInput.value = paylinkInput.value = '';
-      showToast('🎉 Propuesta guardada');
-    } catch(e) {
-      console.error(e);
-      showToast('⚠️ Error: ' + e.message);
-      creationResultDiv.innerHTML = `<div class="result-link" style="border-left-color:#e55;">❌ Error: ${e.message}</div>`;
-    } finally {
-      createBtn.innerHTML = '<i class="fas fa-magic"></i> Crear enlace';
-      createBtn.disabled = false;
+      await navigator.clipboard.writeText(text);
+      showToast('✅ Enlace copiado al portapapeles', 2000);
+    } catch (err) {
+      // Fallback
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      showToast('✅ Enlace copiado', 2000);
     }
   }
 
-  async function loadProposal() {
-    const id = new URLSearchParams(window.location.search).get('id');
-    if (!id) { creatorDiv.style.display = 'block'; viewerDiv.style.display = 'none'; return; }
+  // Crear propuesta
+  async function createProposal(e) {
+    e.preventDefault();
     
-    creatorDiv.style.display = 'none';
-    viewerDiv.style.display = 'block';
+    const title = document.getElementById('title').value.trim();
+    const description = document.getElementById('description').value.trim();
+    const price = document.getElementById('price').value.trim();
+    const paymentLink = document.getElementById('paymentLink').value.trim();
+
+    // Validaciones
+    if (!title) {
+      showToast('❌ Por favor, ingresa un título', 2000);
+      document.getElementById('title').focus();
+      return;
+    }
     
+    if (!description) {
+      showToast('❌ Por favor, ingresa una descripción', 2000);
+      document.getElementById('description').focus();
+      return;
+    }
+    
+    if (!price) {
+      showToast('❌ Por favor, ingresa un precio', 2000);
+      document.getElementById('price').focus();
+      return;
+    }
+    
+    if (!paymentLink) {
+      showToast('❌ Por favor, ingresa un link de pago', 2000);
+      document.getElementById('paymentLink').focus();
+      return;
+    }
+
+    if (!paymentLink.startsWith('http://') && !paymentLink.startsWith('https://')) {
+      showToast('❌ El link de pago debe comenzar con http:// o https://', 2500);
+      document.getElementById('paymentLink').focus();
+      return;
+    }
+
+    // Deshabilitar botón y mostrar loading
+    createBtn.disabled = true;
+    createBtn.innerHTML = '<span class="loading-spinner"></span> Creando propuesta...';
+
     try {
-      const doc = await db.collection('proposals').doc(id).get();
-      if (doc.exists) {
-        const data = doc.data();
-        viewerTitle.innerText = data.title || 'Sin título';
-        viewerDesc.innerText = data.desc || '';
-        viewerPriceSpan.innerText = data.price || '—';
-        viewerPayLink.href = data.paylink?.startsWith('http') ? data.paylink : '#';
-      } else {
-        viewerTitle.innerText = 'Propuesta no encontrada';
-        viewerDesc.innerText = 'Este enlace no existe o fue eliminado.';
-        viewerPriceSpan.innerText = '—';
-      }
-    } catch(e) { console.error(e); viewerTitle.innerText = 'Error al cargar'; }
+      // Guardar en Firestore
+      const proposalData = {
+        title: title,
+        description: description,
+        price: price,
+        paymentLink: paymentLink,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        views: 0
+      };
+
+      const docRef = await db.collection('proposals').add(proposalData);
+      const proposalId = docRef.id;
+      
+      // Generar URL
+      const baseUrl = window.location.href.split('?')[0];
+      const proposalUrl = `${baseUrl}?id=${proposalId}`;
+      
+      // Mostrar resultado
+      resultArea.innerHTML = `
+        <div class="result-card">
+          <i class="fas fa-check-circle" style="color: #22c55e; font-size: 1.5rem; margin-bottom: 0.5rem; display: inline-block;"></i>
+          <h3 style="margin: 0.5rem 0; color: #166534;">¡Propuesta creada con éxito!</h3>
+          <p style="margin: 0.5rem 0; color: #475569;">Comparte este enlace con tu cliente:</p>
+          <a href="${proposalUrl}" target="_blank" style="display: block; margin: 0.5rem 0; word-break: break-all;">${proposalUrl}</a>
+          <button id="copyUrlBtn" class="btn-primary" style="margin-top: 0.5rem; background: #22c55e; width: auto; padding: 0.5rem 1rem;">
+            <i class="fas fa-copy"></i> Copiar enlace
+          </button>
+        </div>
+      `;
+      
+      // Evento para copiar enlace
+      document.getElementById('copyUrlBtn').addEventListener('click', () => {
+        copyToClipboard(proposalUrl);
+      });
+      
+      // Limpiar formulario
+      form.reset();
+      showToast('🎉 Propuesta creada exitosamente', 2500);
+      
+    } catch (error) {
+      console.error('Error al crear:', error);
+      showToast('❌ Error al crear la propuesta: ' + error.message, 3000);
+      resultArea.innerHTML = `
+        <div class="result-card" style="background: #fef2f2; border-left-color: #ef4444;">
+          <i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i>
+          <p style="color: #991b1b; margin-top: 0.5rem;">Error: ${error.message}</p>
+          <p style="color: #475569; font-size: 0.9rem;">Verifica que Firestore esté habilitado en Firebase Console</p>
+        </div>
+      `;
+    } finally {
+      // Restaurar botón
+      createBtn.disabled = false;
+      createBtn.innerHTML = '<i class="fas fa-magic"></i> Crear propuesta';
+    }
   }
 
-  createBtn.addEventListener('click', createProposal);
+  // Cargar propuesta desde URL
+  async function loadProposalFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const proposalId = urlParams.get('id');
+    
+    if (proposalId && proposalId.trim() !== '') {
+      // Mostrar vista de propuesta
+      creatorSection.style.display = 'none';
+      viewerSection.style.display = 'block';
+      
+      try {
+        const docRef = db.collection('proposals').doc(proposalId);
+        const docSnap = await docRef.get();
+        
+        if (docSnap.exists) {
+          const data = docSnap.data();
+          document.getElementById('viewerTitle').textContent = data.title || 'Sin título';
+          document.getElementById('viewerDescription').textContent = data.description || 'Sin descripción';
+          document.getElementById('viewerPrice').textContent = data.price || '—';
+          
+          const payLink = document.getElementById('viewerPayLink');
+          if (data.paymentLink && data.paymentLink.startsWith('http')) {
+            payLink.href = data.paymentLink;
+            payLink.style.opacity = '1';
+            payLink.style.pointerEvents = 'auto';
+          } else {
+            payLink.href = '#';
+            payLink.style.opacity = '0.5';
+            payLink.style.pointerEvents = 'none';
+            payLink.addEventListener('click', (e) => {
+              e.preventDefault();
+              showToast('⚠️ El enlace de pago no está configurado correctamente', 2000);
+            });
+          }
+        } else {
+          document.getElementById('viewerTitle').textContent = 'Propuesta no encontrada';
+          document.getElementById('viewerDescription').textContent = 'El enlace que intentas acceder no existe o ha sido eliminado.';
+          document.getElementById('viewerPrice').textContent = '—';
+          document.getElementById('viewerPayLink').style.display = 'none';
+        }
+      } catch (error) {
+        console.error('Error al cargar:', error);
+        document.getElementById('viewerTitle').textContent = 'Error de carga';
+        document.getElementById('viewerDescription').textContent = 'Hubo un problema al cargar esta propuesta. Verifica tu conexión.';
+      }
+    } else {
+      // Mostrar vista de creación
+      creatorSection.style.display = 'block';
+      viewerSection.style.display = 'none';
+      resultArea.innerHTML = '';
+    }
+  }
+
+  // Eventos
+  form.addEventListener('submit', createProposal);
   backBtn.addEventListener('click', () => {
-    history.pushState({}, '', window.location.pathname);
-    loadProposal();
+    window.history.pushState({}, document.title, window.location.pathname);
+    loadProposalFromUrl();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
-  window.addEventListener('popstate', loadProposal);
-  loadProposal();
+  
+  // Escuchar cambios en el historial
+  window.addEventListener('popstate', loadProposalFromUrl);
+  
+  // Inicializar
+  loadProposalFromUrl();
 </script>
 </body>
 </html>
