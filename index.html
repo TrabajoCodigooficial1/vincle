@@ -3,13 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Vinclechat · Propuestas profesionales</title>
+  <title>Vinclechat · Propuestas profesionales · Socios estratégicos</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
   <style>
-    /* Reset y estilos base */
     * {
       margin: 0;
       padding: 0;
@@ -17,67 +16,210 @@
     }
 
     body {
-      background: linear-gradient(135deg, #f5f7fa 0%, #f0f2f5 100%);
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-      line-height: 1.6;
-      color: #1a1a2e;
+      background: #fbfbfd;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.5;
+      color: #1d1d1f;
       min-height: 100vh;
-      padding: 2rem 1rem;
+    }
+
+    /* Scroll suave */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Navegación estilo Apple */
+    .navbar {
+      position: sticky;
+      top: 0;
+      background: rgba(251, 251, 253, 0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      z-index: 100;
+      padding: 0.8rem 0;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1d1d1f 0%, #3a3a3e 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.02em;
+    }
+
+    .logo i {
+      background: none;
+      color: #0071e3;
+      margin-right: 8px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #1d1d1f;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #0071e3;
     }
 
     .container {
-      max-width: 800px;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    /* Hero section */
+    .hero-section {
+      text-align: center;
+      padding: 3rem 1rem 2rem;
+    }
+
+    .hero-section h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1d1d1f 0%, #6e6e73 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #0071e3 0%, #0051a3 100%);
+      color: white;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: #6e6e73;
+      max-width: 600px;
       margin: 0 auto;
     }
 
     /* Tarjetas estilo Notion */
     .card {
-      background: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(10px);
-      border-radius: 28px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: #ffffff;
+      border-radius: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.03);
+      border: 1px solid #e9e9ef;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+      border-color: #d0d0db;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
     }
 
-    /* Header */
-    .hero {
+    /* Sección de socios - Estilo Forbes/Apple */
+    .partners-section {
+      margin: 4rem 0;
+      padding: 2rem;
+      background: linear-gradient(135deg, #f5f5f7 0%, #ffffff 100%);
+      border-radius: 32px;
       text-align: center;
-      margin-bottom: 2rem;
     }
 
-    .hero h1 {
-      font-size: 3.5rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #1e293b 0%, #2d3748 100%);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-      margin-bottom: 0.5rem;
+    .section-title {
+      font-size: 2rem;
+      font-weight: 600;
       letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+      color: #1d1d1f;
     }
 
-    .badge {
+    .section-subtitle {
+      color: #6e6e73;
+      margin-bottom: 2rem;
+      font-size: 1rem;
+    }
+
+    .partners-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+
+    .partner-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 20px;
+      text-align: center;
+      transition: all 0.3s;
+      border: 1px solid #e9e9ef;
+      cursor: pointer;
+    }
+
+    .partner-card:hover {
+      transform: translateY(-4px);
+      border-color: #0071e3;
+      box-shadow: 0 12px 24px rgba(0, 113, 227, 0.1);
+    }
+
+    .partner-icon {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 1rem;
+      background: linear-gradient(135deg, #f5f5f7 0%, #e8e8ed 100%);
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #0071e3;
+    }
+
+    .partner-card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #1d1d1f;
+    }
+
+    .partner-card p {
+      font-size: 0.8rem;
+      color: #6e6e73;
+    }
+
+    /* Badge de socio confiable */
+    .trust-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 0.4rem 1rem;
+      background: #f5f5f7;
+      padding: 0.3rem 1rem;
       border-radius: 40px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      margin-bottom: 1rem;
-    }
-
-    .subtitle {
-      color: #64748b;
-      font-size: 1.1rem;
+      font-size: 0.75rem;
+      color: #1d1d1f;
+      margin-top: 1rem;
     }
 
     /* Formulario */
@@ -89,16 +231,16 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      font-weight: 600;
-      color: #334155;
+      font-weight: 500;
+      color: #1d1d1f;
       margin-bottom: 0.5rem;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
 
     input, textarea {
       width: 100%;
       padding: 1rem;
-      border: 2px solid #e2e8f0;
+      border: 1.5px solid #e9e9ef;
       border-radius: 16px;
       font-size: 1rem;
       transition: all 0.2s;
@@ -108,8 +250,8 @@
 
     input:focus, textarea:focus {
       outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      border-color: #0071e3;
+      box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
     }
 
     textarea {
@@ -117,15 +259,14 @@
       min-height: 100px;
     }
 
-    /* Botones */
     .btn-primary {
-      background: linear-gradient(135deg, #1e293b 0%, #2d3748 100%);
+      background: #1d1d1f;
       color: white;
       border: none;
       padding: 1rem 1.5rem;
       border-radius: 40px;
       font-size: 1rem;
-      font-weight: 600;
+      font-weight: 500;
       cursor: pointer;
       transition: all 0.2s;
       display: inline-flex;
@@ -136,46 +277,42 @@
     }
 
     .btn-primary:hover:not(:disabled) {
-      transform: translateY(-1px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      background: #0071e3;
+      transform: scale(0.98);
     }
 
     .btn-primary:disabled {
-      opacity: 0.7;
+      opacity: 0.6;
       cursor: not-allowed;
     }
 
     .btn-secondary {
       background: white;
-      color: #1e293b;
-      border: 2px solid #e2e8f0;
+      color: #1d1d1f;
+      border: 1.5px solid #e9e9ef;
       padding: 0.75rem 1.5rem;
       width: auto;
     }
 
     .btn-secondary:hover {
-      background: #f8fafc;
-      border-color: #cbd5e1;
+      background: #f5f5f7;
+      border-color: #d0d0db;
     }
 
     /* Resultados */
     .result-card {
       margin-top: 1.5rem;
       padding: 1.25rem;
-      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
       border-radius: 20px;
-      border-left: 4px solid #22c55e;
+      border-left: 4px solid #34c759;
     }
 
     .result-card a {
-      color: #166534;
+      color: #1d1d1f;
       text-decoration: none;
-      font-weight: 600;
+      font-weight: 500;
       word-break: break-all;
-    }
-
-    .result-card a:hover {
-      text-decoration: underline;
     }
 
     /* Vista de propuesta */
@@ -188,25 +325,18 @@
       font-size: 2.5rem;
       font-weight: 700;
       margin: 1rem 0;
-      color: #1e293b;
+      color: #1d1d1f;
     }
 
     .viewer-price {
       font-size: 2.5rem;
       font-weight: 700;
-      color: #667eea;
+      color: #0071e3;
       margin: 1.5rem 0;
     }
 
-    .viewer-description {
-      color: #475569;
-      margin: 1rem 0;
-      line-height: 1.6;
-      white-space: pre-wrap;
-    }
-
     .pay-button {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: #0071e3;
       color: white;
       padding: 1rem 2rem;
       border-radius: 40px;
@@ -214,13 +344,13 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      font-weight: 600;
+      font-weight: 500;
       transition: all 0.2s;
     }
 
     .pay-button:hover {
+      background: #0051a3;
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
     }
 
     /* Toast */
@@ -229,7 +359,7 @@
       bottom: 30px;
       left: 50%;
       transform: translateX(-50%) translateY(100px);
-      background: #1e293b;
+      background: #1d1d1f;
       color: white;
       padding: 12px 24px;
       border-radius: 40px;
@@ -243,7 +373,6 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    /* Loading */
     .loading-spinner {
       display: inline-block;
       width: 20px;
@@ -258,47 +387,71 @@
       to { transform: rotate(360deg); }
     }
 
-    /* Responsive */
-    @media (max-width: 640px) {
-      body { padding: 1rem; }
-      .hero h1 { font-size: 2.5rem; }
-      .viewer-title { font-size: 1.8rem; }
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 2rem;
+      color: #6e6e73;
+      font-size: 0.8rem;
+      border-top: 1px solid #e9e9ef;
+      margin-top: 3rem;
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 1rem; }
+      .hero-section h1 { font-size: 2.5rem; }
+      .partners-grid { gap: 1rem; }
+      .nav-container { flex-direction: column; gap: 1rem; }
     }
   </style>
 </head>
 <body>
 
+<!-- Navegación estilo Apple -->
+<div class="navbar">
+  <div class="nav-container">
+    <div class="logo">
+      <i class="fas fa-bolt"></i> Vinclechat
+    </div>
+    <div class="nav-links">
+      <a href="#creator">Crear propuesta</a>
+      <a href="#partners">Socios</a>
+    </div>
+  </div>
+</div>
+
 <div class="container">
+  <!-- Hero Section -->
+  <div class="hero-section" id="creator">
+    <div class="hero-badge">
+      <i class="fas fa-rocket"></i> La nueva forma de facturar
+    </div>
+    <h1>Propuestas que<br>cierran negocios</h1>
+    <p class="hero-subtitle">Crea, comparte y cobra en segundos. Diseño profesional, tecnología de punta.</p>
+  </div>
+
   <!-- Sección de creación -->
   <div id="creatorSection">
-    <div class="hero">
-      <div class="badge">
-        <i class="fas fa-bolt"></i> Propuestas instantáneas
-      </div>
-      <h1>Vinclechat</h1>
-      <p class="subtitle">Crea y comparte propuestas profesionales en segundos</p>
-    </div>
-
     <div class="card" style="padding: 2rem;">
       <form id="proposalForm">
         <div class="form-group">
           <label><i class="fas fa-heading"></i> Título de la propuesta</label>
-          <input type="text" id="title" placeholder="Ej: Desarrollo web completo" required>
+          <input type="text" id="title" placeholder="Ej: Consultoría estratégica 2025" required>
         </div>
 
         <div class="form-group">
           <label><i class="fas fa-align-left"></i> Descripción</label>
-          <textarea id="description" placeholder="Describe los detalles del servicio, alcance, condiciones..."></textarea>
+          <textarea id="description" placeholder="Describe el alcance, entregables y condiciones..."></textarea>
         </div>
 
         <div class="form-group">
           <label><i class="fas fa-tag"></i> Precio</label>
-          <input type="text" id="price" placeholder="Ej: 1.200€ · 75€/hora · Presupuesto a medida">
+          <input type="text" id="price" placeholder="Ej: 2.500€ · 150€/hora · Presupuesto personalizado">
         </div>
 
         <div class="form-group">
           <label><i class="fas fa-credit-card"></i> Link de pago</label>
-          <input type="url" id="paymentLink" placeholder="https://paypal.me/tuusuario / https://stripe.com/...">
+          <input type="url" id="paymentLink" placeholder="https://paypal.me/... / https://stripe.com/...">
         </div>
 
         <button type="submit" class="btn-primary" id="createBtn">
@@ -310,17 +463,62 @@
     </div>
   </div>
 
-  <!-- Sección de visualización -->
+  <!-- SECCIÓN DE SOCIOS (ESTILO FORBES/APPLE) -->
+  <div class="partners-section" id="partners">
+    <div class="section-title">
+      Confían en nosotros
+    </div>
+    <div class="section-subtitle">
+      <i class="fas fa-chart-line"></i> Empresas líderes que ya usan Vinclechat
+    </div>
+    <div class="partners-grid">
+      <div class="partner-card">
+        <div class="partner-icon">MB</div>
+        <h3>Mundibussiness</h3>
+        <p>Consultoría global</p>
+        <div class="trust-badge"><i class="fas fa-check-circle"></i> Socio estratégico</div>
+      </div>
+      <div class="partner-card">
+        <div class="partner-icon">MT</div>
+        <h3>Mytelai</h3>
+        <p>Inteligencia artificial</p>
+        <div class="trust-badge"><i class="fas fa-check-circle"></i> Innovación</div>
+      </div>
+      <div class="partner-card">
+        <div class="partner-icon">KM</div>
+        <h3>Knowmeet</h3>
+        <p>Networking profesional</p>
+        <div class="trust-badge"><i class="fas fa-check-circle"></i> Partner oficial</div>
+      </div>
+      <div class="partner-card">
+        <div class="partner-icon">IN</div>
+        <h3>Instituto NeuroStart</h3>
+        <p>Neuroformación ejecutiva</p>
+        <div class="trust-badge"><i class="fas fa-check-circle"></i> Certificado</div>
+      </div>
+      <div class="partner-card">
+        <div class="partner-icon">MK</div>
+        <h3>Marikaf-ai</h3>
+        <p>Automatización con IA</p>
+        <div class="trust-badge"><i class="fas fa-check-circle"></i> Aliado tecnológico</div>
+      </div>
+    </div>
+    <div style="margin-top: 2rem;">
+      <span class="trust-badge"><i class="fas fa-infinity"></i> +32 empresas confían en nuestra plataforma</span>
+    </div>
+  </div>
+
+  <!-- Sección de visualización de propuestas -->
   <div id="viewerSection" style="display: none;">
     <div class="card viewer-container">
-      <div class="badge" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
-        <i class="fas fa-file-invoice"></i> Propuesta Vinclechat
+      <div class="hero-badge" style="background: linear-gradient(135deg, #34c759 0%, #28a745 100%);">
+        <i class="fas fa-file-invoice"></i> Propuesta oficial Vinclechat
       </div>
       <h2 id="viewerTitle" class="viewer-title">Cargando...</h2>
-      <div id="viewerDescription" class="viewer-description"></div>
+      <div id="viewerDescription" style="color: #6e6e73; margin: 1rem 0; line-height: 1.6;"></div>
       <div id="viewerPrice" class="viewer-price"></div>
       <a id="viewerPayLink" href="#" target="_blank" class="pay-button">
-        <i class="fas fa-credit-card"></i> Proceder al pago
+        <i class="fas fa-credit-card"></i> Proceder al pago seguro
       </a>
       <div style="margin-top: 2rem;">
         <button id="backBtn" class="btn-primary btn-secondary">
@@ -331,10 +529,14 @@
   </div>
 </div>
 
+<div class="footer">
+  <p>© 2025 Vinclechat · Propuestas profesionales con inteligencia de negocios</p>
+</div>
+
 <div id="toast" class="toast"></div>
 
 <script>
-  // Configuración de Firebase ACTUALIZADA con tus datos de Vinclechat
+  // Configuración de Firebase Vinclechat
   const firebaseConfig = {
     apiKey: "AIzaSyBfJq-6CniQvqmR6aRS3XNC5GxE5E1bMpQ",
     authDomain: "vinclechat-564d1.firebaseapp.com",
@@ -344,21 +546,17 @@
     appId: "1:674493693630:web:917f85b174047e327028ef"
   };
 
-  // Inicializar Firebase
   let db;
   try {
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
     }
     db = firebase.firestore();
-    console.log('✅ Firebase conectado correctamente a Vinclechat');
-    showToast('🚀 Sistema listo para crear propuestas', 2000);
+    console.log('✅ Vinclechat conectado');
   } catch (error) {
-    console.error('❌ Error de conexión:', error);
-    showToast('Error de conexión con el servidor', 3000);
+    console.error('Error:', error);
   }
 
-  // Elementos del DOM
   const creatorSection = document.getElementById('creatorSection');
   const viewerSection = document.getElementById('viewerSection');
   const createBtn = document.getElementById('createBtn');
@@ -366,23 +564,18 @@
   const resultArea = document.getElementById('resultArea');
   const form = document.getElementById('proposalForm');
 
-  // Función para mostrar toast
   function showToast(message, duration = 2500) {
     const toast = document.getElementById('toast');
     toast.textContent = message;
     toast.classList.add('show');
-    setTimeout(() => {
-      toast.classList.remove('show');
-    }, duration);
+    setTimeout(() => toast.classList.remove('show'), duration);
   }
 
-  // Función para copiar al portapapeles
   async function copyToClipboard(text) {
     try {
       await navigator.clipboard.writeText(text);
-      showToast('✅ Enlace copiado al portapapeles', 2000);
+      showToast('✅ Enlace copiado', 2000);
     } catch (err) {
-      // Fallback
       const textarea = document.createElement('textarea');
       textarea.value = text;
       document.body.appendChild(textarea);
@@ -393,7 +586,6 @@
     }
   }
 
-  // Crear propuesta
   async function createProposal(e) {
     e.preventDefault();
     
@@ -402,159 +594,82 @@
     const price = document.getElementById('price').value.trim();
     const paymentLink = document.getElementById('paymentLink').value.trim();
 
-    // Validaciones
-    if (!title) {
-      showToast('❌ Por favor, ingresa un título', 2000);
-      document.getElementById('title').focus();
-      return;
-    }
-    
-    if (!description) {
-      showToast('❌ Por favor, ingresa una descripción', 2000);
-      document.getElementById('description').focus();
-      return;
-    }
-    
-    if (!price) {
-      showToast('❌ Por favor, ingresa un precio', 2000);
-      document.getElementById('price').focus();
-      return;
-    }
-    
-    if (!paymentLink) {
-      showToast('❌ Por favor, ingresa un link de pago', 2000);
-      document.getElementById('paymentLink').focus();
-      return;
-    }
+    if (!title) { showToast('❌ Ingresa un título'); document.getElementById('title').focus(); return; }
+    if (!description) { showToast('❌ Ingresa una descripción'); document.getElementById('description').focus(); return; }
+    if (!price) { showToast('❌ Ingresa un precio'); document.getElementById('price').focus(); return; }
+    if (!paymentLink) { showToast('❌ Ingresa un link de pago'); document.getElementById('paymentLink').focus(); return; }
+    if (!paymentLink.startsWith('http')) { showToast('❌ El link debe comenzar con http:// o https://'); return; }
 
-    if (!paymentLink.startsWith('http://') && !paymentLink.startsWith('https://')) {
-      showToast('❌ El link de pago debe comenzar con http:// o https://', 2500);
-      document.getElementById('paymentLink').focus();
-      return;
-    }
-
-    // Deshabilitar botón y mostrar loading
     createBtn.disabled = true;
     createBtn.innerHTML = '<span class="loading-spinner"></span> Creando propuesta...';
 
     try {
-      // Guardar en Firestore
-      const proposalData = {
-        title: title,
-        description: description,
-        price: price,
-        paymentLink: paymentLink,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        views: 0
-      };
-
-      const docRef = await db.collection('proposals').add(proposalData);
-      const proposalId = docRef.id;
+      const docRef = await db.collection('proposals').add({
+        title, description, price, paymentLink,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
       
-      // Generar URL
-      const baseUrl = window.location.href.split('?')[0];
-      const proposalUrl = `${baseUrl}?id=${proposalId}`;
-      
-      // Mostrar resultado
+      const url = `${window.location.href.split('?')[0]}?id=${docRef.id}`;
       resultArea.innerHTML = `
         <div class="result-card">
-          <i class="fas fa-check-circle" style="color: #22c55e; font-size: 1.5rem; margin-bottom: 0.5rem; display: inline-block;"></i>
-          <h3 style="margin: 0.5rem 0; color: #166534;">¡Propuesta creada con éxito!</h3>
-          <p style="margin: 0.5rem 0; color: #475569;">Comparte este enlace con tu cliente:</p>
-          <a href="${proposalUrl}" target="_blank" style="display: block; margin: 0.5rem 0; word-break: break-all;">${proposalUrl}</a>
-          <button id="copyUrlBtn" class="btn-primary" style="margin-top: 0.5rem; background: #22c55e; width: auto; padding: 0.5rem 1rem;">
+          <i class="fas fa-check-circle" style="color: #34c759; font-size: 1.5rem;"></i>
+          <h3 style="margin: 0.5rem 0;">¡Propuesta creada!</h3>
+          <a href="${url}" target="_blank">${url}</a>
+          <button id="copyUrlBtn" style="margin-top: 1rem; background: #0071e3; padding: 0.5rem 1rem; border-radius: 40px; border: none; color: white; cursor: pointer;">
             <i class="fas fa-copy"></i> Copiar enlace
           </button>
         </div>
       `;
-      
-      // Evento para copiar enlace
-      document.getElementById('copyUrlBtn').addEventListener('click', () => {
-        copyToClipboard(proposalUrl);
-      });
-      
-      // Limpiar formulario
+      document.getElementById('copyUrlBtn')?.addEventListener('click', () => copyToClipboard(url));
       form.reset();
-      showToast('🎉 Propuesta creada exitosamente', 2500);
-      
+      showToast('🎉 Propuesta creada exitosamente');
     } catch (error) {
-      console.error('Error al crear:', error);
-      showToast('❌ Error al crear la propuesta: ' + error.message, 3000);
-      resultArea.innerHTML = `
-        <div class="result-card" style="background: #fef2f2; border-left-color: #ef4444;">
-          <i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i>
-          <p style="color: #991b1b; margin-top: 0.5rem;">Error: ${error.message}</p>
-          <p style="color: #475569; font-size: 0.9rem;">Verifica que Firestore esté habilitado en Firebase Console</p>
-        </div>
-      `;
+      showToast('❌ Error: ' + error.message);
     } finally {
-      // Restaurar botón
       createBtn.disabled = false;
       createBtn.innerHTML = '<i class="fas fa-magic"></i> Crear propuesta';
     }
   }
 
-  // Cargar propuesta desde URL
   async function loadProposalFromUrl() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const proposalId = urlParams.get('id');
-    
-    if (proposalId && proposalId.trim() !== '') {
-      // Mostrar vista de propuesta
+    const id = new URLSearchParams(window.location.search).get('id');
+    if (id) {
       creatorSection.style.display = 'none';
       viewerSection.style.display = 'block';
-      
       try {
-        const docRef = db.collection('proposals').doc(proposalId);
-        const docSnap = await docRef.get();
-        
-        if (docSnap.exists) {
-          const data = docSnap.data();
+        const doc = await db.collection('proposals').doc(id).get();
+        if (doc.exists) {
+          const data = doc.data();
           document.getElementById('viewerTitle').textContent = data.title || 'Sin título';
-          document.getElementById('viewerDescription').textContent = data.description || 'Sin descripción';
+          document.getElementById('viewerDescription').textContent = data.description || '';
           document.getElementById('viewerPrice').textContent = data.price || '—';
-          
           const payLink = document.getElementById('viewerPayLink');
-          if (data.paymentLink && data.paymentLink.startsWith('http')) {
+          if (data.paymentLink?.startsWith('http')) {
             payLink.href = data.paymentLink;
-            payLink.style.opacity = '1';
-            payLink.style.pointerEvents = 'auto';
           } else {
             payLink.href = '#';
             payLink.style.opacity = '0.5';
-            payLink.style.pointerEvents = 'none';
           }
         } else {
           document.getElementById('viewerTitle').textContent = 'Propuesta no encontrada';
-          document.getElementById('viewerDescription').textContent = 'El enlace que intentas acceder no existe o ha sido eliminado.';
-          document.getElementById('viewerPrice').textContent = '—';
-          document.getElementById('viewerPayLink').style.display = 'none';
         }
       } catch (error) {
-        console.error('Error al cargar:', error);
-        document.getElementById('viewerTitle').textContent = 'Error de carga';
-        document.getElementById('viewerDescription').textContent = 'Hubo un problema al cargar esta propuesta. Verifica tu conexión.';
+        console.error(error);
       }
     } else {
-      // Mostrar vista de creación
       creatorSection.style.display = 'block';
       viewerSection.style.display = 'none';
       resultArea.innerHTML = '';
     }
   }
 
-  // Eventos
   form.addEventListener('submit', createProposal);
-  backBtn.addEventListener('click', () => {
-    window.history.pushState({}, document.title, window.location.pathname);
+  backBtn?.addEventListener('click', () => {
+    window.history.pushState({}, '', window.location.pathname);
     loadProposalFromUrl();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
-  
-  // Escuchar cambios en el historial
   window.addEventListener('popstate', loadProposalFromUrl);
-  
-  // Inicializar
   loadProposalFromUrl();
 </script>
 </body>
