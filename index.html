@@ -1,61 +1,130 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Vincle Prototype</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 600px;
-      margin: 40px auto;
-      padding: 20px;
-    }
-    input, textarea {
-      width: 100%;
-      margin-bottom: 10px;
-      padding: 10px;
-    }
-    button {
-      padding: 10px 15px;
-      cursor: pointer;
-    }
-    .card {
-      border: 1px solid #ddd;
-      padding: 20px;
-      border-radius: 10px;
-    }
-    .hidden { display: none; }
-  </style>
+<meta charset="UTF-8">
+<title>Vincle</title>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<style>
+body {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f7f7f5;
+  margin: 0;
+}
+
+.container {
+  max-width: 700px;
+  margin: 80px auto;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+.sub {
+  color: #666;
+  margin-bottom: 40px;
+}
+
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+input, textarea {
+  width: 100%;
+  border: 1px solid #eee;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+button {
+  background: black;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.link {
+  margin-top: 15px;
+  word-break: break-all;
+}
+
+.viewer {
+  text-align: center;
+}
+
+.price {
+  font-size: 28px;
+  margin: 20px 0;
+}
+</style>
 </head>
+
 <body>
 
-<div id="creator">
-  <h2>Crear propuesta</h2>
-  <input id="title" placeholder="Título">
-  <textarea id="desc" placeholder="Descripción"></textarea>
-  <input id="price" placeholder="Precio (€)">
-  <input id="paylink" placeholder="Link de pago (Stripe, etc)">
-  <button onclick="generate()">Generar link</button>
+<div class="container">
 
-  <p id="result"></p>
+<!-- CREATOR -->
+<div id="creator">
+  <h1>Vincle</h1>
+  <div class="sub">Crea una propuesta en segundos</div>
+
+  <div class="card">
+    <input id="title" placeholder="Título (ej: Diseño web)">
+    <textarea id="desc" placeholder="Descripción"></textarea>
+    <input id="price" placeholder="Precio (€)">
+    <input id="paylink" placeholder="Link de pago">
+
+    <button onclick="create()">Crear link</button>
+
+    <div id="result" class="link"></div>
+  </div>
 </div>
 
-<div id="viewer" class="hidden">
-  <div class="card">
-    <h2 id="v_title"></h2>
+<!-- VIEWER -->
+<div id="viewer" style="display:none;">
+  <div class="card viewer">
+    <h1 id="v_title"></h1>
     <p id="v_desc"></p>
-    <h3 id="v_price"></h3>
+    <div class="price" id="v_price"></div>
 
-    <button onclick="accept()">Aceptar</button>
-    <br><br>
     <a id="v_pay" target="_blank">
       <button>Pagar</button>
     </a>
   </div>
 </div>
 
+</div>
+
 <script>
-function generate() {
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyXMvncuf1Jhux5dVzDJ_VQe3cw3tIntt",
+  authDomain: "vincle-e76dd.firebaseapp.com",
+  databaseURL: "https://vincle-e76dd-default-rtdb.firebaseio.com",
+  projectId: "vincle-e76dd",
+  storageBucket: "vincle-e76dd.appspot.com",
+  messagingSenderId: "11807936515",
+  appId: "1:11807936515:web:ff67d9da38e956ff62cee6"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+// Crear propuesta
+function create() {
   const data = {
     title: document.getElementById("title").value,
     desc: document.getElementById("desc").value,
@@ -63,29 +132,36 @@ function generate() {
     paylink: document.getElementById("paylink").value
   };
 
-  const encoded = btoa(JSON.stringify(data));
-  const url = location.origin + location.pathname + "#" + encoded;
+  const id = Date.now();
+
+  db.ref("proposals/" + id).set(data);
+
+  const url = location.origin + location.pathname + "?id=" + id;
 
   document.getElementById("result").innerHTML =
-    'Tu link: <a href="' + url + '">' + url + '</a>';
+    `Link: <a href="${url}">${url}</a>`;
 }
 
+// Cargar propuesta
 function load() {
-  if (location.hash.length > 1) {
-    const data = JSON.parse(atob(location.hash.substring(1)));
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
 
-    document.getElementById("creator").classList.add("hidden");
-    document.getElementById("viewer").classList.remove("hidden");
+  if (id) {
+    document.getElementById("creator").style.display = "none";
+    document.getElementById("viewer").style.display = "block";
 
-    document.getElementById("v_title").innerText = data.title;
-    document.getElementById("v_desc").innerText = data.desc;
-    document.getElementById("v_price").innerText = data.price + "€";
-    document.getElementById("v_pay").href = data.paylink;
+    db.ref("proposals/" + id).once("value", snap => {
+      const data = snap.val();
+
+      if (!data) return;
+
+      document.getElementById("v_title").innerText = data.title;
+      document.getElementById("v_desc").innerText = data.desc;
+      document.getElementById("v_price").innerText = data.price + "€";
+      document.getElementById("v_pay").href = data.paylink;
+    });
   }
-}
-
-function accept() {
-  alert("Propuesta aceptada (simulación)");
 }
 
 load();
