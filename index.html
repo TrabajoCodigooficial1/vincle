@@ -547,27 +547,69 @@
 
 
 
-<section class="testimonios-vincle">
+<section class="testimonio-hero">
+  <style>
+    .testimonio-hero {
+      background-image: url('https://tally.so/images/demo/v2/dive-in.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      padding: 140px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Arial, sans-serif;
+    }
 
-<div class="carousel fondo-img">
-  <button class="nav prev">&#10094;</button>
+    .testimonio-contenido {
+      max-width: 900px;
+    }
 
-  <div class="track">
-    <div class="slide active">
-      <p class="frase">
-        “La sencillez de Vinclechat transforma completamente cómo presentamos propuestas.
-        En segundos tienes algo profesional, claro y listo para cerrar.”
-      </p>
-      <div class="autor">
-        <strong>Juanma Miguel</strong>
-        <span>CEO de Instituto NeuroSmart</span>
-      </div>
+    .frase {
+      font-size: 40px;
+      line-height: 1.3;
+      font-weight: 500;
+      color: #ffffff;
+      margin-bottom: 40px;
+      letter-spacing: -0.5px;
+    }
+
+    .autor strong {
+      display: block;
+      font-size: 18px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .autor span {
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    /* Responsive estilo Apple */
+    @media (max-width: 768px) {
+      .frase {
+        font-size: 28px;
+      }
+
+      .testimonio-hero {
+        padding: 100px 20px;
+      }
+    }
+  </style>
+
+  <div class="testimonio-contenido">
+    <p class="frase">
+      “La sencillez de Vinclechat transforma completamente cómo presentamos propuestas.
+      En segundos tienes algo profesional, claro y listo para cerrar.”
+    </p>
+    <div class="autor">
+      <strong>Juanma Miguel</strong>
+      <span>CEO de Instituto NeuroSmart</span>
     </div>
   </div>
-
-  <button class="nav next">&#10095;</button>
-</div>
-
+</section>
   
   
 
