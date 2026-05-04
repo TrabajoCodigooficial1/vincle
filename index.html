@@ -499,6 +499,55 @@
   right: -40px;
 }
 
+    .fondo-img {
+  position: relative;
+  background-image: url('https://tally.so/images/demo/v2/dive-in.png');
+  background-size: cover;
+  background-position: center;
+  border-radius: 20px;
+  padding: 100px 40px;
+  overflow: hidden;
+}
+
+/* Capa oscura elegante encima (clave para estilo premium) */
+.fondo-img::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45); /* ajusta intensidad */
+  backdrop-filter: blur(2px);
+}
+
+/* Asegura que el contenido quede encima */
+.fondo-img * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Ajustes de texto sobre fondo */
+.fondo-img .frase {
+  color: #fff;
+  font-size: 28px;
+  font-weight: 300;
+}
+
+.fondo-img .autor strong {
+  color: #fff;
+}
+
+.fondo-img .autor span {
+  color: #ddd;
+}
+
+/* Flechas visibles sobre fondo */
+.fondo-img .nav {
+  color: #fff;
+}
+
+.fondo-img .nav:hover {
+  color: #ccc;
+}
+
   </style>
 </head>
 <body>
@@ -639,39 +688,24 @@
 
 <section class="testimonios-vincle">
 
-  <div class="carousel">
-    <button class="nav prev">&#10094;</button>
+<div class="carousel fondo-img">
+  <button class="nav prev">&#10094;</button>
 
-    <div class="track">
-
-      <div class="slide active">
-        <p class="frase">
-          “La sencillez de Vinclechat transforma completamente cómo presentamos propuestas.
-          En segundos tienes algo profesional, claro y listo para cerrar.”
-        </p>
-        <div class="autor">
-          <strong>Juanma Miguel</strong>
-          <span>CEO de Instituto NeuroSmart</span>
-        </div>
+  <div class="track">
+    <div class="slide active">
+      <p class="frase">
+        “La sencillez de Vinclechat transforma completamente cómo presentamos propuestas.
+        En segundos tienes algo profesional, claro y listo para cerrar.”
+      </p>
+      <div class="autor">
+        <strong>Juanma Miguel</strong>
+        <span>CEO de Instituto NeuroSmart</span>
       </div>
-
-      <div class="slide">
-        <p class="frase">
-          “Lo que más impacto tiene es lo simple que es: creas, envías y cobras.
-          Sin fricción. Eso se nota directamente en las ventas.”
-        </p>
-        <div class="autor">
-          <strong>Pablo Alonso Aznar</strong>
-          <span>Fundador de TU-Economía</span>
-        </div>
-      </div>
-
     </div>
-
-    <button class="nav next">&#10095;</button>
   </div>
-</section>
 
+  <button class="nav next">&#10095;</button>
+</div>
 
   
   
