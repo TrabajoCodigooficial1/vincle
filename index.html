@@ -449,7 +449,7 @@
     <div class="hero-badge">
       <i class="fas fa-rocket"></i> La nueva forma de facturar
     </div>
-    <h1 class="typewriter">
+<h1 class="typewriter">
   <style>
     .typewriter {
       font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Arial, sans-serif;
@@ -460,19 +460,33 @@
       color: #000;
     }
 
-    .typewriter span {
-      display: inline-block;
+    .line {
+      display: block;
       overflow: hidden;
       white-space: nowrap;
       border-right: 2px solid black;
-      animation: typing 3s steps(22, end), blink 0.8s step-end infinite;
+      width: 0;
     }
 
-    .typewriter i {
+    .line1 {
+      animation: typing1 2s steps(14, end) forwards, blink 0.8s step-end infinite;
+    }
+
+    .line2 {
+      animation: typing2 1.5s steps(6, end) forwards, blink 0.8s step-end infinite;
+      animation-delay: 2.2s;
+    }
+
+    .line2 i {
       font-style: italic;
     }
 
-    @keyframes typing {
+    @keyframes typing1 {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes typing2 {
       from { width: 0 }
       to { width: 100% }
     }
@@ -489,8 +503,11 @@
     }
   </style>
 
-  <span>Lo sencillo, <br><i>vende</i></span>
+  <span class="line line1">Lo sencillo,</span>
+  <span class="line line2"><i>vende</i></span>
 </h1>
+
+    
     <p class="hero-subtitle">Propuestas que cierran ventas. Crea tu link de venta en segundos.</p>
   </div>
 
