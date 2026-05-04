@@ -409,40 +409,96 @@
     }
 
 
-
-    .testimonios {
-  background: #f5f5f5;
-  padding: 80px 20px;
+    .testimonios-vincle {
+  background: #ffffff;
+  padding: 100px 20px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
   text-align: center;
-  font-family: Arial, sans-serif;
 }
 
-.contenedor {
+.header h2 {
+  font-size: 42px;
+  font-weight: 300;
+  color: #111;
+}
+
+.header h2 span {
+  font-weight: 600;
+}
+
+.header p {
+  margin-top: 10px;
+  color: #777;
+  font-size: 16px;
+}
+
+.carousel {
+  position: relative;
   max-width: 800px;
-  margin: 0 auto;
+  margin: 60px auto 0;
+  overflow: hidden;
 }
 
-.testimonio {
-  margin-bottom: 50px;
+.track {
+  display: flex;
+  transition: transform 0.4s ease;
+}
+
+.slide {
+  min-width: 100%;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: all 0.4s ease;
+}
+
+.slide.active {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .frase {
-  font-size: 24px;
-  color: #666;
-  line-height: 1.5;
-  margin-bottom: 20px;
+  font-size: 26px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 30px;
+  font-weight: 300;
 }
 
 .autor strong {
   display: block;
   font-size: 18px;
-  color: #222;
+  color: #000;
 }
 
 .autor span {
   font-size: 14px;
   color: #888;
 }
+
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #aaa;
+  transition: color 0.2s;
+}
+
+.nav:hover {
+  color: #000;
+}
+
+.prev {
+  left: -40px;
+}
+
+.next {
+  right: -40px;
+}
+
   </style>
 </head>
 <body>
@@ -581,30 +637,42 @@
 
 
 
+<section class="testimonios-vincle">
+  <div class="header">
+    <h2>Lo sencillo, <span>vende</span></h2>
+    <p>Profesionales que ya están cerrando más con Vinclechat</p>
+  </div>
 
-<section class="testimonios">
-  <div class="contenedor">
+  <div class="carousel">
+    <button class="nav prev">&#10094;</button>
 
-    <div class="testimonio">
-      <p class="frase">
-        “La sencillez de Tally es lo que realmente marca la diferencia. Todo funciona de forma clara, sin complicaciones innecesarias.”
-      </p>
-      <div class="autor">
-        <strong>David Benito Crespo</strong>
-        <span>CEO de Mundibusiness</span>
+    <div class="track">
+
+      <div class="slide active">
+        <p class="frase">
+          “La sencillez de Vinclechat transforma completamente cómo presentamos propuestas.
+          En segundos tienes algo profesional, claro y listo para cerrar.”
+        </p>
+        <div class="autor">
+          <strong>David Benito Crespo</strong>
+          <span>CEO de Mundibusiness</span>
+        </div>
       </div>
+
+      <div class="slide">
+        <p class="frase">
+          “Lo que más impacto tiene es lo simple que es: creas, envías y cobras.
+          Sin fricción. Eso se nota directamente en las ventas.”
+        </p>
+        <div class="autor">
+          <strong>Pablo Alonso Aznar</strong>
+          <span>Fundador de TU-Economía</span>
+        </div>
+      </div>
+
     </div>
 
-    <div class="testimonio">
-      <p class="frase">
-        “Lo que más valoro es su sencillez. Crear formularios nunca había sido tan rápido y directo.”
-      </p>
-      <div class="autor">
-        <strong>Pablo Alonso Aznar</strong>
-        <span>Fundador de TU-Economía</span>
-      </div>
-    </div>
-
+    <button class="nav next">&#10095;</button>
   </div>
 </section>
 
