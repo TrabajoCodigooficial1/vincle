@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Vinclechat · Propuestas premium · Formulario inteligente</title>
+  <title>Vinclechat · Propuestas premium · Diseño Apple</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
@@ -16,13 +17,14 @@
     }
 
     body {
-      background: #fbfbfd;
+      background: #f5f5f7;
       font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', 'Segoe UI', Roboto, sans-serif;
       line-height: 1.5;
       color: #1d1d1f;
       min-height: 100vh;
     }
 
+    /* Navbar estilo Apple */
     .navbar {
       position: sticky;
       top: 0;
@@ -161,14 +163,6 @@
       transform: scale(0.98);
     }
 
-    .btn-secondary {
-      background: white;
-      color: #1d1d1f;
-      border: 1.5px solid #e9e9ef;
-      width: auto;
-      padding: 0.7rem 1.5rem;
-    }
-
     .btn-outline-expand {
       background: transparent;
       border: 1.5px dashed #c6c6c8;
@@ -228,7 +222,6 @@
       }
     }
 
-    /* Sección expandible */
     .expandable-section {
       max-height: 0;
       overflow: hidden;
@@ -240,7 +233,7 @@
       max-height: 2000px;
     }
 
-    /* VISTA PROPIA PARA EL CLIENTE (SOLO PROPUESTA) */
+    /* VISTA PROPUESTA PROFESIONAL (ESTILO APPLE) */
     .proposal-only-view {
       min-height: 100vh;
       background: #f5f5f7;
@@ -251,46 +244,69 @@
     }
 
     .proposal-preview-card {
-      max-width: 860px;
+      max-width: 880px;
       width: 100%;
       margin: 0 auto;
       border-radius: 48px;
       overflow: hidden;
       box-shadow: 0 30px 50px rgba(0, 0, 0, 0.12);
-      transition: all 0.2s;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(0px);
     }
 
     .proposal-header-custom {
-      padding: 2rem 2rem 1rem;
+      padding: 2.5rem 2rem 1.5rem;
       text-align: center;
       border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     }
 
-    .proposal-logo {
-      max-width: 130px;
-      max-height: 70px;
-      object-fit: contain;
+    /* Logo circular profesional */
+    .proposal-logo-circle {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
       margin-bottom: 1rem;
-      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      border: 3px solid white;
     }
 
-    .profile-badge {
-      display: inline-flex;
+    .profile-avatar-circle {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 0.75rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .profile-badge-modern {
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 8px;
-      background: rgba(0, 113, 227, 0.1);
-      padding: 0.3rem 1rem;
-      border-radius: 40px;
-      font-size: 0.75rem;
-      font-weight: 500;
-      margin-bottom: 1rem;
+      justify-content: center;
+      margin-bottom: 1.2rem;
+    }
+
+    .profile-name {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #1d1d1f;
+      letter-spacing: -0.02em;
+    }
+
+    .profile-desc {
+      font-size: 0.85rem;
+      color: #6e6e73;
+      margin-top: 0.2rem;
     }
 
     .proposal-title {
-      font-size: 2.2rem;
+      font-size: 2.4rem;
       font-weight: 700;
-      margin: 0.5rem 0;
+      margin: 0.75rem 0 0.5rem;
       letter-spacing: -0.02em;
+      color: #1d1d1f;
     }
 
     .proposal-description {
@@ -303,15 +319,16 @@
 
     .proposal-meta {
       background: #f8f8fc;
-      padding: 1.2rem;
+      padding: 1.5rem;
       border-radius: 28px;
-      margin: 1rem 0;
+      margin: 1.5rem 0;
     }
 
     .proposal-price {
-      font-size: 2.4rem;
+      font-size: 2.8rem;
       font-weight: 800;
       color: #0071e3;
+      letter-spacing: -0.02em;
     }
 
     .pay-button {
@@ -332,6 +349,18 @@
       transform: translateY(-3px);
     }
 
+    .inline-badge {
+      background: #eef2ff;
+      border-radius: 30px;
+      padding: 0.35rem 1rem;
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-right: 0.6rem;
+      margin-bottom: 0.6rem;
+    }
+
     .footer {
       text-align: center;
       padding: 2rem;
@@ -341,7 +370,7 @@
       margin-top: 2rem;
     }
 
-    /* MARQUEE */
+    /* Marquee */
     .marquee-section {
       margin: 2rem 0;
       overflow: hidden;
@@ -373,13 +402,12 @@
       0% {
         transform: translateX(0);
       }
-
       100% {
         transform: translateX(-50%);
       }
     }
 
-    /* TESTIMONIO */
+    /* Testimonio */
     .testimonio-hero {
       background-image: url('https://tally.so/images/demo/v2/dive-in.png');
       background-size: cover;
@@ -409,492 +437,311 @@
       margin-bottom: 1rem;
     }
 
-    .inline-badge {
-      background: #eef2ff;
-      border-radius: 30px;
-      padding: 0.25rem 0.9rem;
-      font-size: 0.8rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-right: 0.5rem;
-      margin-bottom: 0.5rem;
-    }
-
     @media (max-width: 760px) {
       .hero-section h1 {
         font-size: 2.4rem;
       }
-
       .proposal-title {
         font-size: 1.8rem;
       }
-
       .container {
         padding: 1rem;
+      }
+      .proposal-logo-circle {
+        width: 70px;
+        height: 70px;
+      }
+      .profile-avatar-circle {
+        width: 55px;
+        height: 55px;
+      }
+      .proposal-price {
+        font-size: 2rem;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="navbar" id="mainNavbar">
-    <div class="nav-container">
-      <div class="logo">
-        <svg width="40" height="40" viewBox="0 0 100 100">
-          <line x1="15" y1="15" x2="85" y2="85" stroke="black" stroke-width="5" stroke-linecap="round" />
-          <line x1="85" y1="15" x2="15" y2="85" stroke="black" stroke-width="5" stroke-linecap="round" />
-          <line x1="50" y1="10" x2="50" y2="90" stroke="black" stroke-width="5" stroke-linecap="round" />
-          <line x1="10" y1="50" x2="90" y2="50" stroke="black" stroke-width="5" stroke-linecap="round" />
-        </svg>
-        <span class="logo-text">Vinclechat</span>
+<div class="navbar" id="mainNavbar">
+  <div class="nav-container">
+    <div class="logo">
+      <svg width="40" height="40" viewBox="0 0 100 100">
+        <line x1="15" y1="15" x2="85" y2="85" stroke="black" stroke-width="5" stroke-linecap="round" />
+        <line x1="85" y1="15" x2="15" y2="85" stroke="black" stroke-width="5" stroke-linecap="round" />
+        <line x1="50" y1="10" x2="50" y2="90" stroke="black" stroke-width="5" stroke-linecap="round" />
+        <line x1="10" y1="50" x2="90" y2="50" stroke="black" stroke-width="5" stroke-linecap="round" />
+      </svg>
+      <span class="logo-text">Vinclechat</span>
+    </div>
+  </div>
+</div>
+
+<div id="creatorPanel" class="container">
+  <div class="hero-section">
+    <div class="hero-badge"><i class="fas fa-rocket"></i> La nueva forma de cerrar ventas</div>
+    <h1>Lo sencillo,<br><i>vende :)</i></h1>
+    <p style="color:#6e6e73; margin-top:0.5rem;">Crea propuestas impecables + perfil profesional + estilo único</p>
+  </div>
+
+  <div class="card">
+    <form id="proposalForm">
+      <!-- Campos siempre visibles -->
+      <div class="form-group">
+        <label><i class="fas fa-heading"></i> Título de la oferta *</label>
+        <input type="text" id="title" placeholder="Ej: Aceleración Comercial 2025" required>
       </div>
+      <div class="form-group">
+        <label><i class="fas fa-align-left"></i> Descripción (con viñetas y saltos) *</label>
+        <textarea id="description" rows="5" placeholder="• Diagnóstico estratégico&#10;• Implementación ágil&#10;• Soporte 30 días" required></textarea>
+      </div>
+
+      <button type="button" id="toggleExpandBtn" class="btn-outline-expand">
+        <i class="fas fa-chevron-down"></i> Ver más opciones (perfil, duración, precio, personalización)
+      </button>
+
+      <div id="expandableSection" class="expandable-section" style="margin-top: 1.5rem;">
+        <div class="form-group">
+          <label><i class="fas fa-user-tie"></i> ¿Quién emite la propuesta? *</label>
+          <select id="profileType">
+            <option value="empresa">🏢 Empresa / Agencia</option>
+            <option value="persona">🧑‍💻 Profesional independiente / Persona</option>
+          </select>
+        </div>
+
+        <div id="empresaFields">
+          <div class="form-group"><label><i class="fas fa-building"></i> Nombre de la empresa</label><input type="text" id="empresaNombre" placeholder="Ej: Vincletech Solutions"></div>
+          <div class="form-group"><label><i class="fas fa-align-left"></i> Breve descripción de la empresa</label><input type="text" id="empresaDesc" placeholder="Agencia boutique especializada en transformación digital"></div>
+        </div>
+        <div id="personaFields" style="display: none;">
+          <div class="form-group"><label><i class="fas fa-user"></i> Nombre y apellidos</label><input type="text" id="personaNombre" placeholder="Ej: Laura Méndez"></div>
+          <div class="form-group"><label><i class="fas fa-microphone-alt"></i> Breve descripción profesional</label><input type="text" id="personaDesc" placeholder="Consultora senior en growth e inteligencia de negocio"></div>
+        </div>
+
+        <div class="form-group"><label><i class="fas fa-chart-line"></i> Años de experiencia en el sector</label><input type="text" id="experiencia" placeholder="Ej: +8 años en marketing digital"></div>
+        <div class="form-group"><label><i class="fas fa-hourglass-half"></i> Duración del servicio</label><input type="text" id="duration" placeholder="Ej: 3 meses / 20 horas"></div>
+        <div class="form-group"><label><i class="fas fa-users"></i> Para quién es (target)</label><input type="text" id="targetAudience" placeholder="Ej: Startups B2B, Autónomos digitales"></div>
+        <div class="form-group"><label><i class="fas fa-tag"></i> Precio *</label><input type="text" id="price" placeholder="Ej: 2.890€ · 180€/hora"></div>
+        <div class="form-group"><label><i class="fas fa-credit-card"></i> Link de pago *</label><input type="url" id="paymentLink" placeholder="https://paypal.me/tuempresa"></div>
+
+        <div style="border-top:1px solid #e9e9ef; margin:1rem 0; padding-top:1rem;">
+          <h4 style="font-size:1rem; margin-bottom:1rem;"><i class="fas fa-palette"></i> Personaliza el look</h4>
+          <div style="display:flex; flex-wrap:wrap; gap:1rem;">
+            <div style="flex:1"><label>Color principal</label><input type="color" id="primaryColor" value="#0071e3"></div>
+            <div style="flex:1"><label>Fondo tarjeta</label><input type="color" id="bgColor" value="#ffffff"></div>
+            <div style="flex:1"><label>Fuente</label><select id="fontFamily"><option value="'Inter', -apple-system">System Default</option><option value="'Georgia', serif">Georgia Serif</option><option value="'Courier New', monospace">Monospace</option></select></div>
+          </div>
+          <div class="form-group" style="margin-top:1rem;">
+            <label><i class="fas fa-image"></i> Logo o foto de perfil (circular) *</label>
+            <input type="file" id="logoUpload" accept="image/*">
+            <div id="logoPreview" style="margin-top:8px;"></div>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn-primary" id="createBtn" style="margin-top: 1.5rem;"><i class="fas fa-magic"></i> Crear / Actualizar propuesta ✨</button>
+    </form>
+    <div id="resultArea"></div>
+    <div id="editHint" style="margin-top:1rem; font-size:0.75rem; text-align:center; color:#666;"></div>
+  </div>
+
+  <!-- Testimonio Juanma -->
+  <div class="testimonio-hero">
+    <div class="testimonio-contenido">
+      <p class="frase">“La sencillez de Vinclechat transforma completamente cómo presentamos propuestas. En segundos tienes algo profesional, claro y listo para cerrar.”</p>
+      <div class="autor"><strong>Juanma Miguel</strong><span>CEO de Instituto NeuroSmart</span></div>
     </div>
   </div>
 
-  <div id="creatorPanel" class="container">
-    <div class="hero-section">
-      <div class="hero-badge"><i class="fas fa-rocket"></i> La nueva forma de cerrar ventas</div>
-      <h1>Lo sencillo,<br><i>vende :)</i></h1>
-      <p style="color:#6e6e73; margin-top:0.5rem;">Crea propuestas impecables + rápidas = + Ventas 💰</p>
-    </div>
-
-    <div class="card">
-      <form id="proposalForm">
-        <!-- CAMPOS SIEMPRE VISIBLES: Título y Descripción -->
-        <div class="form-group">
-          <label><i class="fas fa-heading"></i> Título de la oferta *</label>
-          <input type="text" id="title" placeholder="Ej: Aceleración Comercial 2025" required>
-        </div>
-        <div class="form-group">
-          <label><i class="fas fa-align-left"></i> Descripción (con viñetas y saltos) *</label>
-          <textarea id="description" rows="5" placeholder="• Diagnóstico estratégico&#10;• Implementación ágil&#10;• Soporte 30 días" required></textarea>
-        </div>
-
-        <!-- Botón para expandir/colapsar -->
-        <button type="button" id="toggleExpandBtn" class="btn-outline-expand">
-          <i class="fas fa-chevron-down"></i> Ver más opciones (perfil, duración, precio, personalización)
-        </button>
-
-        <!-- SECCIÓN EXPANDIBLE (todo lo demás) -->
-        <div id="expandableSection" class="expandable-section" style="margin-top: 1.5rem;">
-          <!-- Perfil: empresa o persona -->
-          <div class="form-group">
-            <label><i class="fas fa-user-tie"></i> ¿Quién emite la propuesta? *</label>
-            <select id="profileType">
-              <option value="empresa">🏢 Empresa / Agencia</option>
-              <option value="persona">🧑‍💻 Profesional independiente / Persona</option>
-            </select>
-          </div>
-
-          <div id="empresaFields">
-            <div class="form-group">
-              <label><i class="fas fa-building"></i> Nombre de la empresa</label>
-              <input type="text" id="empresaNombre" placeholder="Ej: Vincletech Solutions">
-            </div>
-            <div class="form-group">
-              <label><i class="fas fa-align-left"></i> Breve descripción de la empresa</label>
-              <input type="text" id="empresaDesc" placeholder="Agencia boutique especializada en transformación digital">
-            </div>
-          </div>
-
-          <div id="personaFields" style="display: none;">
-            <div class="form-group">
-              <label><i class="fas fa-user"></i> Nombre y apellidos</label>
-              <input type="text" id="personaNombre" placeholder="Ej: Laura Méndez">
-            </div>
-            <div class="form-group">
-              <label><i class="fas fa-microphone-alt"></i> Breve descripción profesional</label>
-              <input type="text" id="personaDesc" placeholder="Consultora senior en growth e inteligencia de negocio">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label><i class="fas fa-chart-line"></i> Años de experiencia en el sector</label>
-            <input type="text" id="experiencia" placeholder="Ej: +8 años en marketing digital, 5 años en IA">
-          </div>
-
-          <div class="form-group">
-            <label><i class="fas fa-hourglass-half"></i> Duración del servicio</label>
-            <input type="text" id="duration" placeholder="Ej: 3 meses / 20 horas / Consultoría puntual">
-          </div>
-          <div class="form-group">
-            <label><i class="fas fa-users"></i> Para quién es (target)</label>
-            <input type="text" id="targetAudience" placeholder="Ej: Startups B2B, Autónomos digitales">
-          </div>
-          <div class="form-group">
-            <label><i class="fas fa-tag"></i> Precio *</label>
-            <input type="text" id="price" placeholder="Ej: 2.890€ · 180€/hora">
-          </div>
-          <div class="form-group">
-            <label><i class="fas fa-credit-card"></i> Link de pago *</label>
-            <input type="url" id="paymentLink" placeholder="https://paypal.me/tuempresa">
-          </div>
-
-          <!-- Personalización visual -->
-          <div style="border-top:1px solid #e9e9ef; margin:1rem 0; padding-top:1rem;">
-            <h4 style="font-size:1rem; margin-bottom:1rem;"><i class="fas fa-palette"></i> Personaliza el look</h4>
-            <div style="display:flex; flex-wrap:wrap; gap:1rem;">
-              <div style="flex:1">
-                <label>Color principal</label>
-                <input type="color" id="primaryColor" value="#0071e3">
-              </div>
-              <div style="flex:1">
-                <label>Fondo tarjeta</label>
-                <input type="color" id="bgColor" value="#ffffff">
-              </div>
-              <div style="flex:1">
-                <label>Fuente títulos</label>
-                <select id="fontFamily">
-                  <option value="'Inter', -apple-system">System Default</option>
-                  <option value="'Georgia', serif">Georgia Serif</option>
-                  <option value="'Courier New', monospace">Monospace</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group" style="margin-top:1rem;">
-              <label><i class="fas fa-image"></i> Logo o avatar (opcional)</label>
-              <input type="file" id="logoUpload" accept="image/*">
-              <div id="logoPreview" style="margin-top:8px;"></div>
-            </div>
-          </div>
-        </div>
-
-        <button type="submit" class="btn-primary" id="createBtn" style="margin-top: 1.5rem;"><i class="fas fa-magic"></i> Crear / Actualizar propuesta ✨</button>
-      </form>
-      <div id="resultArea"></div>
-      <div id="editHint" style="margin-top:1rem; font-size:0.75rem; text-align:center; color:#666;"></div>
-    </div>
-
-    <!-- TESTIMONIO DE JUANMA -->
-    <div class="testimonio-hero">
-      <div class="testimonio-contenido">
-        <p class="frase">“La sencillez de Vinclechat transforma completamente cómo presentamos propuestas. En segundos tienes algo profesional, claro y listo para cerrar.”</p>
-        <div class="autor"><strong>Juanma Miguel</strong><span>CEO de Instituto NeuroSmart</span></div>
+  <!-- Carrusel -->
+  <div class="marquee-section">
+    <div class="marquee">
+      <div class="marquee-track">
+        <div class="marquee-item"><img src="https://mundibusiness.com/logo/logo.png" style="height:35px;"> MundiBusiness</div>
+        <div class="marquee-item"><i class="fas fa-brain"></i> Instituto NeuroSmart</div>
+        <div class="marquee-item"><i class="fas fa-robot"></i> Marikaf-ai</div>
+        <div class="marquee-item">KnowMeet</div>
+        <div class="marquee-item">Tu-Economia</div>
+        <div class="marquee-item">+50 aliados</div>
+        <div class="marquee-item"><img src="https://mundibusiness.com/logo/logo.png" style="height:35px;"> MundiBusiness</div>
+        <div class="marquee-item"><i class="fas fa-brain"></i> Instituto NeuroSmart</div>
+        <div class="marquee-item"><i class="fas fa-robot"></i> Marikaf-ai</div>
       </div>
     </div>
-
-    <!-- CARRUSEL INFINITO -->
-    <div class="marquee-section">
-      <div class="marquee">
-        <div class="marquee-track">
-          <div class="marquee-item"><img src="https://mundibusiness.com/logo/logo.png" style="height:35px;"> MundiBusiness</div>
-          <div class="marquee-item"><i class="fas fa-brain"></i> Instituto NeuroSmart</div>
-          <div class="marquee-item"><i class="fas fa-robot"></i> Marikaf-ai</div>
-          <div class="marquee-item">KnowMeet</div>
-          <div class="marquee-item">Tu-Economia</div>
-          <div class="marquee-item">+50 aliados</div>
-          <div class="marquee-item"><img src="https://mundibusiness.com/logo/logo.png" style="height:35px;"> MundiBusiness</div>
-          <div class="marquee-item"><i class="fas fa-brain"></i> Instituto NeuroSmart</div>
-          <div class="marquee-item"><i class="fas fa-robot"></i> Marikaf-ai</div>
-        </div>
-      </div>
-      <div style="text-align:center; margin-top:1rem;">
-        <span style="background:white; padding:0.2rem 1rem; border-radius:40px; font-size:0.7rem;"><i class="fas fa-infinity"></i> Empresas que confían</span>
-      </div>
-    </div>
-
-    <div class="footer">
-      <p>© 2025 Vinclechat · Propuestas profesionales con inteligencia de negocios</p>
-    </div>
+    <div style="text-align:center; margin-top:1rem;"><span style="background:white; padding:0.2rem 1rem; border-radius:40px; font-size:0.7rem;"><i class="fas fa-infinity"></i> Empresas que confían</span></div>
   </div>
+  <div class="footer"><p>© 2025 Vinclechat · Propuestas profesionales con inteligencia de negocios</p></div>
+</div>
 
-  <div id="toast" class="toast"></div>
+<div id="toast" class="toast"></div>
 
-  <script>
-    // FIREBASE
-    const firebaseConfig = {
-      apiKey: "AIzaSyBfJq-6CniQvqmR6aRS3XNC5GxE5E1bMpQ",
-      authDomain: "vinclechat-564d1.firebaseapp.com",
-      projectId: "vinclechat-564d1",
-      storageBucket: "vinclechat-564d1.firebasestorage.app",
-      messagingSenderId: "674493693630",
-      appId: "1:674493693630:web:917f85b174047e327028ef"
-    };
-    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBfJq-6CniQvqmR6aRS3XNC5GxE5E1bMpQ",
+    authDomain: "vinclechat-564d1.firebaseapp.com",
+    projectId: "vinclechat-564d1",
+    storageBucket: "vinclechat-564d1.firebasestorage.app",
+    messagingSenderId: "674493693630",
+    appId: "1:674493693630:web:917f85b174047e327028ef"
+  };
+  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
 
-    let currentEditingId = null;
-    let currentLogoBase64 = '';
+  let currentEditingId = null;
+  let currentLogoBase64 = '';
 
-    // elementos DOM
-    const toggleBtn = document.getElementById('toggleExpandBtn');
-    const expandableDiv = document.getElementById('expandableSection');
-    let isExpanded = false;
-
-    toggleBtn.addEventListener('click', () => {
-      isExpanded = !isExpanded;
-      if (isExpanded) {
-        expandableDiv.classList.add('open');
-        toggleBtn.innerHTML = '<i class="fas fa-chevron-up"></i> Ver menos opciones';
-      } else {
-        expandableDiv.classList.remove('open');
-        toggleBtn.innerHTML = '<i class="fas fa-chevron-down"></i> Ver más opciones (perfil, duración, precio, personalización)';
-      }
-    });
-
-    function showToast(msg) {
-      const toast = document.getElementById('toast');
-      toast.textContent = msg;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 2500);
+  // Expandir/colapsar
+  const toggleBtn = document.getElementById('toggleExpandBtn');
+  const expandableDiv = document.getElementById('expandableSection');
+  let isExpanded = false;
+  toggleBtn.addEventListener('click', () => {
+    isExpanded = !isExpanded;
+    if (isExpanded) {
+      expandableDiv.classList.add('open');
+      toggleBtn.innerHTML = '<i class="fas fa-chevron-up"></i> Ver menos opciones';
+    } else {
+      expandableDiv.classList.remove('open');
+      toggleBtn.innerHTML = '<i class="fas fa-chevron-down"></i> Ver más opciones (perfil, duración, precio, personalización)';
     }
+  });
 
-    async function copyToClip(text) {
-      try {
-        await navigator.clipboard.writeText(text);
-        showToast('✅ Enlace copiado');
-      } catch {
-        const ta = document.createElement('textarea');
-        ta.value = text;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        showToast('✅ Copiado');
-      }
-    }
+  function showToast(msg) { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
+  async function copyToClip(text) { try { await navigator.clipboard.writeText(text); showToast('✅ Enlace copiado'); } catch { const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('✅ Copiado'); } }
 
-    // Lógica perfil empresa/persona
-    const profileTypeSelect = document.getElementById('profileType');
-    const empresaDiv = document.getElementById('empresaFields');
-    const personaDiv = document.getElementById('personaFields');
+  const profileTypeSelect = document.getElementById('profileType');
+  const empresaDiv = document.getElementById('empresaFields');
+  const personaDiv = document.getElementById('personaFields');
+  function toggleProfileFields() { if (profileTypeSelect.value === 'empresa') { empresaDiv.style.display = 'block'; personaDiv.style.display = 'none'; } else { empresaDiv.style.display = 'none'; personaDiv.style.display = 'block'; } }
+  profileTypeSelect.addEventListener('change', toggleProfileFields); toggleProfileFields();
 
-    function toggleProfileFields() {
-      if (profileTypeSelect.value === 'empresa') {
-        empresaDiv.style.display = 'block';
-        personaDiv.style.display = 'none';
+  document.getElementById('logoUpload').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) { const reader = new FileReader(); reader.onload = ev => { currentLogoBase64 = ev.target.result; document.getElementById('logoPreview').innerHTML = `<img src="${currentLogoBase64}" style="width:70px; height:70px; border-radius:50%; object-fit:cover; box-shadow:0 2px 8px rgba(0,0,0,0.1);">`; }; reader.readAsDataURL(file); }
+    else { currentLogoBase64 = ''; document.getElementById('logoPreview').innerHTML = ''; }
+  });
+
+  async function saveProposal(e) {
+    e.preventDefault();
+    const title = document.getElementById('title').value.trim();
+    const description = document.getElementById('description').value.trim();
+    const price = document.getElementById('price').value.trim();
+    const paymentLink = document.getElementById('paymentLink').value.trim();
+    const duration = document.getElementById('duration').value.trim();
+    const targetAudience = document.getElementById('targetAudience').value.trim();
+    const primaryColor = document.getElementById('primaryColor').value;
+    const bgColor = document.getElementById('bgColor').value;
+    const fontFamily = document.getElementById('fontFamily').value;
+    const experiencia = document.getElementById('experiencia').value.trim();
+    const profileType = profileTypeSelect.value;
+    let profileName = '', profileDesc = '';
+    if (profileType === 'empresa') { profileName = document.getElementById('empresaNombre').value.trim(); profileDesc = document.getElementById('empresaDesc').value.trim(); }
+    else { profileName = document.getElementById('personaNombre').value.trim(); profileDesc = document.getElementById('personaDesc').value.trim(); }
+    if (!title) { showToast('❌ Título requerido'); return; }
+    if (!description) { showToast('❌ Descripción obligatoria'); return; }
+    if (!price) { showToast('❌ Precio obligatorio'); return; }
+    if (!paymentLink || !paymentLink.startsWith('http')) { showToast('❌ Link de pago válido'); return; }
+    if ((profileType === 'empresa' || profileType === 'persona') && !profileName) { showToast('❌ Nombre de empresa o persona requerido'); return; }
+
+    const btn = document.getElementById('createBtn');
+    btn.disabled = true; btn.innerHTML = '<span class="loading-spinner"></span> Publicando...';
+    try {
+      const proposalData = { title, description, price, paymentLink, duration, targetAudience, primaryColor, bgColor, fontFamily, logo: currentLogoBase64 || '', profileType, profileName, profileDesc, experiencia, updatedAt: firebase.firestore.FieldValue.serverTimestamp() };
+      if (currentEditingId) {
+        await db.collection('proposals').doc(currentEditingId).update(proposalData);
+        showToast('✅ Propuesta actualizada');
+        const url = `${window.location.origin}${window.location.pathname}?id=${currentEditingId}`;
+        document.getElementById('resultArea').innerHTML = `<div class="result-card"><i class="fas fa-sync-alt"></i> Editada correctamente. <a href="#" id="viewLinkProp">Ver propuesta actualizada</a></div>`;
+        document.getElementById('viewLinkProp')?.addEventListener('click', (e) => { e.preventDefault(); window.open(url, '_blank'); });
       } else {
-        empresaDiv.style.display = 'none';
-        personaDiv.style.display = 'block';
+        const docRef = await db.collection('proposals').add({ ...proposalData, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+        currentEditingId = docRef.id;
+        const url = `${window.location.origin}${window.location.pathname}?id=${docRef.id}`;
+        document.getElementById('resultArea').innerHTML = `<div class="result-card"><i class="fas fa-check-circle"></i> ¡Propuesta creada! <br><a href="${url}" target="_blank">${url}</a><br><button id="copyUrlBtn" style="margin-top:8px; background:#0071e3; border:none; padding:6px 14px; border-radius:40px; color:white;">Copiar enlace</button> <button id="editAgainBtn" style="margin-top:8px; background:#6c757d; border:none; padding:6px 14px; border-radius:40px; color:white;">Editar propuesta</button></div>`;
+        document.getElementById('copyUrlBtn')?.addEventListener('click', () => copyToClip(url));
+        document.getElementById('editAgainBtn')?.addEventListener('click', () => { loadDataToForm(currentEditingId); showToast('✏️ Modo edición activado'); });
+        showToast('🎉 Creada, puedes editarla cuando quieras');
       }
+      document.getElementById('editHint').innerHTML = currentEditingId ? '✏️ Modo edición activo' : '💡 Guardada';
+    } catch (err) { showToast('❌ Error: ' + err.message); } finally { btn.disabled=false; btn.innerHTML='<i class="fas fa-magic"></i> Crear / Guardar propuesta ✨'; }
+  }
+
+  async function loadDataToForm(id) {
+    const doc = await db.collection('proposals').doc(id).get();
+    if (doc.exists) {
+      const d = doc.data();
+      document.getElementById('title').value = d.title || '';
+      document.getElementById('description').value = d.description || '';
+      document.getElementById('price').value = d.price || '';
+      document.getElementById('paymentLink').value = d.paymentLink || '';
+      document.getElementById('duration').value = d.duration || '';
+      document.getElementById('targetAudience').value = d.targetAudience || '';
+      document.getElementById('primaryColor').value = d.primaryColor || '#0071e3';
+      document.getElementById('bgColor').value = d.bgColor || '#ffffff';
+      document.getElementById('fontFamily').value = d.fontFamily || "'Inter', -apple-system";
+      document.getElementById('experiencia').value = d.experiencia || '';
+      if (d.profileType) {
+        profileTypeSelect.value = d.profileType; toggleProfileFields();
+        if (d.profileType === 'empresa') { document.getElementById('empresaNombre').value = d.profileName || ''; document.getElementById('empresaDesc').value = d.profileDesc || ''; }
+        else { document.getElementById('personaNombre').value = d.profileName || ''; document.getElementById('personaDesc').value = d.profileDesc || ''; }
+      }
+      if (d.logo && d.logo.startsWith('data:image')) { currentLogoBase64 = d.logo; document.getElementById('logoPreview').innerHTML = `<img src="${currentLogoBase64}" style="width:70px; height:70px; border-radius:50%; object-fit:cover;">`; }
+      else { currentLogoBase64 = ''; document.getElementById('logoPreview').innerHTML = ''; }
+      currentEditingId = id;
     }
-    profileTypeSelect.addEventListener('change', toggleProfileFields);
-    toggleProfileFields();
+  }
 
-    // Logo upload
-    document.getElementById('logoUpload').addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = ev => {
-          currentLogoBase64 = ev.target.result;
-          document.getElementById('logoPreview').innerHTML = `<img src="${currentLogoBase64}" style="max-height:50px; border-radius:12px;">`;
-        };
-        reader.readAsDataURL(file);
-      } else {
-        currentLogoBase64 = '';
-        document.getElementById('logoPreview').innerHTML = '';
-      }
-    });
-
-    // Guardar propuesta
-    async function saveProposal(e) {
-      e.preventDefault();
-
-      const title = document.getElementById('title').value.trim();
-      const description = document.getElementById('description').value.trim();
-      const price = document.getElementById('price').value.trim();
-      const paymentLink = document.getElementById('paymentLink').value.trim();
-      const duration = document.getElementById('duration').value.trim();
-      const targetAudience = document.getElementById('targetAudience').value.trim();
-      const primaryColor = document.getElementById('primaryColor').value;
-      const bgColor = document.getElementById('bgColor').value;
-      const fontFamily = document.getElementById('fontFamily').value;
-      const experiencia = document.getElementById('experiencia').value.trim();
-      const profileType = profileTypeSelect.value;
-
-      let profileName = '', profileDesc = '';
-      if (profileType === 'empresa') {
-        profileName = document.getElementById('empresaNombre').value.trim();
-        profileDesc = document.getElementById('empresaDesc').value.trim();
-      } else {
-        profileName = document.getElementById('personaNombre').value.trim();
-        profileDesc = document.getElementById('personaDesc').value.trim();
-      }
-
-      if (!title) { showToast('❌ Título requerido'); return; }
-      if (!description) { showToast('❌ Descripción obligatoria'); return; }
-      if (!price) { showToast('❌ Precio obligatorio'); return; }
-      if (!paymentLink || !paymentLink.startsWith('http')) { showToast('❌ Link de pago válido (https://)'); return; }
-      if (profileType === 'empresa' && !profileName) { showToast('❌ Nombre de empresa requerido'); return; }
-      if (profileType === 'persona' && !profileName) { showToast('❌ Nombre y apellidos requerido'); return; }
-
-      const btn = document.getElementById('createBtn');
-      btn.disabled = true;
-      btn.innerHTML = '<span class="loading-spinner"></span> Publicando...';
-
-      try {
-        const proposalData = {
-          title, description, price, paymentLink, duration, targetAudience,
-          primaryColor, bgColor, fontFamily, logo: currentLogoBase64 || '',
-          profileType, profileName, profileDesc, experiencia,
-          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-        };
-
-        if (currentEditingId) {
-          await db.collection('proposals').doc(currentEditingId).update(proposalData);
-          showToast('✅ Propuesta actualizada');
-          const url = `${window.location.origin}${window.location.pathname}?id=${currentEditingId}`;
-          document.getElementById('resultArea').innerHTML = `<div class="result-card"><i class="fas fa-sync-alt"></i> Editada correctamente. <a href="#" id="viewLinkProp">Ver propuesta actualizada</a></div>`;
-          document.getElementById('viewLinkProp')?.addEventListener('click', (e) => { e.preventDefault(); window.open(url, '_blank'); });
-        } else {
-          const docRef = await db.collection('proposals').add({ ...proposalData, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
-          currentEditingId = docRef.id;
-          const url = `${window.location.origin}${window.location.pathname}?id=${docRef.id}`;
-          document.getElementById('resultArea').innerHTML = `
-            <div class="result-card">
-              <i class="fas fa-check-circle"></i> ¡Propuesta creada! <br>
-              <a href="${url}" target="_blank">${url}</a><br>
-              <button id="copyUrlBtn" style="margin-top:8px; background:#0071e3; border:none; padding:6px 14px; border-radius:40px; color:white;">Copiar enlace</button>
-              <button id="editAgainBtn" style="margin-top:8px; background:#6c757d; border:none; padding:6px 14px; border-radius:40px; color:white;">Editar propuesta</button>
-            </div>
-          `;
-          document.getElementById('copyUrlBtn')?.addEventListener('click', () => copyToClip(url));
-          document.getElementById('editAgainBtn')?.addEventListener('click', () => { loadDataToForm(currentEditingId); showToast('✏️ Modo edición activado'); });
-          showToast('🎉 Creada, puedes editarla cuando quieras');
-        }
-        document.getElementById('editHint').innerHTML = currentEditingId ? '✏️ Modo edición: cualquier cambio se guarda en el mismo enlace.' : '💡 Propuesta guardada, puedes editarla más tarde.';
-      } catch (err) {
-        showToast('❌ Error: ' + err.message);
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-magic"></i> Crear / Guardar propuesta ✨';
-      }
-    }
-
-    async function loadDataToForm(id) {
+  async function renderProposalOnly() {
+    const id = new URLSearchParams(window.location.search).get('id');
+    if (!id) return false;
+    const navbar = document.getElementById('mainNavbar'); if(navbar) navbar.remove();
+    const creator = document.getElementById('creatorPanel'); if(creator) creator.style.display = 'none';
+    let container = document.getElementById('proposalOnlyContainer');
+    if (!container) { container = document.createElement('div'); container.id = 'proposalOnlyContainer'; container.className = 'proposal-only-view'; document.body.innerHTML = ''; document.body.appendChild(container); }
+    container.innerHTML = '<div style="text-align:center; padding:3rem;">Cargando propuesta...</div>';
+    try {
       const doc = await db.collection('proposals').doc(id).get();
-      if (doc.exists) {
-        const d = doc.data();
-        document.getElementById('title').value = d.title || '';
-        document.getElementById('description').value = d.description || '';
-        document.getElementById('price').value = d.price || '';
-        document.getElementById('paymentLink').value = d.paymentLink || '';
-        document.getElementById('duration').value = d.duration || '';
-        document.getElementById('targetAudience').value = d.targetAudience || '';
-        document.getElementById('primaryColor').value = d.primaryColor || '#0071e3';
-        document.getElementById('bgColor').value = d.bgColor || '#ffffff';
-        document.getElementById('fontFamily').value = d.fontFamily || "'Inter', -apple-system";
-        document.getElementById('experiencia').value = d.experiencia || '';
-        if (d.profileType) {
-          profileTypeSelect.value = d.profileType;
-          toggleProfileFields();
-          if (d.profileType === 'empresa') {
-            document.getElementById('empresaNombre').value = d.profileName || '';
-            document.getElementById('empresaDesc').value = d.profileDesc || '';
-          } else {
-            document.getElementById('personaNombre').value = d.profileName || '';
-            document.getElementById('personaDesc').value = d.profileDesc || '';
-          }
-        }
-        if (d.logo && d.logo.startsWith('data:image')) {
-          currentLogoBase64 = d.logo;
-          document.getElementById('logoPreview').innerHTML = `<img src="${currentLogoBase64}" style="max-height:50px;">`;
-        } else {
-          currentLogoBase64 = '';
-          document.getElementById('logoPreview').innerHTML = '';
-        }
-        currentEditingId = id;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }
-
-    // Vista exclusiva para cliente
-    async function renderProposalOnly() {
-      const id = new URLSearchParams(window.location.search).get('id');
-      if (!id) return false;
-
-      const navbar = document.getElementById('mainNavbar');
-      const creator = document.getElementById('creatorPanel');
-      if (navbar) navbar.remove();
-      if (creator) creator.style.display = 'none';
-
-      let container = document.getElementById('proposalOnlyContainer');
-      if (!container) {
-        container = document.createElement('div');
-        container.id = 'proposalOnlyContainer';
-        container.className = 'proposal-only-view';
-        document.body.innerHTML = '';
-        document.body.appendChild(container);
-      }
-      container.innerHTML = '<div style="text-align:center; padding:3rem;">Cargando propuesta premium...</div>';
-
-      try {
-        const doc = await db.collection('proposals').doc(id).get();
-        if (!doc.exists) {
-          container.innerHTML = '<div style="text-align:center;">⚠️ Propuesta no encontrada</div>';
-          return true;
-        }
-        const data = doc.data();
-        const primary = data.primaryColor || '#0071e3';
-        const bgCard = data.bgColor || '#ffffff';
-        const fontFamily = data.fontFamily || "'Inter', -apple-system";
-        const logoHtml = data.logo ? `<img src="${data.logo}" class="proposal-logo" alt="logo">` : '';
-
-        let profileHtml = '';
-        if (data.profileType === 'empresa') {
-          profileHtml = `<div class="profile-badge"><i class="fas fa-building"></i> ${escapeHtml(data.profileName || 'Empresa')}</div>
-          ${data.profileDesc ? `<div style="font-size:0.9rem; margin-bottom:0.5rem;"><i class="fas fa-quote-left"></i> ${escapeHtml(data.profileDesc)}</div>` : ''}`;
-        } else if (data.profileType === 'persona') {
-          profileHtml = `<div class="profile-badge"><i class="fas fa-user-check"></i> ${escapeHtml(data.profileName || 'Profesional')}</div>
-          ${data.profileDesc ? `<div style="font-size:0.9rem; margin-bottom:0.5rem;">✨ ${escapeHtml(data.profileDesc)}</div>` : ''}`;
-        }
-
-        const expHtml = data.experiencia ? `<div class="inline-badge"><i class="fas fa-medal"></i> ${escapeHtml(data.experiencia)} de experiencia</div>` : '';
-        const descHTML = (data.description || '').replace(/\n/g, '<br>');
-
-        container.innerHTML = `
-          <div class="proposal-preview-card" style="background: ${bgCard}; font-family: ${fontFamily}; box-shadow: 0 20px 35px rgba(0,0,0,0.1);">
-            <div class="proposal-header-custom">
-              ${logoHtml}
-              ${profileHtml}
-              <div class="proposal-title" style="color: #1d1d1f;">${escapeHtml(data.title)}</div>
-            </div>
-            <div class="proposal-body" style="padding: 1.5rem 2rem 2rem;">
-              <div class="proposal-description">${descHTML}</div>
-              <div>${expHtml}
-              ${data.duration ? `<span class="inline-badge"><i class="fas fa-hourglass-start"></i> ${escapeHtml(data.duration)}</span>` : ''}
-              ${data.targetAudience ? `<span class="inline-badge"><i class="fas fa-bullseye"></i> Ideal: ${escapeHtml(data.targetAudience)}</span>` : ''}
-              </div>
-              <div class="proposal-meta" style="margin-top: 1.5rem; text-align: center;">
-                <div class="proposal-price" style="color: ${primary};">${escapeHtml(data.price)}</div>
-                <a href="${data.paymentLink}" target="_blank" class="pay-button" style="background: ${primary}; margin-top: 1rem;">Proceder al pago seguro <i class="fas fa-arrow-right"></i></a>
-              </div>
-              <div style="text-align:center; font-size:0.7rem; color:#aaa; margin-top:2rem;">Propuesta creada con Vinclechat · Confianza y transparencia</div>
-            </div>
-          </div>
-        `;
-      } catch (err) {
-        container.innerHTML = '<div>Error al cargar propuesta</div>';
-      }
-      return true;
-    }
-
-    function escapeHtml(str) {
-      if (!str) return '';
-      return str.replace(/[&<>]/g, function (m) {
-        if (m === '&') return '&amp;';
-        if (m === '<') return '&lt;';
-        if (m === '>') return '&gt;';
-        return m;
-      });
-    }
-
-    document.getElementById('proposalForm').addEventListener('submit', saveProposal);
-
-    window.addEventListener('load', async () => {
-      const idParam = new URLSearchParams(window.location.search).get('id');
-      if (idParam) {
-        await renderProposalOnly();
+      if (!doc.exists) { container.innerHTML = '<div>No encontrada</div>'; return true; }
+      const data = doc.data();
+      const primary = data.primaryColor || '#0071e3';
+      const bgCard = data.bgColor || '#ffffff';
+      const fontFamily = data.fontFamily || "'Inter', -apple-system";
+      const logoImg = data.logo ? `<img src="${data.logo}" class="proposal-logo-circle" alt="logo">` : `<div style="width:90px; height:90px; background:#e9e9ef; border-radius:50%; margin:0 auto 1rem; display:flex; align-items:center; justify-content:center;"><i class="fas fa-user" style="font-size:2.5rem; color:#aaa;"></i></div>`;
+      let profileHtml = '';
+      if (data.profileType === 'empresa') {
+        profileHtml = `<div class="profile-badge-modern">${logoImg}<div class="profile-name">${escapeHtml(data.profileName || 'Empresa')}</div><div class="profile-desc">${escapeHtml(data.profileDesc || '')}</div></div>`;
       } else {
-        const editParam = new URLSearchParams(window.location.search).get('edit');
-        if (editParam) {
-          await loadDataToForm(editParam);
-          window.history.replaceState({}, '', window.location.pathname);
-        }
+        profileHtml = `<div class="profile-badge-modern">${logoImg}<div class="profile-name">${escapeHtml(data.profileName || 'Profesional')}</div><div class="profile-desc">${escapeHtml(data.profileDesc || '')}</div></div>`;
       }
-    });
-  </script>
+      const expHtml = data.experiencia ? `<div class="inline-badge"><i class="fas fa-medal"></i> ${escapeHtml(data.experiencia)}</div>` : '';
+      const descHTML = (data.description || '').replace(/\n/g, '<br>');
+      container.innerHTML = `
+        <div class="proposal-preview-card" style="background: ${bgCard}; font-family: ${fontFamily};">
+          <div class="proposal-header-custom">
+            ${profileHtml}
+            <div class="proposal-title">${escapeHtml(data.title)}</div>
+          </div>
+          <div class="proposal-body" style="padding: 1.5rem 2rem 2rem;">
+            <div class="proposal-description">${descHTML}</div>
+            <div>${expHtml} ${data.duration ? `<span class="inline-badge"><i class="fas fa-hourglass-start"></i> ${escapeHtml(data.duration)}</span>` : ''} ${data.targetAudience ? `<span class="inline-badge"><i class="fas fa-bullseye"></i> ${escapeHtml(data.targetAudience)}</span>` : ''}</div>
+            <div class="proposal-meta" style="text-align: center;">
+              <div class="proposal-price" style="color: ${primary};">${escapeHtml(data.price)}</div>
+              <a href="${data.paymentLink}" target="_blank" class="pay-button" style="background: ${primary};">Proceder al pago <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div style="text-align:center; font-size:0.7rem; color:#aaa; margin-top:2rem;">Vinclechat · Propuesta profesional</div>
+          </div>
+        </div>
+      `;
+    } catch(e) { container.innerHTML = '<div>Error</div>'; }
+    return true;
+  }
+
+  function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+
+  document.getElementById('proposalForm').addEventListener('submit', saveProposal);
+  window.addEventListener('load', async () => {
+    const idParam = new URLSearchParams(window.location.search).get('id');
+    if (idParam) await renderProposalOnly();
+    else { const editParam = new URLSearchParams(window.location.search).get('edit'); if (editParam) { await loadDataToForm(editParam); window.history.replaceState({}, '', window.location.pathname); } }
+  });
+</script>
 </body>
 </html>
