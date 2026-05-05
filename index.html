@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -280,6 +281,16 @@
       margin-top: 0.2rem;
     }
 
+    .profile-experience {
+      font-size: 0.75rem;
+      color: #0071e3;
+      background: #eef2ff;
+      display: inline-block;
+      padding: 0.2rem 0.8rem;
+      border-radius: 30px;
+      margin-top: 0.5rem;
+    }
+
     .proposal-title {
       font-size: 2rem;
       font-weight: 700;
@@ -507,13 +518,15 @@
         <div id="empresaFields">
           <div class="form-group"><label><i class="fas fa-building"></i> Nombre de la empresa</label><input type="text" id="empresaNombre" placeholder="Ej: Vincletech Solutions"></div>
           <div class="form-group"><label><i class="fas fa-align-left"></i> Breve descripción de la empresa</label><input type="text" id="empresaDesc" placeholder="Agencia boutique especializada en transformación digital"></div>
+          <div class="form-group"><label><i class="fas fa-chart-line"></i> Años de experiencia en el sector</label><input type="text" id="experienciaEmpresa" placeholder="Ej: +8 años en marketing digital"></div>
         </div>
         <div id="personaFields" style="display: none;">
           <div class="form-group"><label><i class="fas fa-user"></i> Nombre y apellidos</label><input type="text" id="personaNombre" placeholder="Ej: Laura Méndez"></div>
           <div class="form-group"><label><i class="fas fa-microphone-alt"></i> Breve descripción profesional</label><input type="text" id="personaDesc" placeholder="Consultora senior en growth e inteligencia de negocio"></div>
+          <div class="form-group"><label><i class="fas fa-chart-line"></i> Años de experiencia en el sector</label><input type="text" id="experienciaPersona" placeholder="Ej: +8 años en marketing digital"></div>
         </div>
 
-        <div class="form-group"><label><i class="fas fa-chart-line"></i> Años de experiencia en el sector</label><input type="text" id="experiencia" placeholder="Ej: +8 años en marketing digital"></div>
+        <!-- Duración y público objetivo -->
         <div class="form-group"><label><i class="fas fa-hourglass-half"></i> Duración del servicio</label><input type="text" id="duration" placeholder="Ej: 3 meses / 20 horas"></div>
         <div class="form-group"><label><i class="fas fa-users"></i> Para quién es (target)</label><input type="text" id="targetAudience" placeholder="Ej: Startups B2B, Autónomos digitales"></div>
         <div class="form-group"><label><i class="fas fa-tag"></i> Precio *</label><input type="text" id="price" placeholder="Ej: 2.890€ · 180€/hora"></div>
@@ -527,7 +540,7 @@
             <div style="flex:1"><label>Fuente</label><select id="fontFamily"><option value="'Inter', -apple-system">System Default</option><option value="'Georgia', serif">Georgia Serif</option><option value="'Courier New', monospace">Monospace</option></select></div>
           </div>
           <div class="form-group" style="margin-top:1rem;">
-            <label><i class="fas fa-image"></i> Logo / foto de perfil (circular) *</label>
+            <label><i class="fas fa-image"></i> Logo / foto de perfil (circular)</label>
             <input type="file" id="logoUpload" accept="image/*">
             <div id="logoPreview" style="margin-top:8px;"></div>
           </div>
@@ -605,8 +618,17 @@
   const profileTypeSelect = document.getElementById('profileType');
   const empresaDiv = document.getElementById('empresaFields');
   const personaDiv = document.getElementById('personaFields');
-  function toggleProfileFields() { if (profileTypeSelect.value === 'empresa') { empresaDiv.style.display = 'block'; personaDiv.style.display = 'none'; } else { empresaDiv.style.display = 'none'; personaDiv.style.display = 'block'; } }
-  profileTypeSelect.addEventListener('change', toggleProfileFields); toggleProfileFields();
+  function toggleProfileFields() { 
+    if (profileTypeSelect.value === 'empresa') { 
+      empresaDiv.style.display = 'block'; 
+      personaDiv.style.display = 'none'; 
+    } else { 
+      empresaDiv.style.display = 'none'; 
+      personaDiv.style.display = 'block'; 
+    } 
+  }
+  profileTypeSelect.addEventListener('change', toggleProfileFields); 
+  toggleProfileFields();
 
   document.getElementById('logoUpload').addEventListener('change', (e) => {
     const file = e.target.files[0];
@@ -625,11 +647,19 @@
     const primaryColor = document.getElementById('primaryColor').value;
     const bgColor = document.getElementById('bgColor').value;
     const fontFamily = document.getElementById('fontFamily').value;
-    const experiencia = document.getElementById('experiencia').value.trim();
     const profileType = profileTypeSelect.value;
-    let profileName = '', profileDesc = '';
-    if (profileType === 'empresa') { profileName = document.getElementById('empresaNombre').value.trim(); profileDesc = document.getElementById('empresaDesc').value.trim(); }
-    else { profileName = document.getElementById('personaNombre').value.trim(); profileDesc = document.getElementById('personaDesc').value.trim(); }
+    
+    let profileName = '', profileDesc = '', experiencia = '';
+    if (profileType === 'empresa') { 
+      profileName = document.getElementById('empresaNombre').value.trim(); 
+      profileDesc = document.getElementById('empresaDesc').value.trim(); 
+      experiencia = document.getElementById('experienciaEmpresa').value.trim();
+    } else { 
+      profileName = document.getElementById('personaNombre').value.trim(); 
+      profileDesc = document.getElementById('personaDesc').value.trim(); 
+      experiencia = document.getElementById('experienciaPersona').value.trim();
+    }
+    
     if (!title) { showToast('❌ Título requerido'); return; }
     if (!description) { showToast('❌ Descripción obligatoria'); return; }
     if (!price) { showToast('❌ Precio obligatorio'); return; }
@@ -672,11 +702,17 @@
       document.getElementById('primaryColor').value = d.primaryColor || '#0071e3';
       document.getElementById('bgColor').value = d.bgColor || '#ffffff';
       document.getElementById('fontFamily').value = d.fontFamily || "'Inter', -apple-system";
-      document.getElementById('experiencia').value = d.experiencia || '';
       if (d.profileType) {
         profileTypeSelect.value = d.profileType; toggleProfileFields();
-        if (d.profileType === 'empresa') { document.getElementById('empresaNombre').value = d.profileName || ''; document.getElementById('empresaDesc').value = d.profileDesc || ''; }
-        else { document.getElementById('personaNombre').value = d.profileName || ''; document.getElementById('personaDesc').value = d.profileDesc || ''; }
+        if (d.profileType === 'empresa') { 
+          document.getElementById('empresaNombre').value = d.profileName || ''; 
+          document.getElementById('empresaDesc').value = d.profileDesc || '';
+          document.getElementById('experienciaEmpresa').value = d.experiencia || '';
+        } else { 
+          document.getElementById('personaNombre').value = d.profileName || ''; 
+          document.getElementById('personaDesc').value = d.profileDesc || '';
+          document.getElementById('experienciaPersona').value = d.experiencia || '';
+        }
       }
       if (d.logo && d.logo.startsWith('data:image')) { currentLogoBase64 = d.logo; document.getElementById('logoPreview').innerHTML = `<img src="${currentLogoBase64}" style="width:80px; height:80px; border-radius:50%; object-fit:cover;">`; }
       else { currentLogoBase64 = ''; document.getElementById('logoPreview').innerHTML = ''; }
@@ -700,14 +736,15 @@
       const bgCard = data.bgColor || '#ffffff';
       const fontFamily = data.fontFamily || "'Inter', -apple-system";
       const logoImg = data.logo ? `<img src="${data.logo}" class="proposal-logo-circle" alt="logo">` : `<div style="width:90px; height:90px; background:#e9e9ef; border-radius:50%; margin:0 auto 0.8rem; display:flex; align-items:center; justify-content:center;"><i class="fas fa-user" style="font-size:2.2rem; color:#aaa;"></i></div>`;
+      const experienciaHtml = data.experiencia ? `<div class="profile-experience"><i class="fas fa-medal"></i> ${escapeHtml(data.experiencia)}</div>` : '';
       const profileHtml = `
         <div style="text-align:center;">
           ${logoImg}
           <div class="profile-name">${escapeHtml(data.profileName || (data.profileType === 'empresa' ? 'Empresa' : 'Profesional'))}</div>
           <div class="profile-desc">${escapeHtml(data.profileDesc || '')}</div>
+          ${experienciaHtml}
         </div>
       `;
-      const expHtml = data.experiencia ? `<div class="inline-badge"><i class="fas fa-medal"></i> ${escapeHtml(data.experiencia)}</div>` : '';
       const descHTML = (data.description || '').replace(/\n/g, '<br>');
       container.innerHTML = `
         <div class="proposal-preview-card" style="background: ${bgCard}; font-family: ${fontFamily};">
@@ -717,7 +754,7 @@
           </div>
           <div class="proposal-body" style="padding: 1rem 1.5rem 1.8rem;">
             <div class="proposal-description">${descHTML}</div>
-            <div>${expHtml} ${data.duration ? `<span class="inline-badge"><i class="fas fa-hourglass-start"></i> ${escapeHtml(data.duration)}</span>` : ''} ${data.targetAudience ? `<span class="inline-badge"><i class="fas fa-bullseye"></i> ${escapeHtml(data.targetAudience)}</span>` : ''}</div>
+            <div>${data.duration ? `<span class="inline-badge"><i class="fas fa-hourglass-start"></i> ${escapeHtml(data.duration)}</span>` : ''} ${data.targetAudience ? `<span class="inline-badge"><i class="fas fa-bullseye"></i> ${escapeHtml(data.targetAudience)}</span>` : ''}</div>
             <div class="proposal-meta" style="text-align: center;">
               <div class="proposal-price" style="color: ${primary};">${escapeHtml(data.price)}</div>
               <a href="${data.paymentLink}" target="_blank" class="pay-button" style="background: ${primary};">Proceder al pago <i class="fas fa-arrow-right"></i></a>
