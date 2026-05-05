@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Vinclechat · Propuestas premium · Perfil + Editor Completo</title>
+  <title>Vinclechat · Propuestas premium · Formulario inteligente</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
@@ -67,7 +67,6 @@
       max-width: 1000px;
       margin: 0 auto;
       padding: 2rem;
-      border: 1px;
     }
 
     .hero-section {
@@ -170,6 +169,24 @@
       padding: 0.7rem 1.5rem;
     }
 
+    .btn-outline-expand {
+      background: transparent;
+      border: 1.5px dashed #c6c6c8;
+      color: #0071e3;
+      padding: 0.6rem;
+      border-radius: 40px;
+      width: 100%;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: all 0.2s;
+    }
+
+    .btn-outline-expand:hover {
+      background: #f5f5f7;
+      border-color: #0071e3;
+    }
+
     .result-card {
       margin-top: 1.5rem;
       padding: 1.25rem;
@@ -209,6 +226,18 @@
       to {
         transform: rotate(360deg);
       }
+    }
+
+    /* Sección expandible */
+    .expandable-section {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+      margin-top: 0;
+    }
+
+    .expandable-section.open {
+      max-height: 2000px;
     }
 
     /* VISTA PROPIA PARA EL CLIENTE (SOLO PROPUESTA) */
@@ -432,7 +461,7 @@
 
     <div class="card">
       <form id="proposalForm">
-        <!-- Título y descripción principal -->
+        <!-- CAMPOS SIEMPRE VISIBLES: Título y Descripción -->
         <div class="form-group">
           <label><i class="fas fa-heading"></i> Título de la oferta *</label>
           <input type="text" id="title" placeholder="Ej: Aceleración Comercial 2025" required>
@@ -442,89 +471,96 @@
           <textarea id="description" rows="5" placeholder="• Diagnóstico estratégico&#10;• Implementación ágil&#10;• Soporte 30 días" required></textarea>
         </div>
 
-        <!-- Perfil: empresa o persona -->
-        <div class="form-group">
-          <label><i class="fas fa-user-tie"></i> ¿Quién emite la propuesta? *</label>
-          <select id="profileType">
-            <option value="empresa">🏢 Empresa / Agencia</option>
-            <option value="persona">🧑‍💻 Profesional independiente / Persona</option>
-          </select>
-        </div>
+        <!-- Botón para expandir/colapsar -->
+        <button type="button" id="toggleExpandBtn" class="btn-outline-expand">
+          <i class="fas fa-chevron-down"></i> Ver más opciones (perfil, duración, precio, personalización)
+        </button>
 
-        <div id="empresaFields">
+        <!-- SECCIÓN EXPANDIBLE (todo lo demás) -->
+        <div id="expandableSection" class="expandable-section" style="margin-top: 1.5rem;">
+          <!-- Perfil: empresa o persona -->
           <div class="form-group">
-            <label><i class="fas fa-building"></i> Nombre de la empresa</label>
-            <input type="text" id="empresaNombre" placeholder="Ej: Vincletech Solutions">
+            <label><i class="fas fa-user-tie"></i> ¿Quién emite la propuesta? *</label>
+            <select id="profileType">
+              <option value="empresa">🏢 Empresa / Agencia</option>
+              <option value="persona">🧑‍💻 Profesional independiente / Persona</option>
+            </select>
           </div>
-          <div class="form-group">
-            <label><i class="fas fa-align-left"></i> Breve descripción de la empresa</label>
-            <input type="text" id="empresaDesc" placeholder="Agencia boutique especializada en transformación digital">
-          </div>
-        </div>
 
-        <div id="personaFields" style="display: none;">
-          <div class="form-group">
-            <label><i class="fas fa-user"></i> Nombre y apellidos</label>
-            <input type="text" id="personaNombre" placeholder="Ej: Laura Méndez">
-          </div>
-          <div class="form-group">
-            <label><i class="fas fa-microphone-alt"></i> Breve descripción profesional</label>
-            <input type="text" id="personaDesc" placeholder="Consultora senior en growth e inteligencia de negocio">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label><i class="fas fa-chart-line"></i> Años de experiencia en el sector</label>
-          <input type="text" id="experiencia" placeholder="Ej: +8 años en marketing digital, 5 años en IA">
-        </div>
-
-        <!-- Duración y público -->
-        <div class="form-group">
-          <label><i class="fas fa-hourglass-half"></i> Duración del servicio</label>
-          <input type="text" id="duration" placeholder="Ej: 3 meses / 20 horas / Consultoría puntual">
-        </div>
-        <div class="form-group">
-          <label><i class="fas fa-users"></i> Para quién es (target)</label>
-          <input type="text" id="targetAudience" placeholder="Ej: Startups B2B, Autónomos digitales">
-        </div>
-        <div class="form-group">
-          <label><i class="fas fa-tag"></i> Precio *</label>
-          <input type="text" id="price" placeholder="Ej: 2.890€ · 180€/hora">
-        </div>
-        <div class="form-group">
-          <label><i class="fas fa-credit-card"></i> Link de pago *</label>
-          <input type="url" id="paymentLink" placeholder="https://paypal.me/tuempresa">
-        </div>
-
-        <!-- Personalización visual -->
-        <div style="border-top:1px solid #e9e9ef; margin:1rem 0; padding-top:1rem;">
-          <h4 style="font-size:1rem; margin-bottom:1rem;"><i class="fas fa-palette"></i> Personaliza el look</h4>
-          <div style="display:flex; flex-wrap:wrap; gap:1rem;">
-            <div style="flex:1">
-              <label>Color principal</label>
-              <input type="color" id="primaryColor" value="#0071e3">
+          <div id="empresaFields">
+            <div class="form-group">
+              <label><i class="fas fa-building"></i> Nombre de la empresa</label>
+              <input type="text" id="empresaNombre" placeholder="Ej: Vincletech Solutions">
             </div>
-            <div style="flex:1">
-              <label>Fondo tarjeta</label>
-              <input type="color" id="bgColor" value="#ffffff">
-            </div>
-            <div style="flex:1">
-              <label>Fuente títulos</label>
-              <select id="fontFamily">
-                <option value="'Inter', -apple-system">System Default</option>
-                <option value="'Georgia', serif">Georgia Serif</option>
-                <option value="'Courier New', monospace">Monospace</option>
-              </select>
+            <div class="form-group">
+              <label><i class="fas fa-align-left"></i> Breve descripción de la empresa</label>
+              <input type="text" id="empresaDesc" placeholder="Agencia boutique especializada en transformación digital">
             </div>
           </div>
-          <div class="form-group" style="margin-top:1rem;">
-            <label><i class="fas fa-image"></i> Logo o avatar (opcional)</label>
-            <input type="file" id="logoUpload" accept="image/*">
-            <div id="logoPreview" style="margin-top:8px;"></div>
+
+          <div id="personaFields" style="display: none;">
+            <div class="form-group">
+              <label><i class="fas fa-user"></i> Nombre y apellidos</label>
+              <input type="text" id="personaNombre" placeholder="Ej: Laura Méndez">
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-microphone-alt"></i> Breve descripción profesional</label>
+              <input type="text" id="personaDesc" placeholder="Consultora senior en growth e inteligencia de negocio">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label><i class="fas fa-chart-line"></i> Años de experiencia en el sector</label>
+            <input type="text" id="experiencia" placeholder="Ej: +8 años en marketing digital, 5 años en IA">
+          </div>
+
+          <div class="form-group">
+            <label><i class="fas fa-hourglass-half"></i> Duración del servicio</label>
+            <input type="text" id="duration" placeholder="Ej: 3 meses / 20 horas / Consultoría puntual">
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-users"></i> Para quién es (target)</label>
+            <input type="text" id="targetAudience" placeholder="Ej: Startups B2B, Autónomos digitales">
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-tag"></i> Precio *</label>
+            <input type="text" id="price" placeholder="Ej: 2.890€ · 180€/hora">
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-credit-card"></i> Link de pago *</label>
+            <input type="url" id="paymentLink" placeholder="https://paypal.me/tuempresa">
+          </div>
+
+          <!-- Personalización visual -->
+          <div style="border-top:1px solid #e9e9ef; margin:1rem 0; padding-top:1rem;">
+            <h4 style="font-size:1rem; margin-bottom:1rem;"><i class="fas fa-palette"></i> Personaliza el look</h4>
+            <div style="display:flex; flex-wrap:wrap; gap:1rem;">
+              <div style="flex:1">
+                <label>Color principal</label>
+                <input type="color" id="primaryColor" value="#0071e3">
+              </div>
+              <div style="flex:1">
+                <label>Fondo tarjeta</label>
+                <input type="color" id="bgColor" value="#ffffff">
+              </div>
+              <div style="flex:1">
+                <label>Fuente títulos</label>
+                <select id="fontFamily">
+                  <option value="'Inter', -apple-system">System Default</option>
+                  <option value="'Georgia', serif">Georgia Serif</option>
+                  <option value="'Courier New', monospace">Monospace</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group" style="margin-top:1rem;">
+              <label><i class="fas fa-image"></i> Logo o avatar (opcional)</label>
+              <input type="file" id="logoUpload" accept="image/*">
+              <div id="logoPreview" style="margin-top:8px;"></div>
+            </div>
           </div>
         </div>
 
-        <button type="submit" class="btn-primary" id="createBtn"><i class="fas fa-magic"></i> Crear / Actualizar propuesta ✨</button>
+        <button type="submit" class="btn-primary" id="createBtn" style="margin-top: 1.5rem;"><i class="fas fa-magic"></i> Crear / Actualizar propuesta ✨</button>
       </form>
       <div id="resultArea"></div>
       <div id="editHint" style="margin-top:1rem; font-size:0.75rem; text-align:center; color:#666;"></div>
@@ -566,7 +602,7 @@
   <div id="toast" class="toast"></div>
 
   <script>
-    // CONFIGURACIÓN FIREBASE
+    // FIREBASE
     const firebaseConfig = {
       apiKey: "AIzaSyBfJq-6CniQvqmR6aRS3XNC5GxE5E1bMpQ",
       authDomain: "vinclechat-564d1.firebaseapp.com",
@@ -581,7 +617,22 @@
     let currentEditingId = null;
     let currentLogoBase64 = '';
 
-    // Helper UI
+    // elementos DOM
+    const toggleBtn = document.getElementById('toggleExpandBtn');
+    const expandableDiv = document.getElementById('expandableSection');
+    let isExpanded = false;
+
+    toggleBtn.addEventListener('click', () => {
+      isExpanded = !isExpanded;
+      if (isExpanded) {
+        expandableDiv.classList.add('open');
+        toggleBtn.innerHTML = '<i class="fas fa-chevron-up"></i> Ver menos opciones';
+      } else {
+        expandableDiv.classList.remove('open');
+        toggleBtn.innerHTML = '<i class="fas fa-chevron-down"></i> Ver más opciones (perfil, duración, precio, personalización)';
+      }
+    });
+
     function showToast(msg) {
       const toast = document.getElementById('toast');
       toast.textContent = msg;
@@ -604,7 +655,7 @@
       }
     }
 
-    // LÓGICA DE PERFIL (EMPRESA / PERSONA)
+    // Lógica perfil empresa/persona
     const profileTypeSelect = document.getElementById('profileType');
     const empresaDiv = document.getElementById('empresaFields');
     const personaDiv = document.getElementById('personaFields');
@@ -621,7 +672,7 @@
     profileTypeSelect.addEventListener('change', toggleProfileFields);
     toggleProfileFields();
 
-    // SUBIDA DE LOGO
+    // Logo upload
     document.getElementById('logoUpload').addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (file) {
@@ -637,7 +688,7 @@
       }
     });
 
-    // GUARDAR O ACTUALIZAR PROPUESTA
+    // Guardar propuesta
     async function saveProposal(e) {
       e.preventDefault();
 
@@ -749,12 +800,11 @@
       }
     }
 
-    // VISTA EXCLUSIVA PARA EL CLIENTE (SOLO PROPUESTA)
+    // Vista exclusiva para cliente
     async function renderProposalOnly() {
       const id = new URLSearchParams(window.location.search).get('id');
       if (!id) return false;
 
-      // Ocultar navbar y panel de creación
       const navbar = document.getElementById('mainNavbar');
       const creator = document.getElementById('creatorPanel');
       if (navbar) navbar.remove();
@@ -831,7 +881,6 @@
       });
     }
 
-    // EVENTOS Y ARRANQUE
     document.getElementById('proposalForm').addEventListener('submit', saveProposal);
 
     window.addEventListener('load', async () => {
