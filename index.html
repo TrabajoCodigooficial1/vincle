@@ -1,14 +1,14 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Vinclechat · Propuestas premium · Carrusel infinito</title>
+  <title>Vinclechat · Propuestas premium · Editable + Personalizable</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <!-- html2canvas para capturar logo? no es necesario, subimos img como base64 -->
   <style>
     * {
       margin: 0;
@@ -24,11 +24,7 @@
       min-height: 100vh;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
-    /* Navegación estilo Apple */
+    /* Estilos generales */
     .navbar {
       position: sticky;
       top: 0;
@@ -38,7 +34,6 @@
       z-index: 100;
       padding: 0.8rem 0;
     }
-
     .nav-container {
       max-width: 1200px;
       margin: 0 auto;
@@ -49,67 +44,37 @@
       flex-wrap: wrap;
       gap: 1rem;
     }
-
     .logo {
       display: flex;
       align-items: center;
       gap: 12px;
       font-size: 1.5rem;
       font-weight: 700;
-      letter-spacing: -0.02em;
     }
-
-    .logo svg {
-      width: 48px;
-      height: 48px;
-    }
-
     .logo-text {
       background: linear-gradient(135deg, #1d1d1f 0%, #3a3a3e 100%);
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent;
     }
-
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: #1d1d1f;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover {
-      color: #0071e3;
-    }
-
     .container {
       max-width: 1000px;
       margin: 0 auto;
       padding: 2rem;
     }
-
-    /* Hero section */
     .hero-section {
       text-align: center;
-      padding: 3rem 1rem 2rem;
+      padding: 2rem 1rem 1rem;
     }
-
     .hero-section h1 {
-      font-size: 4rem;
+      font-size: 3.5rem;
       font-weight: 700;
       background: linear-gradient(135deg, #1d1d1f 0%, #6e6e73 100%);
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent;
       letter-spacing: -0.03em;
-      margin-bottom: 1rem;
     }
-
     .hero-badge {
       display: inline-flex;
       align-items: center;
@@ -120,125 +85,28 @@
       border-radius: 40px;
       font-size: 0.85rem;
       font-weight: 500;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
     }
-
-    .hero-subtitle {
-      font-size: 1.25rem;
-      color: #6e6e73;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    /* CARRUSEL INFINITO PREMIUM */
-    .marquee-section {
-      margin: 4rem 0;
-      padding: 2rem 0;
-      background: none;
-      border-radius: 80px;
-      overflow: hidden;
-    }
-
-    .marquee-title {
-      text-align: center;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      color: #86868b;
-      margin-bottom: 1.5rem;
-    }
-
-    .marquee {
-      overflow: hidden;
-      position: relative;
-      white-space: nowrap;
-    }
-
-    .marquee::before,
-    .marquee::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      width: 100px;
-      height: 100%;
-      z-index: 2;
-      pointer-events: none;
-    }
-
-    .marquee::before {
-      left: 0;
-      background: linear-gradient(90deg, #f5f5f7, transparent);
-    }
-
-    .marquee::after {
-      right: 0;
-      background: linear-gradient(-90deg, #f5f5f7, transparent);
-    }
-
-    .marquee-track {
-      display: inline-flex;
-      gap: 4rem;
-      animation: scroll 30s linear infinite;
-    }
-
-    .marquee-track:hover {
-      animation-play-state: paused;
-    }
-
-    .marquee-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 1rem;
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: #1d1d1f;
-      padding: 0.5rem 2rem;
-      background: white;
-      border-radius: 60px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    .card {
+      background: #ffffff;
+      border-radius: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.03);
+      border: 1px solid #e9e9ef;
       transition: all 0.3s;
+      padding: 2rem;
     }
-
-    .marquee-item i {
-      font-size: 1.8rem;
-      color: #0071e3;
-    }
-
-    .marquee-item:hover {
-      transform: scale(1.05);
-      box-shadow: 0 8px 24px rgba(0, 113, 227, 0.15);
-      color: #0071e3;
-    }
-
-    @keyframes scroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-
-/* Tarjetas PRO */
-/* Tarjetas */
-    .card { background: #ffffff; border-radius: 24px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.03); 
-           border: 1px solid #e9e9ef;
-           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-          } 
-    .card:hover { border-color: #d0d0db; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08); }
-
-    /* Formulario */
     .form-group {
       margin-bottom: 1.5rem;
     }
-
     label {
       display: flex;
       align-items: center;
       gap: 8px;
       font-weight: 500;
-      color: #1d1d1f;
       margin-bottom: 0.5rem;
       font-size: 0.85rem;
     }
-
-    input, textarea {
+    input, textarea, select {
       width: 100%;
       padding: 1rem;
       border: 1.5px solid #e9e9ef;
@@ -248,18 +116,11 @@
       font-family: inherit;
       background: white;
     }
-
-    input:focus, textarea:focus {
+    input:focus, textarea:focus, select:focus {
       outline: none;
       border-color: #0071e3;
       box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
     }
-
-    textarea {
-      resize: vertical;
-      min-height: 100px;
-    }
-
     .btn-primary {
       background: #1d1d1f;
       color: white;
@@ -269,89 +130,27 @@
       font-size: 1rem;
       font-weight: 500;
       cursor: pointer;
-      transition: all 0.2s;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
       width: 100%;
     }
-
     .btn-primary:hover:not(:disabled) {
       background: #0071e3;
       transform: scale(0.98);
     }
-
-    .btn-primary:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
     .btn-secondary {
       background: white;
       color: #1d1d1f;
       border: 1.5px solid #e9e9ef;
-      padding: 0.75rem 1.5rem;
-      width: auto;
     }
-
-    .btn-secondary:hover {
-      background: #f5f5f7;
-      border-color: #d0d0db;
-    }
-
     .result-card {
       margin-top: 1.5rem;
       padding: 1.25rem;
       background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
       border-radius: 20px;
-      border-left: 4px solid #34c759;
     }
-
-    .result-card a {
-      color: #1d1d1f;
-      text-decoration: none;
-      font-weight: 500;
-      word-break: break-all;
-    }
-
-    .viewer-container {
-      text-align: center;
-      padding: 2rem;
-    }
-
-    .viewer-title {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin: 1rem 0;
-      color: #1d1d1f;
-    }
-
-    .viewer-price {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: #0071e3;
-      margin: 1.5rem 0;
-    }
-
-    .pay-button {
-      background: #0071e3;
-      color: white;
-      padding: 1rem 2rem;
-      border-radius: 40px;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 500;
-      transition: all 0.2s;
-    }
-
-    .pay-button:hover {
-      background: #0051a3;
-      transform: translateY(-2px);
-    }
-
     .toast {
       position: fixed;
       bottom: 30px;
@@ -364,13 +163,8 @@
       font-size: 0.9rem;
       transition: transform 0.3s;
       z-index: 1000;
-      pointer-events: none;
     }
-
-    .toast.show {
-      transform: translateX(-50%) translateY(0);
-    }
-
+    .toast.show { transform: translateX(-50%) translateY(0); }
     .loading-spinner {
       display: inline-block;
       width: 20px;
@@ -380,357 +174,187 @@
       border-radius: 50%;
       animation: spin 0.6s linear infinite;
     }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    /* Vista propuesta SOLO PROPUESTA (sin navbar ni nada extra) */
+    .proposal-only-view {
+      min-height: 100vh;
+      background: #fafafc;
     }
-
-    .footer {
-      text-align: center;
+    .proposal-preview-card {
+      max-width: 800px;
+      margin: 2rem auto;
+      border-radius: 32px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+      overflow: hidden;
+      background: white;
+      transition: all 0.2s;
+    }
+    .proposal-header-custom {
       padding: 2rem;
-      color: #6e6e73;
-      font-size: 0.8rem;
-      border-top: 1px solid #e9e9ef;
-      margin-top: 3rem;
+      text-align: center;
+      border-bottom: 1px solid #e9e9ef;
     }
-
+    .proposal-logo {
+      max-width: 140px;
+      max-height: 70px;
+      object-fit: contain;
+      margin-bottom: 1rem;
+    }
+    .proposal-body {
+      padding: 2rem;
+    }
+    .proposal-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin: 0.5rem 0;
+    }
+    .proposal-description {
+      white-space: pre-wrap;
+      line-height: 1.6;
+      margin: 1rem 0;
+    }
+    .proposal-meta {
+      background: #f5f5f7;
+      padding: 1rem;
+      border-radius: 20px;
+      margin: 1rem 0;
+    }
+    .proposal-price {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0071e3;
+    }
+    .pay-button {
+      background: #0071e3;
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 40px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 500;
+    }
+    .footer { text-align: center; padding: 2rem; color: #6e6e73; font-size: 0.8rem; border-top: 1px solid #e9e9ef; }
     @media (max-width: 768px) {
       .container { padding: 1rem; }
-      .hero-section h1 { font-size: 2.5rem; }
-      .marquee-item { font-size: 1rem; padding: 0.3rem 1rem; }
-      .marquee-item i { font-size: 1.2rem; }
-      .nav-container { flex-direction: column; }
+      .hero-section h1 { font-size: 2.2rem; }
+      .proposal-title { font-size: 1.8rem; }
     }
-
-
+    .inline-badge {
+      display: inline-block;
+      background: #e9e9ef;
+      border-radius: 30px;
+      padding: 0.2rem 0.8rem;
+      font-size: 0.8rem;
+    }
   </style>
 </head>
 <body>
 
-<div class="navbar">
+<div class="navbar" id="mainNavbar">
   <div class="nav-container">
     <div class="logo">
-
-
-<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
-  <!-- Línea diagonal \ -->
-  <line x1="15" y1="15" x2="85" y2="85" stroke="black" stroke-width="5" stroke-linecap="round"/>
-  <!-- Línea diagonal / -->
-  <line x1="85" y1="15" x2="15" y2="85" stroke="black" stroke-width="5" stroke-linecap="round"/>
-  <!-- Línea vertical | -->
-  <line x1="50" y1="10" x2="50" y2="90" stroke="black" stroke-width="5" stroke-linecap="round"/>
-  <!-- Línea horizontal - -->
-  <line x1="10" y1="50" x2="90" y2="50" stroke="black" stroke-width="5" stroke-linecap="round"/>
-</svg>
-
-
-
-
-
-
-
-
-
-
-      
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 100 100">
+        <line x1="15" y1="15" x2="85" y2="85" stroke="black" stroke-width="5" stroke-linecap="round"/>
+        <line x1="85" y1="15" x2="15" y2="85" stroke="black" stroke-width="5" stroke-linecap="round"/>
+        <line x1="50" y1="10" x2="50" y2="90" stroke="black" stroke-width="5" stroke-linecap="round"/>
+        <line x1="10" y1="50" x2="90" y2="50" stroke="black" stroke-width="5" stroke-linecap="round"/>
+      </svg>
       <span class="logo-text">Vinclechat</span>
     </div>
   </div>
 </div>
 
-<div class="container">
-  <div class="hero-section" id="creator">
-    <div class="hero-badge">
-      <i class="fas fa-dollar-sign"></i> La nueva forma de cerrar ventas
+<!-- Contenedor principal de creación / edición -->
+<div id="appContainer">
+  <div class="container" id="creatorPanel">
+    <div class="hero-section">
+      <div class="hero-badge"><i class="fas fa-dollar-sign"></i> La nueva forma de cerrar ventas</div>
+      <h1>Lo sencillo,<br><i>vende :)</i></h1>
+      <p class="hero-subtitle">Crea, edita y personaliza tu propuesta. Tu cliente solo ve la oferta impecable.</p>
     </div>
-<h1 class="typewriter">
-  <style>
-    .typewriter {
-      font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Arial, sans-serif;
-      font-size: 56px;
-      font-weight: 500;
-      line-height: 1.2;
-      letter-spacing: -1px;
-      color: #000;
-    }
 
-    .line {
-      display: block;
-      overflow: hidden;
-      white-space: nowrap;
-      border-right: 2px solid black;
-      width: 0;
-    }
-
-    .line1 {
-      animation: typing1 2s steps(14, end) forwards, blink 0.8s step-end infinite;
-    }
-
-    .line2 {
-      animation: typing2 1.5s steps(6, end) forwards, blink 0.8s step-end infinite;
-      animation-delay: 2.2s;
-    }
-
-    .line2 i {
-      font-style: italic;
-    }
-
-    @keyframes typing1 {
-      from { width: 0 }
-      to { width: 100% }
-    }
-
-    @keyframes typing2 {
-      from { width: 0 }
-      to { width: 100% }
-    }
-
-    @keyframes blink {
-      50% { border-color: transparent }
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .typewriter {
-        font-size: 36px;
-      }
-    }
-  </style>
-
-  <span class="line line1">Lo sencillo,</span>
-  <span class="line line2"><i>vende :) </i></span>
-</h1>
-
-    
-    <p class="hero-subtitle">Propuestas que cierran ventas. Crea tu link de venta en segundos.</p>
-  </div>
-
-
-  <!-- Sección de creación -->
-  <div id="creatorSection">
-    <div class="card" style="padding: 2rem;">
+    <div class="card" id="formCard">
       <form id="proposalForm">
         <div class="form-group">
-          <label><i class="fas fa-heading"></i> Título de la propuesta</label>
+          <label><i class="fas fa-heading"></i> Título de la propuesta *</label>
           <input type="text" id="title" placeholder="Ej: Consultoría estratégica 2025" required>
         </div>
         <div class="form-group">
-          <label><i class="fas fa-align-left"></i> Descripción</label>
-          <textarea id="description" placeholder="Describe el alcance, entregables y condiciones..."></textarea>
+          <label><i class="fas fa-align-left"></i> Descripción * (puedes usar saltos de línea, puntos, viñetas)</label>
+          <textarea id="description" rows="5" placeholder="Ej: • Diagnóstico completo&#10;• Implementación ágil&#10;• Soporte 30 días"></textarea>
         </div>
         <div class="form-group">
-          <label><i class="fas fa-tag"></i> Precio</label>
+          <label><i class="fas fa-hourglass-half"></i> Duración del servicio</label>
+          <input type="text" id="duration" placeholder="Ej: 3 meses / 20 horas / Consultoría puntual">
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-users"></i> Público objetivo / Ideal para</label>
+          <input type="text" id="targetAudience" placeholder="Ej: Startups tecnológicas, Pymes, Autónomos - No aplica para corporaciones">
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-tag"></i> Precio *</label>
           <input type="text" id="price" placeholder="Ej: 2.500€ · 150€/hora">
         </div>
         <div class="form-group">
-          <label><i class="fas fa-credit-card"></i> Link de pago</label>
+          <label><i class="fas fa-credit-card"></i> Link de pago *</label>
           <input type="url" id="paymentLink" placeholder="https://paypal.me/... / https://stripe.com/...">
         </div>
-        <button type="submit" class="btn-primary" id="createBtn">
-          <i class="fas fa-magic"></i> Crear LINK ✨
-        </button>
+        
+        <!-- Personalización de estilo -->
+        <div style="border-top: 1px solid #e9e9ef; margin: 1rem 0; padding-top: 1rem;">
+          <h4 style="font-size: 1rem; margin-bottom: 1rem;"><i class="fas fa-palette"></i> Personaliza el estilo de tu propuesta</h4>
+          <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+            <div style="flex:1">
+              <label>Color principal</label>
+              <input type="color" id="primaryColor" value="#0071e3">
+            </div>
+            <div style="flex:1">
+              <label>Color de fondo (propuesta)</label>
+              <input type="color" id="bgColor" value="#ffffff">
+            </div>
+            <div style="flex:1">
+              <label>Fuente título</label>
+              <select id="fontFamily">
+                <option value="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto">System Default</option>
+                <option value="'Georgia', serif">Georgia (Serif)</option>
+                <option value="'Courier New', monospace">Monospace</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: 0.8rem;">
+            <label><i class="fas fa-image"></i> Logo (opcional) - Sube imagen</label>
+            <input type="file" id="logoUpload" accept="image/png, image/jpeg, image/jpg, image/svg+xml">
+            <div id="logoPreview" style="margin-top: 0.5rem; display: flex; align-items: center; gap: 10px;"></div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary" id="createBtn"><i class="fas fa-magic"></i> Crear / Guardar propuesta ✨</button>
       </form>
       <div id="resultArea"></div>
+      <div id="editHint" style="margin-top: 1rem; text-align: center; font-size: 0.8rem; color: #6e6e73;"></div>
+    </div>
+
+    <!-- Sección de valor diferencial, carrusel, etc (solo se muestra en modo edición) -->
+    <div id="extraMarketing" style="margin-top: 3rem;">
+      <div class="marquee-section" style="margin: 2rem 0;">
+        <div class="marquee" style="overflow:hidden; white-space:nowrap;">
+          <div class="marquee-track" style="display:inline-flex; gap:3rem; animation: scroll 30s linear infinite;">
+            <div class="marquee-item"><img src="https://mundibusiness.com/logo/logo.png" style="height:40px;"></div>
+            <div class="marquee-item"><i class="fas fa-brain"></i> Instituto NeuroSmart</div>
+            <div class="marquee-item"><i class="fas fa-robot"></i> Marikaf-ai</div>
+            <div class="marquee-item"><img src="https://knmeet.com/img/logo.png" style="height:40px;"> KnowMeet</div>
+            <div class="marquee-item">+50 partners</div>
+            <div class="marquee-item"><img src="https://mundibusiness.com/logo/logo.png" style="height:40px;"></div>
+            <div class="marquee-item"><i class="fas fa-chart-line"></i> Tu-Economia</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer"><p>© 2025 Vinclechat · Propuestas profesionales con inteligencia de negocios</p></div>
     </div>
   </div>
-
-  <!-- Vista de propuesta -->
-  <div id="viewerSection" style="display: none;">
-    <div class="card viewer-container">
-      <div class="hero-badge" style="background: linear-gradient(135deg, #34c759 0%, #28a745 100%);">
-        <i class="fas fa-file-invoice"></i> Propuesta oficial 
-      </div>
-      <h2 id="viewerTitle" class="viewer-title">Cargando...</h2>
-      <div id="viewerDescription" style="color: #6e6e73; margin: 1rem 0; line-height: 1.6;"></div>
-      <div id="viewerPrice" class="viewer-price"></div>
-      <a id="viewerPayLink" href="#" target="_blank" class="pay-button">
-        <i class="fas fa-credit-card"></i> Proceder al pago seguro
-      </a>
-      <div style="margin-top: 2rem;">
-        <button id="backBtn" class="btn-primary btn-secondary">
-          <i class="fas fa-arrow-left"></i> Crear nueva propuesta
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<section class="testimonio-hero">
-  <style>
-    .testimonio-hero {
-      background-image: url('https://tally.so/images/demo/v2/dive-in.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      padding: 140px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Arial, sans-serif;
-    }
-
-    .testimonio-contenido {
-      max-width: 900px;
-
-      /* 👇 AQUÍ ESTÁ LA MEJORA */
-      background: rgba(255, 255, 255, 0.65);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      padding: 40px 50px;
-      border-radius: 20px;
-    }
-
-    .frase {
-      font-size: 32px;
-      line-height: 1.3;
-      font-weight: 500;
-      color: black;
-      margin-bottom: 40px;
-      letter-spacing: -0.5px;
-    }
-
-    .autor strong {
-      display: block;
-      font-size: 18px;
-      font-weight: 600;
-      color: black;
-    }
-
-    .autor span {
-      font-size: 15px;
-      color: gray;
-    }
-
-    /* Responsive estilo Apple */
-    @media (max-width: 768px) {
-      .frase {
-        font-size: 28px;
-      }
-
-      .testimonio-hero {
-        padding: 100px 20px;
-      }
-
-      .testimonio-contenido {
-        padding: 30px 25px;
-      }
-    }
-  </style>
-
-  <div class="testimonio-contenido">
-    <p class="frase">
-      “La sencillez de Vinclechat transforma completamente cómo presentamos propuestas.
-      En segundos tienes algo profesional, claro y listo para cerrar.”
-    </p>
-    <div class="autor">
-      <strong>Juanma Miguel</strong>
-      <span>CEO de Instituto NeuroSmart</span>
-    </div>
-  </div>
-</section>
-
-
-
-
-
-
-
-    <!-- SECCIÓN DE VALOR DIFERENCIAL - COMPACTA Y PROFESIONAL -->
-  <div class="value-section" style="margin: 3rem 0;">
-    <div style="display: flex; flex-wrap: wrap; gap: 1px; background: #e9e9ef; border-radius: 32px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.02);">
-      
-      <!-- Problema -->
-      <div style="flex: 1; min-width: 200px; background: white; padding: 1.5rem;">
-        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
-          <i class="fas fa-circle-exclamation" style="font-size: 1.2rem; color: #dc2626;"></i>
-          <h4 style="font-size: 0.85rem; font-weight: 600; color: #1d1d1f; letter-spacing: -0.2px;">El problema</h4>
-        </div>
-        <p style="font-size: 0.85rem; color: #6e6e73; line-height: 1.4;">Propuestas desordenadas, seguimiento caótico, cobros difíciles.</p>
-      </div>
-
-      <!-- Factor diferencial -->
-      <div style="flex: 1; min-width: 200px; background: white; padding: 1.5rem; border-left: 1px solid #e9e9ef; border-right: 1px solid #e9e9ef;">
-        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
-          <i class="fas fa-bolt" style="font-size: 1.2rem; color: #0071e3;"></i>
-          <h4 style="font-size: 0.85rem; font-weight: 600; color: #1d1d1f; letter-spacing: -0.2px;">Factor diferencial</h4>
-        </div>
-        <p style="font-size: 0.85rem; color: #6e6e73; line-height: 1.4;">Propuestas en <strong>30 segundos</strong> + pago integrado + diseño premium.</p>
-      </div>
-
-      <!-- Importancia -->
-      <div style="flex: 1; min-width: 200px; background: white; padding: 1.5rem;">
-        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
-          <i class="fas fa-chart-simple" style="font-size: 1.2rem; color: #22c55e;"></i>
-          <h4 style="font-size: 0.85rem; font-weight: 600; color: #1d1d1f; letter-spacing: -0.2px;">Por qué importa</h4>
-        </div>
-        <p style="font-size: 0.85rem; color: #6e6e73; line-height: 1.4;"><strong>+40%</strong> cierre de negocios · Imagen profesional · Centralizado</p>
-      </div>
-    </div>
-  </div>
-
-
-
-
-  
-  
-
-   <!-- SECCIÓN DE CARRUSEL INFINITO PREMIUM -->
-  <div class="marquee-section" id="partners">
-    <div class="marquee">
-      <div class="marquee-track">
-        <div class="marquee-item">
-          <img src="https://mundibusiness.com/logo/logo.png" alt="Mundibussiness" style="height: 40px; width: auto; object-fit: contain;">
-        </div>
-        <div class="marquee-item">
-          <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiJwhVRbj6ca_qO664yTPDzvdOZPysTmfSnZOOXjpLW6OMb1_hc6JvgZZYxFdzuYRB91VAC0ralucKUmmnOa8bNBzuXz8ylzfg6w9nuwOsezxibUuHRSHskswRKFNrs5UKYQjSUhWKRp9NKVaTL0reeuVtdS1TYS2j9_4rCQS8jgFbGtl7DG-79CpVtLQC7/s320/Captura%20de%20pantalla%202025-02-25%20174936.png" alt="Mytelai" style="height: 40px; width: auto; object-fit: contain;">
-        </div>
-        <div class="marquee-item">
-          <img src="https://knmeet.com/img/logo.png" alt="Knowmeet" style="height: 40px; width: auto; object-fit: contain;"> KnowMeet
-        </div>
-        <div class="marquee-item">
-          <i class="fas fa-brain"></i> Instituto NeuroSmart
-        </div>
-        <div class="marquee-item">
-          <i class="fas fa-robot"></i> Marikaf-ai
-        </div>
-        <div class="marquee-item">
-          <i class="fas fa-robot"></i> Tu-Economia
-        </div>
-
-        
-        <!-- Duplicado para efecto infinito -->
-        <div class="marquee-item">
-          <img src="https://mundibusiness.com/logo/logo.png" alt="Mundibussiness" style="height: 40px; width: auto; object-fit: contain;">
-        </div>
-        <div class="marquee-item">
-          <img src="https://s3-eu-west-1.amazonaws.com/tpd/logos/650577cb138fb6bd39e471fc/0x0.png" alt="Mytelai" style="height: 40px; width: auto; object-fit: contain;">
-        </div>
-        <div class="marquee-item">
-          <img src="https://knmeet.com/img/logo.png" alt="Knowmeet" style="height: 40px; width: auto; object-fit: contain;"> KnowMeet
-        </div>
-        <div class="marquee-item">
-          <i class="fas fa-brain"></i> Instituto NeuroSmart
-        </div>
-        <div class="marquee-item">
-          <i class="fas fa-robot"></i> Marikaf-ai
-        </div>
-        <div class="marquee-item">
-          <i class="fas fa-robot"></i> Tu-Economia
-        </div>
-      </div>
-    </div>
-    <div style="text-align: center; margin-top: 1.5rem;">
-      <span style="display: inline-flex; align-items: center; gap: 6px; background: white; padding: 0.3rem 1rem; border-radius: 40px; font-size: 0.75rem; color: #0071e3;">
-        <i class="fas fa-infinity"></i> + empresas líderes utilizan Vinclechat
-      </span>
-    </div>
-  </div>  <!-- SECCIÓN DE CARRUSEL INFINITO PREMIUM -->
-
-  
-<div class="footer">
-  <p>© 2025 Vinclechat · Propuestas profesionales con inteligencia de negocios</p>
 </div>
 
 <div id="toast" class="toast"></div>
@@ -744,130 +368,220 @@
     messagingSenderId: "674493693630",
     appId: "1:674493693630:web:917f85b174047e327028ef"
   };
-
   let db;
   try {
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     db = firebase.firestore();
-    console.log('✅ Vinclechat conectado');
-  } catch (error) {
-    console.error('Error:', error);
-  }
+  } catch(e) { console.error(e); }
 
-  const creatorSection = document.getElementById('creatorSection');
-  const viewerSection = document.getElementById('viewerSection');
-  const createBtn = document.getElementById('createBtn');
-  const backBtn = document.getElementById('backBtn');
-  const resultArea = document.getElementById('resultArea');
-  const form = document.getElementById('proposalForm');
+  let currentEditingId = null; // para saber si estamos editando una propuesta existente
+  let currentLogoBase64 = '';
 
-  function showToast(message, duration = 2500) {
+  function showToast(msg) {
     const toast = document.getElementById('toast');
-    toast.textContent = message;
+    toast.textContent = msg;
     toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), duration);
+    setTimeout(() => toast.classList.remove('show'), 2500);
   }
 
   async function copyToClipboard(text) {
-    try {
-      await navigator.clipboard.writeText(text);
-      showToast('✅ Enlace copiado', 2000);
-    } catch (err) {
-      const textarea = document.createElement('textarea');
-      textarea.value = text;
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand('copy');
-      document.body.removeChild(textarea);
-      showToast('✅ Enlace copiado', 2000);
+    try { await navigator.clipboard.writeText(text); showToast('✅ Enlace copiado'); } 
+    catch { 
+      let ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+      showToast('✅ Enlace copiado');
     }
   }
 
-  async function createProposal(e) {
+  // Subida y preview logo
+  document.getElementById('logoUpload')?.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        currentLogoBase64 = ev.target.result;
+        const previewDiv = document.getElementById('logoPreview');
+        previewDiv.innerHTML = `<img src="${currentLogoBase64}" style="max-height: 50px; border-radius: 12px;"> <span style="font-size:0.7rem;">Logo cargado</span>`;
+      };
+      reader.readAsDataURL(file);
+    } else { currentLogoBase64 = ''; document.getElementById('logoPreview').innerHTML = ''; }
+  });
+
+  // Guardar o crear propuesta (si tiene id edita)
+  async function saveProposal(e) {
     e.preventDefault();
-    
     const title = document.getElementById('title').value.trim();
     const description = document.getElementById('description').value.trim();
     const price = document.getElementById('price').value.trim();
     const paymentLink = document.getElementById('paymentLink').value.trim();
+    const duration = document.getElementById('duration').value.trim();
+    const targetAudience = document.getElementById('targetAudience').value.trim();
+    const primaryColor = document.getElementById('primaryColor').value;
+    const bgColor = document.getElementById('bgColor').value;
+    const fontFamily = document.getElementById('fontFamily').value;
+    const logoBase64 = currentLogoBase64;
 
-    if (!title) { showToast('❌ Ingresa un título'); document.getElementById('title').focus(); return; }
-    if (!description) { showToast('❌ Ingresa una descripción'); document.getElementById('description').focus(); return; }
-    if (!price) { showToast('❌ Ingresa un precio'); document.getElementById('price').focus(); return; }
-    if (!paymentLink) { showToast('❌ Ingresa un link de pago'); document.getElementById('paymentLink').focus(); return; }
-    if (!paymentLink.startsWith('http')) { showToast('❌ El link debe comenzar con http:// o https://'); return; }
+    if (!title) { showToast('Título requerido'); return; }
+    if (!description) { showToast('Descripción requerida'); return; }
+    if (!price) { showToast('Precio requerido'); return; }
+    if (!paymentLink || !paymentLink.startsWith('http')) { showToast('Link de pago válido requerido (http/https)'); return; }
 
-    createBtn.disabled = true;
-    createBtn.innerHTML = '<span class="loading-spinner"></span> Creando propuesta...';
+    const btn = document.getElementById('createBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="loading-spinner"></span> Guardando...';
 
     try {
-      const docRef = await db.collection('proposals').add({
-        title, description, price, paymentLink,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
-      
-      const url = `${window.location.href.split('?')[0]}?id=${docRef.id}`;
-      resultArea.innerHTML = `
-        <div class="result-card">
-          <i class="fas fa-check-circle" style="color: #34c759; font-size: 1.5rem;"></i>
-          <h3 style="margin: 0.5rem 0;">¡Propuesta creada!</h3>
-          <a href="${url}" target="_blank">${url}</a>
-          <button id="copyUrlBtn" style="margin-top: 1rem; background: #0071e3; padding: 0.5rem 1rem; border-radius: 40px; border: none; color: white; cursor: pointer;">
-            <i class="fas fa-copy"></i> Copiar enlace
-          </button>
+      const proposalData = {
+        title, description, price, paymentLink, duration, targetAudience,
+        primaryColor, bgColor, fontFamily, logo: logoBase64 || '',
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+      if (currentEditingId) {
+        await db.collection('proposals').doc(currentEditingId).update(proposalData);
+        showToast('✅ Propuesta actualizada correctamente');
+        document.getElementById('resultArea').innerHTML = `<div class="result-card"><i class="fas fa-pen-fancy"></i> Propuesta editada. Enlace activo.<br><a href="#" id="refreshLink">Ver propuesta actualizada</a></div>`;
+        const url = `${window.location.origin}${window.location.pathname}?id=${currentEditingId}`;
+        document.getElementById('refreshLink')?.addEventListener('click', (e) => { e.preventDefault(); window.open(url, '_blank'); });
+        // reseteamos hint
+      } else {
+        const docRef = await db.collection('proposals').add({ ...proposalData, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+        currentEditingId = docRef.id;
+        const url = `${window.location.origin}${window.location.pathname}?id=${docRef.id}`;
+        document.getElementById('resultArea').innerHTML = `
+          <div class="result-card">
+            <i class="fas fa-check-circle"></i> ¡Propuesta creada!<br>
+            <a href="${url}" target="_blank">${url}</a><br>
+            <button id="copyUrlBtn" style="margin-top:0.5rem; background:#0071e3; border:none; color:white; padding:0.4rem 1rem; border-radius:40px;">Copiar enlace</button>
+            <button id="editAgainBtn" style="margin-top:0.5rem; margin-left:0.5rem; background:#6c757d; border:none; color:white; padding:0.4rem 1rem; border-radius:40px;">Editar esta propuesta</button>
+          </div>`;
+        document.getElementById('copyUrlBtn')?.addEventListener('click', () => copyToClipboard(url));
+        document.getElementById('editAgainBtn')?.addEventListener('click', () => { /* ya estamos en modo edición porque currentEditingId existe */ loadDataToForm(docRef.id); showToast('Modo edición activado'); });
+        showToast('🎉 Propuesta creada. ¡Puedes seguir editándola!');
+      }
+      // mostrar aviso de edición
+      document.getElementById('editHint').innerHTML = currentEditingId ? `<i class="fas fa-edit"></i> Editando propuesta existente. Los cambios se guardan sobre el mismo enlace.` : `<i class="fas fa-link"></i> Propuesta guardada, puedes editarla cuantas veces quieras.`;
+    } catch(err) { showToast('Error: '+err.message); } 
+    finally { btn.disabled=false; btn.innerHTML = '<i class="fas fa-magic"></i> Crear / Guardar propuesta ✨'; }
+  }
+
+  async function loadDataToForm(id) {
+    try {
+      const doc = await db.collection('proposals').doc(id).get();
+      if (doc.exists) {
+        const d = doc.data();
+        document.getElementById('title').value = d.title || '';
+        document.getElementById('description').value = d.description || '';
+        document.getElementById('price').value = d.price || '';
+        document.getElementById('paymentLink').value = d.paymentLink || '';
+        document.getElementById('duration').value = d.duration || '';
+        document.getElementById('targetAudience').value = d.targetAudience || '';
+        if (d.primaryColor) document.getElementById('primaryColor').value = d.primaryColor;
+        if (d.bgColor) document.getElementById('bgColor').value = d.bgColor;
+        if (d.fontFamily) document.getElementById('fontFamily').value = d.fontFamily;
+        if (d.logo && d.logo.startsWith('data:image')) {
+          currentLogoBase64 = d.logo;
+          document.getElementById('logoPreview').innerHTML = `<img src="${currentLogoBase64}" style="max-height: 50px;"> <span>Logo actual</span>`;
+        } else { currentLogoBase64 = ''; document.getElementById('logoPreview').innerHTML = ''; }
+        currentEditingId = id;
+        document.getElementById('editHint').innerHTML = `<i class="fas fa-save"></i> Modo edición activo: guardar cambios actualizará el mismo enlace.`;
+      }
+    } catch(e) { console.error(e); }
+  }
+
+  // VISTA PROPIA PARA EL CLIENTE (SIN NAVS)
+  async function renderProposalOnly() {
+    const id = new URLSearchParams(window.location.search).get('id');
+    if (!id) {
+      document.getElementById('creatorPanel')?.style.setProperty('display', 'block');
+      if(document.getElementById('extraMarketing')) document.getElementById('extraMarketing').style.display = 'block';
+      if(document.getElementById('mainNavbar')) document.getElementById('mainNavbar').style.display = 'flex';
+      return false;
+    }
+    // Modo solo propuesta: ocultar navbar, ocultar creatorPanel y extra, mostrar vista personalizada
+    if(document.getElementById('mainNavbar')) document.getElementById('mainNavbar').style.display = 'none';
+    const creatorDiv = document.getElementById('creatorPanel');
+    if(creatorDiv) creatorDiv.style.display = 'none';
+    const extra = document.getElementById('extraMarketing');
+    if(extra) extra.style.display = 'none';
+    
+    // crear contenedor exclusivo para propuesta
+    let proposalContainer = document.getElementById('proposalOnlyContainer');
+    if(!proposalContainer) {
+      proposalContainer = document.createElement('div');
+      proposalContainer.id = 'proposalOnlyContainer';
+      proposalContainer.className = 'proposal-only-view';
+      document.body.innerHTML = ''; // limpiar completamente
+      document.body.appendChild(proposalContainer);
+    } else { document.body.innerHTML = ''; document.body.appendChild(proposalContainer); }
+    
+    proposalContainer.innerHTML = '<div style="text-align:center; padding:3rem;">Cargando propuesta...</div>';
+    try {
+      const docSnap = await db.collection('proposals').doc(id).get();
+      if (!docSnap.exists) { proposalContainer.innerHTML = '<div style="text-align:center; padding:2rem;">❌ Propuesta no encontrada</div>'; return true; }
+      const data = docSnap.data();
+      const primaryColor = data.primaryColor || '#0071e3';
+      const bgColor = data.bgColor || '#ffffff';
+      const fontFamily = data.fontFamily || "'-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto";
+      const logoHtml = data.logo ? `<img src="${data.logo}" class="proposal-logo" alt="logo">` : '';
+      // parsear descripción con saltos de línea, viñetas
+      const descWithBreaks = (data.description || '').replace(/\n/g, '<br>');
+      proposalContainer.innerHTML = `
+        <div class="proposal-preview-card" style="background: ${bgColor}; font-family: ${fontFamily};">
+          <div class="proposal-header-custom" style="border-bottom-color: #e9e9ef;">
+            ${logoHtml}
+            <div class="proposal-title" style="color: #1d1d1f;">${escapeHtml(data.title)}</div>
+          </div>
+          <div class="proposal-body">
+            <div class="proposal-description">${descWithBreaks}</div>
+            ${data.duration ? `<div class="inline-badge" style="margin-right:0.5rem;"><i class="fas fa-hourglass-start"></i> Duración: ${escapeHtml(data.duration)}</div>` : ''}
+            ${data.targetAudience ? `<div class="inline-badge"><i class="fas fa-bullseye"></i> Ideal para: ${escapeHtml(data.targetAudience)}</div>` : ''}
+            <div class="proposal-meta" style="background: #f5f5f7; margin-top:1rem;">
+              <div class="proposal-price" style="color: ${primaryColor};">${escapeHtml(data.price)}</div>
+              <a href="${data.paymentLink}" target="_blank" class="pay-button" style="background: ${primaryColor}; margin-top: 1rem; display: inline-block;">Proceder al pago seguro <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div style="font-size:0.75rem; color:#888; margin-top:2rem; text-align:center;">Propuesta oficial Vinclechat</div>
+          </div>
         </div>
       `;
-      document.getElementById('copyUrlBtn')?.addEventListener('click', () => copyToClipboard(url));
-      form.reset();
-      showToast('🎉 Propuesta creada exitosamente');
-    } catch (error) {
-      showToast('❌ Error: ' + error.message);
-    } finally {
-      createBtn.disabled = false;
-      createBtn.innerHTML = '<i class="fas fa-magic"></i> Crear propuesta';
-    }
+    } catch(e) { proposalContainer.innerHTML = '<div style="padding:2rem;">Error al cargar</div>'; }
+    return true;
   }
 
-  async function loadProposalFromUrl() {
-    const id = new URLSearchParams(window.location.search).get('id');
-    if (id) {
-      creatorSection.style.display = 'none';
-      viewerSection.style.display = 'block';
-      try {
-        const doc = await db.collection('proposals').doc(id).get();
-        if (doc.exists) {
-          const data = doc.data();
-          document.getElementById('viewerTitle').textContent = data.title || 'Sin título';
-          document.getElementById('viewerDescription').textContent = data.description || '';
-          document.getElementById('viewerPrice').textContent = data.price || '—';
-          const payLink = document.getElementById('viewerPayLink');
-          if (data.paymentLink?.startsWith('http')) {
-            payLink.href = data.paymentLink;
-          } else {
-            payLink.href = '#';
-            payLink.style.opacity = '0.5';
-          }
-        } else {
-          document.getElementById('viewerTitle').textContent = 'Propuesta no encontrada';
-        }
-      } catch (error) {
-        console.error(error);
-      }
+  function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+
+  // Inicializador: si hay id? mostrar solo propuesta; sino mostrar editor completo
+  window.initPage = async () => {
+    const idParam = new URLSearchParams(window.location.search).get('id');
+    if (idParam) {
+      await renderProposalOnly();
     } else {
-      creatorSection.style.display = 'block';
-      viewerSection.style.display = 'none';
-      resultArea.innerHTML = '';
+      // modo edición/creación: asegurar elementos visibles
+      if(document.getElementById('mainNavbar')) document.getElementById('mainNavbar').style.display = 'flex';
+      if(document.getElementById('creatorPanel')) document.getElementById('creatorPanel').style.display = 'block';
+      if(document.getElementById('extraMarketing')) document.getElementById('extraMarketing').style.display = 'block';
+      // eliminar posible contenedor residual
+      const old = document.getElementById('proposalOnlyContainer');
+      if(old) old.remove();
+      // agregar event listener de formulario
     }
-  }
+  };
 
-  form.addEventListener('submit', createProposal);
-  backBtn?.addEventListener('click', () => {
-    window.history.pushState({}, '', window.location.pathname);
-    loadProposalFromUrl();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  // agregar evento submit
+  const formElem = document.getElementById('proposalForm');
+  if(formElem) formElem.addEventListener('submit', saveProposal);
+  
+  // si estamos en modo edición pero viniendo desde botones? chequeo adicional
+  window.addEventListener('load', async () => {
+    await initPage();
+    // si existe param id, no cargar nada más; si no hay id y hay ?edit= desde el resultado, cargar otro
+    const paramEdit = new URLSearchParams(window.location.search).get('edit');
+    if (paramEdit && !new URLSearchParams(window.location.search).get('id')) {
+      // permitir cargar para editar si se pasa edit=docId
+      await loadDataToForm(paramEdit);
+      window.history.replaceState({}, '', window.location.pathname);
+    }
   });
-  window.addEventListener('popstate', loadProposalFromUrl);
-  loadProposalFromUrl();
+  // manejar popstate
+  window.addEventListener('popstate', () => { window.location.reload(); });
 </script>
 </body>
 </html>
