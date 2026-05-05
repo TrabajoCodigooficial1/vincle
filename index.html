@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -24,7 +23,6 @@
       min-height: 100vh;
     }
 
-    /* Navbar estilo Apple */
     .navbar {
       position: sticky;
       top: 0;
@@ -233,7 +231,7 @@
       max-height: 2000px;
     }
 
-    /* VISTA PROPUESTA PROFESIONAL (ESTILO APPLE) */
+    /* VISTA PROPUESTA PROFESIONAL (AIR APPLE) */
     .proposal-only-view {
       min-height: 100vh;
       background: #f5f5f7;
@@ -251,7 +249,6 @@
       overflow: hidden;
       box-shadow: 0 30px 50px rgba(0, 0, 0, 0.12);
       transition: all 0.3s ease;
-      backdrop-filter: blur(0px);
     }
 
     .proposal-header-custom {
@@ -260,10 +257,9 @@
       border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     }
 
-    /* Logo circular profesional */
     .proposal-logo-circle {
-      width: 90px;
-      height: 90px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       object-fit: cover;
       margin-bottom: 1rem;
@@ -271,34 +267,17 @@
       border: 3px solid white;
     }
 
-    .profile-avatar-circle {
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 0.75rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    }
-
-    .profile-badge-modern {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1.2rem;
-    }
-
     .profile-name {
-      font-size: 1.3rem;
+      font-size: 1.5rem;
       font-weight: 600;
       color: #1d1d1f;
       letter-spacing: -0.02em;
     }
 
     .profile-desc {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       color: #6e6e73;
-      margin-top: 0.2rem;
+      margin-top: 0.25rem;
     }
 
     .proposal-title {
@@ -370,7 +349,6 @@
       margin-top: 2rem;
     }
 
-    /* Marquee */
     .marquee-section {
       margin: 2rem 0;
       overflow: hidden;
@@ -399,15 +377,10 @@
     }
 
     @keyframes scroll {
-      0% {
-        transform: translateX(0);
-      }
-      100% {
-        transform: translateX(-50%);
-      }
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
     }
 
-    /* Testimonio */
     .testimonio-hero {
       background-image: url('https://tally.so/images/demo/v2/dive-in.png');
       background-size: cover;
@@ -438,26 +411,12 @@
     }
 
     @media (max-width: 760px) {
-      .hero-section h1 {
-        font-size: 2.4rem;
-      }
-      .proposal-title {
-        font-size: 1.8rem;
-      }
-      .container {
-        padding: 1rem;
-      }
-      .proposal-logo-circle {
-        width: 70px;
-        height: 70px;
-      }
-      .profile-avatar-circle {
-        width: 55px;
-        height: 55px;
-      }
-      .proposal-price {
-        font-size: 2rem;
-      }
+      .hero-section h1 { font-size: 2.4rem; }
+      .proposal-title { font-size: 1.8rem; }
+      .container { padding: 1rem; }
+      .proposal-logo-circle { width: 70px; height: 70px; }
+      .profile-name { font-size: 1.2rem; }
+      .proposal-price { font-size: 2rem; }
     }
   </style>
 </head>
@@ -532,7 +491,7 @@
             <div style="flex:1"><label>Fuente</label><select id="fontFamily"><option value="'Inter', -apple-system">System Default</option><option value="'Georgia', serif">Georgia Serif</option><option value="'Courier New', monospace">Monospace</option></select></div>
           </div>
           <div class="form-group" style="margin-top:1rem;">
-            <label><i class="fas fa-image"></i> Logo o foto de perfil (circular) *</label>
+            <label><i class="fas fa-image"></i> Logo / foto de perfil (circular) *</label>
             <input type="file" id="logoUpload" accept="image/*">
             <div id="logoPreview" style="margin-top:8px;"></div>
           </div>
@@ -544,7 +503,7 @@
     <div id="editHint" style="margin-top:1rem; font-size:0.75rem; text-align:center; color:#666;"></div>
   </div>
 
-  <!-- Testimonio Juanma -->
+  <!-- TESTIMONIO JUANMA -->
   <div class="testimonio-hero">
     <div class="testimonio-contenido">
       <p class="frase">“La sencillez de Vinclechat transforma completamente cómo presentamos propuestas. En segundos tienes algo profesional, claro y listo para cerrar.”</p>
@@ -552,7 +511,7 @@
     </div>
   </div>
 
-  <!-- Carrusel -->
+  <!-- CARRUSEL INFINITO -->
   <div class="marquee-section">
     <div class="marquee">
       <div class="marquee-track">
@@ -615,7 +574,7 @@
 
   document.getElementById('logoUpload').addEventListener('change', (e) => {
     const file = e.target.files[0];
-    if (file) { const reader = new FileReader(); reader.onload = ev => { currentLogoBase64 = ev.target.result; document.getElementById('logoPreview').innerHTML = `<img src="${currentLogoBase64}" style="width:70px; height:70px; border-radius:50%; object-fit:cover; box-shadow:0 2px 8px rgba(0,0,0,0.1);">`; }; reader.readAsDataURL(file); }
+    if (file) { const reader = new FileReader(); reader.onload = ev => { currentLogoBase64 = ev.target.result; document.getElementById('logoPreview').innerHTML = `<img src="${currentLogoBase64}" style="width:80px; height:80px; border-radius:50%; object-fit:cover; box-shadow:0 2px 8px rgba(0,0,0,0.1);">`; }; reader.readAsDataURL(file); }
     else { currentLogoBase64 = ''; document.getElementById('logoPreview').innerHTML = ''; }
   });
 
@@ -638,7 +597,7 @@
     if (!title) { showToast('❌ Título requerido'); return; }
     if (!description) { showToast('❌ Descripción obligatoria'); return; }
     if (!price) { showToast('❌ Precio obligatorio'); return; }
-    if (!paymentLink || !paymentLink.startsWith('http')) { showToast('❌ Link de pago válido'); return; }
+    if (!paymentLink || !paymentLink.startsWith('http')) { showToast('❌ Link de pago válido (https://)'); return; }
     if ((profileType === 'empresa' || profileType === 'persona') && !profileName) { showToast('❌ Nombre de empresa o persona requerido'); return; }
 
     const btn = document.getElementById('createBtn');
@@ -683,7 +642,7 @@
         if (d.profileType === 'empresa') { document.getElementById('empresaNombre').value = d.profileName || ''; document.getElementById('empresaDesc').value = d.profileDesc || ''; }
         else { document.getElementById('personaNombre').value = d.profileName || ''; document.getElementById('personaDesc').value = d.profileDesc || ''; }
       }
-      if (d.logo && d.logo.startsWith('data:image')) { currentLogoBase64 = d.logo; document.getElementById('logoPreview').innerHTML = `<img src="${currentLogoBase64}" style="width:70px; height:70px; border-radius:50%; object-fit:cover;">`; }
+      if (d.logo && d.logo.startsWith('data:image')) { currentLogoBase64 = d.logo; document.getElementById('logoPreview').innerHTML = `<img src="${currentLogoBase64}" style="width:80px; height:80px; border-radius:50%; object-fit:cover;">`; }
       else { currentLogoBase64 = ''; document.getElementById('logoPreview').innerHTML = ''; }
       currentEditingId = id;
     }
@@ -696,7 +655,7 @@
     const creator = document.getElementById('creatorPanel'); if(creator) creator.style.display = 'none';
     let container = document.getElementById('proposalOnlyContainer');
     if (!container) { container = document.createElement('div'); container.id = 'proposalOnlyContainer'; container.className = 'proposal-only-view'; document.body.innerHTML = ''; document.body.appendChild(container); }
-    container.innerHTML = '<div style="text-align:center; padding:3rem;">Cargando propuesta...</div>';
+    container.innerHTML = '<div style="text-align:center; padding:3rem;">Cargando propuesta premium...</div>';
     try {
       const doc = await db.collection('proposals').doc(id).get();
       if (!doc.exists) { container.innerHTML = '<div>No encontrada</div>'; return true; }
@@ -704,13 +663,14 @@
       const primary = data.primaryColor || '#0071e3';
       const bgCard = data.bgColor || '#ffffff';
       const fontFamily = data.fontFamily || "'Inter', -apple-system";
-      const logoImg = data.logo ? `<img src="${data.logo}" class="proposal-logo-circle" alt="logo">` : `<div style="width:90px; height:90px; background:#e9e9ef; border-radius:50%; margin:0 auto 1rem; display:flex; align-items:center; justify-content:center;"><i class="fas fa-user" style="font-size:2.5rem; color:#aaa;"></i></div>`;
-      let profileHtml = '';
-      if (data.profileType === 'empresa') {
-        profileHtml = `<div class="profile-badge-modern">${logoImg}<div class="profile-name">${escapeHtml(data.profileName || 'Empresa')}</div><div class="profile-desc">${escapeHtml(data.profileDesc || '')}</div></div>`;
-      } else {
-        profileHtml = `<div class="profile-badge-modern">${logoImg}<div class="profile-name">${escapeHtml(data.profileName || 'Profesional')}</div><div class="profile-desc">${escapeHtml(data.profileDesc || '')}</div></div>`;
-      }
+      const logoImg = data.logo ? `<img src="${data.logo}" class="proposal-logo-circle" alt="logo">` : `<div style="width:100px; height:100px; background:#e9e9ef; border-radius:50%; margin:0 auto 1rem; display:flex; align-items:center; justify-content:center;"><i class="fas fa-user" style="font-size:2.5rem; color:#aaa;"></i></div>`;
+      const profileHtml = `
+        <div style="text-align:center;">
+          ${logoImg}
+          <div class="profile-name">${escapeHtml(data.profileName || (data.profileType === 'empresa' ? 'Empresa' : 'Profesional'))}</div>
+          <div class="profile-desc">${escapeHtml(data.profileDesc || '')}</div>
+        </div>
+      `;
       const expHtml = data.experiencia ? `<div class="inline-badge"><i class="fas fa-medal"></i> ${escapeHtml(data.experiencia)}</div>` : '';
       const descHTML = (data.description || '').replace(/\n/g, '<br>');
       container.innerHTML = `
@@ -730,7 +690,7 @@
           </div>
         </div>
       `;
-    } catch(e) { container.innerHTML = '<div>Error</div>'; }
+    } catch(e) { container.innerHTML = '<div>Error al cargar</div>'; }
     return true;
   }
 
