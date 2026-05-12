@@ -1,380 +1,600 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Vinclechat · Propuestas premium · Diseño Apple</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- Firebase SDKs -->
+  <title>Vinclechat · Propuestas que cierran ventas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root {
+      --ink: #0d0d0d;
+      --ink-2: #3a3a3a;
+      --ink-3: #717171;
+      --ink-4: #a8a8a8;
+      --paper: #faf9f7;
+      --paper-2: #f2f0ec;
+      --paper-3: #e8e5de;
+      --accent: #1a56e8;
+      --accent-light: #eef1fc;
+      --accent-dark: #0f3bbf;
+      --success: #1da462;
+      --success-light: #e8f5ee;
+      --warning: #e07b00;
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-xl: 32px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
+      --shadow-lg: 0 16px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+      --shadow-xl: 0 32px 64px rgba(0,0,0,0.10), 0 8px 24px rgba(0,0,0,0.06);
+      --font-display: 'DM Serif Display', Georgia, serif;
+      --font-body: 'DM Sans', -apple-system, sans-serif;
+      --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
     }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
 
     body {
-      background: #f5f5f7;
-      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', 'Segoe UI', Roboto, sans-serif;
-      line-height: 1.5;
-      color: #1d1d1f;
+      background: var(--paper);
+      font-family: var(--font-body);
+      color: var(--ink);
+      line-height: 1.6;
       min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
     }
 
+    /* ─── NOISE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ─── NAVBAR ─── */
     .navbar {
       position: sticky;
       top: 0;
-      background: rgba(251, 251, 253, 0.92);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-      z-index: 100;
-      padding: 0.8rem 0;
+      z-index: 200;
+      background: rgba(250, 249, 247, 0.88);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-bottom: 1px solid var(--paper-3);
     }
 
-    .nav-container {
-      max-width: 1200px;
+    .nav-inner {
+      max-width: 1080px;
       margin: 0 auto;
       padding: 0 2rem;
+      height: 60px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
+      justify-content: space-between;
     }
 
     .logo {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 1.5rem;
-      font-weight: 700;
+      gap: 10px;
+      text-decoration: none;
     }
 
-    .logo svg {
-      width: 40px;
-      height: 40px;
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      background: var(--ink);
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
 
-    .logo-text {
-      background: linear-gradient(135deg, #1d1d1f 0%, #3a3a3e 100%);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
+    .logo-mark svg { width: 18px; height: 18px; }
+
+    .logo-name {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      color: var(--ink);
+      letter-spacing: -0.01em;
     }
 
-    .container {
-      max-width: 1000px;
+    .nav-tag {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      background: var(--paper-2);
+      border: 1px solid var(--paper-3);
+      padding: 0.28rem 0.75rem;
+      border-radius: 40px;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      max-width: 1080px;
       margin: 0 auto;
-      padding: 2rem;
+      padding: 4rem 2rem 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
     }
 
-    .hero-section {
-      text-align: center;
-      padding: 2rem 1rem 1rem;
-    }
+    .hero-left {}
 
-    .hero-section h1 {
-      font-size: 3.8rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #1d1d1f 0%, #6e6e73 100%);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-      letter-spacing: -0.03em;
-    }
-
-    .hero-badge {
+    .hero-kicker {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      background: linear-gradient(135deg, #0071e3 0%, #0051a3 100%);
-      color: white;
-      padding: 0.5rem 1.2rem;
+      gap: 7px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-light);
+      border: 1px solid rgba(26, 86, 232, 0.15);
+      padding: 0.3rem 0.85rem;
       border-radius: 40px;
-      font-size: 0.85rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-kicker span { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse-dot 2s ease-in-out infinite; }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.7); }
+    }
+
+    .hero-headline {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: var(--ink);
       margin-bottom: 1rem;
     }
 
-    .card {
-      background: #ffffff;
-      border-radius: 28px;
-      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
-      border: 1px solid #e9e9ef;
-      transition: all 0.3s;
-      padding: 2rem;
+    .hero-headline em {
+      font-style: italic;
+      color: var(--accent);
     }
 
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 500;
-      margin-bottom: 0.5rem;
-      font-size: 0.85rem;
-      color: #1d1d1f;
-    }
-
-    input,
-    textarea,
-    select {
-      width: 100%;
-      padding: 1rem;
-      border: 1.5px solid #e9e9ef;
-      border-radius: 18px;
+    .hero-sub {
       font-size: 1rem;
-      transition: all 0.2s;
-      background: white;
-      font-family: inherit;
+      color: var(--ink-3);
+      max-width: 380px;
+      line-height: 1.65;
+      font-weight: 400;
     }
 
-    input:focus,
-    textarea:focus,
-    select:focus {
-      outline: none;
-      border-color: #0071e3;
-      box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
-    }
-
-    .btn-primary {
-      background: #1d1d1f;
-      color: white;
-      border: none;
-      padding: 1rem 1.5rem;
-      border-radius: 44px;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-      transition: all 0.2s;
-    }
-
-    .btn-primary:hover:not(:disabled) {
-      background: #0071e3;
-      transform: scale(0.98);
-    }
-
-    .btn-outline-expand {
-      background: transparent;
-      border: 1.5px dashed #c6c6c8;
-      color: #0071e3;
-      padding: 0.6rem;
-      border-radius: 40px;
-      width: 100%;
-      font-weight: 500;
-      cursor: pointer;
-      margin-top: 1rem;
-      transition: all 0.2s;
-    }
-
-    .btn-outline-expand:hover {
-      background: #f5f5f7;
-      border-color: #0071e3;
-    }
-
-    .result-card {
-      margin-top: 1.5rem;
-      padding: 1.25rem;
-      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
-      border-radius: 24px;
-      border-left: 6px solid #34c759;
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: #1d1d1f;
-      color: white;
-      padding: 12px 24px;
-      border-radius: 40px;
-      z-index: 1000;
-      transition: transform 0.3s;
-    }
-
-    .toast.show {
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .loading-spinner {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 2px solid white;
-      border-top-color: transparent;
-      border-radius: 50%;
-      animation: spin 0.6s linear infinite;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .expandable-section {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.5s cubic-bezier(0.33, 1, 0.68, 1);
-      margin-top: 0;
-    }
-
-    .expandable-section.open {
-      max-height: 2000px;
-    }
-
-    /* VISTA PROPUESTA PROFESIONAL (AIR APPLE) */
-    .proposal-only-view {
-      min-height: 100vh;
-      background: #f5f5f7;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-    }
-
-    .proposal-preview-card {
-      max-width: 880px;
-      width: 100%;
-      margin: 0 auto;
-      border-radius: 32px;
-      overflow: hidden;
-      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.12);
-      transition: all 0.3s ease;
-    }
-
-    .proposal-header-custom {
-      padding: 2rem 1.5rem 1.2rem;
-      text-align: center;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    }
-
-    .proposal-logo-circle {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 0.8rem;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      border: 3px solid white;
-    }
-
-    .profile-name {
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: #1d1d1f;
-      letter-spacing: -0.02em;
-    }
-
-    .profile-desc {
-      font-size: 0.85rem;
-      color: #6e6e73;
-      margin-top: 0.2rem;
-    }
-
-    .profile-experience {
-      font-size: 0.75rem;
-      color: #0071e3;
-      background: #eef2ff;
-      display: inline-block;
-      padding: 0.2rem 0.8rem;
-      border-radius: 30px;
-      margin-top: 0.5rem;
-    }
-
-    .proposal-title {
-      font-size: 2rem;
-      font-weight: 700;
-      margin: 0.75rem 0 0.5rem;
-      letter-spacing: -0.02em;
-      color: #1d1d1f;
-    }
-
-    .proposal-description {
-      white-space: pre-wrap;
-      line-height: 1.5;
-      margin: 1.2rem 0;
-      font-size: 0.95rem;
-      color: #2d2d30;
-    }
-
-    .proposal-meta {
-      background: #f8f8fc;
-      padding: 1.2rem;
-      border-radius: 24px;
-      margin: 1.2rem 0;
-    }
-
-    .proposal-price {
-      font-size: 2.4rem;
-      font-weight: 800;
-      color: #0071e3;
-      letter-spacing: -0.02em;
-    }
-
-    .pay-button {
-      background: #0071e3;
-      color: white;
-      padding: 0.9rem 1.8rem;
-      border-radius: 44px;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 600;
-      transition: all 0.2s;
-    }
-
-    .pay-button:hover {
-      background: #0055b0;
-      transform: translateY(-2px);
-    }
-
-    .inline-badge {
-      background: #eef2ff;
-      border-radius: 30px;
-      padding: 0.3rem 0.9rem;
-      font-size: 0.75rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-right: 0.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .footer {
-      text-align: center;
-      padding: 2rem;
-      color: #6e6e73;
-      font-size: 0.75rem;
-      border-top: 1px solid #e9e9ef;
-      margin-top: 2rem;
-    }
-
-    .marquee-section {
-      margin: 2rem 0;
-      overflow: hidden;
-    }
-
-    .marquee {
-      overflow: hidden;
-      white-space: nowrap;
+    .hero-right {
       position: relative;
     }
 
-    .marquee-track {
+    .hero-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .stat-card {
+      background: white;
+      border: 1px solid var(--paper-3);
+      border-radius: var(--radius-lg);
+      padding: 1.4rem 1.4rem;
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+    .stat-card:nth-child(1) { grid-column: 1 / -1; display: flex; align-items: center; gap: 1rem; }
+
+    .stat-big { font-family: var(--font-display); font-size: 2.2rem; color: var(--ink); line-height: 1; }
+    .stat-label { font-size: 0.78rem; color: var(--ink-3); margin-top: 0.25rem; }
+    .stat-icon { width: 44px; height: 44px; background: var(--accent-light); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 1.1rem; flex-shrink: 0; }
+
+    /* ─── MAIN LAYOUT ─── */
+    .main-wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 2rem 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── FORM CARD ─── */
+    .form-card {
+      background: white;
+      border: 1px solid var(--paper-3);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+
+    .form-card-header {
+      padding: 1.8rem 2rem 1.4rem;
+      border-bottom: 1px solid var(--paper-2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .form-card-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    .form-card-body { padding: 2rem; }
+
+    .form-section-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      margin-bottom: 1rem;
+      margin-top: 1.8rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--paper-2);
+    }
+    .form-section-label:first-child { margin-top: 0; }
+
+    /* ─── FORM FIELDS ─── */
+    .form-group { margin-bottom: 1.2rem; }
+
+    .form-group label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--ink-2);
+      margin-bottom: 0.45rem;
+      letter-spacing: 0.01em;
+    }
+
+    .form-group label .lbl-icon {
+      width: 20px;
+      height: 20px;
+      background: var(--paper-2);
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.6rem;
+      color: var(--ink-3);
+      flex-shrink: 0;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 0.85rem 1.1rem;
+      border: 1.5px solid var(--paper-3);
+      border-radius: var(--radius-md);
+      font-size: 0.93rem;
+      font-family: var(--font-body);
+      color: var(--ink);
+      background: var(--paper);
+      transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+      -webkit-appearance: none;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: white;
+      box-shadow: 0 0 0 3px rgba(26, 86, 232, 0.08);
+    }
+
+    input::placeholder, textarea::placeholder { color: var(--ink-4); }
+
+    textarea { resize: vertical; min-height: 130px; line-height: 1.6; }
+
+    select { background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 7L11 1' stroke='%23717171' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; cursor: pointer; }
+
+    input[type="color"] {
+      height: 48px;
+      padding: 0.3rem 0.5rem;
+      cursor: pointer;
+      border-radius: var(--radius-md);
+    }
+
+    .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+
+    /* ─── BUTTONS ─── */
+    .btn {
       display: inline-flex;
-      gap: 3rem;
-      animation: scroll 35s linear infinite;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.88rem;
+      letter-spacing: 0.01em;
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--ink);
+      color: white;
+      padding: 0.95rem 1.8rem;
+      border-radius: var(--radius-xl);
+      width: 100%;
+      font-size: 0.95rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--accent);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(26, 86, 232, 0.25);
+    }
+
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .btn-expand {
+      background: transparent;
+      color: var(--ink-3);
+      border: 1.5px dashed var(--paper-3);
+      padding: 0.75rem 1.2rem;
+      border-radius: var(--radius-xl);
+      width: 100%;
+      font-size: 0.83rem;
+      font-weight: 500;
+      margin-top: 1.2rem;
+      transition: all var(--transition);
+    }
+
+    .btn-expand:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-light);
+    }
+
+    .btn-sm {
+      padding: 0.45rem 1rem;
+      border-radius: 40px;
+      font-size: 0.78rem;
+    }
+
+    .btn-blue { background: var(--accent); color: white; }
+    .btn-blue:hover { background: var(--accent-dark); }
+
+    .btn-ghost { background: var(--paper-2); color: var(--ink-2); border: 1px solid var(--paper-3); }
+    .btn-ghost:hover { background: var(--paper-3); }
+
+    /* ─── EXPANDABLE ─── */
+    .expandable {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.55s cubic-bezier(0.33, 1, 0.68, 1);
+    }
+    .expandable.open { max-height: 3000px; }
+
+    /* ─── COLOR PICKER ROW ─── */
+    .color-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .color-swatch {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid white;
+      box-shadow: 0 0 0 1px var(--paper-3);
+      flex-shrink: 0;
+    }
+
+    /* ─── LOGO PREVIEW ─── */
+    .logo-preview-wrap {
+      margin-top: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .logo-preview-wrap img {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--paper-3);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .logo-preview-txt { font-size: 0.78rem; color: var(--ink-3); }
+
+    /* ─── RESULT AREA ─── */
+    .result-box {
+      margin-top: 1.2rem;
+      padding: 1.2rem 1.4rem;
+      background: var(--success-light);
+      border: 1px solid rgba(29, 164, 98, 0.2);
+      border-left: 4px solid var(--success);
+      border-radius: var(--radius-md);
+      font-size: 0.88rem;
+      color: var(--ink-2);
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .result-box strong { color: var(--ink); }
+
+    .result-box .url-row {
+      background: white;
+      border: 1px solid var(--paper-3);
+      border-radius: var(--radius-sm);
+      padding: 0.5rem 0.8rem;
+      font-size: 0.78rem;
+      font-family: 'Courier New', monospace;
+      color: var(--ink-2);
+      word-break: break-all;
+    }
+
+    .result-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+
+    /* ─── TOAST ─── */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--ink);
+      color: white;
+      padding: 0.7rem 1.4rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      z-index: 9999;
+      transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ─── SPINNER ─── */
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      height: 1px;
+      background: var(--paper-2);
+      margin: 1.6rem 0;
+    }
+
+    /* ─── TESTIMONIAL ─── */
+    .testimonial-section {
+      margin: 2.5rem 0;
+    }
+
+    .testimonial-card {
+      background: var(--ink);
+      color: white;
+      border-radius: var(--radius-xl);
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .testimonial-card::before {
+      content: '"';
+      font-family: var(--font-display);
+      font-size: 12rem;
+      line-height: 0.8;
+      color: rgba(255,255,255,0.06);
+      position: absolute;
+      top: 1rem;
+      left: 1.5rem;
+      pointer-events: none;
+    }
+
+    .testimonial-quote {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      line-height: 1.4;
+      font-style: italic;
+      margin-bottom: 1.2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .testimonial-avatar {
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1rem;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .testimonial-name { font-weight: 600; font-size: 0.88rem; }
+    .testimonial-role { font-size: 0.78rem; color: rgba(255,255,255,0.5); }
+
+    /* ─── MARQUEE ─── */
+    .trust-section {
+      margin: 2rem 0;
+    }
+
+    .trust-label {
+      text-align: center;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      margin-bottom: 1rem;
+    }
+
+    .marquee-track-wrap { overflow: hidden; position: relative; }
+
+    .marquee-track-wrap::before,
+    .marquee-track-wrap::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 80px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .marquee-track-wrap::before { left: 0; background: linear-gradient(to right, var(--paper), transparent); }
+    .marquee-track-wrap::after { right: 0; background: linear-gradient(to left, var(--paper), transparent); }
+
+    .marquee-inner {
+      display: inline-flex;
+      gap: 2rem;
+      animation: marquee-scroll 30s linear infinite;
+      white-space: nowrap;
     }
 
     .marquee-item {
@@ -382,238 +602,517 @@
       align-items: center;
       gap: 0.5rem;
       background: white;
-      padding: 0.3rem 1.2rem;
-      border-radius: 50px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+      border: 1px solid var(--paper-3);
+      padding: 0.45rem 1.1rem;
+      border-radius: 40px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--ink-2);
+      box-shadow: var(--shadow-sm);
     }
 
-    @keyframes scroll {
+    .marquee-item img { height: 18px; }
+
+    @keyframes marquee-scroll {
       0% { transform: translateX(0); }
       100% { transform: translateX(-50%); }
     }
 
-    .testimonio-hero {
-      background-image: url('https://tally.so/images/demo/v2/dive-in.png');
-      background-size: cover;
-      background-position: center;
-      padding: 60px 20px;
+    /* ─── FOOTER ─── */
+    .footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.75rem;
+      color: var(--ink-4);
+      border-top: 1px solid var(--paper-2);
+      margin-top: 1rem;
+    }
+
+    /* ═══════════════════════════════════════════
+       VISTA PROPUESTA (CLIENTE)
+    ═══════════════════════════════════════════ */
+    .proposal-view {
+      min-height: 100vh;
+      background: var(--paper);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem 4rem;
+    }
+
+    .proposal-view-inner {
+      width: 100%;
+      max-width: 720px;
+    }
+
+    .pv-header-bar {
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 2rem 0;
-      border-radius: 32px;
+      margin-bottom: 2rem;
     }
 
-    .testimonio-contenido {
-      backdrop-filter: blur(14px);
-      background: rgba(255, 255, 255, 0.7);
+    .pv-powered {
+      font-size: 0.7rem;
+      color: var(--ink-4);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* Propuesta principal */
+    .pv-card {
+      background: white;
       border-radius: 28px;
-      padding: 30px;
-      max-width: 700px;
+      border: 1px solid var(--paper-3);
+      box-shadow: var(--shadow-xl);
+      overflow: hidden;
+    }
+
+    /* TOP accent strip */
+    .pv-stripe {
+      height: 5px;
+      width: 100%;
+    }
+
+    /* Perfil */
+    .pv-profile {
+      padding: 2.2rem 2.2rem 1.6rem;
       text-align: center;
+      border-bottom: 1px solid var(--paper-2);
     }
 
-    .testimonio-contenido .frase {
-      font-size: 1.5rem;
+    .pv-avatar {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 0.8rem;
+      display: block;
+      border: 3px solid white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .pv-avatar-placeholder {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: var(--paper-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 0.8rem;
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: var(--ink-3);
+      border: 3px solid white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+
+    .pv-name {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+
+    .pv-desc-profile {
+      font-size: 0.83rem;
+      color: var(--ink-3);
+      margin-top: 0.2rem;
+    }
+
+    .pv-exp-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      border-radius: 40px;
+      padding: 0.25rem 0.75rem;
+      margin-top: 0.6rem;
+    }
+
+    /* Título y cuerpo */
+    .pv-body { padding: 2rem 2.2rem; }
+
+    .pv-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 1.2rem;
+    }
+
+    .pv-description {
+      font-size: 0.95rem;
+      color: var(--ink-2);
+      line-height: 1.7;
+      white-space: pre-wrap;
+      margin-bottom: 1.6rem;
+    }
+
+    /* Badges */
+    .pv-badges { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.6rem; }
+
+    .pv-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--paper-2);
+      border: 1px solid var(--paper-3);
+      border-radius: 40px;
+      padding: 0.3rem 0.85rem;
+      font-size: 0.75rem;
       font-weight: 500;
-      font-style: italic;
-      color: #111;
-      margin-bottom: 1rem;
+      color: var(--ink-2);
     }
 
-    /* MÓVIL: MÍNIMOS MÁRGENES Y PADDINGS */
+    /* Precio + CTA */
+    .pv-cta-block {
+      border: 1.5px solid var(--paper-3);
+      border-radius: var(--radius-lg);
+      padding: 1.6rem;
+      text-align: center;
+      background: var(--paper);
+    }
+
+    .pv-price-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      margin-bottom: 0.3rem;
+    }
+
+    .pv-price {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 1.2rem;
+    }
+
+    .pv-pay-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: white;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      padding: 0.9rem 2rem;
+      border-radius: 40px;
+      transition: all var(--transition);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    }
+
+    .pv-pay-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.18);
+      filter: brightness(1.05);
+    }
+
+    .pv-footer-note {
+      text-align: center;
+      font-size: 0.68rem;
+      color: var(--ink-4);
+      margin-top: 1.8rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--paper-2);
+    }
+
+    /* ─── RESPONSIVE ─── */
     @media (max-width: 760px) {
-      .container {
-        padding: 0.75rem;
-      }
-      .hero-section {
-        padding: 1rem 0.5rem;
-      }
-      .hero-section h1 {
-        font-size: 2rem;
-      }
-      .card {
-        padding: 1.2rem;
-        border-radius: 24px;
-      }
-      .proposal-title {
-        font-size: 1.6rem;
-      }
-      .proposal-logo-circle {
-        width: 70px;
-        height: 70px;
-      }
-      .profile-name {
-        font-size: 1.2rem;
-      }
-      .proposal-price {
-        font-size: 2rem;
-      }
-      .proposal-preview-card {
-        border-radius: 24px;
-      }
-      .proposal-header-custom {
-        padding: 1.5rem 1rem;
-      }
-      .proposal-body {
-        padding: 1rem !important;
-      }
-      .testimonio-contenido .frase {
-        font-size: 1.2rem;
-      }
-      .testimonio-hero {
-        padding: 40px 15px;
-      }
+      .hero { grid-template-columns: 1fr; gap: 2rem; padding: 2rem 1.2rem 1.5rem; }
+      .hero-right { display: none; }
+      .hero-headline { font-size: 2.4rem; }
+      .main-wrap { padding: 0 1rem 3rem; }
+      .form-card-body { padding: 1.3rem; }
+      .form-card-header { padding: 1.3rem; }
+      .form-grid-2, .form-grid-3 { grid-template-columns: 1fr; }
+      .nav-inner { padding: 0 1.2rem; }
+      .testimonial-card { padding: 1.8rem 1.5rem; }
+      .testimonial-quote { font-size: 1.1rem; }
+      .pv-body { padding: 1.5rem; }
+      .pv-profile { padding: 1.8rem 1.5rem 1.4rem; }
+      .pv-title { font-size: 1.6rem; }
+      .pv-price { font-size: 2.4rem; }
     }
 
+    /* ─── ANIMATIONS ─── */
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
+    .fade-up { animation: fade-up 0.5s ease forwards; }
+    .delay-1 { animation-delay: 0.1s; opacity: 0; }
+    .delay-2 { animation-delay: 0.2s; opacity: 0; }
+    .delay-3 { animation-delay: 0.3s; opacity: 0; }
+    .delay-4 { animation-delay: 0.4s; opacity: 0; }
 
-    icon {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  background-color: rgba(96, 165, 250, 1);
-  padding: 0.5rem;
-  color: rgba(255, 255, 255, 1);
-}
-
-.icon svg {
-  height: 1rem;
-  width: 1rem;
-}
-
-    h1 i {
-  font-style: italic;
-}
+    /* Edit hint */
+    .edit-hint {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--ink-3);
+      margin-top: 0.6rem;
+    }
   </style>
 </head>
 <body>
 
-<div class="navbar" id="mainNavbar">
-  <div class="nav-container">
-    <div class="logo">
-      <svg width="40" height="40" viewBox="0 0 100 100">
-        <line x1="15" y1="15" x2="85" y2="85" stroke="black" stroke-width="5" stroke-linecap="round" />
-        <line x1="85" y1="15" x2="15" y2="85" stroke="black" stroke-width="5" stroke-linecap="round" />
-        <line x1="50" y1="10" x2="50" y2="90" stroke="black" stroke-width="5" stroke-linecap="round" />
-        <line x1="10" y1="50" x2="90" y2="50" stroke="black" stroke-width="5" stroke-linecap="round" />
-      </svg>
-      <span class="logo-text">Vinclechat</span>
+<!-- ─── NAVBAR ─── -->
+<nav class="navbar" id="mainNavbar">
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="3" y1="3" x2="17" y2="17" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <line x1="17" y1="3" x2="3" y2="17" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <line x1="10" y1="2" x2="10" y2="18" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <line x1="2" y1="10" x2="18" y2="10" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="logo-name">Vinclechat</span>
+    </a>
+    <span class="nav-tag">Beta</span>
+  </div>
+</nav>
+
+<!-- ─── CREATOR PANEL ─── -->
+<div id="creatorPanel">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-kicker fade-up"><span></span> La nueva forma de cerrar ventas</div>
+      <h1 class="hero-headline fade-up delay-1">Lo sencillo,<br><em>vende.</em></h1>
+      <p class="hero-sub fade-up delay-2">Crea propuestas impecables en segundos. Perfil profesional, diseño único, enlace de pago listo.</p>
+    </div>
+    <div class="hero-right fade-up delay-3">
+      <div class="hero-stats">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-bolt"></i></div>
+          <div>
+            <div class="stat-big">60s</div>
+            <div class="stat-label">para tener tu propuesta lista</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-big">100%</div>
+          <div class="stat-label">tuya, sin suscripciones</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-big" style="font-size:1.6rem;">∞</div>
+          <div class="stat-label">propuestas que puedes crear</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Form -->
+  <div class="main-wrap">
+    <div class="form-card fade-up delay-4">
+      <div class="form-card-header">
+        <h2 class="form-card-title">Nueva propuesta</h2>
+        <span style="font-size:0.78rem; color:var(--ink-3); background:var(--paper-2); padding:0.3rem 0.8rem; border-radius:40px; border:1px solid var(--paper-3);">
+          <i class="fas fa-shield-alt" style="color:var(--success); margin-right:4px;"></i>Guardado en la nube
+        </span>
+      </div>
+
+      <div class="form-card-body">
+        <form id="proposalForm">
+
+          <div class="form-section-label">Contenido de la propuesta</div>
+
+          <div class="form-group">
+            <label>
+              <span class="lbl-icon"><i class="fas fa-heading"></i></span>
+              Título de la oferta <span style="color:var(--accent); margin-left:2px;">*</span>
+            </label>
+            <input type="text" id="title" placeholder="Ej: Aceleración Comercial 2025" required>
+          </div>
+
+          <div class="form-group">
+            <label>
+              <span class="lbl-icon"><i class="fas fa-align-left"></i></span>
+              Descripción detallada <span style="color:var(--accent); margin-left:2px;">*</span>
+            </label>
+            <textarea id="description" placeholder="• Diagnóstico estratégico&#10;• Implementación ágil&#10;• Soporte 30 días&#10;&#10;Describe el valor que aportas…" required></textarea>
+          </div>
+
+          <button type="button" id="toggleExpandBtn" class="btn btn-expand">
+            <i class="fas fa-sliders-h"></i> Opciones avanzadas: perfil, precio, diseño
+          </button>
+
+          <div id="expandableSection" class="expandable" style="margin-top: 1.4rem;">
+
+            <div class="form-section-label" style="margin-top:0;">Quién emite la propuesta</div>
+
+            <div class="form-group">
+              <label><span class="lbl-icon"><i class="fas fa-user-tie"></i></span> Tipo de perfil</label>
+              <select id="profileType">
+                <option value="empresa">🏢 Empresa / Agencia</option>
+                <option value="persona">🧑‍💻 Profesional independiente</option>
+              </select>
+            </div>
+
+            <div id="empresaFields">
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label><span class="lbl-icon"><i class="fas fa-building"></i></span> Nombre de empresa</label>
+                  <input type="text" id="empresaNombre" placeholder="Ej: Vincletech Solutions">
+                </div>
+                <div class="form-group">
+                  <label><span class="lbl-icon"><i class="fas fa-chart-line"></i></span> Años de experiencia</label>
+                  <input type="text" id="experienciaEmpresa" placeholder="+8 años en marketing digital">
+                </div>
+              </div>
+              <div class="form-group">
+                <label><span class="lbl-icon"><i class="fas fa-align-left"></i></span> Descripción de la empresa</label>
+                <input type="text" id="empresaDesc" placeholder="Agencia boutique especializada en transformación digital">
+              </div>
+            </div>
+
+            <div id="personaFields" style="display:none;">
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label><span class="lbl-icon"><i class="fas fa-user"></i></span> Nombre completo</label>
+                  <input type="text" id="personaNombre" placeholder="Ej: Laura Méndez">
+                </div>
+                <div class="form-group">
+                  <label><span class="lbl-icon"><i class="fas fa-chart-line"></i></span> Años de experiencia</label>
+                  <input type="text" id="experienciaPersona" placeholder="+8 años en marketing digital">
+                </div>
+              </div>
+              <div class="form-group">
+                <label><span class="lbl-icon"><i class="fas fa-microphone-alt"></i></span> Descripción profesional</label>
+                <input type="text" id="personaDesc" placeholder="Consultora senior en growth e inteligencia de negocio">
+              </div>
+            </div>
+
+            <div class="form-section-label">Servicio y precio</div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label><span class="lbl-icon"><i class="fas fa-hourglass-half"></i></span> Duración</label>
+                <input type="text" id="duration" placeholder="3 meses / 20 horas">
+              </div>
+              <div class="form-group">
+                <label><span class="lbl-icon"><i class="fas fa-users"></i></span> Dirigido a</label>
+                <input type="text" id="targetAudience" placeholder="Startups B2B, autónomos digitales">
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label><span class="lbl-icon"><i class="fas fa-tag"></i></span> Precio <span style="color:var(--accent); margin-left:2px;">*</span></label>
+                <input type="text" id="price" placeholder="2.890€ · desde 180€/hora">
+              </div>
+              <div class="form-group">
+                <label><span class="lbl-icon"><i class="fas fa-credit-card"></i></span> Link de pago <span style="color:var(--accent); margin-left:2px;">*</span></label>
+                <input type="url" id="paymentLink" placeholder="https://paypal.me/tuempresa">
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="form-section-label" style="margin-top:0;">Apariencia</div>
+
+            <div class="form-grid-3">
+              <div class="form-group">
+                <label><span class="lbl-icon"><i class="fas fa-circle"></i></span> Color principal</label>
+                <input type="color" id="primaryColor" value="#1a56e8">
+              </div>
+              <div class="form-group">
+                <label><span class="lbl-icon"><i class="fas fa-fill"></i></span> Fondo tarjeta</label>
+                <input type="color" id="bgColor" value="#ffffff">
+              </div>
+              <div class="form-group">
+                <label><span class="lbl-icon"><i class="fas fa-font"></i></span> Tipografía</label>
+                <select id="fontFamily">
+                  <option value="'DM Sans', sans-serif">DM Sans (moderno)</option>
+                  <option value="'Georgia', serif">Georgia (clásico)</option>
+                  <option value="'Courier New', monospace">Mono (técnico)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label><span class="lbl-icon"><i class="fas fa-image"></i></span> Logo / foto de perfil</label>
+              <input type="file" id="logoUpload" accept="image/*">
+              <div id="logoPreview" class="logo-preview-wrap" style="display:none;">
+                <img id="logoPreviewImg" src="" alt="preview">
+                <span class="logo-preview-txt">Imagen cargada correctamente</span>
+              </div>
+            </div>
+
+          </div>
+
+          <div style="margin-top:1.6rem;">
+            <button type="submit" class="btn btn-primary" id="createBtn">
+              <i class="fas fa-paper-plane"></i> Crear propuesta
+            </button>
+          </div>
+
+        </form>
+
+        <div id="resultArea"></div>
+        <div id="editHint" class="edit-hint"></div>
+      </div>
+    </div>
+
+    <!-- Testimonial -->
+    <div class="testimonial-section">
+      <div class="testimonial-card">
+        <p class="testimonial-quote">"La sencillez de Vinclechat transforma completamente cómo presentamos propuestas. En segundos tienes algo profesional, claro y listo para cerrar."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">J</div>
+          <div>
+            <div class="testimonial-name">Juanma Miguel</div>
+            <div class="testimonial-role">CEO · Instituto NeuroSmart</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trust marquee -->
+    <div class="trust-section">
+      <p class="trust-label">Empresas que confían</p>
+      <div class="marquee-track-wrap">
+        <div class="marquee-inner">
+          <div class="marquee-item"><i class="fas fa-building" style="color:var(--ink-4);"></i> MundiBusiness</div>
+          <div class="marquee-item"><i class="fas fa-brain" style="color:var(--ink-4);"></i> Instituto NeuroSmart</div>
+          <div class="marquee-item"><i class="fas fa-robot" style="color:var(--ink-4);"></i> Marikaf-ai</div>
+          <div class="marquee-item"><i class="fas fa-handshake" style="color:var(--ink-4);"></i> KnowMeet</div>
+          <div class="marquee-item"><i class="fas fa-chart-bar" style="color:var(--ink-4);"></i> Tu-EconomIA</div>
+          <div class="marquee-item"><i class="fas fa-plus" style="color:var(--ink-4);"></i> Más aliados</div>
+          <!-- duplicate for infinite scroll -->
+          <div class="marquee-item"><i class="fas fa-building" style="color:var(--ink-4);"></i> MundiBusiness</div>
+          <div class="marquee-item"><i class="fas fa-brain" style="color:var(--ink-4);"></i> Instituto NeuroSmart</div>
+          <div class="marquee-item"><i class="fas fa-robot" style="color:var(--ink-4);"></i> Marikaf-ai</div>
+          <div class="marquee-item"><i class="fas fa-handshake" style="color:var(--ink-4);"></i> KnowMeet</div>
+          <div class="marquee-item"><i class="fas fa-chart-bar" style="color:var(--ink-4);"></i> Tu-EconomIA</div>
+          <div class="marquee-item"><i class="fas fa-plus" style="color:var(--ink-4);"></i> Más aliados</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>© 2025 Vinclechat · Propuestas profesionales con inteligencia de negocios</p>
     </div>
   </div>
 </div>
 
-<div id="creatorPanel" class="container">
-  <div class="hero-section">
-    <div class="hero-badge">
-      <span class="icon">
-      <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-        <path clip-rule="evenodd" d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.382l6.553 3.276A1 1 0 0018 15V3z" fill-rule="evenodd"></path>
-      </svg>
-    </span>
-      
-      
-      La nueva forma de cerrar ventas
-    
-    </div>
-    <h1>Lo sencillo,<br><i>vende :)</i></h1>
-    <p style="color:#6e6e73; margin-top:0.5rem;">Crea propuestas impecables + perfil profesional + estilo único</p>
-  </div>
-
-  <div class="card">
-    <form id="proposalForm">
-      <!-- Campos siempre visibles -->
-      <div class="form-group">
-        <label><i class="fas fa-heading"></i> Título de la oferta *</label>
-        <input type="text" id="title" placeholder="Ej: Aceleración Comercial 2025" required>
-      </div>
-      <div class="form-group">
-        <label><i class="fas fa-align-left"></i> Descripción (con viñetas y saltos) *</label>
-        <textarea id="description" rows="5" placeholder="• Diagnóstico estratégico&#10;• Implementación ágil&#10;• Soporte 30 días" required></textarea>
-      </div>
-
-      <button type="button" id="toggleExpandBtn" class="btn-outline-expand">
-        <i class="fas fa-chevron-down"></i> Ver más opciones (perfil, duración, precio, personalización)
-      </button>
-
-      <div id="expandableSection" class="expandable-section" style="margin-top: 1.5rem;">
-        <div class="form-group">
-          <label><i class="fas fa-user-tie"></i> ¿Quién emite la propuesta? *</label>
-          <select id="profileType">
-            <option value="empresa">🏢 Empresa / Agencia</option>
-            <option value="persona">🧑‍💻 Profesional independiente / Persona</option>
-          </select>
-        </div>
-
-        <div id="empresaFields">
-          <div class="form-group"><label><i class="fas fa-building"></i> Nombre de la empresa</label><input type="text" id="empresaNombre" placeholder="Ej: Vincletech Solutions"></div>
-          <div class="form-group"><label><i class="fas fa-align-left"></i> Breve descripción de la empresa</label><input type="text" id="empresaDesc" placeholder="Agencia boutique especializada en transformación digital"></div>
-          <div class="form-group"><label><i class="fas fa-chart-line"></i> Años de experiencia en el sector</label><input type="text" id="experienciaEmpresa" placeholder="Ej: +8 años en marketing digital"></div>
-        </div>
-        <div id="personaFields" style="display: none;">
-          <div class="form-group"><label><i class="fas fa-user"></i> Nombre y apellidos</label><input type="text" id="personaNombre" placeholder="Ej: Laura Méndez"></div>
-          <div class="form-group"><label><i class="fas fa-microphone-alt"></i> Breve descripción profesional</label><input type="text" id="personaDesc" placeholder="Consultora senior en growth e inteligencia de negocio"></div>
-          <div class="form-group"><label><i class="fas fa-chart-line"></i> Años de experiencia en el sector</label><input type="text" id="experienciaPersona" placeholder="Ej: +8 años en marketing digital"></div>
-        </div>
-
-        <!-- Duración y público objetivo -->
-        <div class="form-group"><label><i class="fas fa-hourglass-half"></i> Duración del servicio</label><input type="text" id="duration" placeholder="Ej: 3 meses / 20 horas"></div>
-        <div class="form-group"><label><i class="fas fa-users"></i> Para quién es (target)</label><input type="text" id="targetAudience" placeholder="Ej: Startups B2B, Autónomos digitales"></div>
-        <div class="form-group"><label><i class="fas fa-tag"></i> Precio *</label><input type="text" id="price" placeholder="Ej: 2.890€ · 180€/hora"></div>
-        <div class="form-group"><label><i class="fas fa-credit-card"></i> Link de pago *</label><input type="url" id="paymentLink" placeholder="https://paypal.me/tuempresa"></div>
-
-        <div style="border-top:1px solid #e9e9ef; margin:1rem 0; padding-top:1rem;">
-          <h4 style="font-size:1rem; margin-bottom:1rem;"><i class="fas fa-palette"></i> Personaliza el look</h4>
-          <div style="display:flex; flex-wrap:wrap; gap:1rem;">
-            <div style="flex:1"><label>Color principal</label><input type="color" id="primaryColor" value="#0071e3"></div>
-            <div style="flex:1"><label>Fondo tarjeta</label><input type="color" id="bgColor" value="#ffffff"></div>
-            <div style="flex:1"><label>Fuente</label><select id="fontFamily"><option value="'Inter', -apple-system">System Default</option><option value="'Georgia', serif">Georgia Serif</option><option value="'Courier New', monospace">Monospace</option></select></div>
-          </div>
-          <div class="form-group" style="margin-top:1rem;">
-            <label><i class="fas fa-image"></i> Logo / foto de perfil (circular)</label>
-            <input type="file" id="logoUpload" accept="image/*">
-            <div id="logoPreview" style="margin-top:8px;"></div>
-          </div>
-        </div>
-      </div>
-      <button type="submit" class="btn-primary" id="createBtn" style="margin-top: 1.5rem;"><i class="fas fa-magic"></i> Crear / Actualizar propuesta ✨</button>
-    </form>
-    <div id="resultArea"></div>
-    <div id="editHint" style="margin-top:1rem; font-size:0.75rem; text-align:center; color:#666;"></div>
-  </div>
-
-  <!-- TESTIMONIO JUANMA -->
-  <div class="testimonio-hero">
-    <div class="testimonio-contenido">
-      <p class="frase">“La sencillez de Vinclechat transforma completamente cómo presentamos propuestas. En segundos tienes algo profesional, claro y listo para cerrar.”</p>
-      <div class="autor"><strong>Juanma Miguel</strong><span>CEO de Instituto NeuroSmart</span></div>
-    </div>
-  </div>
-
-  <!-- CARRUSEL INFINITO -->
-  <div class="marquee-section">
-    <div class="marquee">
-      <div class="marquee-track">
-        <div class="marquee-item"><img src="https://mundibusiness.com/logo/logo.png" style="height:35px;"> MundiBusiness</div>
-        <div class="marquee-item"><i class="fas fa-brain"></i> Instituto NeuroSmart</div>
-        <div class="marquee-item"><i class="fas fa-robot"></i> Marikaf-ai</div>
-        <div class="marquee-item">KnowMeet</div>
-        <div class="marquee-item">Tu-EconomIA</div>
-        <div class="marquee-item">+ aliados</div>
-        <div class="marquee-item"><img src="https://mundibusiness.com/logo/logo.png" style="height:35px;"> MundiBusiness</div>
-        <div class="marquee-item"><i class="fas fa-brain"></i> Instituto NeuroSmart</div>
-        <div class="marquee-item"><i class="fas fa-robot"></i> Marikaf-ai</div>
-      </div>
-    </div>
-    <div style="text-align:center; margin-top:1rem;"><span style="background:white; padding:0.2rem 1rem; border-radius:40px; font-size:0.7rem;"><i class="fas fa-infinity"></i> Empresas que confían</span></div>
-  </div>
-  <div class="footer"><p>© 2025 Vinclechat · Propuestas profesionales con inteligencia de negocios</p></div>
-</div>
-
+<!-- ─── TOAST ─── -->
 <div id="toast" class="toast"></div>
 
+<!-- ─── FIREBASE + LOGIC ─── -->
 <script>
   const firebaseConfig = {
     apiKey: "AIzaSyBfJq-6CniQvqmR6aRS3XNC5GxE5E1bMpQ",
@@ -629,47 +1128,79 @@
   let currentEditingId = null;
   let currentLogoBase64 = '';
 
-  // Expandir/colapsar
+  // ─── EXPAND / COLLAPSE ───
   const toggleBtn = document.getElementById('toggleExpandBtn');
-  const expandableDiv = document.getElementById('expandableSection');
+  const expandDiv = document.getElementById('expandableSection');
   let isExpanded = false;
+
   toggleBtn.addEventListener('click', () => {
     isExpanded = !isExpanded;
-    if (isExpanded) {
-      expandableDiv.classList.add('open');
-      toggleBtn.innerHTML = '<i class="fas fa-chevron-up"></i> Ver menos opciones';
-    } else {
-      expandableDiv.classList.remove('open');
-      toggleBtn.innerHTML = '<i class="fas fa-chevron-down"></i> Ver más opciones (perfil, duración, precio, personalización)';
-    }
+    expandDiv.classList.toggle('open', isExpanded);
+    toggleBtn.innerHTML = isExpanded
+      ? '<i class="fas fa-chevron-up"></i> Ocultar opciones avanzadas'
+      : '<i class="fas fa-sliders-h"></i> Opciones avanzadas: perfil, precio, diseño';
   });
 
-  function showToast(msg) { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
-  async function copyToClip(text) { try { await navigator.clipboard.writeText(text); showToast('✅ Enlace copiado'); } catch { const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('✅ Copiado'); } }
-
+  // ─── PROFILE TYPE TOGGLE ───
   const profileTypeSelect = document.getElementById('profileType');
   const empresaDiv = document.getElementById('empresaFields');
   const personaDiv = document.getElementById('personaFields');
-  function toggleProfileFields() { 
-    if (profileTypeSelect.value === 'empresa') { 
-      empresaDiv.style.display = 'block'; 
-      personaDiv.style.display = 'none'; 
-    } else { 
-      empresaDiv.style.display = 'none'; 
-      personaDiv.style.display = 'block'; 
-    } 
+
+  function toggleProfileFields() {
+    const isEmpresa = profileTypeSelect.value === 'empresa';
+    empresaDiv.style.display = isEmpresa ? 'block' : 'none';
+    personaDiv.style.display = isEmpresa ? 'none' : 'block';
   }
-  profileTypeSelect.addEventListener('change', toggleProfileFields); 
+  profileTypeSelect.addEventListener('change', toggleProfileFields);
   toggleProfileFields();
 
+  // ─── LOGO UPLOAD ───
   document.getElementById('logoUpload').addEventListener('change', (e) => {
     const file = e.target.files[0];
-    if (file) { const reader = new FileReader(); reader.onload = ev => { currentLogoBase64 = ev.target.result; document.getElementById('logoPreview').innerHTML = `<img src="${currentLogoBase64}" style="width:80px; height:80px; border-radius:50%; object-fit:cover; box-shadow:0 2px 8px rgba(0,0,0,0.1);">`; }; reader.readAsDataURL(file); }
-    else { currentLogoBase64 = ''; document.getElementById('logoPreview').innerHTML = ''; }
+    const previewWrap = document.getElementById('logoPreview');
+    const previewImg = document.getElementById('logoPreviewImg');
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = ev => {
+        currentLogoBase64 = ev.target.result;
+        previewImg.src = currentLogoBase64;
+        previewWrap.style.display = 'flex';
+      };
+      reader.readAsDataURL(file);
+    } else {
+      currentLogoBase64 = '';
+      previewWrap.style.display = 'none';
+    }
   });
 
+  // ─── TOAST ───
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  // ─── COPY ───
+  async function copyToClip(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      showToast('✅ Enlace copiado');
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('✅ Copiado');
+    }
+  }
+
+  // ─── SAVE / UPDATE ───
   async function saveProposal(e) {
     e.preventDefault();
+
     const title = document.getElementById('title').value.trim();
     const description = document.getElementById('description').value.trim();
     const price = document.getElementById('price').value.trim();
@@ -680,132 +1211,253 @@
     const bgColor = document.getElementById('bgColor').value;
     const fontFamily = document.getElementById('fontFamily').value;
     const profileType = profileTypeSelect.value;
-    
+
     let profileName = '', profileDesc = '', experiencia = '';
-    if (profileType === 'empresa') { 
-      profileName = document.getElementById('empresaNombre').value.trim(); 
-      profileDesc = document.getElementById('empresaDesc').value.trim(); 
+    if (profileType === 'empresa') {
+      profileName = document.getElementById('empresaNombre').value.trim();
+      profileDesc = document.getElementById('empresaDesc').value.trim();
       experiencia = document.getElementById('experienciaEmpresa').value.trim();
-    } else { 
-      profileName = document.getElementById('personaNombre').value.trim(); 
-      profileDesc = document.getElementById('personaDesc').value.trim(); 
+    } else {
+      profileName = document.getElementById('personaNombre').value.trim();
+      profileDesc = document.getElementById('personaDesc').value.trim();
       experiencia = document.getElementById('experienciaPersona').value.trim();
     }
-    
-    if (!title) { showToast('❌ Título requerido'); return; }
-    if (!description) { showToast('❌ Descripción obligatoria'); return; }
-    if (!price) { showToast('❌ Precio obligatorio'); return; }
+
+    if (!title) { showToast('❌ El título es obligatorio'); return; }
+    if (!description) { showToast('❌ La descripción es obligatoria'); return; }
+    if (!price) { showToast('❌ Indica un precio'); return; }
     if (!paymentLink || !paymentLink.startsWith('http')) { showToast('❌ Link de pago válido (https://)'); return; }
-    if ((profileType === 'empresa' || profileType === 'persona') && !profileName) { showToast('❌ Nombre de empresa o persona requerido'); return; }
+    if (!profileName) { showToast('❌ Añade el nombre de empresa o persona'); return; }
 
     const btn = document.getElementById('createBtn');
-    btn.disabled = true; btn.innerHTML = '<span class="loading-spinner"></span> Publicando...';
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Publicando…';
+
     try {
-      const proposalData = { title, description, price, paymentLink, duration, targetAudience, primaryColor, bgColor, fontFamily, logo: currentLogoBase64 || '', profileType, profileName, profileDesc, experiencia, updatedAt: firebase.firestore.FieldValue.serverTimestamp() };
+      const proposalData = {
+        title, description, price, paymentLink, duration, targetAudience,
+        primaryColor, bgColor, fontFamily,
+        logo: currentLogoBase64 || '',
+        profileType, profileName, profileDesc, experiencia,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+
       if (currentEditingId) {
         await db.collection('proposals').doc(currentEditingId).update(proposalData);
-        showToast('✅ Propuesta actualizada');
         const url = `${window.location.origin}${window.location.pathname}?id=${currentEditingId}`;
-        document.getElementById('resultArea').innerHTML = `<div class="result-card"><i class="fas fa-sync-alt"></i> Editada correctamente. <a href="#" id="viewLinkProp">Ver propuesta actualizada</a></div>`;
-        document.getElementById('viewLinkProp')?.addEventListener('click', (e) => { e.preventDefault(); window.open(url, '_blank'); });
+        showToast('✅ Propuesta actualizada');
+        renderResultBox(url, true);
       } else {
-        const docRef = await db.collection('proposals').add({ ...proposalData, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+        const docRef = await db.collection('proposals').add({
+          ...proposalData,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
         currentEditingId = docRef.id;
         const url = `${window.location.origin}${window.location.pathname}?id=${docRef.id}`;
-        document.getElementById('resultArea').innerHTML = `<div class="result-card"><i class="fas fa-check-circle"></i> ¡Propuesta creada! <br><a href="${url}" target="_blank">${url}</a><br><button id="copyUrlBtn" style="margin-top:8px; background:#0071e3; border:none; padding:6px 14px; border-radius:40px; color:white;">Copiar enlace</button> <button id="editAgainBtn" style="margin-top:8px; background:#6c757d; border:none; padding:6px 14px; border-radius:40px; color:white;">Editar propuesta</button></div>`;
-        document.getElementById('copyUrlBtn')?.addEventListener('click', () => copyToClip(url));
-        document.getElementById('editAgainBtn')?.addEventListener('click', () => { loadDataToForm(currentEditingId); showToast('✏️ Modo edición activado'); });
-        showToast('🎉 Creada, puedes editarla cuando quieras');
+        showToast('🎉 ¡Propuesta creada y publicada!');
+        renderResultBox(url, false);
       }
-      document.getElementById('editHint').innerHTML = currentEditingId ? '✏️ Modo edición activo' : '💡 Guardada';
-    } catch (err) { showToast('❌ Error: ' + err.message); } finally { btn.disabled=false; btn.innerHTML='<i class="fas fa-magic"></i> Crear / Guardar propuesta ✨'; }
+
+      document.getElementById('editHint').innerHTML = currentEditingId
+        ? '✏️ Modo edición activo — los cambios se guardan al pulsar el botón'
+        : '';
+
+    } catch (err) {
+      showToast('❌ Error: ' + err.message);
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-paper-plane"></i> ' + (currentEditingId ? 'Actualizar propuesta' : 'Crear propuesta');
+    }
   }
 
+  function renderResultBox(url, isUpdate) {
+    const resultArea = document.getElementById('resultArea');
+    resultArea.innerHTML = `
+      <div class="result-box">
+        <strong>${isUpdate ? '✅ Propuesta actualizada' : '🎉 ¡Propuesta lista para compartir!'}</strong>
+        <div class="url-row">${url}</div>
+        <div class="result-actions">
+          <button class="btn btn-sm btn-blue" id="copyUrlBtn"><i class="fas fa-link"></i> Copiar enlace</button>
+          <button class="btn btn-sm btn-ghost" id="openUrlBtn"><i class="fas fa-external-link-alt"></i> Ver propuesta</button>
+          <button class="btn btn-sm btn-ghost" id="editAgainBtn"><i class="fas fa-pen"></i> Editar</button>
+        </div>
+      </div>
+    `;
+    document.getElementById('copyUrlBtn')?.addEventListener('click', () => copyToClip(url));
+    document.getElementById('openUrlBtn')?.addEventListener('click', () => window.open(url, '_blank'));
+    document.getElementById('editAgainBtn')?.addEventListener('click', () => {
+      loadDataToForm(currentEditingId);
+      showToast('✏️ Modo edición activado');
+    });
+  }
+
+  // ─── LOAD FOR EDITING ───
   async function loadDataToForm(id) {
     const doc = await db.collection('proposals').doc(id).get();
-    if (doc.exists) {
-      const d = doc.data();
-      document.getElementById('title').value = d.title || '';
-      document.getElementById('description').value = d.description || '';
-      document.getElementById('price').value = d.price || '';
-      document.getElementById('paymentLink').value = d.paymentLink || '';
-      document.getElementById('duration').value = d.duration || '';
-      document.getElementById('targetAudience').value = d.targetAudience || '';
-      document.getElementById('primaryColor').value = d.primaryColor || '#0071e3';
-      document.getElementById('bgColor').value = d.bgColor || '#ffffff';
-      document.getElementById('fontFamily').value = d.fontFamily || "'Inter', -apple-system";
-      if (d.profileType) {
-        profileTypeSelect.value = d.profileType; toggleProfileFields();
-        if (d.profileType === 'empresa') { 
-          document.getElementById('empresaNombre').value = d.profileName || ''; 
-          document.getElementById('empresaDesc').value = d.profileDesc || '';
-          document.getElementById('experienciaEmpresa').value = d.experiencia || '';
-        } else { 
-          document.getElementById('personaNombre').value = d.profileName || ''; 
-          document.getElementById('personaDesc').value = d.profileDesc || '';
-          document.getElementById('experienciaPersona').value = d.experiencia || '';
-        }
+    if (!doc.exists) return;
+    const d = doc.data();
+
+    document.getElementById('title').value = d.title || '';
+    document.getElementById('description').value = d.description || '';
+    document.getElementById('price').value = d.price || '';
+    document.getElementById('paymentLink').value = d.paymentLink || '';
+    document.getElementById('duration').value = d.duration || '';
+    document.getElementById('targetAudience').value = d.targetAudience || '';
+    document.getElementById('primaryColor').value = d.primaryColor || '#1a56e8';
+    document.getElementById('bgColor').value = d.bgColor || '#ffffff';
+    document.getElementById('fontFamily').value = d.fontFamily || "'DM Sans', sans-serif";
+
+    if (d.profileType) {
+      profileTypeSelect.value = d.profileType;
+      toggleProfileFields();
+      if (d.profileType === 'empresa') {
+        document.getElementById('empresaNombre').value = d.profileName || '';
+        document.getElementById('empresaDesc').value = d.profileDesc || '';
+        document.getElementById('experienciaEmpresa').value = d.experiencia || '';
+      } else {
+        document.getElementById('personaNombre').value = d.profileName || '';
+        document.getElementById('personaDesc').value = d.profileDesc || '';
+        document.getElementById('experienciaPersona').value = d.experiencia || '';
       }
-      if (d.logo && d.logo.startsWith('data:image')) { currentLogoBase64 = d.logo; document.getElementById('logoPreview').innerHTML = `<img src="${currentLogoBase64}" style="width:80px; height:80px; border-radius:50%; object-fit:cover;">`; }
-      else { currentLogoBase64 = ''; document.getElementById('logoPreview').innerHTML = ''; }
-      currentEditingId = id;
     }
+
+    if (d.logo && d.logo.startsWith('data:image')) {
+      currentLogoBase64 = d.logo;
+      document.getElementById('logoPreviewImg').src = d.logo;
+      document.getElementById('logoPreview').style.display = 'flex';
+    } else {
+      currentLogoBase64 = '';
+      document.getElementById('logoPreview').style.display = 'none';
+    }
+
+    currentEditingId = id;
+    document.getElementById('createBtn').innerHTML = '<i class="fas fa-sync-alt"></i> Actualizar propuesta';
+    document.getElementById('editHint').innerHTML = '✏️ Modo edición activo';
+
+    // Auto-expand advanced section
+    if (!isExpanded) {
+      isExpanded = true;
+      expandDiv.classList.add('open');
+      toggleBtn.innerHTML = '<i class="fas fa-chevron-up"></i> Ocultar opciones avanzadas';
+    }
+  }
+
+  // ═══════════════════════════════════════════
+  //  RENDER PROPOSAL VIEW (CLIENT LINK)
+  // ═══════════════════════════════════════════
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
   }
 
   async function renderProposalOnly() {
     const id = new URLSearchParams(window.location.search).get('id');
     if (!id) return false;
-    const navbar = document.getElementById('mainNavbar'); if(navbar) navbar.remove();
-    const creator = document.getElementById('creatorPanel'); if(creator) creator.style.display = 'none';
-    let container = document.getElementById('proposalOnlyContainer');
-    if (!container) { container = document.createElement('div'); container.id = 'proposalOnlyContainer'; container.className = 'proposal-only-view'; document.body.innerHTML = ''; document.body.appendChild(container); }
-    container.innerHTML = '<div style="text-align:center; padding:3rem;">Cargando propuesta premium...</div>';
+
+    // Clear page
+    document.body.innerHTML = `
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+      <div id="pvRoot" class="proposal-view">
+        <div class="proposal-view-inner">
+          <div class="pv-header-bar">
+            <span class="pv-powered">Propuesta via <strong>Vinclechat</strong></span>
+          </div>
+          <div id="pvCard">
+            <div style="text-align:center; padding:4rem; color:var(--ink-3);">
+              <i class="fas fa-spinner fa-spin" style="font-size:1.5rem; margin-bottom:0.8rem; display:block;"></i>
+              Cargando propuesta…
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
     try {
       const doc = await db.collection('proposals').doc(id).get();
-      if (!doc.exists) { container.innerHTML = '<div>No encontrada</div>'; return true; }
-      const data = doc.data();
-      const primary = data.primaryColor || '#0071e3';
-      const bgCard = data.bgColor || '#ffffff';
-      const fontFamily = data.fontFamily || "'Inter', -apple-system";
-      const logoImg = data.logo ? `<img src="${data.logo}" class="proposal-logo-circle" alt="logo">` : `<div style="width:90px; height:90px; background:#e9e9ef; border-radius:50%; margin:0 auto 0.8rem; display:flex; align-items:center; justify-content:center;"><i class="fas fa-user" style="font-size:2.2rem; color:#aaa;"></i></div>`;
-      const experienciaHtml = data.experiencia ? `<div class="profile-experience"><i class="fas fa-medal"></i> ${escapeHtml(data.experiencia)}</div>` : '';
-      const profileHtml = `
-        <div style="text-align:center;">
-          ${logoImg}
-          <div class="profile-name">${escapeHtml(data.profileName || (data.profileType === 'empresa' ? 'Empresa' : 'Profesional'))}</div>
-          <div class="profile-desc">${escapeHtml(data.profileDesc || '')}</div>
-          ${experienciaHtml}
-        </div>
-      `;
-      const descHTML = (data.description || '').replace(/\n/g, '<br>');
-      container.innerHTML = `
-        <div class="proposal-preview-card" style="background: ${bgCard}; font-family: ${fontFamily};">
-          <div class="proposal-header-custom">
-            ${profileHtml}
-            <div class="proposal-title">${escapeHtml(data.title)}</div>
+      if (!doc.exists) {
+        document.getElementById('pvCard').innerHTML = '<div style="text-align:center; padding:3rem; color:var(--ink-3);">Esta propuesta no existe o fue eliminada.</div>';
+        return true;
+      }
+
+      const d = doc.data();
+      const primary = d.primaryColor || '#1a56e8';
+      const bgCard = d.bgColor || '#ffffff';
+      const font = d.fontFamily || "'DM Sans', sans-serif";
+
+      const avatarHtml = d.logo && d.logo.startsWith('data:image')
+        ? `<img src="${d.logo}" class="pv-avatar" alt="${escapeHtml(d.profileName)}">`
+        : `<div class="pv-avatar-placeholder">${escapeHtml((d.profileName || '?')[0])}</div>`;
+
+      const expHtml = d.experiencia
+        ? `<div class="pv-exp-badge" style="background:${primary}15; color:${primary};"><i class="fas fa-medal"></i> ${escapeHtml(d.experiencia)}</div>`
+        : '';
+
+      const durHtml = d.duration
+        ? `<span class="pv-badge"><i class="fas fa-hourglass-start" style="color:${primary};"></i> ${escapeHtml(d.duration)}</span>`
+        : '';
+
+      const targetHtml = d.targetAudience
+        ? `<span class="pv-badge"><i class="fas fa-bullseye" style="color:${primary};"></i> ${escapeHtml(d.targetAudience)}</span>`
+        : '';
+
+      const descHtml = escapeHtml(d.description || '').replace(/\n/g, '<br>');
+
+      document.getElementById('pvCard').innerHTML = `
+        <div class="pv-card fade-up" style="background:${bgCard}; font-family:${font};">
+          <div class="pv-stripe" style="background:${primary};"></div>
+
+          <div class="pv-profile">
+            ${avatarHtml}
+            <div class="pv-name">${escapeHtml(d.profileName || '')}</div>
+            <div class="pv-desc-profile">${escapeHtml(d.profileDesc || '')}</div>
+            ${expHtml}
           </div>
-          <div class="proposal-body" style="padding: 1rem 1.5rem 1.8rem;">
-            <div class="proposal-description">${descHTML}</div>
-            <div>${data.duration ? `<span class="inline-badge"><i class="fas fa-hourglass-start"></i> ${escapeHtml(data.duration)}</span>` : ''} ${data.targetAudience ? `<span class="inline-badge"><i class="fas fa-bullseye"></i> ${escapeHtml(data.targetAudience)}</span>` : ''}</div>
-            <div class="proposal-meta" style="text-align: center;">
-              <div class="proposal-price" style="color: ${primary};">${escapeHtml(data.price)}</div>
-              <a href="${data.paymentLink}" target="_blank" class="pay-button" style="background: ${primary};">Proceder al pago <i class="fas fa-arrow-right"></i></a>
+
+          <div class="pv-body">
+            <h1 class="pv-title">${escapeHtml(d.title)}</h1>
+
+            <div class="pv-description">${descHtml}</div>
+
+            ${(durHtml || targetHtml) ? `<div class="pv-badges">${durHtml}${targetHtml}</div>` : ''}
+
+            <div class="pv-cta-block">
+              <div class="pv-price-label">Inversión</div>
+              <div class="pv-price" style="color:${primary};">${escapeHtml(d.price)}</div>
+              <a href="${escapeHtml(d.paymentLink)}" target="_blank" rel="noopener" class="pv-pay-btn" style="background:${primary};">
+                Proceder al pago <i class="fas fa-arrow-right"></i>
+              </a>
             </div>
-            <div style="text-align:center; font-size:0.65rem; color:#aaa; margin-top:1.5rem;">Vinclechat · Propuesta profesional</div>
+
+            <div class="pv-footer-note">
+              <i class="fas fa-lock" style="margin-right:4px;"></i>
+              Propuesta generada con <strong>Vinclechat</strong> · Pago seguro externo
+            </div>
           </div>
         </div>
       `;
-    } catch(e) { container.innerHTML = '<div>Error al cargar</div>'; }
+
+    } catch (err) {
+      document.getElementById('pvCard').innerHTML = '<div style="text-align:center; padding:3rem; color:var(--ink-3);">Error al cargar la propuesta.</div>';
+    }
     return true;
   }
 
-  function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
-
+  // ─── INIT ───
   document.getElementById('proposalForm').addEventListener('submit', saveProposal);
+
   window.addEventListener('load', async () => {
-    const idParam = new URLSearchParams(window.location.search).get('id');
-    if (idParam) await renderProposalOnly();
-    else { const editParam = new URLSearchParams(window.location.search).get('edit'); if (editParam) { await loadDataToForm(editParam); window.history.replaceState({}, '', window.location.pathname); } }
+    const params = new URLSearchParams(window.location.search);
+    const idParam = params.get('id');
+    const editParam = params.get('edit');
+
+    if (idParam) {
+      await renderProposalOnly();
+    } else if (editParam) {
+      await loadDataToForm(editParam);
+      window.history.replaceState({}, '', window.location.pathname);
+    }
   });
 </script>
 </body>
