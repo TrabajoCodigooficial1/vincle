@@ -397,6 +397,170 @@
       .form-progress{display:none;}
       .ai-improve-banner{flex-direction:column;align-items:flex-start;}
     }
+
+
+    /* ─── MOCKUP HERO ─── */
+    .hero-mockup-wrap {
+      margin-top:4rem; width:100%; max-width:860px;
+      animation:fadeUp 0.8s 0.6s both;
+      position:relative;
+    }
+
+    .mockup-glow {
+      position:absolute; bottom:-40px; left:50%; transform:translateX(-50%);
+      width:70%; height:80px;
+      background:radial-gradient(ellipse, rgba(26,111,255,0.18) 0%, transparent 70%);
+      filter:blur(20px); pointer-events:none;
+    }
+
+    .mockup-window {
+      background:white;
+      border-radius:var(--r-lg);
+      border:1px solid var(--border-2);
+      box-shadow:var(--shadow-xl);
+      overflow:hidden;
+      transform:perspective(1400px) rotateX(5deg) rotateY(-1deg);
+      transition:transform 0.6s var(--transition);
+    }
+    .mockup-window:hover { transform:perspective(1400px) rotateX(0deg) rotateY(0deg); }
+
+    .mockup-titlebar {
+      background:#f2f2f5; padding:0.65rem 1rem;
+      display:flex; align-items:center; gap:8px;
+      border-bottom:1px solid var(--border);
+    }
+    .dot { width:10px; height:10px; border-radius:50%; }
+    .dot-r{background:#ff5f57} .dot-y{background:#febc2e} .dot-g{background:#28c840}
+    .titlebar-url { flex:1; background:white; border-radius:6px; padding:0.2rem 0.75rem; font-size:0.7rem; color:var(--ink-3); text-align:center; border:1px solid var(--border); }
+    .titlebar-secure { font-size:0.6rem; color:var(--green); margin-right:4px; }
+
+    .mockup-body { display:grid; grid-template-columns:1fr 340px; min-height:260px; }
+    .mockup-left { padding:1.5rem; border-right:1px solid var(--border); }
+    .mockup-proposal-header { display:flex; align-items:center; gap:10px; margin-bottom:1rem; }
+    .mockup-avatar { width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg, #0071e3, #34c759); }
+    .mockup-name-block .n { font-size:0.78rem; font-weight:600; color:var(--ink); }
+    .mockup-name-block .r { font-size:0.65rem; color:var(--ink-3); }
+    .mockup-heading { font-family:var(--font-display); font-size:1.15rem; color:var(--ink); margin-bottom:0.75rem; line-height:1.2; }
+    .mockup-bar-line { height:7px; background:var(--surface-2); border-radius:99px; margin-bottom:6px; }
+    .mockup-bar-line.w80{width:80%} .mockup-bar-line.w60{width:60%} .mockup-bar-line.w40{width:40%}
+    .mockup-bar-line.blue { background:rgba(26,111,255,0.2); }
+    .mockup-tags-row { display:flex; gap:6px; margin-top:0.8rem; }
+    .mockup-tag { background:var(--surface); border:1px solid var(--border-2); padding:0.2rem 0.55rem; border-radius:99px; font-size:0.6rem; color:var(--ink-3); }
+
+    .mockup-right { padding:1.5rem; background:var(--surface); display:flex; flex-direction:column; gap:0.75rem; }
+    .mockup-analytics-title { font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-3); margin-bottom:0.25rem; }
+    .mockup-stat-row { display:flex; justify-content:space-between; align-items:center; }
+    .mockup-stat-num { font-size:1.1rem; font-weight:800; color:var(--ink); letter-spacing:-0.04em; }
+    .mockup-stat-lbl { font-size:0.62rem; color:var(--ink-3); }
+    .mockup-mini-chart { height:36px; display:flex; align-items:flex-end; gap:3px; margin:0.25rem 0; }
+    .chart-bar { background:var(--accent); border-radius:3px 3px 0 0; flex:1; opacity:0.3; transition:opacity 0.3s; }
+    .chart-bar.active { opacity:1; }
+    .mockup-activity { background:white; border-radius:10px; padding:0.6rem 0.75rem; border:1px solid var(--border); }
+    .activity-dot { width:6px; height:6px; border-radius:50%; background:var(--green); margin-right:6px; display:inline-block; }
+    .activity-text { font-size:0.65rem; color:var(--ink-2); }
+    .activity-time { font-size:0.6rem; color:var(--ink-3); }
+    .mockup-price-block { background:var(--ink); border-radius:12px; padding:0.85rem 1rem; text-align:center; }
+    .mockup-price-label { font-size:0.6rem; color:rgba(255,255,255,0.5); text-transform:uppercase; letter-spacing:0.06em; }
+    .mockup-price-value { font-size:1.3rem; font-weight:800; color:white; letter-spacing:-0.04em; }
+    .mockup-pay-btn { background:var(--accent); color:white; padding:0.4rem 0.9rem; border-radius:99px; font-size:0.68rem; font-weight:700; display:inline-block; margin-top:0.4rem; }
+
+    /* ═══════════════════════════════════════════════════
+       SECCIÓN DE PLANES (PRICING FREEMIUM)
+       ═══════════════════════════════════════════════════ */
+    .pricing-section {
+      padding:80px 24px;
+      max-width:960px; margin:0 auto;
+      position:relative; z-index:1;
+    }
+
+    .section-eyebrow {
+      display:flex; align-items:center; justify-content:center; gap:8px;
+      font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em;
+      color:var(--ink-3); margin-bottom:1rem;
+    }
+    .section-eyebrow::before, .section-eyebrow::after { content:''; flex:1; max-width:80px; height:1px; background:var(--border-2); }
+
+    .section-title {
+      font-family:var(--font-display);
+      font-size:clamp(2.2rem, 5vw, 3.5rem);
+      text-align:center; letter-spacing:-0.02em;
+      line-height:1.05; margin-bottom:0.75rem;
+    }
+    .section-sub { text-align:center; color:var(--ink-3); font-size:1rem; margin-bottom:3rem; }
+
+    .pricing-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; }
+
+    .plan-card {
+      background:white; border-radius:var(--r-xl);
+      border:1px solid var(--border-2);
+      padding:2rem; position:relative; overflow:hidden;
+      transition:all 0.25s var(--transition);
+      box-shadow:var(--shadow-sm);
+    }
+    .plan-card:hover { box-shadow:var(--shadow-lg); transform:translateY(-3px); }
+    .plan-card.featured {
+      background:var(--ink); color:white; border-color:transparent;
+      box-shadow:var(--shadow-xl);
+    }
+    .plan-card.featured:hover { transform:translateY(-5px); }
+    .plan-badge { position:absolute; top:1.2rem; right:1.2rem; background:var(--green); color:white; padding:0.25rem 0.7rem; border-radius:99px; font-size:0.65rem; font-weight:800; letter-spacing:0.04em; }
+    .plan-name { font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-3); margin-bottom:0.5rem; }
+    .plan-card.featured .plan-name { color:rgba(255,255,255,0.5); }
+    .plan-price { font-size:2.8rem; font-weight:800; letter-spacing:-0.05em; line-height:1; margin-bottom:0.3rem; }
+    .plan-period { font-size:0.78rem; color:var(--ink-3); margin-bottom:1.5rem; }
+    .plan-card.featured .plan-period { color:rgba(255,255,255,0.45); }
+    .plan-features { list-style:none; margin-bottom:1.8rem; display:flex; flex-direction:column; gap:0.6rem; }
+    .plan-features li { font-size:0.85rem; display:flex; align-items:center; gap:10px; color:var(--ink-2); }
+    .plan-card.featured .plan-features li { color:rgba(255,255,255,0.8); }
+    .plan-features li::before { content:'✓'; color:var(--green); font-weight:700; font-size:0.75rem; flex-shrink:0; }
+    .plan-features li.dim::before { color:var(--ink-4); }
+    .plan-features li.dim { opacity:0.5; }
+    .plan-btn {
+      width:100%; padding:0.85rem; border-radius:var(--r-full);
+      font-family:var(--font-body); font-weight:700; font-size:0.88rem;
+      cursor:pointer; transition:all 0.2s; border:none;
+      background:var(--surface); color:var(--ink);
+    }
+    .plan-btn:hover { background:var(--surface-2); }
+    .plan-card.featured .plan-btn { background:white; color:var(--ink); }
+    .plan-card.featured .plan-btn:hover { background:rgba(255,255,255,0.9); }
+
+    /* ═══════════════════════════════════════════════════
+       FEATURES GRID
+       ═══════════════════════════════════════════════════ */
+    .features-section { padding:80px 24px; max-width:960px; margin:0 auto; position:relative; z-index:1; }
+
+    .features-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; }
+
+    .feature-card {
+      background:white; border-radius:var(--r-lg);
+      border:1px solid var(--border); padding:1.5rem;
+      transition:all 0.2s; box-shadow:var(--shadow-sm);
+      position:relative; overflow:hidden;
+    }
+    .feature-card:hover { box-shadow:var(--shadow-md); transform:translateY(-2px); border-color:var(--border-2); }
+    .feature-card.span2 { grid-column:span 2; }
+    .feature-card.dark { background:var(--ink); color:white; border-color:transparent; }
+
+    .feature-icon {
+      width:40px; height:40px; border-radius:var(--r-sm);
+      display:flex; align-items:center; justify-content:center;
+      margin-bottom:1rem; font-size:1rem;
+    }
+    .fi-blue { background:rgba(26,111,255,0.1); color:var(--accent); }
+    .fi-green { background:rgba(0,192,96,0.1); color:var(--green); }
+    .fi-purple { background:rgba(108,63,255,0.1); color:var(--ai); }
+    .fi-orange { background:rgba(255,107,43,0.1); color:var(--orange); }
+    .fi-white { background:rgba(255,255,255,0.1); color:white; }
+
+    .feature-title { font-size:1rem; font-weight:700; margin-bottom:0.4rem; letter-spacing:-0.02em; }
+    .feature-desc { font-size:0.82rem; color:var(--ink-3); line-height:1.55; }
+    .feature-card.dark .feature-desc { color:rgba(255,255,255,0.5); }
+    .feature-tag { display:inline-block; background:rgba(26,111,255,0.1); color:var(--accent); padding:0.2rem 0.6rem; border-radius:99px; font-size:0.65rem; font-weight:700; margin-top:0.75rem; }
+    .feature-tag.green { background:rgba(0,192,96,0.1); color:var(--green); }
+    .feature-tag.purple { background:rgba(108,63,255,0.1); color:var(--ai); }
+
+  
   </style>
 </head>
 <body>
@@ -597,6 +761,72 @@
     <div id="resultArea"></div>
   </div>
 
+
+<!-- ════════════════════════════════════════════
+     FEATURES
+════════════════════════════════════════════ -->
+<section class="features-section" id="features">
+  <div class="section-eyebrow">Funcionalidades</div>
+  <h2 class="section-title">Todo lo que necesitas<br>para <em style="font-style:italic;color:var(--accent)">cerrar más.</em></h2>
+  <p class="section-sub">Sin PDFs. Sin Notion. Sin Canva. Sin Word. Solo resultados.</p>
+
+  <div class="features-grid">
+    <!-- Analytics en tiempo real — KILLER FEATURE -->
+    <div class="feature-card dark span2">
+      <div class="feature-icon fi-white"><i class="fas fa-chart-bar"></i></div>
+      <div class="feature-title" style="color:white">Sabes exactamente cuándo, dónde y cuánto leen tu propuesta</div>
+      <div class="feature-desc">Analytics en tiempo real: aperturas, tiempo en pantalla, localización del receptor. Nunca más envíes propuestas al vacío. Llama en el momento exacto.</div>
+      <span class="feature-tag">★ Killer Feature</span>
+      <div class="mini-analytics">
+        <div class="mini-stat"><div class="num">47</div><div class="lbl">Vistas</div></div>
+        <div class="mini-stat"><div class="num">8m</div><div class="lbl">Lectura media</div></div>
+        <div class="mini-stat"><div class="num">3</div><div class="lbl">Abierta hoy</div></div>
+        <div class="mini-stat"><div class="num">68%</div><div class="lbl">Scroll hasta precio</div></div>
+      </div>
+    </div>
+
+    <!-- IA -->
+    <div class="feature-card">
+      <div class="feature-icon fi-purple"><i class="fas fa-wand-magic-sparkles"></i></div>
+      <div class="feature-title">IA que escribe, mejora y sugiere</div>
+      <div class="feature-desc">Genera títulos, descripciones persuasivas, sugiere precios y tono. Tu propuesta, optimizada en segundos.</div>
+      <span class="feature-tag purple">IA integrada</span>
+    </div>
+
+    <!-- Firma digital -->
+    <div class="feature-card">
+      <div class="feature-icon fi-green"><i class="fas fa-file-signature"></i></div>
+      <div class="feature-title">Firma digital del receptor</div>
+      <div class="feature-desc">El cliente acepta con un clic directamente en la SmallWeb. Sin emails de vuelta, sin papeleos. Cierre inmediato.</div>
+      <span class="feature-tag green">Cierre directo</span>
+    </div>
+
+    <!-- Templates -->
+    <div class="feature-card">
+      <div class="feature-icon fi-blue"><i class="fas fa-layer-group"></i></div>
+      <div class="feature-title">20+ plantillas por sector</div>
+      <div class="feature-desc">Consultoría, marketing, inmobiliaria, coaching, tech... Empieza con una plantilla probada y personalízala en segundos.</div>
+    </div>
+
+    <!-- Sin registro -->
+    <div class="feature-card">
+      <div class="feature-icon fi-orange"><i class="fas fa-bolt"></i></div>
+      <div class="feature-title">2 minutos. Sin registro.</div>
+      <div class="feature-desc">La velocidad es tu ventaja competitiva. Mientras tu competidor busca el template de Word, tú ya has enviado la propuesta.</div>
+    </div>
+
+    <!-- Viral badge -->
+    <div class="feature-card">
+      <div class="feature-icon fi-blue"><i class="fas fa-share-nodes"></i></div>
+      <div class="feature-title">Viralidad nativa integrada</div>
+      <div class="feature-desc">"Hecha con Vinclechat" en el footer actúa como publicidad gratuita. Cada propuesta enviada es un nuevo cliente potencial.</div>
+      <span class="feature-tag">Growth loop</span>
+    </div>
+  </div>
+</section>
+
+
+  
   <!-- TESTIMONIAL -->
   <div class="testimonial-section">
     <div class="testimonial-card">
