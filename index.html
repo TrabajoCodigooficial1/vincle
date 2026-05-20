@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -98,46 +97,103 @@
 
     /* ─── HERO (landing) ──────────────────────────── */
     #landingPage { }
-    .navbar { position:fixed; top:16px; left:50%; transform:translateX(-50%); z-index:200; width:calc(100% - 48px); max-width:960px; background:rgba(255,255,255,0.85); backdrop-filter:blur(24px) saturate(1.8); border:1px solid rgba(255,255,255,0.6); border-radius:100px; box-shadow:0 8px 32px rgba(0,0,0,0.08); padding:0.6rem 1.2rem; display:flex; align-items:center; justify-content:space-between; animation:slideDown 0.7s cubic-bezier(0.34,1.56,0.64,1) both; }
-    @keyframes slideDown { from{opacity:0;transform:translateX(-50%) translateY(-20px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
-    .logo { display:flex; align-items:center; gap:10px; font-weight:700; font-size:1.1rem; color:var(--ink); letter-spacing:-0.03em; text-decoration:none; cursor:pointer; }
-    .logo-icon { width:34px; height:34px; background:var(--ink); border-radius:10px; display:flex; align-items:center; justify-content:center; }
-    .logo-icon svg { width:20px; height:20px; }
-    .nav-pill { background:var(--ink); color:white; padding:0.5rem 1.2rem; border-radius:100px; font-size:0.82rem; font-weight:600; border:none; cursor:pointer; transition:all 0.2s ease; letter-spacing:-0.01em; font-family:var(--font-body); }
-    .nav-pill:hover { background:var(--accent); }
-    .nav-actions { display:flex; align-items:center; gap:8px; }
-    .nav-link { color:var(--ink-3); font-size:0.82rem; font-weight:500; cursor:pointer; padding:0.4rem 0.8rem; border-radius:100px; border:none; background:transparent; transition:all 0.2s; font-family:var(--font-body); }
-    .nav-link:hover { color:var(--ink); background:rgba(0,0,0,0.04); }
-    .hero { padding:160px 24px 80px; text-align:center; position:relative; overflow:hidden; }
-    .hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse 70% 50% at 20% 0%, rgba(0,113,227,0.06) 0%, transparent 70%), radial-gradient(ellipse 50% 40% at 80% 20%, rgba(52,199,89,0.05) 0%, transparent 70%); pointer-events:none; }
-    .orb { position:absolute; border-radius:50%; filter:blur(60px); animation:float 8s ease-in-out infinite; pointer-events:none; }
-    .orb-1 { width:300px; height:300px; background:rgba(0,113,227,0.07); top:-60px; left:-80px; }
-    .orb-2 { width:200px; height:200px; background:rgba(52,199,89,0.06); top:40px; right:-60px; animation-delay:-3s; }
-    .orb-3 { width:150px; height:150px; background:rgba(255,149,0,0.05); bottom:-20px; left:30%; animation-delay:-5s; }
-    @keyframes float { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-20px) scale(1.05)} }
-    .hero-eyebrow { display:inline-flex; align-items:center; gap:8px; background:rgba(0,113,227,0.08); border:1px solid rgba(0,113,227,0.15); color:var(--accent); padding:0.4rem 1rem; border-radius:100px; font-size:0.78rem; font-weight:600; margin-bottom:1.5rem; letter-spacing:0.02em; text-transform:uppercase; animation:fadeUp 0.8s 0.2s both; }
-    .hero-title { font-family:var(--font-display); font-size:clamp(3rem, 8vw, 6rem); line-height:1.0; letter-spacing:-0.02em; margin-bottom:1.2rem; animation:fadeUp 0.8s 0.35s both; }
-    .hero-title em { font-style:italic; background:linear-gradient(135deg, #0071e3 0%, #34c759 100%); background-clip:text; -webkit-background-clip:text; color:transparent; }
-    .hero-sub { font-size:1.1rem; color:var(--ink-3); max-width:480px; margin:0 auto 2.5rem; line-height:1.6; animation:fadeUp 0.8s 0.5s both; }
-    .hero-cta-group { display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap; animation:fadeUp 0.8s 0.65s both; }
-    .hero-cta { display:inline-flex; align-items:center; gap:10px; background:var(--ink); color:white; padding:1rem 2rem; border-radius:100px; font-weight:600; font-size:0.95rem; border:none; cursor:pointer; transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1); letter-spacing:-0.01em; font-family:var(--font-body); }
-    .hero-cta:hover { transform:scale(1.04); background:var(--accent); box-shadow:0 12px 32px rgba(0,113,227,0.3); }
-    .hero-cta-secondary { display:inline-flex; align-items:center; gap:8px; color:var(--ink-2); font-size:0.88rem; font-weight:500; cursor:pointer; padding:0.8rem 1.4rem; border-radius:100px; border:1.5px solid var(--border); background:transparent; transition:all 0.2s; font-family:var(--font-body); }
-    .hero-cta-secondary:hover { border-color:var(--ink-3); }
-    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-    .hero-stats { display:flex; align-items:center; justify-content:center; gap:2.5rem; margin-top:3rem; animation:fadeUp 0.8s 0.8s both; }
-    .stat { text-align:center; }
-    .stat-number { font-size:1.6rem; font-weight:700; letter-spacing:-0.04em; }
-    .stat-label { font-size:0.72rem; color:var(--ink-3); text-transform:uppercase; letter-spacing:0.04em; margin-top:2px; }
-    .stat-sep { width:1px; height:40px; background:var(--border); }
+
+    /* Navbar — slim, refined, Apple‑style pill */
+    .navbar {
+      position: fixed; top: 12px; left: 50%; transform: translateX(-50%);
+      z-index: 200; width: auto; max-width: 540px;
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(28px) saturate(2);
+      -webkit-backdrop-filter: blur(28px) saturate(2);
+      border: 1px solid rgba(255,255,255,0.75);
+      border-radius: 100px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07), 0 0 0 0.5px rgba(0,0,0,0.04);
+      padding: 5px 6px 5px 14px;
+      display: flex; align-items: center; gap: 4px;
+      animation: slideDown 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    @keyframes slideDown { from{opacity:0;transform:translateX(-50%) translateY(-14px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
+    .logo {
+      display:flex; align-items:center; gap:8px;
+      font-weight:700; font-size:0.92rem; color:var(--ink);
+      letter-spacing:-0.03em; text-decoration:none; cursor:pointer;
+      padding-right: 4px;
+    }
+    .logo-icon { width:26px; height:26px; background:var(--ink); border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .logo-icon svg { width:15px; height:15px; }
+    .nav-divider { width:1px; height:18px; background:rgba(0,0,0,0.1); margin:0 2px; flex-shrink:0; }
+    .nav-pill {
+      background: var(--ink); color: white;
+      padding: 0.42rem 1rem; border-radius: 100px;
+      font-size: 0.78rem; font-weight: 600; border: none; cursor: pointer;
+      transition: all 0.2s ease; letter-spacing: -0.01em;
+      font-family: var(--font-body); white-space: nowrap;
+    }
+    .nav-pill:hover { background: var(--accent); }
+    .nav-actions { display:flex; align-items:center; gap:2px; }
+    .nav-link {
+      color: var(--ink-2); font-size: 0.78rem; font-weight: 500; cursor: pointer;
+      padding: 0.38rem 0.7rem; border-radius: 100px; border: none;
+      background: transparent; transition: all 0.2s; font-family: var(--font-body);
+      white-space: nowrap;
+    }
+    .nav-link:hover { color: var(--ink); background: rgba(0,0,0,0.05); }
+
+    /* Hero */
+    .hero { padding: 130px 24px 72px; text-align: center; position: relative; overflow: hidden; }
+    .hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse 70% 50% at 20% 0%, rgba(0,113,227,0.05) 0%, transparent 70%), radial-gradient(ellipse 50% 40% at 80% 20%, rgba(52,199,89,0.04) 0%, transparent 70%); pointer-events:none; }
+    .orb { position:absolute; border-radius:50%; filter:blur(70px); animation:float 9s ease-in-out infinite; pointer-events:none; }
+    .orb-1 { width:320px; height:320px; background:rgba(0,113,227,0.06); top:-80px; left:-100px; }
+    .orb-2 { width:220px; height:220px; background:rgba(52,199,89,0.05); top:20px; right:-80px; animation-delay:-3s; }
+    .orb-3 { width:180px; height:180px; background:rgba(255,149,0,0.04); bottom:-30px; left:35%; animation-delay:-5s; }
+    @keyframes float { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-18px) scale(1.04)} }
+    .hero-eyebrow {
+      display:inline-flex; align-items:center; gap:7px;
+      background:rgba(0,0,0,0.04); border:1px solid rgba(0,0,0,0.08);
+      color:var(--ink-2); padding:0.32rem 0.9rem; border-radius:100px;
+      font-size:0.72rem; font-weight:600; margin-bottom:1.4rem;
+      letter-spacing:0.01em; text-transform:uppercase;
+      animation:fadeUp 0.7s 0.15s both;
+    }
+    .hero-eyebrow .eyebrow-dot { width:6px; height:6px; background:var(--accent-2); border-radius:50%; animation: pulse-g 2s infinite; }
+    @keyframes pulse-g { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.5)} }
+    .hero-title { font-family:var(--font-display); font-size:clamp(2.8rem, 7.5vw, 5.8rem); line-height:1.0; letter-spacing:-0.025em; margin-bottom:1.2rem; animation:fadeUp 0.7s 0.28s both; }
+    .hero-title em { font-style:italic; background:linear-gradient(135deg, #0071e3 20%, #30d158 100%); background-clip:text; -webkit-background-clip:text; color:transparent; }
+    .hero-sub { font-size:1.05rem; color:var(--ink-3); max-width:420px; margin:0 auto 2.2rem; line-height:1.65; animation:fadeUp 0.7s 0.42s both; font-weight:400; }
+    .hero-cta-group { display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; animation:fadeUp 0.7s 0.56s both; }
+    .hero-cta {
+      display:inline-flex; align-items:center; gap:9px;
+      background:var(--ink); color:white; padding:0.85rem 1.8rem;
+      border-radius:100px; font-weight:600; font-size:0.9rem;
+      border:none; cursor:pointer;
+      transition:all 0.22s cubic-bezier(0.34,1.56,0.64,1);
+      letter-spacing:-0.01em; font-family:var(--font-body);
+    }
+    .hero-cta:hover { transform:scale(1.035); background:var(--accent); box-shadow:0 10px 28px rgba(0,113,227,0.28); }
+    .hero-cta-secondary {
+      display:inline-flex; align-items:center; gap:7px; color:var(--ink-2);
+      font-size:0.85rem; font-weight:500; cursor:pointer;
+      padding:0.75rem 1.3rem; border-radius:100px;
+      border:1.5px solid rgba(0,0,0,0.1); background:rgba(255,255,255,0.7);
+      transition:all 0.2s; font-family:var(--font-body);
+      backdrop-filter:blur(8px);
+    }
+    .hero-cta-secondary:hover { border-color:rgba(0,0,0,0.2); background:white; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+    .hero-stats { display:flex; align-items:center; justify-content:center; gap:0; margin-top:3rem; animation:fadeUp 0.7s 0.7s both; background:white; border:1px solid var(--border); border-radius:20px; padding:1rem 2rem; width:fit-content; margin-left:auto; margin-right:auto; box-shadow:var(--shadow); }
+    .stat { text-align:center; padding:0 1.8rem; }
+    .stat-number { font-size:1.5rem; font-weight:800; letter-spacing:-0.05em; color:var(--ink); }
+    .stat-label { font-size:0.65rem; color:var(--ink-3); text-transform:uppercase; letter-spacing:0.06em; margin-top:3px; font-weight:500; }
+    .stat-sep { width:1px; height:32px; background:var(--border); }
 
     /* ─── FEATURE CARDS (landing) ─────────────────── */
-    .features-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; max-width:900px; margin:4rem auto 0; animation:fadeUp 0.8s 1s both; }
-    .feat-card { background:white; border:1px solid var(--border); border-radius:20px; padding:1.5rem; text-align:center; transition:all 0.25s; }
-    .feat-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-lg); }
-    .feat-icon { width:48px; height:48px; border-radius:14px; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; font-size:1.2rem; }
-    .feat-title { font-size:0.9rem; font-weight:700; margin-bottom:0.4rem; }
-    .feat-desc { font-size:0.78rem; color:var(--ink-3); line-height:1.5; }
+    .features-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; max-width:860px; margin:3rem auto 0; animation:fadeUp 0.7s 0.9s both; }
+    .feat-card { background:white; border:1px solid var(--border); border-radius:20px; padding:1.4rem; text-align:left; transition:all 0.22s; position:relative; overflow:hidden; }
+    .feat-card::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg, transparent 60%, rgba(0,0,0,0.012)); pointer-events:none; }
+    .feat-card:hover { transform:translateY(-3px); box-shadow:var(--shadow-lg); border-color:rgba(0,0,0,0.1); }
+    .feat-icon { width:42px; height:42px; border-radius:12px; display:flex; align-items:center; justify-content:center; margin-bottom:0.9rem; font-size:1.1rem; }
+    .feat-title { font-size:0.88rem; font-weight:700; margin-bottom:0.35rem; letter-spacing:-0.01em; }
+    .feat-desc { font-size:0.75rem; color:var(--ink-3); line-height:1.55; }
 
     /* ═══════════════════════════════════════════════
        DASHBOARD SECTIONS
@@ -468,17 +524,75 @@
       .analytics-layout { grid-template-columns:1fr; }
       .creator-layout { grid-template-columns:1fr; }
       .settings-grid { grid-template-columns:1fr; }
-      .features-grid { grid-template-columns:1fr; }
+      .features-grid { grid-template-columns:1fr 1fr; gap:0.75rem; }
       .cursor, .cursor-ring { display:none; }
+      .creator-preview-wrap { position:static; }
     }
+
+    /* Mobile bottom nav */
+    .mobile-bottom-nav {
+      display:none; position:fixed; bottom:0; left:0; right:0; z-index:400;
+      background:rgba(255,255,255,0.94);
+      backdrop-filter:blur(28px) saturate(1.8);
+      -webkit-backdrop-filter:blur(28px) saturate(1.8);
+      border-top:1px solid rgba(0,0,0,0.07);
+      padding:0.3rem 0 calc(0.3rem + env(safe-area-inset-bottom));
+    }
+    .mobile-bottom-nav.app-active { display:block; }
+    .mobile-nav-items { display:flex; align-items:stretch; justify-content:space-around; }
+    .mobile-nav-item {
+      display:flex; flex-direction:column; align-items:center; gap:2px;
+      padding:0.4rem 0.5rem; border-radius:12px; border:none;
+      background:transparent; cursor:pointer; font-family:var(--font-body);
+      flex:1; transition:all 0.18s; color:var(--ink-3); position:relative; min-width:0;
+    }
+    .mobile-nav-item.active { color:var(--accent); }
+    .mobile-nav-item:active { transform:scale(0.88); }
+    .mobile-nav-item i { font-size:1.05rem; }
+    .mobile-nav-item span { font-size:0.58rem; font-weight:600; white-space:nowrap; }
+    .mobile-nav-badge {
+      position:absolute; top:3px; right:calc(50% - 14px);
+      background:var(--danger); color:white; font-size:0.48rem; font-weight:800;
+      width:13px; height:13px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center; border:2px solid white;
+    }
+    /* Sidebar overlay */
+    .sidebar-overlay {
+      display:none; position:fixed; inset:0; z-index:299;
+      background:rgba(0,0,0,0.4); backdrop-filter:blur(2px);
+    }
+    .sidebar-overlay.visible { display:block; }
+
     @media(max-width:600px) {
-      .kpi-grid { grid-template-columns:1fr 1fr; }
-      .page-content { padding:1rem; }
-      .topbar { padding:0 1rem; }
-      .hero-stats { gap:1.2rem; }
-      .hero-cta-group { flex-direction:column; align-items:center; }
-      table { font-size:0.75rem; }
+      .kpi-grid { grid-template-columns:1fr 1fr; gap:0.65rem; }
+      .kpi-value { font-size:1.55rem; }
+      .kpi-icon-bg { display:none; }
+      .page-content { padding:1rem 0.85rem calc(80px + env(safe-area-inset-bottom)); }
+      .topbar { padding:0 0.9rem; height:52px; }
+      .topbar-title { font-size:0.88rem; }
+      table { font-size:0.74rem; }
       thead th:nth-child(n+4), tbody td:nth-child(n+4) { display:none; }
+      .hero { padding:96px 16px 52px; }
+      .hero-stats { padding:0.75rem 1rem; flex-wrap:wrap; gap:0; }
+      .stat { padding:0 0.9rem; }
+      .stat-number { font-size:1.2rem; }
+      .hero-cta-group { flex-direction:column; align-items:stretch; padding:0 0.5rem; }
+      .hero-cta, .hero-cta-secondary { justify-content:center; }
+      .features-grid { grid-template-columns:1fr; }
+      .creator-preview-wrap { display:none; }
+      .form-card { padding:1.1rem; border-radius:18px; }
+      .colors-grid { grid-template-columns:1fr 1fr; }
+      .templates-grid { grid-template-columns:repeat(3,1fr); }
+      .navbar { top:8px; padding:4px 5px 4px 11px; }
+      .section-header { flex-direction:column; align-items:flex-start; gap:0.5rem; }
+      .analytics-layout { gap:0.8rem; }
+      .chart-card { padding:1rem; }
+      .share-actions { gap:5px; }
+      .stats-mini-grid { grid-template-columns:repeat(3,1fr); gap:0.6rem; }
+    }
+    @media(max-width:380px) {
+      .templates-grid { grid-template-columns:repeat(2,1fr); }
+      .stat-sep:last-of-type { display:none; }
     }
   </style>
 </head>
@@ -486,6 +600,29 @@
 
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- Mobile bottom nav (app only) -->
+<nav class="mobile-bottom-nav" id="mobileBottomNav">
+  <div class="mobile-nav-items">
+    <button class="mobile-nav-item active" id="mnav-dashboard" onclick="showPage('dashboard');setMobileNav('dashboard')">
+      <i class="fas fa-th-large"></i><span>Inicio</span>
+    </button>
+    <button class="mobile-nav-item" id="mnav-proposals" onclick="showPage('proposals');setMobileNav('proposals')">
+      <i class="fas fa-file-alt"></i><span>Propuestas</span>
+      <div class="mobile-nav-badge" id="mobileNotifBadge" style="display:none">!</div>
+    </button>
+    <button class="mobile-nav-item" id="mnav-creator" onclick="showPage('creator');setMobileNav('creator')" style="color:var(--accent)">
+      <i class="fas fa-plus-circle"></i><span>Nueva</span>
+    </button>
+    <button class="mobile-nav-item" id="mnav-analytics" onclick="showPage('analytics');setMobileNav('analytics')">
+      <i class="fas fa-chart-line"></i><span>Stats</span>
+    </button>
+    <button class="mobile-nav-item" id="mnav-settings" onclick="showPage('settings');setMobileNav('settings')">
+      <i class="fas fa-gear"></i><span>Ajustes</span>
+    </button>
+  </div>
+</nav>
 
 <!-- ═══════════════════════ LANDING ═══════════════════════ -->
 <div id="landingPage">
@@ -496,9 +633,10 @@
       </div>
       Vinclechat
     </div>
+    <div class="nav-divider"></div>
     <div class="nav-actions">
-      <button class="nav-link" onclick="openApp()"><i class="fas fa-th-large" style="font-size:0.75rem;margin-right:4px"></i> Panel</button>
-      <button class="nav-pill" onclick="openApp('creator')">Crear SmallWeb ✦</button>
+      <button class="nav-link" onclick="openApp()">Panel</button>
+      <button class="nav-pill" onclick="openApp('creator')">Crear ✦</button>
     </div>
   </nav>
 
@@ -507,7 +645,7 @@
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
     <div class="orb orb-3"></div>
-    <div class="hero-eyebrow"><i class="fas fa-bolt"></i> La propuesta que cierra</div>
+    <div class="hero-eyebrow"><div class="eyebrow-dot"></div> Propuestas que cierran</div>
     <h1 class="hero-title">Lo sencillo,<br><em>vende.</em></h1>
     <p class="hero-sub">SmallWebs profesionales en segundos. Con analíticas, IA y seguimiento en tiempo real.</p>
     <div class="hero-cta-group">
@@ -616,7 +754,7 @@
   <div class="main-content">
     <div class="topbar">
       <div style="display:flex;align-items:center;gap:12px">
-        <button onclick="document.getElementById('sidebar').classList.toggle('open')" style="background:none;border:none;cursor:pointer;font-size:1rem;color:var(--ink-2);display:none" id="menuBtn"><i class="fas fa-bars"></i></button>
+        <button onclick="document.getElementById('sidebar').classList.toggle('open');document.getElementById('sidebarOverlay').classList.toggle('visible')" style="background:none;border:none;cursor:pointer;font-size:1rem;color:var(--ink-2);display:none;width:32px;height:32px;align-items:center;justify-content:center;border-radius:8px;transition:background 0.15s" id="menuBtn"><i class="fas fa-bars"></i></button>
         <div>
           <div class="topbar-title" id="topbarTitle">Resumen</div>
         </div>
@@ -1080,10 +1218,24 @@ document.querySelectorAll('.modal-overlay').forEach(o => o.addEventListener('cli
 function openApp(page = 'dashboard') {
   document.getElementById('landingPage').style.display = 'none';
   document.getElementById('appShell').classList.add('visible');
+  if(window.innerWidth <= 900) {
+    document.getElementById('mobileBottomNav').classList.add('app-active');
+  }
   showPage(page);
   loadAllProposals();
   loadSettings();
   updateNotifBadge();
+}
+
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('visible');
+}
+
+function setMobileNav(page) {
+  document.querySelectorAll('.mobile-nav-item').forEach(b => b.classList.remove('active'));
+  const el = document.getElementById('mnav-'+page);
+  if(el) el.classList.add('active');
 }
 
 const PAGE_TITLES = { dashboard:'Resumen', proposals:'Mis propuestas', creator:'Nueva SmallWeb', analytics:'Analíticas', notifications:'Notificaciones', settings:'Ajustes' };
@@ -1095,30 +1247,43 @@ function showPage(page) {
   const nav = document.getElementById('nav-'+page);
   if(nav) nav.classList.add('active');
   document.getElementById('topbarTitle').textContent = PAGE_TITLES[page] || page;
+  setMobileNav(page);
   if(page==='dashboard') refreshDashboard();
   if(page==='analytics') refreshAnalytics();
   if(page==='notifications') renderNotifications();
   if(page==='creator' && !currentEditingId) resetCreatorForm();
+  // Close sidebar on mobile after navigation
+  if(window.innerWidth <= 900) closeSidebar();
 }
 
 // ── PROPOSALS CRUD ────────────────────────────────────────
 async function loadAllProposals() {
+  // Only show proposals saved locally in this browser — never pull all Firebase data
   try {
     const saved = JSON.parse(localStorage.getItem('vc_proposals') || '[]');
     allProposals = saved;
-    document.getElementById('propBadge').textContent = saved.length;
+    document.getElementById('propBadge').textContent = saved.length || '—';
     renderProposalsTable();
     refreshDashboard();
+    refreshAnalytics();
   } catch(e) {}
-  // Also try fetching from firebase
+
+  // Silently refresh view counts for our own proposals from Firebase
   try {
-    const snap = await db.collection('proposals').orderBy('createdAt','desc').limit(50).get();
-    const docs = snap.docs.map(d => ({ id: d.id, ...d.data(), createdAt: d.data().createdAt?.toDate?.() || new Date() }));
-    // Merge with local
-    const localIds = new Set(allProposals.map(p=>p.id));
-    docs.forEach(d => { if(!localIds.has(d.id)) allProposals.push(d); });
-    allProposals.sort((a,b) => new Date(b.createdAt||0) - new Date(a.createdAt||0));
-    document.getElementById('propBadge').textContent = allProposals.length;
+    const localIds = allProposals.map(p => p.id).filter(Boolean);
+    if(!localIds.length) return;
+    const batches = [];
+    for(let i = 0; i < localIds.length; i += 10) batches.push(localIds.slice(i, i+10));
+    for(const batch of batches) {
+      const snap = await db.collection('proposals')
+        .where(firebase.firestore.FieldPath.documentId(), 'in', batch).get();
+      snap.docs.forEach(doc => {
+        const idx = allProposals.findIndex(p => p.id === doc.id);
+        if(idx >= 0) allProposals[idx].views = doc.data().views || 0;
+      });
+    }
+    localStorage.setItem('vc_proposals', JSON.stringify(allProposals));
+    document.getElementById('propBadge').textContent = allProposals.length || '—';
     renderProposalsTable();
     refreshDashboard();
     refreshAnalytics();
@@ -1569,7 +1734,7 @@ document.getElementById('proposalForm').addEventListener('submit', async functio
     if(idx>=0) local[idx]=entry; else local.unshift(entry);
     localStorage.setItem('vc_proposals', JSON.stringify(local.slice(0,50)));
     allProposals = local;
-    document.getElementById('propBadge').textContent = local.length;
+    document.getElementById('propBadge').textContent = local.length || '—';
 
     document.getElementById('resultArea').innerHTML = `
       <div class="result-card">
@@ -1847,27 +2012,19 @@ window.addEventListener('load', async () => {
   const idParam = params.get('id');
   if(idParam) { await renderProposalPage(); return; }
 
-  // Responsive sidebar
-  if(window.innerWidth <= 900) {
-    document.getElementById('menuBtn').style.display='flex';
+  function syncMobileUI() {
+    const isMobile = window.innerWidth <= 900;
+    const menuBtn = document.getElementById('menuBtn');
+    if(menuBtn) menuBtn.style.display = isMobile ? 'flex' : 'none';
+    // show bottom nav only if app is open
+    const appVisible = document.getElementById('appShell').classList.contains('visible');
+    const bottomNav = document.getElementById('mobileBottomNav');
+    if(isMobile && appVisible) bottomNav.classList.add('app-active');
+    else if(!isMobile) bottomNav.classList.remove('app-active');
   }
-
-  // Init settings from localStorage
+  syncMobileUI();
+  window.addEventListener('resize', syncMobileUI);
   loadSettings();
-});
-
-// ── Mobile responsiveness ─────────────────────────────────
-window.addEventListener('resize', () => {
-  const btn = document.getElementById('menuBtn');
-  if(btn) btn.style.display = window.innerWidth <= 900 ? 'flex' : 'none';
-});
-
-// Close sidebar on outside click (mobile)
-document.addEventListener('click', e => {
-  const sidebar = document.getElementById('sidebar');
-  if(window.innerWidth<=900 && sidebar.classList.contains('open') && !sidebar.contains(e.target) && !document.getElementById('menuBtn').contains(e.target)) {
-    sidebar.classList.remove('open');
-  }
 });
 </script>
 </body>
