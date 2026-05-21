@@ -578,60 +578,62 @@
       .dark-feat-grid { grid-template-columns:1fr; }
       .dark-feat-card.span-2 { grid-column:span 1; }
     }
+    /* ══════════════════════════════════════════
+       MANIFESTO + PROOF WALL + CTA
+    ══════════════════════════════════════════ */
 
-        /* ══════════════════════════════════════════════
-       TEAM CAROUSEL — Forbes / Monocle editorial
-    ══════════════════════════════════════════════ */
-    .team-section { max-width:900px; margin:5rem auto 0; padding:0 24px; animation:fadeUp 0.8s 1.0s both; }
-    .team-eyebrow { display:flex; align-items:center; gap:14px; margin-bottom:2rem; }
-    .team-eyebrow-rule { flex:1; height:1px; background:var(--border); }
-    .team-eyebrow-label { font-size:0.6rem; font-weight:800; text-transform:uppercase; letter-spacing:0.18em; color:var(--ink-3); white-space:nowrap; }
-    .team-carousel { position:relative; }
-    .team-track-wrap { overflow:hidden; border-radius:24px; }
-    .team-track { display:flex; gap:0; transition:transform 0.55s cubic-bezier(0.77,0,0.175,1); will-change:transform; }
-    .team-card { min-width:100%; width:100%; display:grid; grid-template-columns:280px 1fr; background:white; border:1px solid var(--border); border-radius:24px; overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,0.07),0 1px 4px rgba(0,0,0,0.04); }
-    .tc-portrait { position:relative; overflow:hidden; background:#0d0d12; min-height:380px; }
-    .tc-portrait img { width:100%; height:100%; object-fit:cover; object-position:center top; display:block; filter:contrast(1.03) saturate(0.95); transition:transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94); }
-    .team-card:hover .tc-portrait img { transform:scale(1.03); }
-    .tc-portrait-fallback { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:4rem; font-weight:900; color:rgba(255,255,255,0.1); font-family:var(--font-display); letter-spacing:-0.05em; }
-    .tc-portrait::after { content:''; position:absolute; inset:0; background:linear-gradient(to top,rgba(5,5,8,0.58) 0%,transparent 48%),linear-gradient(to right,rgba(5,5,8,0.22) 0%,transparent 42%); pointer-events:none; }
-    .tc-chip { position:absolute; bottom:1.1rem; left:1.1rem; z-index:3; background:white; color:var(--ink); font-size:0.55rem; font-weight:900; text-transform:uppercase; letter-spacing:0.14em; padding:4px 9px; border-radius:5px; }
-    .tc-body { padding:2.4rem 2.6rem; display:flex; flex-direction:column; justify-content:space-between; min-height:380px; }
-    .tc-issue-line { display:flex; align-items:center; gap:8px; margin-bottom:1.6rem; }
-    .tc-pub-name { font-family:var(--font-display); font-size:0.92rem; font-style:italic; color:var(--ink); letter-spacing:-0.01em; }
-    .tc-pub-sep { width:1px; height:12px; background:var(--border); }
-    .tc-pub-date { font-size:0.6rem; color:var(--ink-3); font-weight:600; text-transform:uppercase; letter-spacing:0.08em; }
-    .tc-pub-num { margin-left:auto; font-size:0.58rem; color:var(--ink-3); font-weight:700; letter-spacing:0.06em; text-transform:uppercase; border:1px solid var(--border); padding:2px 7px; border-radius:4px; }
-    .tc-quote { position:relative; margin-bottom:1.8rem; padding-left:1.1rem; }
-    .tc-quote::before { content:''; position:absolute; left:0; top:0; bottom:0; width:2.5px; border-radius:2px; background:var(--tc-accent,var(--ink)); }
-    .tc-quote-text { font-family:var(--font-display); font-size:clamp(1.12rem,2.2vw,1.48rem); font-style:italic; line-height:1.38; letter-spacing:-0.025em; color:var(--ink); }
-    .tc-name { font-size:1rem; font-weight:800; color:var(--ink); letter-spacing:-0.025em; margin-bottom:2px; }
-    .tc-role { font-size:0.72rem; color:var(--ink-3); font-weight:500; margin-bottom:1rem; }
-    .tc-tags { display:flex; flex-wrap:wrap; gap:6px; }
-    .tc-tag { display:inline-flex; align-items:center; gap:5px; padding:0.26rem 0.75rem; border-radius:100px; font-size:0.62rem; font-weight:700; letter-spacing:0.03em; white-space:nowrap; transition:all 0.2s; }
-    .tc-tag.filled { background:var(--ink); color:white; }
-    .tc-tag.ghost { background:white; color:var(--ink-2); border:1.5px solid rgba(0,0,0,0.1); }
-    .tc-tag i { font-size:0.52rem; }
-    .tc-progress-row { display:flex; align-items:center; gap:10px; margin-top:1.6rem; padding-top:1.4rem; border-top:1px solid var(--border); }
-    .tc-progress-bar { flex:1; height:2px; background:rgba(0,0,0,0.07); border-radius:2px; overflow:hidden; }
-    .tc-progress-fill { height:100%; border-radius:2px; background:var(--tc-accent,var(--ink)); transition:width 0.6s ease; }
-    .tc-progress-label { font-size:0.6rem; color:var(--ink-3); font-weight:700; letter-spacing:0.06em; white-space:nowrap; }
-    .team-controls { display:flex; align-items:center; justify-content:space-between; margin-top:1.4rem; }
-    .team-dots { display:flex; align-items:center; gap:6px; }
-    .team-dot { width:6px; height:6px; border-radius:50%; background:rgba(0,0,0,0.15); border:none; cursor:pointer; padding:0; transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1); }
-    .team-dot.active { width:22px; border-radius:3px; background:var(--ink); }
-    .team-arrows { display:flex; gap:6px; }
-    .team-arrow { width:36px; height:36px; border-radius:50%; background:white; border:1.5px solid var(--border); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:0.72rem; color:var(--ink-2); transition:all 0.2s; font-family:var(--font-body); }
-    .team-arrow:hover { background:var(--ink); color:white; border-color:var(--ink); transform:scale(1.05); }
-    .team-arrow:active { transform:scale(0.94); }
-    .team-counter { font-size:0.72rem; color:var(--ink-3); font-weight:700; letter-spacing:0.04em; }
+    /* Manifesto block */
+    .manifesto-block { background:var(--ink); border-radius:28px; padding:3rem 2.8rem; margin-bottom:1.5rem; position:relative; overflow:hidden; animation:fadeUp 0.7s 1.1s both; }
+    .manifesto-block::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 55% 70% at 100% 0%,rgba(0,113,227,0.15) 0%,transparent 55%),radial-gradient(ellipse 45% 55% at 0% 100%,rgba(124,58,237,0.12) 0%,transparent 55%); pointer-events:none; }
+    .manifesto-grid { position:relative; display:grid; grid-template-columns:1fr 1fr; gap:3.5rem; align-items:start; }
+    .manifesto-overline { display:block; font-size:0.6rem; font-weight:800; text-transform:uppercase; letter-spacing:0.18em; color:rgba(255,255,255,0.35); margin-bottom:0.9rem; }
+    .manifesto-title { font-family:var(--font-display); font-size:clamp(1.8rem,3.5vw,2.6rem); color:white; line-height:1.12; letter-spacing:-0.03em; margin-bottom:1.2rem; }
+    .manifesto-body { font-size:0.82rem; color:rgba(255,255,255,0.45); line-height:1.75; }
+    .manifesto-principles { display:flex; flex-direction:column; gap:0; }
+    .principle-item { display:flex; gap:1.2rem; padding:1.2rem 0; border-bottom:1px solid rgba(255,255,255,0.07); align-items:flex-start; }
+    .principle-item:first-child { padding-top:0; }
+    .principle-item:last-child { border-bottom:none; padding-bottom:0; }
+    .principle-num { font-size:0.6rem; font-weight:900; color:rgba(255,255,255,0.2); letter-spacing:0.1em; padding-top:3px; flex-shrink:0; font-variant-numeric:tabular-nums; }
+    .principle-title { font-size:0.85rem; font-weight:700; color:white; margin-bottom:3px; letter-spacing:-0.01em; }
+    .principle-desc { font-size:0.74rem; color:rgba(255,255,255,0.38); line-height:1.6; }
     @media(max-width:680px) {
-      .team-card { grid-template-columns:1fr; }
-      .tc-portrait { min-height:260px; }
-      .tc-body { padding:1.5rem; min-height:auto; }
-      .tc-quote-text { font-size:1.02rem; }
-      .tc-pub-num { display:none; }
-      .team-section { padding:0 14px; margin-top:3.5rem; }
+      .manifesto-grid { grid-template-columns:1fr; gap:2rem; }
+      .manifesto-block { padding:2rem 1.5rem; border-radius:20px; }
+      .manifesto-title { font-size:1.6rem; }
+    }
+
+    /* Proof wall */
+    .proof-wall { margin-bottom:1.5rem; animation:fadeUp 0.7s 1.2s both; }
+    .proof-wall-label { text-align:center; font-size:0.6rem; font-weight:800; text-transform:uppercase; letter-spacing:0.14em; color:var(--ink-3); margin-bottom:1rem; }
+    .proof-logo-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border-radius:18px; overflow:hidden; border:1px solid var(--border); }
+    .proof-logo-item { background:white; display:flex; align-items:center; gap:10px; padding:1.1rem 1.4rem; transition:background 0.18s; cursor:default; }
+    .proof-logo-item:hover { background:#fafafc; }
+    .proof-logo-icon { width:34px; height:34px; border-radius:9px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:0.85rem; }
+    .proof-logo-name { font-size:0.75rem; font-weight:700; color:var(--ink); letter-spacing:-0.01em; }
+    @media(max-width:580px) {
+      .proof-logo-grid { grid-template-columns:1fr 1fr; }
+      .proof-logo-item { padding:0.9rem 1rem; }
+      .proof-logo-name { font-size:0.7rem; }
+    }
+
+    /* Final CTA block */
+    .landing-cta-final { background:white; border:1px solid var(--border); border-radius:24px; padding:2.4rem 2.8rem; text-align:center; animation:fadeUp 0.7s 1.3s both; box-shadow:0 4px 24px rgba(0,0,0,0.05); }
+    .lcta-inner { display:flex; align-items:center; justify-content:space-between; gap:2rem; flex-wrap:wrap; margin-bottom:1.4rem; }
+    .lcta-text { text-align:left; }
+    .lcta-overline { font-size:0.6rem; font-weight:800; text-transform:uppercase; letter-spacing:0.14em; color:var(--ink-3); margin-bottom:0.5rem; display:block; }
+    .lcta-title { font-family:var(--font-display); font-size:clamp(1.4rem,2.8vw,2rem); color:var(--ink); line-height:1.18; letter-spacing:-0.025em; }
+    .lcta-btn { display:inline-flex; align-items:center; gap:10px; background:var(--ink); color:white; padding:0.95rem 2rem; border-radius:100px; font-weight:700; font-size:0.9rem; border:none; cursor:pointer; transition:all 0.22s cubic-bezier(0.34,1.56,0.64,1); letter-spacing:-0.01em; font-family:var(--font-body); white-space:nowrap; flex-shrink:0; }
+    .lcta-btn:hover { background:var(--accent); transform:scale(1.035); box-shadow:0 12px 32px rgba(0,113,227,0.28); }
+    .lcta-arrow { transition:transform 0.2s; }
+    .lcta-btn:hover .lcta-arrow { transform:translateX(4px); }
+    .lcta-guarantee { display:flex; align-items:center; justify-content:center; gap:1.6rem; flex-wrap:wrap; padding-top:1.2rem; border-top:1px solid var(--border); }
+    .lcta-guarantee span { font-size:0.68rem; color:var(--ink-3); font-weight:600; display:flex; align-items:center; gap:5px; }
+    .lcta-guarantee i { font-size:0.6rem; color:var(--ink-3); }
+    @media(max-width:580px) {
+      .landing-cta-final { padding:1.6rem; border-radius:18px; }
+      .lcta-inner { flex-direction:column; align-items:flex-start; gap:1.2rem; }
+      .lcta-btn { width:100%; justify-content:center; }
+      .lcta-guarantee { gap:1rem; }
     }
 
 
@@ -940,179 +942,90 @@
       </div>
     </div>
 
-    <!-- ═══ TEAM CAROUSEL ═══ -->
-    <div class="team-section">
+    <!-- ═══ BIG TECH MANIFESTO + SOCIAL PROOF ═══ -->
 
-      <div class="team-eyebrow">
-        <div class="team-eyebrow-rule"></div>
-        <div class="team-eyebrow-label">Quiénes lo usan</div>
-        <div class="team-eyebrow-rule"></div>
-      </div>
-      <div class="team-carousel">
-        <div class="team-track-wrap">
-          <div class="team-track" id="teamTrack">
-
-            <!-- ── CARD 1 · Andrés Blanco Ferro ─────────────────── -->
-            <div class="team-card" style="--tc-accent:#0071e3">
-              <div class="tc-portrait">
-                <img src="https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Andr%C3%A9s_Blanco_Ferro%2C_2026.jpg&width=560"
-                     alt="Andrés Blanco Ferro"
-                     onerror="this.style.display='none'">
-                <div class="tc-portrait-fallback">AB</div>
-                <span class="tc-chip">CEO & Fundador</span>
-              </div>
-              <div class="tc-body">
-                <div>
-                  <div class="tc-issue-line">
-                    <span class="tc-pub-name">Vinclechat</span>
-                    <div class="tc-pub-sep"></div>
-                    <span class="tc-pub-date">Perfil · 2025</span>
-                    <span class="tc-pub-num">Nº 01</span>
-                  </div>
-                  <div class="tc-quote">
-                    <p class="tc-quote-text">"En un mundo que compite por complejidad, la claridad es la ventaja injusta."</p>
-                  </div>
-                  <div class="tc-name">Andrés Blanco Ferro</div>
-                  <div class="tc-role">CEO & Fundador · Vinclechat</div>
-                  <div class="tc-tags">
-                    <span class="tc-tag filled"><i class="fas fa-bolt"></i> Fundador</span>
-                    <span class="tc-tag ghost"><i class="fas fa-map-marker-alt"></i> España</span>
-                    <span class="tc-tag ghost">Estrategia</span>
-                  </div>
-                </div>
-                <div class="tc-progress-row">
-                  <div class="tc-progress-bar"><div class="tc-progress-fill" style="width:100%"></div></div>
-                  <span class="tc-progress-label">1 / 4</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- ── CARD 2 · Rafael David Benito Crespo ──────────── -->
-            <div class="team-card" style="--tc-accent:#7c3aed">
-              <div class="tc-portrait">
-                <img src="https://media.licdn.com/dms/image/v2/D4D03AQEe4Q_udBSQEQ/profile-displayphoto-scale_200_200/B4DZlMDFqVGQAY-/0/1757917503351?e=2147483647&v=beta&t=OrgvDlYcb-IrqNcjvrIezqr8dOUVLD9XgB4UMIkXqTA"
-                     alt="Rafael David Benito Crespo"
-                     onerror="this.style.display='none'">
-                <div class="tc-portrait-fallback">RB</div>
-                <span class="tc-chip">CEO</span>
-              </div>
-              <div class="tc-body">
-                <div>
-                  <div class="tc-issue-line">
-                    <span class="tc-pub-name">Vinclechat</span>
-                    <div class="tc-pub-sep"></div>
-                    <span class="tc-pub-date">Perfil · 2025</span>
-                    <span class="tc-pub-num">Nº 02</span>
-                  </div>
-                  <div class="tc-quote">
-                    <p class="tc-quote-text">"El hecho de que sea tan simple es la mejor manera de conseguir que funcione."</p>
-                  </div>
-                  <div class="tc-name">Rafael David Benito Crespo</div>
-                  <div class="tc-role">CEO · MundiBusiness</div>
-                  <div class="tc-tags">
-                    <span class="tc-tag filled" style="background:#7c3aed"><i class="fas fa-briefcase"></i> CEO</span>
-                    <span class="tc-tag ghost">MundiBusiness</span>
-                    <span class="tc-tag ghost"><i class="fas fa-map-marker-alt"></i> España</span>
-                  </div>
-                </div>
-                <div class="tc-progress-row">
-                  <div class="tc-progress-bar"><div class="tc-progress-fill" style="width:50%"></div></div>
-                  <span class="tc-progress-label">2 / 4</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- ── CARD 3 · Cristina Crego Vázquez ──────────────── -->
-            <div class="team-card" style="--tc-accent:#34c759">
-              <div class="tc-portrait">
-                <img src="https://media.licdn.com/dms/image/v2/D4E22AQHJHtyd2hBYVA/feedshare-shrink_480/B4EZw.PlExIIAs-/0/1770570797733?e=1781136000&v=beta&t=WcPMKKzi2Qc0yMFPDUxa-bTa6VpxDhearuizFGHcgHk"
-                     alt="Cristina Crego Vázquez"
-                     onerror="this.style.display='none'">
-                <div class="tc-portrait-fallback">CC</div>
-                <span class="tc-chip">Fundadora</span>
-              </div>
-              <div class="tc-body">
-                <div>
-                  <div class="tc-issue-line">
-                    <span class="tc-pub-name">Vinclechat</span>
-                    <div class="tc-pub-sep"></div>
-                    <span class="tc-pub-date">Perfil · 2025</span>
-                    <span class="tc-pub-num">Nº 03</span>
-                  </div>
-                  <div class="tc-quote">
-                    <p class="tc-quote-text">"Los cambios y las ideas, cuanto más sencillas, mejores resultados dan."</p>
-                  </div>
-                  <div class="tc-name">Cristina Crego Vázquez</div>
-                  <div class="tc-role">Consultora Inmobiliaria & Fundadora · Atrévete a Vender tu Casa</div>
-                  <div class="tc-tags">
-                    <span class="tc-tag filled" style="background:#34c759"><i class="fas fa-home"></i> Fundadora</span>
-                    <span class="tc-tag ghost">Inmobiliaria</span>
-                    <span class="tc-tag ghost"><i class="fas fa-map-marker-alt"></i> España</span>
-                  </div>
-                </div>
-                <div class="tc-progress-row">
-                  <div class="tc-progress-bar"><div class="tc-progress-fill" style="width:75%"></div></div>
-                  <span class="tc-progress-label">3 / 4</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- ── CARD 4 · Pablo Alonso Aznar ──────────────────── -->
-            <div class="team-card" style="--tc-accent:#ff9500">
-              <div class="tc-portrait">
-                <img src="https://media.licdn.com/dms/image/v2/D4E03AQFa1CHQ9hN3xg/profile-displayphoto-scale_200_200/B4EZt0tp0FI0Ac-/0/1767189684545?e=2147483647&v=beta&t=VhckCfZF8XPnr6udg2twQOYVvOi6kPAQusmTn7BNbUM"
-                     alt="Pablo Alonso Aznar"
-                     onerror="this.style.display='none'">
-                <div class="tc-portrait-fallback">PA</div>
-                <span class="tc-chip">Fundador</span>
-              </div>
-              <div class="tc-body">
-                <div>
-                  <div class="tc-issue-line">
-                    <span class="tc-pub-name">Vinclechat</span>
-                    <div class="tc-pub-sep"></div>
-                    <span class="tc-pub-date">Perfil · 2025</span>
-                    <span class="tc-pub-num">Nº 04</span>
-                  </div>
-                  <div class="tc-quote">
-                    <p class="tc-quote-text">"Es una idea tan productiva y sencilla que no entiendo cómo la gente no la está usando aún."</p>
-                  </div>
-                  <div class="tc-name">Pablo Alonso Aznar</div>
-                  <div class="tc-role">Fundador · Tu-Economía</div>
-                  <div class="tc-tags">
-                    <span class="tc-tag filled" style="background:#ff9500"><i class="fas fa-chart-line"></i> Fundador</span>
-                    <span class="tc-tag ghost">Tu-Economía</span>
-                    <span class="tc-tag ghost"><i class="fas fa-map-marker-alt"></i> España</span>
-                  </div>
-                </div>
-                <div class="tc-progress-row">
-                  <div class="tc-progress-bar"><div class="tc-progress-fill" style="width:100%"></div></div>
-                  <span class="tc-progress-label">4 / 4</span>
-                </div>
-              </div>
-            </div>
-
-          </div><!-- /team-track -->
-        </div><!-- /track-wrap -->
-      </div><!-- /team-carousel -->
-
-      <!-- Controls -->
-      <div class="team-controls">
-        <div class="team-dots" id="teamDots">
-          <button class="team-dot active" onclick="goToSlide(0)"></button>
-          <button class="team-dot" onclick="goToSlide(1)"></button>
-          <button class="team-dot" onclick="goToSlide(2)"></button>
-          <button class="team-dot" onclick="goToSlide(3)"></button>
+    <!-- Manifesto dark block -->
+    <div class="manifesto-block">
+      <div class="manifesto-grid">
+        <div class="manifesto-headline">
+          <span class="manifesto-overline">Filosofía de producto</span>
+          <h2 class="manifesto-title">Construido sobre<br>un solo principio.</h2>
+          <p class="manifesto-body">Si necesita explicación, necesita rediseño. Vinclechat existe porque los mejores cierres no ocurren en presentaciones de 40 diapositivas — ocurren cuando el cliente entiende el valor en menos de 60 segundos.</p>
         </div>
-        <span class="team-counter" id="teamCounter">01 / 04</span>
-        <div class="team-arrows">
-          <button class="team-arrow" onclick="shiftCarousel(-1)" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
-          <button class="team-arrow" onclick="shiftCarousel(1)" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
+        <div class="manifesto-principles">
+          <div class="principle-item">
+            <span class="principle-num">01</span>
+            <div>
+              <div class="principle-title">Velocidad sobre perfección</div>
+              <div class="principle-desc">Una propuesta publicada hoy vale más que una perfecta la semana que viene.</div>
+            </div>
+          </div>
+          <div class="principle-item">
+            <span class="principle-num">02</span>
+            <div>
+              <div class="principle-title">Datos, no intuición</div>
+              <div class="principle-desc">Sabes cuándo abren, desde dónde y cuántas veces. El seguimiento deja de ser adivinar.</div>
+            </div>
+          </div>
+          <div class="principle-item">
+            <span class="principle-num">03</span>
+            <div>
+              <div class="principle-title">IA como amplificador</div>
+              <div class="principle-desc">No reemplaza al profesional. Multiplica su capacidad de comunicar valor en segundos.</div>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
 
-    </div><!-- /team-section -->
-    </div><!-- /team-section -->
+    <!-- Social proof wall — big logos -->
+    <div class="proof-wall">
+      <div class="proof-wall-label">Usada por profesionales de</div>
+      <div class="proof-logo-grid">
+        <div class="proof-logo-item">
+          <div class="proof-logo-icon" style="background:rgba(0,113,227,0.08)"><i class="fas fa-building" style="color:#0071e3"></i></div>
+          <span class="proof-logo-name">MundiBusiness</span>
+        </div>
+        <div class="proof-logo-item">
+          <div class="proof-logo-icon" style="background:rgba(124,58,237,0.08)"><i class="fas fa-brain" style="color:#7c3aed"></i></div>
+          <span class="proof-logo-name">Inst. NeuroSmart</span>
+        </div>
+        <div class="proof-logo-item">
+          <div class="proof-logo-icon" style="background:rgba(52,199,89,0.08)"><i class="fas fa-home" style="color:#34c759"></i></div>
+          <span class="proof-logo-name">Atrévete a Vender</span>
+        </div>
+        <div class="proof-logo-item">
+          <div class="proof-logo-icon" style="background:rgba(255,149,0,0.08)"><i class="fas fa-chart-line" style="color:#ff9500"></i></div>
+          <span class="proof-logo-name">Tu-Economía</span>
+        </div>
+        <div class="proof-logo-item">
+          <div class="proof-logo-icon" style="background:rgba(255,107,107,0.08)"><i class="fas fa-robot" style="color:#ff6b6b"></i></div>
+          <span class="proof-logo-name">Marikaf-ai</span>
+        </div>
+        <div class="proof-logo-item">
+          <div class="proof-logo-icon" style="background:rgba(88,86,214,0.08)"><i class="fas fa-handshake" style="color:#5856d6"></i></div>
+          <span class="proof-logo-name">KnowMeet</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA final -->
+    <div class="landing-cta-final">
+      <div class="lcta-inner">
+        <div class="lcta-text">
+          <div class="lcta-overline">Empieza ahora · Sin registro</div>
+          <h3 class="lcta-title">Tu siguiente propuesta,<br>en 2 minutos.</h3>
+        </div>
+        <button class="lcta-btn" onclick="openApp('creator')">
+          <i class="fas fa-magic"></i> Crear mi SmallWeb <span class="lcta-arrow">→</span>
+        </button>
+      </div>
+      <div class="lcta-guarantee">
+        <span><i class="fas fa-lock"></i> Sin datos personales</span>
+        <span><i class="fas fa-bolt"></i> Activo en segundos</span>
+        <span><i class="fas fa-infinity"></i> Siempre gratis para empezar</span>
+      </div>
+    </div>
 
     <!-- ── FOOTER ──────────────────────────────────────────── -->
     <div class="footer">
@@ -2418,59 +2331,6 @@ async function renderProposalPage() {
     return true;
   } catch(e){ document.body.innerHTML='<div style="padding:4rem;text-align:center;font-family:sans-serif;color:#666">Error al cargar la propuesta.</div>'; return true; }
 }
-
-// ── Team Carousel ─────────────────────────────────────────
-let carouselIdx = 0;
-const CAROUSEL_TOTAL = 4;
-
-function goToSlide(n) {
-  carouselIdx = Math.max(0, Math.min(n, CAROUSEL_TOTAL - 1));
-  const track = document.getElementById('teamTrack');
-  if(track) track.style.transform = `translateX(-${carouselIdx * 100}%)`;
-  document.querySelectorAll('.team-dot').forEach((d, i) => d.classList.toggle('active', i === carouselIdx));
-  const ctr = document.getElementById('teamCounter');
-  if(ctr) ctr.textContent = String(carouselIdx + 1).padStart(2,'0') + ' / ' + String(CAROUSEL_TOTAL).padStart(2,'0');
-}
-
-function shiftCarousel(dir) {
-  goToSlide((carouselIdx + dir + CAROUSEL_TOTAL) % CAROUSEL_TOTAL);
-}
-
-// Touch/swipe support for carousel
-(function() {
-  let startX = 0, isDragging = false;
-  document.addEventListener('touchstart', e => {
-    const wrap = e.target.closest('.team-track-wrap');
-    if(!wrap) return;
-    startX = e.touches[0].clientX;
-    isDragging = true;
-  }, { passive: true });
-  document.addEventListener('touchend', e => {
-    if(!isDragging) return;
-    isDragging = false;
-    const dx = e.changedTouches[0].clientX - startX;
-    if(Math.abs(dx) > 40) shiftCarousel(dx < 0 ? 1 : -1);
-  }, { passive: true });
-})();
-
-// Auto-advance carousel every 6s (pauses on hover)
-let carouselTimer = setInterval(() => shiftCarousel(1), 6000);
-document.addEventListener('mouseover', e => {
-  if(e.target.closest('.team-carousel')) { clearInterval(carouselTimer); }
-});
-document.addEventListener('mouseout', e => {
-  if(e.target.closest('.team-carousel')) {
-    clearInterval(carouselTimer);
-    carouselTimer = setInterval(() => shiftCarousel(1), 6000);
-  }
-});
-
-// Keyboard navigation for carousel
-document.addEventListener('keydown', e => {
-  if(document.getElementById('landingPage')?.style.display === 'none') return;
-  if(e.key === 'ArrowLeft') shiftCarousel(-1);
-  if(e.key === 'ArrowRight') shiftCarousel(1);
-});
 
 // ── Bootstrap ─────────────────────────────────────────────
 window.addEventListener('load', async () => {
