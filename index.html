@@ -418,19 +418,84 @@
 
     /* ── BTN EXPAND ──────────────────────────── */
     .btn-expand {
-      width:100%; padding:0.82rem;
-      background:transparent; border:1.5px dashed #d8d8e0;
+      width:100%; padding:0;
+      background:transparent; border:none;
       border-radius:var(--radius-sm); color:var(--accent);
       font-family:var(--font-body); font-weight:500; font-size:0.86rem;
       cursor:pointer;
-      display:flex; align-items:center; justify-content:center; gap:8px;
-      transition:all var(--transition); margin-top:0.4rem;
+      display:flex; align-items:center; justify-content:center;
+      transition:all var(--transition); margin-top:0.6rem;
+      position: relative;
     }
-    .btn-expand:hover { background:rgba(0,98,204,0.04); border-color:var(--accent); }
-    .btn-expand i { transition:transform 0.28s cubic-bezier(0.34,1.56,0.64,1); }
-    .btn-expand.open i { transform:rotate(180deg); }
-    .expandable { max-height:0; overflow:hidden; transition:max-height 0.55s cubic-bezier(0.33,1,0.68,1), opacity 0.35s ease; opacity:0; }
-    .expandable.open { max-height:3000px; opacity:1; }
+    .btn-expand-inner {
+      display: flex; align-items:center; justify-content:center; gap:8px;
+      width: 100%;
+      padding: 0.82rem 1rem;
+      border: 1.5px dashed #d0d0da;
+      border-radius: var(--radius-sm);
+      transition: all 0.25s ease;
+      background: transparent;
+      color: var(--ink-3);
+      font-size: 0.84rem;
+      font-weight: 500;
+    }
+    .btn-expand:hover .btn-expand-inner {
+      background: rgba(0,98,204,0.04);
+      border-color: var(--accent);
+      border-style: solid;
+      color: var(--accent);
+    }
+    .btn-expand-icon {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1.5px solid #d0d0da;
+      display: flex; align-items:center; justify-content:center;
+      font-size: 0.65rem;
+      transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+      color: var(--ink-3);
+      flex-shrink: 0;
+    }
+    .btn-expand:hover .btn-expand-icon {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+      transform: rotate(90deg);
+    }
+    .btn-expand.open .btn-expand-icon {
+      transform: rotate(180deg);
+      background: var(--ink);
+      border-color: var(--ink);
+      color: white;
+    }
+    .btn-expand.open .btn-expand-inner {
+      border-style: solid;
+      border-color: var(--border-strong);
+      color: var(--ink-3);
+    }
+    .expandable {
+      overflow: hidden;
+      height: 0;
+      opacity: 0;
+      transition: height 0.42s cubic-bezier(0.4,0,0.2,1), opacity 0.32s ease;
+    }
+    .expandable.open {
+      opacity: 1;
+    }
+    /* Section stagger animation */
+    .expandable .subsection-title,
+    .expandable .form-group,
+    .expandable .divider {
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .expandable.open .subsection-title,
+    .expandable.open .form-group,
+    .expandable.open .divider {
+      opacity: 1;
+      transform: translateY(0);
+    }
     .divider { border:none; border-top:1px solid var(--border); margin:1.4rem 0; }
     .subsection-title { font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-4); margin-bottom:1rem; display:flex; align-items:center; gap:8px; }
     .subsection-title i { color:var(--accent); }
@@ -712,11 +777,13 @@
       </div>
 
       <button type="button" id="toggleExpandBtn" class="btn-expand">
-        <i class="fas fa-chevron-down"></i>
-        Añadir perfil, precio, diseño y más
+        <div class="btn-expand-inner">
+          <span id="expandBtnLabel">Añadir perfil, precio, diseño y más</span>
+          <div class="btn-expand-icon"><i class="fas fa-chevron-down" id="expandChevron"></i></div>
+        </div>
       </button>
 
-      <div id="expandableSection" class="expandable" style="margin-top:1.1rem;">
+      <div id="expandableSection" class="expandable" style="margin-top:1.1rem; height:0;">
         <hr class="divider">
         <div class="subsection-title"><i class="fas fa-user-circle"></i> Quién emite la propuesta</div>
 
@@ -896,19 +963,55 @@
   // ── Expandir ──────────────────────────────────────
   const toggleBtn = document.getElementById('toggleExpandBtn');
   const expandableDiv = document.getElementById('expandableSection');
+  const expandBtnLabel = document.getElementById('expandBtnLabel');
   let isExpanded = false;
+
+  function openExpand() {
+    isExpanded = true;
+    toggleBtn.classList.add('open');
+    expandBtnLabel.textContent = 'Ver menos opciones';
+    expandableDiv.style.display = 'block';
+    expandableDiv.style.height = '0';
+    expandableDiv.offsetHeight; // force reflow
+    expandableDiv.classList.add('open');
+    const fullH = expandableDiv.scrollHeight;
+    expandableDiv.style.height = fullH + 'px';
+    expandableDiv.addEventListener('transitionend', function onEnd(e) {
+      if (e.propertyName === 'height') {
+        expandableDiv.style.height = 'auto';
+        expandableDiv.removeEventListener('transitionend', onEnd);
+      }
+    });
+    // Stagger child elements
+    const children = expandableDiv.querySelectorAll('.subsection-title, .form-group, .divider');
+    children.forEach((el, i) => {
+      el.style.transitionDelay = (i * 28) + 'ms';
+    });
+    ['step2','step3','step4'].forEach((id, i) => setTimeout(() => document.getElementById(id)?.classList.add('active'), i * 110));
+  }
+
+  function closeExpand() {
+    isExpanded = false;
+    toggleBtn.classList.remove('open');
+    expandBtnLabel.textContent = 'Añadir perfil, precio, diseño y más';
+    // Animate height back to 0
+    expandableDiv.style.height = expandableDiv.scrollHeight + 'px';
+    expandableDiv.offsetHeight;
+    expandableDiv.classList.remove('open');
+    expandableDiv.style.height = '0';
+    expandableDiv.addEventListener('transitionend', function onEnd(e) {
+      if (e.propertyName === 'height') {
+        expandableDiv.removeEventListener('transitionend', onEnd);
+      }
+    });
+    // Reset stagger
+    const children = expandableDiv.querySelectorAll('.subsection-title, .form-group, .divider');
+    children.forEach(el => { el.style.transitionDelay = '0ms'; });
+    ['step2','step3','step4'].forEach(id => document.getElementById(id)?.classList.remove('active'));
+  }
+
   toggleBtn.addEventListener('click', () => {
-    isExpanded = !isExpanded;
-    toggleBtn.classList.toggle('open', isExpanded);
-    expandableDiv.classList.toggle('open', isExpanded);
-    toggleBtn.innerHTML = isExpanded
-      ? '<i class="fas fa-chevron-up"></i> Ver menos opciones'
-      : '<i class="fas fa-chevron-down"></i> Añadir perfil, precio, diseño y más';
-    if (isExpanded) {
-      ['step2','step3','step4'].forEach((id, i) => setTimeout(() => document.getElementById(id)?.classList.add('active'), i * 110));
-    } else {
-      ['step2','step3','step4'].forEach(id => document.getElementById(id)?.classList.remove('active'));
-    }
+    if (!isExpanded) openExpand(); else closeExpand();
   });
 
   // ── Tipo perfil ───────────────────────────────────
